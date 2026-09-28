@@ -15,7 +15,7 @@ const { character } = Astro.props;
     <div class="quiz__panel">
       <div class="quiz__text">
         <span class="eyebrow">Le quiz</span>
-        <h2 class="title-lg">C'est qui toi&nbsp;?</h2>
+        <h2 class="title-lg">À quel copain ressembles-tu&nbsp;?</h2>
         <p class="lead">Fais le test et découvre quel personnage de La Grande Armée te ressemble le plus.</p>
         <CTA href="/quiz">Faire le quiz</CTA>
       </div>
@@ -98,16 +98,43 @@ const { character } = Astro.props;
     right: -2%;
     top: 46%;
   }
+  /* Téléphone : bloc compact, texte à gauche et copain à droite */
   @media (max-width: 800px) {
     .quiz__panel {
-      grid-template-columns: 1fr;
-      padding-bottom: 0;
+      grid-template-columns: 1fr 34%;
+      gap: 8px;
+      padding: 20px 0 0 18px;
+      box-shadow: 4px 4px 0 var(--ink);
     }
     .quiz__text {
-      padding-bottom: 0;
+      gap: 10px;
+      padding-bottom: 20px;
+    }
+    .quiz__text .title-lg {
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+    .quiz__text .lead {
+      margin-bottom: 2px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .quiz__text :global(.cta) {
+      min-height: 42px;
+      padding: 0.6em 1.1em;
+      font-size: 0.78rem;
     }
     .quiz__visual {
-      min-height: 300px;
+      min-height: 0;
+    }
+    .quiz__figure {
+      width: 100%;
+    }
+    .quiz__disc {
+      width: 150%;
+      bottom: -40%;
+    }
+    .quiz__visual :global(.quiz__note) {
+      display: none;
     }
   }
 </style>
