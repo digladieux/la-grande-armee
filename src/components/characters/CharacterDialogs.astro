@@ -43,7 +43,19 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
               const family = families[look.family];
               return (
                 <li class="cdialog__slide" aria-label={`${i + 1} sur ${looks.length} : famille ${family.name}`}>
-                  <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
+                  {look.video ? (
+                    <video
+                      class="cdialog__video"
+                      data-src={url(`/${look.video}`)}
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      aria-label={`${character.name}, famille ${family.name}, en train de marcher`}
+                    />
+                  ) : (
+                    <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
+                  )}
                   <p class="cdialog__family" style={`--c: var(--${family.color})`}>
                     <span class="cdialog__family-label">Famille</span>
                     <strong>{family.name}</strong>
@@ -121,7 +133,19 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) dialog.close();
     });
-    dialog.addEventListener('close', () => (document.body.style.overflow = ''));
+    // Vidéos : chargées à l'ouverture seulement, mises en pause à la fermeture
+    const videos = [...dialog.querySelectorAll<HTMLVideoElement>('video[data-src]')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    dialog.addEventListener('open-at-start', () => {
+      videos.forEach((v) => {
+        if (!v.src) v.src = v.dataset.src!;
+        if (!reduceMotion.matches) v.play().catch(() => {});
+      });
+    });
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = '';
+      videos.forEach((v) => v.pause());
+    });
     dialog.addEventListener('open-at-start', () => goTo(0, false));
     render();
   });
@@ -233,10 +257,17 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     place-items: center;
     scroll-snap-align: center;
   }
-  .cdialog__slide img {
+  .cdialog__slide img,
+  .cdialog__video {
     width: auto;
     height: min(50dvh, 480px);
     object-fit: contain;
+  }
+  .cdialog__video {
+    aspect-ratio: 708 / 1068;
+    /* Le fond gris clair de la vidéo (≈ #f3f3f3) passe au blanc puis disparaît */
+    filter: brightness(1.06) contrast(1.08);
+    mix-blend-mode: multiply;
   }
   .cdialog__family {
     position: absolute;
@@ -323,7 +354,8 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     .cdialog__arrow {
       display: none;
     }
-    .cdialog__slide img {
+    .cdialog__slide img,
+    .cdialog__video {
       height: min(50dvh, 460px);
     }
     .cdialog__thumb {
