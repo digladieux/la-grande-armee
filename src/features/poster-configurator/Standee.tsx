@@ -2,7 +2,7 @@
  * Figurine en carton : le personnage détouré, qu'on attrape et fait tourner.
  * - Recto : l'illustration détourée (PNG transparent).
  * - Tranche : quelques couches de carton empilées en Z, découpées à la silhouette.
- * - Verso : dos en carton kraft à la forme de la silhouette, avec le tampon de la marque.
+ * - Verso : dos en carton kraft à la forme de la silhouette.
  *
  * Interaction : glisser = rotation libre (avec inertie), clic / Entrée = demi-tour,
  * flèches du clavier = ±30°. Au repos, la figurine se recale de face ou de dos.
@@ -12,15 +12,12 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 interface Props {
   src: string;
   alt: string;
-  /** Clé de palette de la famille (liseré au dos). */
-  color: string;
-  familyName: string;
   walk?: boolean;
 }
 
 const THICKNESS = 6; // épaisseur du carton, en px
 
-export default function Standee({ src, alt, color, familyName, walk }: Props) {
+export default function Standee({ src, alt, walk }: Props) {
   const [angle, setAngle] = useState(0);
   const [animating, setAnimating] = useState(false);
   const drag = useRef<{ x: number; start: number; moved: boolean; lastX: number; lastT: number; v: number } | null>(null);
@@ -111,20 +108,10 @@ export default function Standee({ src, alt, color, familyName, walk }: Props) {
           ))}
           <div
             class="standee__back"
-            style={{ ...mask, '--c': `var(--${color})`, transform: `translateZ(${-THICKNESS}px) rotateY(180deg) scaleX(-1)` }}
-          >
-            <span class="standee__stamp">
-              La Grande
-              <br />
-              Armée
-              <small>{familyName}</small>
-            </span>
-          </div>
+            style={{ ...mask, transform: `translateZ(${-THICKNESS}px) rotateY(180deg) scaleX(-1)` }}
+          />
         </div>
       </div>
-      <p class="standee__hint" aria-hidden="true">
-        ↻ attrape-le et fais-le tourner
-      </p>
     </div>
   );
 }

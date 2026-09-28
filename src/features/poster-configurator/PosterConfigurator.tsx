@@ -226,8 +226,6 @@ export default function PosterConfigurator({ roster }: Props) {
                       <Standee
                         src={current.looks[currentLook].cutout!}
                         alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
-                        color={current.looks[currentLook].familyColor}
-                        familyName={current.looks[currentLook].familyName}
                         walk={current.looks[currentLook].animation === 'walk'}
                       />
                     </div>
