@@ -2,7 +2,8 @@
  * Disposition automatique « photo de groupe ».
  *
  * - Tous les copains gardent l'échelle de leur dessin (cutoutScale).
- * - Une seule rangée si la bande tient en largeur sans devenir minuscule.
+ * - Une seule rangée, alignée et sans chevauchement, pour les petites bandes
+ *   (jusqu'à ALIGNED_MAX copains) ou si la bande tient en largeur.
  * - Sinon deux rangées : derrière les grands debout, devant les couchés / petits,
  *   légèrement plus grands (plus proches), qui passent devant.
  *
@@ -27,6 +28,10 @@ const ASPECT = { portrait: 1 / 1.414, paysage: 1.414 } as const;
 /** Part de largeur réellement occupée (les copains se chevauchent un peu). */
 const OVERLAP = 0.82;
 const MARGIN = 0.06;
+/** Espace entre deux copains alignés (en hauteur de feuille). */
+const GAP = 0.02;
+/** Nombre de copains affichés sur une seule rangée alignée. */
+export const ALIGNED_MAX = { portrait: 3, paysage: 5 } as const;
 
 export function autoLayout(items: LayoutItem[], orientation: Orientation): Record<string, Placement> {
   const out: Record<string, Placement> = {};
@@ -38,15 +43,18 @@ export function autoLayout(items: LayoutItem[], orientation: Orientation): Recor
   const areaH = bottom - top;
 
   // k = hauteur (en fraction de feuille) d'un dessin de scale 1
-  const fitRow = (row: LayoutItem[], maxH: number) => {
+  // overlap = 1 : côte à côte avec un petit espace ; < 1 : légers chevauchements
+  const fitRow = (row: LayoutItem[], maxH: number, overlap = OVERLAP) => {
     const tallest = Math.max(...row.map((i) => i.scale));
-    const width = row.reduce((sum, i) => sum + i.scale * i.ratio, 0) * OVERLAP;
-    return Math.min(maxH / tallest, usableW / Math.max(width, 0.01));
+    const gaps = overlap >= 1 ? GAP * (row.length - 1) : 0;
+    const width = row.reduce((sum, i) => sum + i.scale * i.ratio, 0) * overlap;
+    return Math.min(maxH / tallest, (usableW - gaps) / Math.max(width, 0.01));
   };
 
-  const place = (row: LayoutItem[], k: number, baseline: number, zBase: number) => {
+  const place = (row: LayoutItem[], k: number, baseline: number, zBase: number, overlap = OVERLAP) => {
     const widths = row.map((i) => i.scale * k * i.ratio);
-    const total = widths.reduce((a, b) => a + b, 0) * OVERLAP + widths[widths.length - 1] * (1 - OVERLAP);
+    const step = (w: number) => (overlap >= 1 ? w + GAP : w * overlap);
+    const total = widths.slice(0, -1).reduce((a, w) => a + step(w), 0) + widths[widths.length - 1];
     let cursor = aspect / 2 - total / 2;
     row.forEach((item, idx) => {
       const w = widths[idx];
@@ -57,14 +65,19 @@ export function autoLayout(items: LayoutItem[], orientation: Orientation): Recor
         // Le centre de la rangée passe légèrement devant les bords
         z: zBase + Math.round(10 - Math.abs(idx - (row.length - 1) / 2)),
       };
-      cursor += w * OVERLAP;
+      cursor += step(w);
     });
   };
 
-  const single = fitRow(items, areaH);
   const tallest = Math.max(...items.map((i) => i.scale));
-  // Une rangée suffit si le plus grand occupe au moins 70 % de la hauteur disponible
-  if (items.length < 4 || single * tallest >= areaH * 0.7) {
+  // Petite bande : une rangée bien alignée, sans chevauchement
+  if (items.length <= ALIGNED_MAX[orientation]) {
+    place(items, fitRow(items, areaH, 1), bottom, 10, 1);
+    return out;
+  }
+  // Une rangée (légers chevauchements) si le plus grand occupe encore 70 % de la hauteur
+  const single = fitRow(items, areaH);
+  if (single * tallest >= areaH * 0.7) {
     place(items, single, bottom, 10);
     return out;
   }

@@ -7,11 +7,11 @@
  *
  * Pas encore développé : accessoires, véhicules, animations avancées, panier.
  */
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry, Selection } from './types';
 import { BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
 import PosterCanvas from './PosterCanvas';
-import { autoLayout } from './layout';
+import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
 import './configurator.css';
 
@@ -28,15 +28,25 @@ const STEPS = [
 ] as const;
 type StepId = (typeof STEPS)[number]['id'];
 
+/** Copains debout d'abord (tenue par défaut peu large) : affiche de départ bien alignée. */
+function defaultSelection(roster: RosterEntry[], count: number): Selection[] {
+  const playable = roster.filter((r) => r.looks.length);
+  const standing = playable.filter((r) => (r.looks[0].cutoutRatio ?? 0.6) < 0.9);
+  const others = playable.filter((r) => !standing.includes(r));
+  return [...standing, ...others].slice(0, count).map((r) => ({ slug: r.slug, look: 0 }));
+}
+
 export default function PosterConfigurator({ roster }: Props) {
   const playable = roster.filter((r) => r.looks.length);
+  /** Tant que l'utilisateur n'a pas choisi ses copains, l'affiche de départ suit l'orientation. */
+  const [pickedByUser, setPickedByUser] = useState(false);
   const [step, setStep] = useState<StepId>('bande');
   const [active, setActive] = useState<string | undefined>(playable[0]?.slug);
   /** Tenue affichée pour chaque copain (même s'il n'est pas encore sur l'affiche). */
   const [looks, setLooks] = useState<Record<string, number>>({});
   const [state, setState] = useState<PosterState>({
-    // Par défaut : toute la bande déjà dessinée
-    selection: playable.slice(0, MAX_CHARACTERS.portrait).map((r) => ({ slug: r.slug, look: 0 })),
+    // Affiche de départ : 3 copains debout, alignés (5 en paysage)
+    selection: defaultSelection(roster, ALIGNED_MAX.portrait),
     background: 'bandes',
     frame: 'bois',
     format: 'A3',
@@ -59,6 +69,21 @@ export default function PosterConfigurator({ roster }: Props) {
 
   // ── Disposition de l'affiche ──
   const [selected, setSelected] = useState<string | undefined>();
+  const [big, setBig] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const openBig = () => setBig(true);
+  const closeBig = () => setBig(false);
+  useEffect(() => {
+    if (!big) return;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closeBig();
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [big]);
   const auto = useMemo(
     () =>
       autoLayout(
@@ -97,55 +122,74 @@ export default function PosterConfigurator({ roster }: Props) {
     update({ selection: state.selection.map((s) => (s.slug === current.slug ? { ...s, look: next } : s)) });
   };
 
+  const setOrientation = (orientation: PosterState['orientation']) =>
+    update({
+      orientation,
+      layout: null,
+      ...(pickedByUser ? {} : { selection: defaultSelection(roster, ALIGNED_MAX[orientation]) }),
+    });
+
   const togglePoster = (slug: string) => {
+    setPickedByUser(true);
     const idx = onPoster(slug);
     if (idx >= 0) update({ selection: state.selection.filter((s) => s.slug !== slug) });
     else if (!full) update({ selection: [...state.selection, { slug, look: looks[slug] ?? 0 }] });
     if (idx >= 0 && selected === slug) setSelected(undefined);
   };
 
+
   const autoSubtitle = state.selection.map((s) => bySlug.get(s.slug)?.name).filter(Boolean).join(', ');
+
+  // Affiche + barre d'outils : affichées dans la page et dans l'aperçu en grand
+  const renderCanvas = () => (
+    <PosterCanvas
+      state={{ ...state, subtitle: state.subtitle || autoSubtitle }}
+      characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
+      placements={placements}
+      selected={selected}
+      onSelect={setSelected}
+      onMove={(slug, p) => edit(slug, p)}
+    />
+  );
+  const renderEditBar = () => (
+    <div class="pc__editbar" aria-live="polite">
+      {sel ? (
+        <>
+          <strong class="pc__editbar-name">{bySlug.get(selected!)?.name}</strong>
+          <div class="pc__editbar-tools">
+            <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
+            <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir">+</button>
+            <button type="button" onClick={() => edit(selected!, { z: Math.max(...zValues) + 1 })}>Devant</button>
+            <button type="button" onClick={() => edit(selected!, { z: Math.max(1, Math.min(...zValues) - 1) })}>Derrière</button>
+            <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
+            <button type="button" onClick={() => togglePoster(selected!)} title="Retirer de l'affiche">Retirer</button>
+          </div>
+        </>
+      ) : (
+        <p class="pc__editbar-hint">
+          {state.selection.length ? 'Clique sur un copain de l’affiche pour le déplacer, l’agrandir ou le passer devant.' : ''}
+        </p>
+      )}
+      {state.layout && (
+        <button type="button" class="pc__editbar-reset" onClick={() => { update({ layout: null }); setSelected(undefined); }}>
+          ↺ Réorganiser
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <div class="pc">
       {/* ── Aperçu ── */}
       <div class="pc__preview">
         <div class="pc__wall">
-          <PosterCanvas
-            state={{ ...state, subtitle: state.subtitle || autoSubtitle }}
-            characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
-            placements={placements}
-            selected={selected}
-            onSelect={setSelected}
-            onMove={(slug, p) => edit(slug, p)}
-          />
+          {renderCanvas()}
+          <button type="button" class="pc__zoom" onClick={openBig}>
+            ⤢ Aperçu en grand
+          </button>
         </div>
 
-        {/* Barre d'édition de l'affiche */}
-        <div class="pc__editbar" aria-live="polite">
-          {sel ? (
-            <>
-              <strong class="pc__editbar-name">{bySlug.get(selected!)?.name}</strong>
-              <div class="pc__editbar-tools">
-                <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
-                <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir">+</button>
-                <button type="button" onClick={() => edit(selected!, { z: Math.max(...zValues) + 1 })}>Devant</button>
-                <button type="button" onClick={() => edit(selected!, { z: Math.max(1, Math.min(...zValues) - 1) })}>Derrière</button>
-                <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
-                <button type="button" onClick={() => togglePoster(selected!)} title="Retirer de l'affiche">Retirer</button>
-              </div>
-            </>
-          ) : (
-            <p class="pc__editbar-hint">
-              {state.selection.length ? 'Clique sur un copain de l’affiche pour le déplacer, l’agrandir ou le passer devant.' : ''}
-            </p>
-          )}
-          {state.layout && (
-            <button type="button" class="pc__editbar-reset" onClick={() => { update({ layout: null }); setSelected(undefined); }}>
-              ↺ Réorganiser
-            </button>
-          )}
-        </div>
+        {!big && renderEditBar()}
         <p class="pc__summary">
           Affiche {state.format} {state.orientation} · {FRAMES.find((f) => f.id === state.frame)?.label} ·{' '}
           {state.selection.length} copain{state.selection.length > 1 ? 's' : ''}
@@ -264,7 +308,7 @@ export default function PosterConfigurator({ roster }: Props) {
               {suggestLandscape && (
                 <div class="pc__tip">
                   <span>Grosse bande ? En paysage, tout le monde a plus de place (jusqu'à {MAX_CHARACTERS.paysage}).</span>
-                  <button type="button" onClick={() => update({ orientation: 'paysage', layout: null })}>
+                  <button type="button" onClick={() => setOrientation('paysage')}>
                     Passer en paysage
                   </button>
                 </div>
@@ -345,7 +389,7 @@ export default function PosterConfigurator({ roster }: Props) {
                     type="button"
                     class={`pc__chip pc__chip--orient-${o.id}`}
                     aria-pressed={state.orientation === o.id}
-                    onClick={() => update({ orientation: o.id, layout: null })}
+                    onClick={() => setOrientation(o.id)}
                   >
                     <span class="pc__orient-icon" />
                     <strong>{o.label}</strong>
@@ -385,11 +429,34 @@ export default function PosterConfigurator({ roster }: Props) {
             <small>Prix</small>
             <strong>À venir</strong>
           </div>
-          <button type="button" class="pc__cart" disabled>
-            Ajouter au panier · bientôt
-          </button>
+          <div class="pc__footer-actions">
+            <button type="button" class="pc__check" onClick={openBig}>
+              Vérifier en grand
+            </button>
+            <button type="button" class="pc__cart" disabled>
+              Ajouter au panier · bientôt
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* ── Aperçu en grand (avant impression) : l'affiche reste éditable ── */}
+      {big && (
+        <div class={`pc-big pc-big--${state.orientation}`} role="dialog" aria-modal="true" aria-label="Aperçu en grand de l'affiche">
+          <div class="pc-big__top">
+            <p class="pc-big__title">
+              Aperçu avant impression <span>· {state.format} {state.orientation}</span>
+            </p>
+            <button type="button" class="pc-big__close" onClick={closeBig} ref={closeRef}>
+              ✕ Fermer
+            </button>
+          </div>
+          <div class="pc-big__stage" onPointerDown={(e) => e.target === e.currentTarget && setSelected(undefined)}>
+            {renderCanvas()}
+          </div>
+          <div class="pc-big__bar">{renderEditBar()}</div>
+        </div>
+      )}
     </div>
   );
 }
