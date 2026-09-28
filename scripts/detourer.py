@@ -14,6 +14,8 @@ Produit <nom>-cutout.png (fond transparent, recadré au personnage) et <nom>-ple
                 quand le dessin est coupé par ce bord (ex. voiture coupée à droite).
 --fond R,G,B  : couleur du fond en dégradé : retire aussi les zones de fond enfermées
                 (entre une hache et une botte…) qui s'en rapprochent.
+--fond-min N  : ne retire que les zones de fond d'au moins N pixels (protège les ombres
+                de peau peintes dans la même couleur que le fond).
 --trous N     : retire aussi les zones blanches enfermées de plus de N pixels
                 (ex. l'espace entre un bras et le corps). Désactivé par défaut pour
                 ne jamais effacer dents, yeux ou vêtements blancs.
@@ -44,6 +46,8 @@ def main():
     ap.add_argument("--bords", default="haut,bas,gauche,droite", help="bords d'où part le fond")
     ap.add_argument("--clair", type=int, default=140, help="luminosité minimale du fond")
     ap.add_argument("--fond", help="couleur R,G,B du fond (zones enfermées à retirer)")
+    ap.add_argument("--fond-min", type=int, default=0,
+                    help="taille mini (px) d'une zone de fond à retirer (ex. 2500 si la peau est ombrée de la même couleur)")
     ap.add_argument("--trous", type=int, default=0, help="taille mini (px) des zones blanches enfermées à retirer")
     args = ap.parse_args()
 
@@ -141,12 +145,29 @@ def main():
         bgc = tuple(int(v) for v in args.fond.split(","))
         bg_sat = max(bgc) - min(bgc)
         orig = im.load()
-        for x, y in best:
+
+        def like_bg(x, y):
             c = orig[x, y]
             # Même teinte ET saturation proche du fond : épargne la peau, plus terne
-            sat = max(c) - min(c)
-            if dist(c, bgc) < 75 and lum(c) > 150 and sat >= 0.75 * bg_sat:
-                mp[x, y] = 0
+            return mp[x, y] and dist(c, bgc) < 75 and lum(c) > 150 and max(c) - min(c) >= 0.75 * bg_sat
+
+        done = bytearray(W * H)
+        for sx, sy in best:
+            if done[sy * W + sx] or not like_bg(sx, sy):
+                continue
+            zone, q = [], deque([(sx, sy)])
+            done[sy * W + sx] = 1
+            while q:
+                x, y = q.popleft()
+                zone.append((x, y))
+                for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                    if 0 <= nx < W and 0 <= ny < H and not done[ny * W + nx] and like_bg(nx, ny):
+                        done[ny * W + nx] = 1
+                        q.append((nx, ny))
+            # Seules les zones assez grandes sont du fond (les ombres de peau sont de fines bandes)
+            if len(zone) >= args.fond_min:
+                for x, y in zone:
+                    mp[x, y] = 0
     mask = mask.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.7))
 
     out = im.convert("RGBA")
