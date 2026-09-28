@@ -223,6 +223,13 @@ export const characters: Character[] = [
         bust: { cx: 64, cy: 44, zoom: 1.7 },
         cutout: 'images/personnages/lenoir/gaulois-cutout.png',
       },
+      {
+        family: 'ludick',
+        image: 'images/personnages/lenoir/ludick-blanc.png',
+        whiteBg: true,
+        bust: { cx: 45, cy: 40, zoom: 2 },
+        cutout: 'images/personnages/lenoir/ludick-cutout.png',
+      },
     ],
   },
   {
