@@ -352,6 +352,12 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 61, zoom: 2.2 },
         cutout: 'images/personnages/nael/izikarate-cutout.png',
       },
+      {
+        family: 'ludick',
+        image: 'images/personnages/nael/ludick-blanc.png',
+        bust: { cx: 34, cy: 37, zoom: 2 },
+        cutout: 'images/personnages/nael/ludick-cutout.png',
+      },
     ],
   },
   {

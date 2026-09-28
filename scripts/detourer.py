@@ -12,6 +12,8 @@ Produit <nom>-cutout.png (fond transparent, recadré au personnage) et <nom>-ple
                 (préserve les vêtements gris clair) ; 140 pour un fond en dégradé (défaut).
 --bords L     : bords d'où part le fond (défaut haut,bas,gauche,droite). Retirer un bord
                 quand le dessin est coupé par ce bord (ex. voiture coupée à droite).
+--fond R,G,B  : couleur du fond en dégradé : retire aussi les zones de fond enfermées
+                (entre une hache et une botte…) qui s'en rapprochent.
 --trous N     : retire aussi les zones blanches enfermées de plus de N pixels
                 (ex. l'espace entre un bras et le corps). Désactivé par défaut pour
                 ne jamais effacer dents, yeux ou vêtements blancs.
@@ -41,6 +43,7 @@ def main():
                     help="taille mini d'un morceau détaché, en fraction du personnage (défaut 0.004)")
     ap.add_argument("--bords", default="haut,bas,gauche,droite", help="bords d'où part le fond")
     ap.add_argument("--clair", type=int, default=140, help="luminosité minimale du fond")
+    ap.add_argument("--fond", help="couleur R,G,B du fond (zones enfermées à retirer)")
     ap.add_argument("--trous", type=int, default=0, help="taille mini (px) des zones blanches enfermées à retirer")
     args = ap.parse_args()
 
@@ -133,6 +136,14 @@ def main():
             if len(zone) >= args.trous:
                 for x, y in zone:
                     mp[x, y] = 0
+    # Zones de fond coloré enfermées (dégradé), repérées par leur teinte
+    if args.fond:
+        bgc = tuple(int(v) for v in args.fond.split(","))
+        orig = im.load()
+        for x, y in best:
+            c = orig[x, y]
+            if dist(c, bgc) < 75 and lum(c) > 150:
+                mp[x, y] = 0
     mask = mask.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.7))
 
     out = im.convert("RGBA")
