@@ -513,6 +513,12 @@ export const characters: Character[] = [
         bust: { cx: 42, cy: 50, zoom: 1.8 },
         cutout: 'images/personnages/hugo/joystick-cutout.png',
       },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/hugo/bouffetout-blanc.png',
+        bust: { cx: 52, cy: 40, zoom: 2 },
+        cutout: 'images/personnages/hugo/bouffetout-cutout.png',
+      },
     ],
   },
 ];
