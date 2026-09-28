@@ -182,6 +182,12 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 41, zoom: 2 },
         cutout: 'images/personnages/dauby/izikarate-cutout.png',
       },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/dauby/bouffetout-blanc.png',
+        bust: { cx: 53, cy: 37, zoom: 2 },
+        cutout: 'images/personnages/dauby/bouffetout-cutout.png',
+      },
     ],
   },
   {
