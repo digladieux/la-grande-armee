@@ -39,7 +39,10 @@ export interface Character {
   tagline?: string;
   color: PaletteColor;
   looks?: Look[];
-  /** PNG détouré (fond transparent) pour les compositions de groupe (hero). */
+  /**
+   * Buste détouré (fond transparent) pour la composition de groupe du hero, cadré en 200×280.
+   * Peut être animé : WebP animé généré depuis une vidéo (voir scripts/video/).
+   */
   cutout?: string;
   /** Réglages de la silhouette provisoire (utilisée tant qu'il n'y a pas de `cutout`). */
   placeholder?: {
@@ -57,6 +60,7 @@ export const characters: Character[] = [
     slug: 'dim',
     name: 'Dim',
     color: 'blue',
+    cutout: 'images/personnages/dim/botefragile-buste-marche.webp',
     placeholder: { hair: 'short', glasses: true, beard: true },
     featured: true,
     looks: [
@@ -98,6 +102,13 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 36, zoom: 2 },
         cutout: 'images/personnages/dim/ludick-cutout.png',
       },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/dim/bouffetout-blanc.png',
+        whiteBg: true,
+        bust: { cx: 50, cy: 33, zoom: 2 },
+        cutout: 'images/personnages/dim/bouffetout-cutout.png',
+      },
     ],
   },
   {
@@ -113,6 +124,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 45, cy: 41, zoom: 1.9 },
         cutout: 'images/personnages/guigui/botefragile-cutout.png',
+        video: 'images/personnages/guigui/botefragile-perceuse.mp4',
       },
     ],
   },

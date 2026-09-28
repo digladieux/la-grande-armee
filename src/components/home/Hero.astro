@@ -15,7 +15,13 @@ interface Props {
 }
 
 const { characters } = Astro.props;
-const group = characters.slice(0, 7);
+// Les personnages déjà dessinés (buste détouré) prennent le centre du groupe,
+// les silhouettes provisoires se répartissent autour.
+const CENTER_FIRST = [3, 2, 4, 1, 5, 0, 6];
+const picked = characters.slice(0, 7);
+const ordered = [...picked.filter((c) => c.cutout), ...picked.filter((c) => !c.cutout)];
+const group: Character[] = new Array(picked.length);
+ordered.forEach((c, i) => (group[CENTER_FIRST[i]] = c));
 
 // Échelle + décalage vertical de chaque membre, du bord vers le centre.
 const layout = [

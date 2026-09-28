@@ -7,6 +7,8 @@ Détourage automatique d'une illustration sur fond blanc (ou dégradé clair).
 
 Produit <nom>-cutout.png (fond transparent, recadré au personnage) à côté de l'image.
 --ombre R,G,B : couleur de l'ombre portée au sol, à retirer (facultatif).
+--clair N     : luminosité minimale du fond (0-255). 225 conseillé pour un fond blanc pur
+                (préserve les vêtements gris clair) ; 140 pour un fond en dégradé (défaut).
 --trous N     : retire aussi les zones blanches enfermées de plus de N pixels
                 (ex. l'espace entre un bras et le corps). Désactivé par défaut pour
                 ne jamais effacer dents, yeux ou vêtements blancs.
@@ -32,6 +34,7 @@ def main():
     ap.add_argument("image")
     ap.add_argument("--ombre", help="couleur R,G,B de l'ombre au sol à retirer")
     ap.add_argument("--sortie", help="chemin du PNG détouré")
+    ap.add_argument("--clair", type=int, default=140, help="luminosité minimale du fond")
     ap.add_argument("--trous", type=int, default=0, help="taille mini (px) des zones blanches enfermées à retirer")
     args = ap.parse_args()
 
@@ -43,11 +46,15 @@ def main():
 
     def is_bg(n, c):
         # Fond : pas de rupture nette (pas un trait) et clair
-        if dist(n, c) < 14 and lum(n) > 140:
+        if dist(n, c) < 14 and lum(n) > args.clair:
             return True
-        # Ombre portée : proche de la couleur donnée, ou mélange ombre/blanc
-        if shadow and (dist(n, shadow) < 70 or (dist(n, c) < 30 and n[2] >= n[0] and lum(n) > 130)):
-            return dist(n, shadow) < 70 or lum(n) > 170
+        # Ombre portée : sa couleur, ou un mélange ombre ↔ blanc (bord flou de l'ombre)
+        if shadow:
+            if dist(n, shadow) < 60:
+                return True
+            ts = [(n[i] - shadow[i]) / max(255 - shadow[i], 1) for i in range(3)]
+            if min(ts) > -0.1 and max(ts) < 1.05 and max(ts) - min(ts) < 0.15:
+                return True
         return False
 
     bg = bytearray(W * H)
