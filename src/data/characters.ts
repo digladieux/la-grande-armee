@@ -25,7 +25,7 @@ export interface Look {
   bust: Crop;
   /** Illustration sur fond blanc (fondue dans les décors clairs de l'affiche). */
   whiteBg?: boolean;
-  /** Vidéo MP4 en boucle (marche…) jouée dans la fiche personnage. Fond clair, fondu en CSS. */
+  /** Vidéo MP4 en boucle (marche, danse…) jouée dans la fiche personnage. Fond clair, fondu en CSS. */
   video?: string;
   /** PNG détouré de ce look : active la figurine en carton dans le configurateur. */
   cutout?: string;
@@ -75,6 +75,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 51, cy: 36, zoom: 2 },
         cutout: 'images/personnages/dim/izikarate-cutout.png',
+        video: 'images/personnages/dim/izikarate-danse.mp4',
       },
       {
         family: 'gaulois',

@@ -51,7 +51,7 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
                       loop
                       playsinline
                       preload="none"
-                      aria-label={`${character.name}, famille ${family.name}, en train de marcher`}
+                      aria-label={`${character.name}, famille ${family.name} (animation)`}
                     />
                   ) : (
                     <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
