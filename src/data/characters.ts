@@ -133,6 +133,13 @@ export const characters: Character[] = [
         bust: { cx: 48, cy: 35, zoom: 2 },
         cutout: 'images/personnages/guigui/izikarate-cutout.png',
       },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/guigui/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 64, cy: 38, zoom: 1.6 },
+        cutout: 'images/personnages/guigui/gaulois-cutout.png',
+      },
     ],
   },
   {
@@ -408,6 +415,13 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 48, cy: 40, zoom: 1.8 },
         cutout: 'images/personnages/fred/izikarate-cutout.png',
+      },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/fred/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 49, cy: 41, zoom: 1.8 },
+        cutout: 'images/personnages/fred/gaulois-cutout.png',
       },
     ],
   },
