@@ -1,7 +1,8 @@
 ---
 /**
  * Affiche l'illustration d'un personnage.
- * - `character.cutout` renseigné → PNG détouré de l'artiste.
+ * - `character.cutout` renseigné → buste détouré (hero).
+ * - `full` : corps entier détouré du premier look (affiches, quiz), si disponible.
  * - sinon → silhouette provisoire dessinée en SVG (à remplacer).
  */
 import type { Character } from '@/data/characters';
@@ -11,17 +12,20 @@ interface Props {
   character: Character;
   class?: string;
   eager?: boolean;
+  /** Préférer le corps entier détouré (premier look) au buste / à la silhouette. */
+  full?: boolean;
 }
 
-const { character, class: className, eager = false } = Astro.props;
+const { character, class: className, eager = false, full = false } = Astro.props;
+const src = (full && character.looks?.find((l) => l.cutout)?.cutout) || character.cutout;
 const p = character.placeholder ?? {};
 const shirt = `var(--${character.color === 'cream' ? 'yellow' : character.color})`;
 ---
 
-{character.cutout ? (
+{src ? (
   <img
     class:list={['figure', className]}
-    src={url(`/${character.cutout}`)}
+    src={url(`/${src}`)}
     alt={character.name}
     loading={eager ? 'eager' : 'lazy'}
     decoding="async"

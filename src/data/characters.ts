@@ -14,7 +14,7 @@ import type { Crop } from '@/lib/crop';
  *  2. ajouter une entrée dans `looks` avec la famille et le cadrage `bust`
  *     (centre cx/cy en % de l'image + zoom) utilisé pour les vignettes tête + buste.
  *
- * Les copains sans `looks` sont de FAUX PERSONNAGES PROVISOIRES (silhouettes SVG).
+ * `placeholder` : silhouette SVG utilisée dans le hero tant que le copain n'a pas de buste détouré (`cutout`).
  */
 export interface Look {
   family: FamilyId;
@@ -114,7 +114,7 @@ export const characters: Character[] = [
   {
     slug: 'guigui',
     name: 'Guigui',
-    color: 'blue',
+    color: 'coral',
     placeholder: { hair: 'short' },
     featured: true,
     looks: [
@@ -131,7 +131,7 @@ export const characters: Character[] = [
   {
     slug: 'dauby',
     name: 'Dauby',
-    color: 'blue',
+    color: 'green',
     placeholder: { hair: 'bald', beard: true },
     featured: true,
     looks: [
@@ -142,12 +142,19 @@ export const characters: Character[] = [
         bust: { cx: 44, cy: 32, zoom: 2 },
         cutout: 'images/personnages/dauby/botefragile-cutout.png',
       },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/dauby/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 42, cy: 39, zoom: 1.8 },
+        cutout: 'images/personnages/dauby/gaulois-cutout.png',
+      },
     ],
   },
   {
     slug: 'donne',
     name: 'Donné',
-    color: 'blue',
+    color: 'yellow',
     placeholder: { hair: 'short' },
     featured: true,
     looks: [
@@ -163,7 +170,7 @@ export const characters: Character[] = [
   {
     slug: 'lenoir',
     name: 'Lenoir',
-    color: 'blue',
+    color: 'purple',
     placeholder: { hair: 'short', beard: true },
     featured: true,
     looks: [
@@ -174,15 +181,109 @@ export const characters: Character[] = [
         bust: { cx: 37, cy: 45, zoom: 1.9 },
         cutout: 'images/personnages/lenoir/botefragile-cutout.png',
       },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/lenoir/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 64, cy: 44, zoom: 1.7 },
+        cutout: 'images/personnages/lenoir/gaulois-cutout.png',
+      },
     ],
   },
-  { slug: 'dede', name: 'Dédé', tagline: 'Personnage provisoire.', color: 'blue', placeholder: { hair: 'bald', beard: true }, featured: true },
-  { slug: 'lulu', name: 'Lulu', tagline: 'Personnage provisoire.', color: 'yellow', placeholder: { hair: 'spiky' }, featured: true },
-  { slug: 'momo', name: 'Momo', tagline: 'Personnage provisoire.', color: 'orange', placeholder: { hair: 'short', beard: true }, featured: true },
-  { slug: 'jojo', name: 'Jojo', tagline: 'Personnage provisoire.', color: 'green', placeholder: { hair: 'short', cap: true }, featured: true },
-  { slug: 'titi', name: 'Titi', tagline: 'Personnage provisoire.', color: 'purple', placeholder: { hair: 'long' }, featured: true },
-  { slug: 'bebert', name: 'Bébert', tagline: 'Personnage provisoire.', color: 'cream', placeholder: { hair: 'bald', glasses: true }, featured: true },
-  { slug: 'riri', name: 'Riri', tagline: 'Personnage provisoire.', color: 'blue', placeholder: { hair: 'long', glasses: true } },
+  {
+    slug: 'aubin',
+    name: 'Aubin',
+    color: 'orange',
+    placeholder: { hair: 'short', beard: true },
+    featured: true,
+    looks: [
+      {
+        family: 'botefragile',
+        image: 'images/personnages/aubin/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 73, cy: 47, zoom: 2.2 },
+        cutout: 'images/personnages/aubin/botefragile-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'coco',
+    name: 'Coco',
+    color: 'green',
+    placeholder: { hair: 'short', beard: true },
+    featured: true,
+    looks: [
+      {
+        family: 'botefragile',
+        image: 'images/personnages/coco/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 44, cy: 35, zoom: 2 },
+        cutout: 'images/personnages/coco/botefragile-cutout.png',
+      },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/coco/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 38, cy: 52, zoom: 2 },
+        cutout: 'images/personnages/coco/gaulois-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'laurent',
+    name: 'Laurent',
+    color: 'yellow',
+    placeholder: { hair: 'short', glasses: true },
+    featured: true,
+    looks: [
+      {
+        family: 'botefragile',
+        image: 'images/personnages/laurent/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 59, cy: 41, zoom: 2 },
+        cutout: 'images/personnages/laurent/botefragile-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'merlot',
+    name: 'Merlot',
+    color: 'coral',
+    placeholder: { hair: 'short' },
+    featured: true,
+    looks: [
+      {
+        family: 'gaulois',
+        image: 'images/personnages/merlot/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 42, cy: 33, zoom: 2 },
+        cutout: 'images/personnages/merlot/gaulois-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'nael',
+    name: 'Nael',
+    color: 'purple',
+    placeholder: { hair: 'short', beard: true },
+    featured: true,
+    looks: [
+      {
+        family: 'botefragile',
+        image: 'images/personnages/nael/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 57, cy: 36, zoom: 2 },
+        cutout: 'images/personnages/nael/botefragile-cutout.png',
+      },
+      {
+        family: 'gaulois',
+        image: 'images/personnages/nael/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 51, cy: 47, zoom: 1.8 },
+        cutout: 'images/personnages/nael/gaulois-cutout.png',
+      },
+    ],
+  },
 ];
 
 export const featuredCharacters = characters.filter((c) => c.featured);

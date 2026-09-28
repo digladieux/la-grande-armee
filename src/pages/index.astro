@@ -13,8 +13,8 @@ const pick = (slug: string) => characters.find((c) => c.slug === slug) ?? charac
 
 <BaseLayout>
   <Hero characters={featuredCharacters} />
-  <QuizTeaser character={pick('jojo')} />
+  <QuizTeaser character={pick('coco')} />
   <BandSection characters={featuredCharacters} />
-  <PosterSection character={pick('momo')} secondary={pick('titi')} />
+  <PosterSection character={pick('guigui')} secondary={pick('merlot')} />
   <ShopTeaser products={teaserProducts} />
 </BaseLayout>

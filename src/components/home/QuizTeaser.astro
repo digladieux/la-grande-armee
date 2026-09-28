@@ -23,7 +23,7 @@ const { character } = Astro.props;
       <div class="quiz__visual" aria-hidden="true">
         <div class="quiz__disc stripes"></div>
         <div class="quiz__figure">
-          <CharacterFigure character={character} />
+          <CharacterFigure character={character} full />
         </div>
         <Annotation class="quiz__note quiz__note--1" arrow="down-right" rotate={-8}>Team canapé ?</Annotation>
         <Annotation class="quiz__note quiz__note--2" arrow="down-left" rotate={6}>Plutôt apéro ?</Annotation>

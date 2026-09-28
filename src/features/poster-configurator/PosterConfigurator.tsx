@@ -205,7 +205,9 @@ export default function PosterConfigurator({ roster }: Props) {
                   </button>
                 </div>
               )}
-              <p class="pc__hint">Les cases « ? » arrivent bientôt : le reste de la bande est en cours de dessin.</p>
+              {roster.some((r) => !r.looks.length) && (
+                <p class="pc__hint">Les cases « ? » arrivent bientôt : le reste de la bande est en cours de dessin.</p>
+              )}
             </section>
           )}
 

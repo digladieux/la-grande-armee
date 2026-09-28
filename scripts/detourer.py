@@ -9,6 +9,8 @@ Produit <nom>-cutout.png (fond transparent, recadré au personnage) à côté de
 --ombre R,G,B : couleur de l'ombre portée au sol, à retirer (facultatif).
 --clair N     : luminosité minimale du fond (0-255). 225 conseillé pour un fond blanc pur
                 (préserve les vêtements gris clair) ; 140 pour un fond en dégradé (défaut).
+--bords L     : bords d'où part le fond (défaut haut,bas,gauche,droite). Retirer un bord
+                quand le dessin est coupé par ce bord (ex. voiture coupée à droite).
 --trous N     : retire aussi les zones blanches enfermées de plus de N pixels
                 (ex. l'espace entre un bras et le corps). Désactivé par défaut pour
                 ne jamais effacer dents, yeux ou vêtements blancs.
@@ -36,6 +38,7 @@ def main():
     ap.add_argument("--sortie", help="chemin du PNG détouré")
     ap.add_argument("--garder", type=float, default=0.004,
                     help="taille mini d'un morceau détaché, en fraction du personnage (défaut 0.004)")
+    ap.add_argument("--bords", default="haut,bas,gauche,droite", help="bords d'où part le fond")
     ap.add_argument("--clair", type=int, default=140, help="luminosité minimale du fond")
     ap.add_argument("--trous", type=int, default=0, help="taille mini (px) des zones blanches enfermées à retirer")
     args = ap.parse_args()
@@ -61,10 +64,17 @@ def main():
 
     bg = bytearray(W * H)
     q = deque()
+    edges = set(args.bords.split(","))
     for x in range(W):
-        q.extend([(x, 0), (x, H - 1)])
+        if "haut" in edges:
+            q.append((x, 0))
+        if "bas" in edges:
+            q.append((x, H - 1))
     for y in range(H):
-        q.extend([(0, y), (W - 1, y)])
+        if "gauche" in edges:
+            q.append((0, y))
+        if "droite" in edges:
+            q.append((W - 1, y))
     for x, y in q:
         bg[y * W + x] = 1
     while q:
