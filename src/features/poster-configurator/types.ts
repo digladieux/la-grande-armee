@@ -8,8 +8,9 @@ export interface RosterLook {
   /** Transform CSS du cadrage tête + buste (voir lib/crop.ts). */
   bust: string;
   animation?: 'walk';
-  /** URL du PNG détouré (figurine en carton). */
+  /** URL du PNG détouré (figurine en carton, affiche). */
   cutout?: string;
+  whiteBg?: boolean;
 }
 
 export interface RosterEntry {
@@ -27,17 +28,27 @@ export interface Selection {
 export type Background = 'creme' | 'bandes' | 'ciel' | 'corail';
 export type Frame = 'sans' | 'bois' | 'noir' | 'blanc';
 export type Format = 'A4' | 'A3' | 'A2';
+export type Orientation = 'portrait' | 'paysage';
 
 export interface PosterState {
   selection: Selection[];
   background: Background;
   frame: Frame;
   format: Format;
+  orientation: Orientation;
   title: string;
   subtitle: string;
 }
 
-export const MAX_CHARACTERS = 6;
+/** Nombre maximum de copains selon l'orientation. */
+export const MAX_CHARACTERS: Record<Orientation, number> = { portrait: 6, paysage: 10 };
+/** Au-delà, on suggère le format paysage. */
+export const LANDSCAPE_HINT_FROM = 4;
+
+export const ORIENTATIONS: { id: Orientation; label: string }[] = [
+  { id: 'portrait', label: 'Portrait' },
+  { id: 'paysage', label: 'Paysage' },
+];
 
 export const BACKGROUNDS: { id: Background; label: string }[] = [
   { id: 'creme', label: 'Crème' },

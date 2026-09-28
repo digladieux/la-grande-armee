@@ -23,6 +23,8 @@ export interface Look {
   /** Rôle dans la famille (le père, le cousin…). */
   role?: string;
   bust: Crop;
+  /** Illustration sur fond blanc (fondue dans les décors clairs de l'affiche). */
+  whiteBg?: boolean;
   /** Vidéo MP4 en boucle (marche…) jouée dans la fiche personnage. Fond clair, fondu en CSS. */
   video?: string;
   /** PNG détouré de ce look : active la figurine en carton dans le configurateur. */
@@ -58,10 +60,34 @@ export const characters: Character[] = [
     placeholder: { hair: 'short', glasses: true, beard: true },
     featured: true,
     looks: [
-      { family: 'botefragile', image: 'images/personnages/dim/botefragile.png', bust: { cx: 50, cy: 33, zoom: 2.4 }, cutout: 'images/personnages/dim/botefragile-cutout.png', video: 'images/personnages/dim/botefragile-marche.mp4', animation: 'walk' },
+      {
+        family: 'botefragile',
+        image: 'images/personnages/dim/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 50, cy: 33, zoom: 2.4 },
+        cutout: 'images/personnages/dim/botefragile-cutout.png',
+        video: 'images/personnages/dim/botefragile-marche.mp4',
+        animation: 'walk',
+      },
       { family: 'izi-karate', image: 'images/personnages/dim/izikarate.png', bust: { cx: 51, cy: 36, zoom: 2 } },
       { family: 'gaulois', image: 'images/personnages/dim/gaulois.png', bust: { cx: 52, cy: 40, zoom: 1.8 } },
       { family: 'branquignol', image: 'images/personnages/dim/branquignol.png', bust: { cx: 46, cy: 71, zoom: 2.3 } },
+    ],
+  },
+  {
+    slug: 'guigui',
+    name: 'Guigui',
+    color: 'blue',
+    placeholder: { hair: 'short' },
+    featured: true,
+    looks: [
+      {
+        family: 'botefragile',
+        image: 'images/personnages/guigui/botefragile-blanc.png',
+        whiteBg: true,
+        bust: { cx: 45, cy: 41, zoom: 1.9 },
+        cutout: 'images/personnages/guigui/botefragile-cutout.png',
+      },
     ],
   },
   { slug: 'dede', name: 'Dédé', tagline: 'Personnage provisoire.', color: 'blue', placeholder: { hair: 'bald', beard: true }, featured: true },

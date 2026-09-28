@@ -73,6 +73,29 @@
   background: var(--paper);
   container-type: inline-size;
 }
+.poster-sheet--paysage {
+  aspect-ratio: 1.414 / 1;
+}
+.poster-sheet--paysage .poster-sheet__title {
+  padding-top: 5%;
+}
+.poster-sheet--paysage .poster-sheet__title strong {
+  font-size: 8.5cqi;
+}
+.poster-sheet--paysage .poster-sheet__title span {
+  margin-top: 1.5cqi;
+  font-size: 3.4cqi;
+}
+.poster-sheet--paysage .poster-sheet__brand {
+  padding: 1.5cqi 0 2.2cqi;
+  font-size: 2.2cqi;
+}
+.poster-sheet--paysage .poster-sheet__empty {
+  font-size: 4.5cqi;
+}
+.poster-frame--paysage {
+  max-width: 100%;
+}
 .poster-sheet--creme {
   background: #fdf8ea;
 }
@@ -126,21 +149,34 @@
   align-items: flex-end;
   justify-content: center;
   min-height: 0;
-  padding: 0 4%;
+  padding: 3% 5% 0;
+}
+.poster-sheet__row {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  width: max-content;
+  transform-origin: bottom center;
+  transition: transform 0.3s ease;
 }
 .poster-sheet__member {
-  flex: 0 0 auto;
-  width: min(92%, calc(100% / var(--n) * 1.45));
-  max-height: 100%;
-  margin-inline: calc(100% / var(--n) * -0.2);
-  object-fit: contain;
-  object-position: bottom;
-  mix-blend-mode: multiply;
-  /* Fond les bords du dégradé de l'illustration dans le décor */
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  flex: none;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  margin-inline: calc(var(--crew-h) * -0.045);
   animation: member-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   animation-delay: calc(var(--i) * 60ms);
+}
+.poster-sheet__member.is-cutout {
+  filter: drop-shadow(0 4px 3px rgb(22 20 18 / 0.18));
+}
+/* Illustration non détourée : fondue dans le décor */
+.poster-sheet__member.is-flat {
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
 }
 @keyframes member-in {
   from {
@@ -623,6 +659,9 @@
   .poster-frame {
     max-width: 320px;
   }
+  .poster-frame--paysage {
+    max-width: 100%;
+  }
 }
 @media (max-width: 520px) {
   .pc__showcase {
@@ -748,4 +787,61 @@
   .standee__walk {
     height: 210px;
   }
+}
+
+/* Orientation & conseils */
+.pc__chip[class*='orient'] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  align-items: center;
+}
+.pc__chip[class*='orient'] small {
+  grid-column: 2;
+}
+.pc__orient-icon {
+  grid-row: span 2;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+}
+.pc__chip--orient-portrait .pc__orient-icon {
+  width: 18px;
+  height: 25px;
+}
+.pc__chip--orient-paysage .pc__orient-icon {
+  width: 25px;
+  height: 18px;
+}
+.pc__tip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.pc__tip button {
+  padding: 6px 14px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.pc__warn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--coral) 45%, var(--paper));
+  font-size: 0.88rem;
+  font-weight: 600;
 }

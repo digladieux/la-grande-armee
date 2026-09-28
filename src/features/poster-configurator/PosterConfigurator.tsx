@@ -9,7 +9,7 @@
  */
 import { useMemo, useState } from 'preact/hooks';
 import type { PosterState, RosterEntry, Selection } from './types';
-import { BACKGROUNDS, FORMATS, FRAMES, MAX_CHARACTERS, UPCOMING_ACCESSORIES } from './types';
+import { BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
 import PosterCanvas from './PosterCanvas';
 import Standee from './Standee';
 import './configurator.css';
@@ -34,10 +34,12 @@ export default function PosterConfigurator({ roster }: Props) {
   /** Tenue affichée pour chaque copain (même s'il n'est pas encore sur l'affiche). */
   const [looks, setLooks] = useState<Record<string, number>>({});
   const [state, setState] = useState<PosterState>({
-    selection: playable[0] ? [{ slug: playable[0].slug, look: 0 }] : [],
+    // Par défaut : toute la bande déjà dessinée
+    selection: playable.slice(0, MAX_CHARACTERS.portrait).map((r) => ({ slug: r.slug, look: 0 })),
     background: 'bandes',
     frame: 'bois',
     format: 'A3',
+    orientation: 'portrait',
     title: 'La Grande Armée',
     subtitle: '',
   });
@@ -46,7 +48,10 @@ export default function PosterConfigurator({ roster }: Props) {
   const current = active ? bySlug.get(active) : undefined;
   const currentLook = current ? (looks[current.slug] ?? 0) : 0;
   const onPoster = (slug: string) => state.selection.findIndex((s) => s.slug === slug);
-  const full = state.selection.length >= MAX_CHARACTERS;
+  const max = MAX_CHARACTERS[state.orientation];
+  const full = state.selection.length >= max;
+  const tooMany = state.selection.length > max;
+  const suggestLandscape = state.orientation === 'portrait' && state.selection.length >= LANDSCAPE_HINT_FROM;
 
   const update = (patch: Partial<PosterState>) => setState((s) => ({ ...s, ...patch }));
 
@@ -78,7 +83,7 @@ export default function PosterConfigurator({ roster }: Props) {
           />
         </div>
         <p class="pc__summary">
-          Affiche {state.format} · {FRAMES.find((f) => f.id === state.frame)?.label} ·{' '}
+          Affiche {state.format} {state.orientation} · {FRAMES.find((f) => f.id === state.frame)?.label} ·{' '}
           {state.selection.length} copain{state.selection.length > 1 ? 's' : ''}
         </p>
       </div>
@@ -156,7 +161,7 @@ export default function PosterConfigurator({ roster }: Props) {
               <div class="pc__roster-head">
                 <h4>Choisis tes copains</h4>
                 <span>
-                  {state.selection.length}/{MAX_CHARACTERS}
+                  {state.selection.length}/{max}
                 </span>
               </div>
               <ul class="pc__roster">
@@ -192,6 +197,14 @@ export default function PosterConfigurator({ roster }: Props) {
                   );
                 })}
               </ul>
+              {suggestLandscape && (
+                <div class="pc__tip">
+                  <span>Grosse bande ? En paysage, tout le monde a plus de place (jusqu'à {MAX_CHARACTERS.paysage}).</span>
+                  <button type="button" onClick={() => update({ orientation: 'paysage' })}>
+                    Passer en paysage
+                  </button>
+                </div>
+              )}
               <p class="pc__hint">Les cases « ? » arrivent bientôt : le reste de la bande est en cours de dessin.</p>
             </section>
           )}
@@ -258,6 +271,27 @@ export default function PosterConfigurator({ roster }: Props) {
 
           {step === 'format' && (
             <section>
+              <h4 class="pc__label">Orientation</h4>
+              <div class="pc__chips">
+                {ORIENTATIONS.map((o) => (
+                  <button
+                    key={o.id}
+                    type="button"
+                    class={`pc__chip pc__chip--orient-${o.id}`}
+                    aria-pressed={state.orientation === o.id}
+                    onClick={() => update({ orientation: o.id })}
+                  >
+                    <span class="pc__orient-icon" />
+                    <strong>{o.label}</strong>
+                    <small>jusqu'à {MAX_CHARACTERS[o.id]} copains</small>
+                  </button>
+                ))}
+              </div>
+              {tooMany && (
+                <p class="pc__warn">
+                  {state.selection.length} copains, c'est trop pour le portrait (max {max}) : passe en paysage ou retires-en quelques-uns.
+                </p>
+              )}
               <h4 class="pc__label">Format</h4>
               <div class="pc__chips">
                 {FORMATS.map((f) => (

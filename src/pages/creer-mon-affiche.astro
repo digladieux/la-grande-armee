@@ -20,6 +20,7 @@ const roster: RosterEntry[] = [...characters]
       bust: cropTransform(l.bust),
       animation: l.animation,
       cutout: l.cutout ? url(`/${l.cutout}`) : undefined,
+      whiteBg: l.whiteBg,
     })),
   }));
 ---

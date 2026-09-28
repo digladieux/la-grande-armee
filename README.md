@@ -42,6 +42,15 @@ Un copain peut incarner plusieurs personnages du jeu, un par famille : ce sont s
    utilisé pour les vignettes tête + buste. Voir l'exemple de Dim.
 3. Les familles sont définies dans `src/data/families.ts`.
 
+### Détourer une illustration (figurine en carton, affiche)
+
+```sh
+python3 scripts/detourer.py public/images/personnages/guigui/botefragile-blanc.png --ombre 150,164,196
+```
+
+Produit `botefragile-cutout.png` (fond transparent) à renseigner dans le champ `cutout` du look.
+`--ombre` retire l'ombre portée au sol (couleur R,G,B). Nécessite Python 3 + Pillow.
+
 Les copains sans `looks` sont de faux personnages provisoires (silhouettes SVG).
 Pour le hero (composition de groupe), il faudra des PNG **détourés** (fond transparent) → champ `cutout`.
 
