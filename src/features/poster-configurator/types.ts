@@ -10,6 +10,8 @@ export interface RosterLook {
   animation?: 'walk';
   /** URL du PNG détouré (figurine en carton, affiche). */
   cutout?: string;
+  /** Hauteur du détourage / hauteur de la carte d'origine (échelle du dessin). */
+  cutoutScale?: number;
   whiteBg?: boolean;
 }
 

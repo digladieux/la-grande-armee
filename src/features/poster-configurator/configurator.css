@@ -703,11 +703,12 @@
   width: 100%;
 }
 .standee__walk {
+  display: grid;
+  place-items: end center;
   height: 250px;
 }
 .standee__body {
   position: relative;
-  height: 100%;
   transform-style: preserve-3d;
   cursor: grab;
   touch-action: pan-y;
@@ -723,9 +724,10 @@
 }
 .standee__front {
   position: relative;
-  height: 100%;
   width: auto;
-  max-width: none;
+  height: auto;
+  max-height: 250px;
+  max-width: min(100%, 300px);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   filter: drop-shadow(0 0 0.6px rgb(0 0 0 / 0.4));

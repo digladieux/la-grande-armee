@@ -34,6 +34,8 @@ def main():
     ap.add_argument("image")
     ap.add_argument("--ombre", help="couleur R,G,B de l'ombre au sol à retirer")
     ap.add_argument("--sortie", help="chemin du PNG détouré")
+    ap.add_argument("--garder", type=float, default=0.004,
+                    help="taille mini d'un morceau détaché, en fraction du personnage (défaut 0.004)")
     ap.add_argument("--clair", type=int, default=140, help="luminosité minimale du fond")
     ap.add_argument("--trous", type=int, default=0, help="taille mini (px) des zones blanches enfermées à retirer")
     args = ap.parse_args()
@@ -73,9 +75,10 @@ def main():
                 bg[ny * W + nx] = 1
                 q.append((nx, ny))
 
-    # Plus grande zone restante = le personnage
+    # Zones restantes : le personnage + les morceaux détachés assez gros
+    # (chaussures séparées par des chaussettes blanches, « Zzz »…) ; les miettes sont ignorées.
     seen = bytearray(W * H)
-    best = []
+    comps = []
     for sy in range(H):
         for sx in range(W):
             i = sy * W + sx
@@ -91,8 +94,9 @@ def main():
                     if 0 <= nx < W and 0 <= ny < H and not bg[j] and not seen[j]:
                         seen[j] = 1
                         q.append((nx, ny))
-            if len(comp) > len(best):
-                best = comp
+            comps.append(comp)
+    biggest = max(len(c) for c in comps)
+    best = [p for c in comps if len(c) >= biggest * args.garder for p in c]
 
     mask = Image.new("L", (W, H), 0)
     mp = mask.load()

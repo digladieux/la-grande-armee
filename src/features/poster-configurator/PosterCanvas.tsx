@@ -17,6 +17,9 @@ const SCALE = { A4: 0.78, A3: 0.9, A2: 1 } as const;
 
 export default function PosterCanvas({ state, characters }: Props) {
   const n = characters.length;
+  // Le plus grand personnage occupe toute la hauteur ; les autres gardent leur échelle relative
+  const scaleOf = (c: Props['characters'][number]) => c.entry.looks[c.look].cutoutScale ?? 1;
+  const tallest = Math.max(...characters.map(scaleOf), 0.01);
   const crewRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
   const [fit, setFit] = useState({ scale: 1, h: 0 });
@@ -59,7 +62,11 @@ export default function PosterCanvas({ state, characters }: Props) {
                     <img
                       key={`${entry.slug}-${look}`}
                       class={`poster-sheet__member ${l.cutout ? 'is-cutout' : 'is-flat'}`}
-                      style={{ '--i': i, zIndex: n - Math.abs(i - (n - 1) / 2) }}
+                      style={{
+                        '--i': i,
+                        zIndex: n - Math.abs(i - (n - 1) / 2),
+                        height: l.cutout ? `${(100 * scaleOf({ entry, look })) / tallest}%` : '100%',
+                      }}
                       src={l.cutout ?? l.image}
                       alt={`${entry.name}, famille ${l.familyName}`}
                       onLoad={measure}

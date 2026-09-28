@@ -6,6 +6,10 @@ import { characters } from '@/data/characters';
 import { families } from '@/data/families';
 import { cropTransform } from '@/lib/crop';
 import { url } from '@/lib/url';
+import { pngSize } from '@/lib/png-size';
+
+/** Hauteur des illustrations d'origine (cartes du jeu). */
+const CARD_HEIGHT = 1068;
 
 // Les copains dessinés d'abord, puis les cases « ? » (personnages provisoires).
 const roster: RosterEntry[] = [...characters]
@@ -20,6 +24,8 @@ const roster: RosterEntry[] = [...characters]
       bust: cropTransform(l.bust),
       animation: l.animation,
       cutout: l.cutout ? url(`/${l.cutout}`) : undefined,
+      // Hauteur du personnage détouré rapportée à la carte : garde l'échelle du dessin sur l'affiche
+      cutoutScale: l.cutout ? (pngSize(l.cutout)?.height ?? CARD_HEIGHT) / CARD_HEIGHT : undefined,
       whiteBg: l.whiteBg,
     })),
   }));
