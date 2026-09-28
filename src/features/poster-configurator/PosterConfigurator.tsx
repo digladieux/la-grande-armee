@@ -220,7 +220,6 @@ export default function PosterConfigurator({ roster }: Props) {
             <section>
               {current && (
                 <div class="pc__showcase" style={{ '--c': `var(--${current.looks[currentLook].familyColor})` }}>
-                  <div class="pc__pedestal" aria-hidden="true" />
                   {current.looks[currentLook].cutout ? (
                     <div key={`${current.slug}-${currentLook}`} class="pc__hero">
                       <Standee
