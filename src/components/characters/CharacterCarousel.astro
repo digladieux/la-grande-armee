@@ -5,6 +5,7 @@
  */
 import type { Character } from '@/data/characters';
 import CharacterCard from './CharacterCard.astro';
+import { pickCovers } from '@/lib/covers';
 
 interface Props {
   characters: Character[];
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const { characters, label = 'Personnages' } = Astro.props;
+const covers = pickCovers(characters);
 ---
 
 <div class="carousel" data-carousel>
@@ -22,7 +24,7 @@ const { characters, label = 'Personnages' } = Astro.props;
   <ul class="carousel__track" data-track aria-label={label}>
     {characters.map((character, i) => (
       <li class="carousel__item" style={`--tilt:${i % 2 ? 1 : -1}deg`}>
-        <CharacterCard character={character} />
+        <CharacterCard character={character} lookIndex={covers.get(character.slug)} />
       </li>
     ))}
   </ul>

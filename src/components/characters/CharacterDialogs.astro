@@ -136,7 +136,7 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     // Vidéos : chargées à l'ouverture seulement, mises en pause à la fermeture
     const videos = [...dialog.querySelectorAll<HTMLVideoElement>('video[data-src]')];
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    dialog.addEventListener('open-at-start', () => {
+    dialog.addEventListener('open-at', () => {
       videos.forEach((v) => {
         if (!v.src) v.src = v.dataset.src!;
         if (!reduceMotion.matches) v.play().catch(() => {});
@@ -146,22 +146,22 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
       document.body.style.overflow = '';
       videos.forEach((v) => v.pause());
     });
-    dialog.addEventListener('open-at-start', () => goTo(0, false));
+    dialog.addEventListener('open-at', (e) => goTo((e as CustomEvent<number>).detail ?? 0, false));
     render();
   });
 
-  const open = (slug: string) => {
+  const open = (slug: string, look = 0) => {
     const dialog = dialogs.get(slug);
     if (!dialog) return false;
     dialog.showModal();
     document.body.style.overflow = 'hidden';
-    dialog.dispatchEvent(new Event('open-at-start'));
+    dialog.dispatchEvent(new CustomEvent('open-at', { detail: look }));
     return true;
   };
 
   document.addEventListener('click', (e) => {
     const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-character-open]');
-    if (trigger && open(trigger.dataset.characterOpen!)) e.preventDefault();
+    if (trigger && open(trigger.dataset.characterOpen!, Number(trigger.dataset.characterLook ?? 0))) e.preventDefault();
   });
 
   // Lien direct /personnages#dim → ouvre la fiche
@@ -253,8 +253,11 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
   .cdialog__slide {
     position: relative;
     flex: 0 0 100%;
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px 16px;
     scroll-snap-align: center;
   }
   .cdialog__slide img,
@@ -270,11 +273,9 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     mix-blend-mode: multiply;
   }
   .cdialog__family {
-    position: absolute;
-    left: 14px;
-    bottom: 14px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 8px 14px;
     border: var(--border);
     border-radius: var(--radius-sm);

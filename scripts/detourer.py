@@ -5,7 +5,8 @@ Détourage automatique d'une illustration sur fond blanc (ou dégradé clair).
     python3 scripts/detourer.py public/images/personnages/guigui/botefragile-blanc.png \
         --ombre 150,164,196
 
-Produit <nom>-cutout.png (fond transparent, recadré au personnage) à côté de l'image.
+Produit <nom>-cutout.png (fond transparent, recadré au personnage) et <nom>-plein.png
+(fond transparent, cadre d'origine, pour les vignettes) à côté de l'image.
 --ombre R,G,B : couleur de l'ombre portée au sol, à retirer (facultatif).
 --clair N     : luminosité minimale du fond (0-255). 225 conseillé pour un fond blanc pur
                 (préserve les vêtements gris clair) ; 140 pour un fond en dégradé (défaut).
@@ -140,6 +141,9 @@ def main():
     pad = 12
     bbox = (max(bbox[0] - pad, 0), max(bbox[1] - pad, 0), min(bbox[2] + pad, W), min(bbox[3] + pad, H))
     dst = Path(args.sortie) if args.sortie else src.with_name(src.stem.replace("-blanc", "") + "-cutout.png")
+    # Version pleine (cadre d'origine, fond transparent) pour les vignettes tête + buste
+    if not args.sortie:
+        out.save(src.with_name(src.stem.replace("-blanc", "") + "-plein.png"), optimize=True)
     out.crop(bbox).save(dst, optimize=True)
     print(f"{dst}  {bbox[2] - bbox[0]}×{bbox[3] - bbox[1]}")
 

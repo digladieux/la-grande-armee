@@ -1,6 +1,13 @@
 ---
-/** Vignette « tête + buste » d'un look, recadrée en CSS (voir lib/crop.ts). */
+/**
+ * Vignette « tête + buste » d'un look, recadrée en CSS (voir lib/crop.ts).
+ * Si la version détourée pleine existe (<famille>-plein.png, voir scripts/plein.py),
+ * le personnage est posé sur un fond pâle à la couleur de sa famille.
+ */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import type { Look } from '@/data/characters';
+import { families } from '@/data/families';
 import { cropTransform } from '@/lib/crop';
 import { url } from '@/lib/url';
 
@@ -12,11 +19,16 @@ interface Props {
 }
 
 const { look, alt, eager = false, class: className } = Astro.props;
+const plein = look.cutout?.replace('-cutout.png', '-plein.png');
+const tinted = !!plein && existsSync(join(process.cwd(), 'public', plein));
 ---
 
-<div class:list={['portrait', className]}>
+<div
+  class:list={['portrait', { 'portrait--tinted': tinted }, className]}
+  style={`--c: var(--${families[look.family].color})`}
+>
   <img
-    src={url(`/${look.image}`)}
+    src={url(`/${tinted ? plein : look.image}`)}
     alt={alt}
     style={`transform: ${cropTransform(look.bust)}`}
     loading={eager ? 'eager' : 'lazy'}
@@ -40,5 +52,11 @@ const { look, alt, eager = false, class: className } = Astro.props;
     height: auto;
     max-width: none;
     transform-origin: 0 0;
+  }
+  /* Fond pâle à la couleur de la famille, léger halo clair derrière la tête */
+  .portrait--tinted {
+    background:
+      radial-gradient(circle at 50% 38%, rgb(255 255 255 / 0.55), transparent 55%),
+      color-mix(in srgb, var(--c) 38%, #fff);
   }
 </style>

@@ -24,7 +24,9 @@ on_disk = {
     for f in d.iterdir() if f.is_file() and not f.name.startswith(".")
 }
 
-unused = sorted(on_disk - refs)
+# Les versions « -plein » sont dérivées des détourages (utilisées automatiquement par les vignettes)
+derived = {r.replace("-cutout.png", "-plein.png") for r in refs if r.endswith("-cutout.png")}
+unused = sorted(on_disk - refs - derived)
 broken = sorted(r for r in refs if not (IMAGES / r).exists())
 print("Nouvelles images à intégrer :", *(unused or ["aucune"]), sep="\n  ")
 print("Références cassées :", *(broken or ["aucune"]), sep="\n  ")

@@ -9,11 +9,13 @@ interface Props {
   character: Character;
   /** Affiche la petite phrase / les familles sous le nom. */
   showTagline?: boolean;
+  /** Tenue affichée en couverture (voir lib/covers.ts pour alterner les couleurs). */
+  lookIndex?: number;
 }
 
-const { character, showTagline = false } = Astro.props;
+const { character, showTagline = false, lookIndex = 0 } = Astro.props;
 const looks = character.looks ?? [];
-const cover = looks[0];
+const cover = looks[lookIndex] ?? looks[0];
 const familyNames = looks.map((l) => families[l.family].name);
 ---
 
@@ -22,6 +24,7 @@ const familyNames = looks.map((l) => families[l.family].name);
   href={url(`/personnages#${character.slug}`)}
   style={`--card-bg: var(--${character.color})`}
   data-character-open={looks.length ? character.slug : undefined}
+  data-character-look={looks.length ? looks.indexOf(cover) : undefined}
   aria-haspopup={looks.length ? 'dialog' : undefined}
 >
   <div class="card__art">

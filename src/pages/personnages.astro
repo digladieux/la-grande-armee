@@ -3,13 +3,16 @@ import PageShell from '@/layouts/PageShell.astro';
 import CharacterCard from '@/components/characters/CharacterCard.astro';
 import CharacterDialogs from '@/components/characters/CharacterDialogs.astro';
 import { characters } from '@/data/characters';
+import { pickCovers } from '@/lib/covers';
+
+const covers = pickCovers(characters);
 ---
 
 <PageShell title="Personnages" eyebrow="La bande" intro="Tous les membres de La Grande Armée, famille par famille." accent="green">
   <ul class="grid">
     {characters.map((c) => (
       <li id={c.slug}>
-        <CharacterCard character={c} showTagline />
+        <CharacterCard character={c} showTagline lookIndex={covers.get(c.slug)} />
       </li>
     ))}
   </ul>
