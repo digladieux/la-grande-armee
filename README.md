@@ -34,12 +34,16 @@ src/
 
 ## Ajouter les vrais personnages
 
-Les personnages actuels sont **de faux personnages provisoires** (silhouettes SVG).
+Un copain peut incarner plusieurs personnages du jeu, un par famille : ce sont ses **looks**.
 
-1. Déposer les PNG détourés dans `public/images/personnages/`.
-2. Dans `src/data/characters.ts`, renseigner `image: 'images/personnages/<fichier>.png'`, le nom et la description.
+1. Déposer les illustrations dans `public/images/personnages/<copain>/<famille>.png`
+   (noms **sans accents ni espaces**, ex. `dim/botefragile.png`).
+2. Dans `src/data/characters.ts`, ajouter un look : famille + cadrage `bust` (centre `cx`/`cy` en % de l'image, `zoom`)
+   utilisé pour les vignettes tête + buste. Voir l'exemple de Dim.
+3. Les familles sont définies dans `src/data/families.ts`.
 
-La silhouette est remplacée automatiquement partout (hero, carousel, quiz, affiches).
+Les copains sans `looks` sont de faux personnages provisoires (silhouettes SVG).
+Pour le hero (composition de groupe), il faudra des PNG **détourés** (fond transparent) → champ `cutout`.
 
 ## Liens internes
 

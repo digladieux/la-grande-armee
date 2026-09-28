@@ -1,11 +1,32 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
-// Futur : src/features/poster-configurator/
+import PosterConfigurator from '@/features/poster-configurator/PosterConfigurator';
+import type { RosterEntry } from '@/features/poster-configurator/types';
+import { characters } from '@/data/characters';
+import { families } from '@/data/families';
+import { cropTransform } from '@/lib/crop';
+import { url } from '@/lib/url';
+
+// Les copains dessinés d'abord, puis les cases « ? » (personnages provisoires).
+const roster: RosterEntry[] = [...characters]
+  .sort((a, b) => Number(!!b.looks?.length) - Number(!!a.looks?.length))
+  .map((c) => ({
+    slug: c.slug,
+    name: c.name,
+    looks: (c.looks ?? []).map((l) => ({
+      familyName: families[l.family].name,
+      familyColor: families[l.family].color,
+      image: url(`/${l.image}`),
+      bust: cropTransform(l.bust),
+    })),
+  }));
 ---
 
 <PageShell
   title="Créer mon affiche"
-  eyebrow="Configurateur"
-  intro="Choisis ton personnage, son style et ses accessoires pour composer une affiche unique."
+  eyebrow="Configurateur · version test"
+  intro="Choisis tes copains, leur tenue, le style et le format : ton affiche se compose en direct."
   accent="yellow"
-/>
+>
+  <PosterConfigurator client:load roster={roster} />
+</PageShell>

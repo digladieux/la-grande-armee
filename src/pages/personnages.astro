@@ -1,6 +1,7 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
 import CharacterCard from '@/components/characters/CharacterCard.astro';
+import CharacterDialogs from '@/components/characters/CharacterDialogs.astro';
 import { characters } from '@/data/characters';
 ---
 
@@ -12,6 +13,7 @@ import { characters } from '@/data/characters';
       </li>
     ))}
   </ul>
+  <CharacterDialogs characters={characters} />
 </PageShell>
 
 <style>

@@ -1,0 +1,44 @@
+---
+/** Vignette « tête + buste » d'un look, recadrée en CSS (voir lib/crop.ts). */
+import type { Look } from '@/data/characters';
+import { cropTransform } from '@/lib/crop';
+import { url } from '@/lib/url';
+
+interface Props {
+  look: Look;
+  alt: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { look, alt, eager = false, class: className } = Astro.props;
+---
+
+<div class:list={['portrait', className]}>
+  <img
+    src={url(`/${look.image}`)}
+    alt={alt}
+    style={`transform: ${cropTransform(look.bust)}`}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    draggable="false"
+  />
+</div>
+
+<style>
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #fff;
+  }
+  .portrait img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    transform-origin: 0 0;
+  }
+</style>

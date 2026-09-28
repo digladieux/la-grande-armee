@@ -1,24 +1,54 @@
 ---
 import type { Character } from '@/data/characters';
+import { families } from '@/data/families';
 import CharacterFigure from './CharacterFigure.astro';
+import CharacterPortrait from './CharacterPortrait.astro';
 import { url } from '@/lib/url';
 
 interface Props {
   character: Character;
-  /** Affiche la petite phrase sous le nom. */
+  /** Affiche la petite phrase / les familles sous le nom. */
   showTagline?: boolean;
 }
 
 const { character, showTagline = false } = Astro.props;
+const looks = character.looks ?? [];
+const cover = looks[0];
+const familyNames = looks.map((l) => families[l.family].name);
 ---
 
-<a class="card" href={url(`/personnages#${character.slug}`)} style={`--card-bg: var(--${character.color})`}>
+<a
+  class:list={['card', { 'card--real': cover }]}
+  href={url(`/personnages#${character.slug}`)}
+  style={`--card-bg: var(--${character.color})`}
+  data-character-open={looks.length ? character.slug : undefined}
+  aria-haspopup={looks.length ? 'dialog' : undefined}
+>
   <div class="card__art">
-    <CharacterFigure character={character} />
+    {cover ? (
+      <CharacterPortrait look={cover} alt={character.name} />
+    ) : (
+      <CharacterFigure character={character} />
+    )}
+    {looks.length > 1 && (
+      <span class="card__count" aria-label={`${looks.length} personnages`}>
+        ×{looks.length}
+      </span>
+    )}
   </div>
   <div class="card__body">
     <h3 class="card__name">{character.name}</h3>
-    {showTagline && <p class="card__tagline">{character.tagline}</p>}
+    {looks.length > 0 && (
+      <p class="card__families">
+        {looks.map((l) => (
+          <span class="card__dot" style={`--c: var(--${families[l.family].color})`} title={families[l.family].name}></span>
+        ))}
+        <span class="sr-only">Familles : {familyNames.join(', ')}</span>
+      </p>
+    )}
+    {showTagline && (
+      <p class="card__tagline">{looks.length ? familyNames.join(' · ') : character.tagline}</p>
+    )}
   </div>
 </a>
 
@@ -39,6 +69,7 @@ const { character, showTagline = false } = Astro.props;
     box-shadow: var(--shadow);
   }
   .card__art {
+    position: relative;
     aspect-ratio: 4 / 5;
     padding: 18px 14px 0;
     background:
@@ -47,19 +78,50 @@ const { character, showTagline = false } = Astro.props;
     border-bottom: var(--border);
     overflow: hidden;
   }
-  .card__art :global(.figure) {
-    transition: transform 0.25s ease;
+  .card--real .card__art {
+    padding: 0;
+    background: #fff;
+  }
+  .card__art :global(.figure),
+  .card__art :global(.portrait) {
+    transition: scale 0.3s ease;
     transform-origin: bottom center;
   }
-  .card:hover .card__art :global(.figure) {
-    transform: scale(1.04);
+  .card:hover .card__art :global(.figure),
+  .card:hover .card__art :global(.portrait) {
+    scale: 1.04;
+  }
+  .card__count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 10px;
+    border: var(--border);
+    border-radius: 999px;
+    background: var(--yellow);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.4;
   }
   .card__body {
-    padding: 14px 16px 16px;
+    padding: 12px 16px 14px;
     text-align: center;
   }
   .card__name {
     font-size: 1.35rem;
+  }
+  .card__families {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .card__dot {
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--c);
   }
   .card__tagline {
     margin-top: 6px;

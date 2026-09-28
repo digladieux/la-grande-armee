@@ -1,0 +1,333 @@
+---
+/**
+ * Fenêtres « fiche personnage » : un carrousel des différents personnages
+ * qu'incarne un copain (un par famille). S'ouvrent au clic sur tout élément
+ * portant `data-character-open="<slug>"` (ex. CharacterCard).
+ * À placer une fois par page qui affiche des cartes.
+ */
+import type { Character } from '@/data/characters';
+import { families } from '@/data/families';
+import CharacterPortrait from './CharacterPortrait.astro';
+import { url } from '@/lib/url';
+
+interface Props {
+  characters: Character[];
+}
+
+const list = Astro.props.characters.filter((c) => c.looks?.length);
+---
+
+{list.map((character) => {
+  const looks = character.looks!;
+  return (
+    <dialog class="cdialog" data-character-dialog={character.slug} aria-labelledby={`cdialog-title-${character.slug}`}>
+      <div class="cdialog__panel">
+        <button class="cdialog__close" type="button" data-close aria-label="Fermer">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" /></svg>
+        </button>
+
+        <header class="cdialog__head">
+          <h2 class="cdialog__title" id={`cdialog-title-${character.slug}`}>{character.name}</h2>
+          <p class="cdialog__sub hand">
+            {looks.length > 1 ? `${looks.length} personnages, ${looks.length} familles… et toujours la même tête !` : character.tagline}
+          </p>
+        </header>
+
+        <div class="cdialog__stage">
+          <button class="cdialog__arrow cdialog__arrow--prev" type="button" data-prev aria-label="Personnage précédent">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+
+          <ul class="cdialog__track" data-track>
+            {looks.map((look, i) => {
+              const family = families[look.family];
+              return (
+                <li class="cdialog__slide" aria-label={`${i + 1} sur ${looks.length} : famille ${family.name}`}>
+                  <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
+                  <p class="cdialog__family" style={`--c: var(--${family.color})`}>
+                    <span class="cdialog__family-label">Famille</span>
+                    <strong>{family.name}</strong>
+                    {look.role && <span>{look.role}</span>}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+
+          <button class="cdialog__arrow cdialog__arrow--next" type="button" data-next aria-label="Personnage suivant">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+        </div>
+
+        {looks.length > 1 && (
+          <ul class="cdialog__thumbs">
+            {looks.map((look, i) => (
+              <li>
+                <button type="button" class="cdialog__thumb" data-goto={i} style={`--c: var(--${families[look.family].color})`} aria-label={`Famille ${families[look.family].name}`}>
+                  <CharacterPortrait look={look} alt="" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </dialog>
+  );
+})}
+
+<script>
+  const dialogs = new Map<string, HTMLDialogElement>();
+  document.querySelectorAll<HTMLDialogElement>('[data-character-dialog]').forEach((dialog) => {
+    dialogs.set(dialog.dataset.characterDialog!, dialog);
+
+    const track = dialog.querySelector<HTMLElement>('[data-track]')!;
+    const slides = [...track.children] as HTMLElement[];
+    const thumbs = [...dialog.querySelectorAll<HTMLButtonElement>('[data-goto]')];
+    const prev = dialog.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = dialog.querySelector<HTMLButtonElement>('[data-next]')!;
+    let index = 0;
+
+    const goTo = (i: number, smooth = true) => {
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: slides[index].offsetLeft, behavior: smooth ? 'smooth' : 'auto' });
+      render();
+    };
+    const render = () => {
+      thumbs.forEach((t, i) => t.setAttribute('aria-current', String(i === index)));
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+    };
+
+    prev.addEventListener('click', () => goTo(index - 1));
+    next.addEventListener('click', () => goTo(index + 1));
+    thumbs.forEach((t) => t.addEventListener('click', () => goTo(Number(t.dataset.goto))));
+    track.addEventListener(
+      'scroll',
+      () => {
+        const i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i !== index) {
+          index = i;
+          render();
+        }
+      },
+      { passive: true },
+    );
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goTo(index - 1);
+      if (e.key === 'ArrowRight') goTo(index + 1);
+    });
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    // Clic sur le fond (hors panneau) = fermeture
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => (document.body.style.overflow = ''));
+    dialog.addEventListener('open-at-start', () => goTo(0, false));
+    render();
+  });
+
+  const open = (slug: string) => {
+    const dialog = dialogs.get(slug);
+    if (!dialog) return false;
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+    dialog.dispatchEvent(new Event('open-at-start'));
+    return true;
+  };
+
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-character-open]');
+    if (trigger && open(trigger.dataset.characterOpen!)) e.preventDefault();
+  });
+
+  // Lien direct /personnages#dim → ouvre la fiche
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (hash) open(hash);
+</script>
+
+<style>
+  .cdialog {
+    width: min(760px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    padding: 0;
+    border: var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    overflow: hidden;
+  }
+  .cdialog::backdrop {
+    background: rgb(22 20 18 / 0.55);
+    backdrop-filter: blur(3px);
+  }
+  .cdialog[open] {
+    animation: dialog-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+    }
+  }
+  .cdialog__panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 28px);
+    padding: clamp(18px, 3vw, 28px);
+    overflow-y: auto;
+  }
+  .cdialog__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: var(--border);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .cdialog__close:hover {
+    background: var(--yellow);
+  }
+  .cdialog__head {
+    padding-right: 52px;
+  }
+  .cdialog__title {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+  }
+  .cdialog__sub {
+    margin-top: 4px;
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    transform: rotate(-1deg);
+  }
+  .cdialog__stage {
+    position: relative;
+    margin-top: 16px;
+  }
+  .cdialog__track {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .cdialog__track::-webkit-scrollbar {
+    display: none;
+  }
+  .cdialog__slide {
+    position: relative;
+    flex: 0 0 100%;
+    display: grid;
+    place-items: center;
+    scroll-snap-align: center;
+  }
+  .cdialog__slide img {
+    width: auto;
+    height: min(50dvh, 480px);
+    object-fit: contain;
+  }
+  .cdialog__family {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 14px;
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--c);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-2deg);
+    line-height: 1.1;
+  }
+  .cdialog__family-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .cdialog__family strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+  .cdialog__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: var(--border);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease;
+  }
+  .cdialog__arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .cdialog__arrow--prev {
+    left: -12px;
+  }
+  .cdialog__arrow--next {
+    right: -12px;
+  }
+  .cdialog__thumbs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cdialog__thumb {
+    display: block;
+    width: 64px;
+    padding: 0;
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--c);
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cdialog__thumb:hover {
+    opacity: 0.85;
+  }
+  .cdialog__thumb[aria-current='true'] {
+    opacity: 1;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 0 var(--c), 0 5px 0 2px var(--ink);
+  }
+  @media (max-width: 560px) {
+    .cdialog__arrow {
+      display: none;
+    }
+    .cdialog__slide img {
+      height: min(50dvh, 460px);
+    }
+    .cdialog__thumb {
+      width: 56px;
+    }
+  }
+</style>

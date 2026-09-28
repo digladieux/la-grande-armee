@@ -1,25 +1,39 @@
 import type { PaletteColor } from './theme';
+import type { FamilyId } from './families';
+import type { Crop } from '@/lib/crop';
 
 /**
  * Personnages de La Grande Armée.
  *
- * Pour ajouter / modifier un personnage : éditer ce tableau uniquement.
- * Pour afficher une vraie illustration : déposer un PNG détouré (fond transparent)
- * dans public/images/personnages/ puis renseigner `image`, ex. 'images/personnages/le-fetard.png'.
- * Sans `image`, une silhouette provisoire est affichée.
+ * Un personnage = un copain. Il peut « incarner » plusieurs personnages du jeu,
+ * un par famille : ce sont ses `looks`.
  *
- * ⚠️ FAUX PERSONNAGES PROVISOIRES — à remplacer par les vrais personnages de l'artiste.
+ * Ajouter un look :
+ *  1. déposer l'illustration dans public/images/personnages/<copain>/<famille>.png
+ *     (noms de fichiers sans accents ni espaces) ;
+ *  2. ajouter une entrée dans `looks` avec la famille et le cadrage `bust`
+ *     (centre cx/cy en % de l'image + zoom) utilisé pour les vignettes tête + buste.
+ *
+ * Les copains sans `looks` sont de FAUX PERSONNAGES PROVISOIRES (silhouettes SVG).
  */
+export interface Look {
+  family: FamilyId;
+  /** Chemin relatif à /public, sans slash initial. */
+  image: string;
+  /** Rôle dans la famille (le père, le cousin…). */
+  role?: string;
+  bust: Crop;
+}
+
 export interface Character {
   slug: string;
   name: string;
-  tagline: string;
+  tagline?: string;
   color: PaletteColor;
-  /** Chemin relatif à /public, sans slash initial. */
-  image?: string;
-  /** Familles du jeu où il apparaît (Ludick, Bouffetout, Botéfragile, Gaulois…). */
-  families?: string[];
-  /** Réglages de la silhouette provisoire. */
+  looks?: Look[];
+  /** PNG détouré (fond transparent) pour les compositions de groupe (hero). */
+  cutout?: string;
+  /** Réglages de la silhouette provisoire (utilisée tant qu'il n'y a pas de `cutout`). */
   placeholder?: {
     hair?: 'short' | 'spiky' | 'bald' | 'long';
     cap?: boolean;
@@ -31,7 +45,19 @@ export interface Character {
 }
 
 export const characters: Character[] = [
-  { slug: 'gege', name: 'Gégé', tagline: 'Personnage provisoire.', color: 'coral', placeholder: { hair: 'short', glasses: true }, featured: true },
+  {
+    slug: 'dim',
+    name: 'Dim',
+    color: 'blue',
+    placeholder: { hair: 'short', glasses: true, beard: true },
+    featured: true,
+    looks: [
+      { family: 'botefragile', image: 'images/personnages/dim/botefragile.png', bust: { cx: 50, cy: 33, zoom: 2.4 } },
+      { family: 'izi-karate', image: 'images/personnages/dim/izikarate.png', bust: { cx: 51, cy: 36, zoom: 2 } },
+      { family: 'gaulois', image: 'images/personnages/dim/gaulois.png', bust: { cx: 52, cy: 40, zoom: 1.8 } },
+      { family: 'branquignol', image: 'images/personnages/dim/branquignol.png', bust: { cx: 46, cy: 71, zoom: 2.3 } },
+    ],
+  },
   { slug: 'dede', name: 'Dédé', tagline: 'Personnage provisoire.', color: 'blue', placeholder: { hair: 'bald', beard: true }, featured: true },
   { slug: 'lulu', name: 'Lulu', tagline: 'Personnage provisoire.', color: 'yellow', placeholder: { hair: 'spiky' }, featured: true },
   { slug: 'momo', name: 'Momo', tagline: 'Personnage provisoire.', color: 'orange', placeholder: { hair: 'short', beard: true }, featured: true },

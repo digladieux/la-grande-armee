@@ -1,6 +1,7 @@
 ---
 import type { Character } from '@/data/characters';
 import CharacterCarousel from '@/components/characters/CharacterCarousel.astro';
+import CharacterDialogs from '@/components/characters/CharacterDialogs.astro';
 import CTA from '@/components/ui/CTA.astro';
 import Annotation from '@/components/ui/Annotation.astro';
 
@@ -24,6 +25,8 @@ const { characters } = Astro.props;
   <div class="container band__foot">
     <CTA href="/personnages" variant="accent">Voir tous les personnages</CTA>
   </div>
+
+  <CharacterDialogs characters={characters} />
 </section>
 
 <style>
