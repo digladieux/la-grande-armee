@@ -11,6 +11,7 @@ import { useMemo, useState } from 'preact/hooks';
 import type { PosterState, RosterEntry, Selection } from './types';
 import { BACKGROUNDS, FORMATS, FRAMES, MAX_CHARACTERS, UPCOMING_ACCESSORIES } from './types';
 import PosterCanvas from './PosterCanvas';
+import Standee from './Standee';
 import './configurator.css';
 
 interface Props {
@@ -107,6 +108,17 @@ export default function PosterConfigurator({ roster }: Props) {
               {current && (
                 <div class="pc__showcase" style={{ '--c': `var(--${current.looks[currentLook].familyColor})` }}>
                   <div class="pc__pedestal" aria-hidden="true" />
+                  {current.looks[currentLook].cutout ? (
+                    <div key={`${current.slug}-${currentLook}`} class="pc__hero">
+                      <Standee
+                        src={current.looks[currentLook].cutout!}
+                        alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
+                        color={current.looks[currentLook].familyColor}
+                        familyName={current.looks[currentLook].familyName}
+                        walk={current.looks[currentLook].animation === 'walk'}
+                      />
+                    </div>
+                  ) : (
                   <div key={`${current.slug}-${currentLook}`} class="pc__hero">
                     <img
                       class={`pc__hero-img ${current.looks[currentLook].animation ? `anim-${current.looks[currentLook].animation}` : 'is-idle'}`}
@@ -114,6 +126,7 @@ export default function PosterConfigurator({ roster }: Props) {
                       alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
                     />
                   </div>
+                  )}
                   <div class="pc__showcase-info">
                     <h3 class="pc__name">{current.name}</h3>
                     <div class="pc__switch">

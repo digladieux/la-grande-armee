@@ -8,6 +8,8 @@ export interface RosterLook {
   /** Transform CSS du cadrage tête + buste (voir lib/crop.ts). */
   bust: string;
   animation?: 'walk';
+  /** URL du PNG détouré (figurine en carton). */
+  cutout?: string;
 }
 
 export interface RosterEntry {

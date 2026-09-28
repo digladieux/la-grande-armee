@@ -655,3 +655,97 @@
     animation: none;
   }
 }
+
+/* ═══ Figurine en carton (Standee.tsx) ═══ */
+.standee {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+.standee__walk {
+  height: 250px;
+}
+.standee__body {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline-offset: 6px;
+}
+.standee__body:active {
+  cursor: grabbing;
+}
+.standee__body.is-animating {
+  transition: transform 0.7s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.standee__front {
+  position: relative;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  filter: drop-shadow(0 0 0.6px rgb(0 0 0 / 0.4));
+}
+.standee__edge,
+.standee__back {
+  position: absolute;
+  inset: 0;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+.standee__edge {
+  background: #b68a58;
+}
+.standee__back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background:
+    repeating-linear-gradient(88deg, rgb(0 0 0 / 0.035) 0 2px, transparent 2px 7px),
+    radial-gradient(ellipse at 40% 30%, #dcb989, #c89b64 70%);
+}
+.standee__stamp {
+  /* Placé sur le torse (coordonnées avant le miroir du dos) */
+  position: absolute;
+  left: var(--stamp-x, 56%);
+  top: var(--stamp-y, 36%);
+  display: grid;
+  justify-items: center;
+  padding: 4px 7px;
+  border: 2px solid rgb(22 20 18 / 0.7);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--c) 55%, transparent);
+  color: rgb(22 20 18 / 0.78);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  line-height: 0.95;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%) scaleX(-1) rotate(-5deg);
+  mix-blend-mode: multiply;
+}
+.standee__stamp small {
+  margin-top: 2px;
+  font-family: var(--font-hand);
+  font-size: 0.8rem;
+  text-transform: none;
+}
+.standee__hint {
+  margin-top: 4px;
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transform: rotate(-2deg);
+}
+@media (max-width: 520px) {
+  .standee__walk {
+    height: 210px;
+  }
+}
