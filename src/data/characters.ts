@@ -292,6 +292,13 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 37, zoom: 1.9 },
         cutout: 'images/personnages/laurent/izikarate-cutout.png',
       },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/laurent/branquignol-blanc.png',
+        whiteBg: true,
+        bust: { cx: 42, cy: 45, zoom: 2 },
+        cutout: 'images/personnages/laurent/branquignol-cutout.png',
+      },
     ],
   },
   {
@@ -360,6 +367,13 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 49, cy: 39, zoom: 2 },
         cutout: 'images/personnages/petit/gaulois-cutout.png',
+      },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/petit/branquignol-blanc.png',
+        whiteBg: true,
+        bust: { cx: 51, cy: 39, zoom: 1.9 },
+        cutout: 'images/personnages/petit/branquignol-cutout.png',
       },
     ],
   },
