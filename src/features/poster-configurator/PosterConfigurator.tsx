@@ -107,12 +107,13 @@ export default function PosterConfigurator({ roster }: Props) {
               {current && (
                 <div class="pc__showcase" style={{ '--c': `var(--${current.looks[currentLook].familyColor})` }}>
                   <div class="pc__pedestal" aria-hidden="true" />
-                  <img
-                    key={`${current.slug}-${currentLook}`}
-                    class="pc__hero-img"
-                    src={current.looks[currentLook].image}
-                    alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
-                  />
+                  <div key={`${current.slug}-${currentLook}`} class="pc__hero">
+                    <img
+                      class={`pc__hero-img ${current.looks[currentLook].animation ? `anim-${current.looks[currentLook].animation}` : 'is-idle'}`}
+                      src={current.looks[currentLook].image}
+                      alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
+                    />
+                  </div>
                   <div class="pc__showcase-info">
                     <h3 class="pc__name">{current.name}</h3>
                     <div class="pc__switch">

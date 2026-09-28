@@ -7,6 +7,7 @@ export interface RosterLook {
   image: string;
   /** Transform CSS du cadrage tête + buste (voir lib/crop.ts). */
   bust: string;
+  animation?: 'walk';
 }
 
 export interface RosterEntry {

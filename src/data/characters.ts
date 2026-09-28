@@ -23,6 +23,8 @@ export interface Look {
   /** Rôle dans la famille (le père, le cousin…). */
   role?: string;
   bust: Crop;
+  /** Animation légère appliquée à l'illustration (voir .anim-* dans global.css). */
+  animation?: 'walk';
 }
 
 export interface Character {
@@ -52,7 +54,7 @@ export const characters: Character[] = [
     placeholder: { hair: 'short', glasses: true, beard: true },
     featured: true,
     looks: [
-      { family: 'botefragile', image: 'images/personnages/dim/botefragile.png', bust: { cx: 50, cy: 33, zoom: 2.4 } },
+      { family: 'botefragile', image: 'images/personnages/dim/botefragile.png', bust: { cx: 50, cy: 33, zoom: 2.4 }, animation: 'walk' },
       { family: 'izi-karate', image: 'images/personnages/dim/izikarate.png', bust: { cx: 51, cy: 36, zoom: 2 } },
       { family: 'gaulois', image: 'images/personnages/dim/gaulois.png', bust: { cx: 52, cy: 40, zoom: 1.8 } },
       { family: 'branquignol', image: 'images/personnages/dim/branquignol.png', bust: { cx: 46, cy: 71, zoom: 2.3 } },

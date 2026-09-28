@@ -18,6 +18,7 @@ const roster: RosterEntry[] = [...characters]
       familyColor: families[l.family].color,
       image: url(`/${l.image}`),
       bust: cropTransform(l.bust),
+      animation: l.animation,
     })),
   }));
 ---

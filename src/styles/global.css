@@ -179,3 +179,16 @@ p {
   background: linear-gradient(transparent 58%, var(--mark, var(--yellow)) 58% 92%, transparent 92%);
   padding-inline: 0.08em;
 }
+
+/* ─── Animations de personnages (2D, une seule image) ─────── */
+/* Marche sur place : rebond à chaque pas + léger balancement + tassement au contact. */
+.anim-walk {
+  transform-origin: 50% 88%;
+  animation: walk-in-place 0.95s ease-in-out infinite;
+}
+@keyframes walk-in-place {
+  0%, 100% { transform: translateY(0) rotate(-1.2deg) scale(1.01, 0.985); }
+  25%      { transform: translateY(-2.2%) rotate(0deg) scale(0.995, 1.01); }
+  50%      { transform: translateY(0) rotate(1.2deg) scale(1.01, 0.985); }
+  75%      { transform: translateY(-2.2%) rotate(0deg) scale(0.995, 1.01); }
+}

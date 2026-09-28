@@ -43,7 +43,7 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
               const family = families[look.family];
               return (
                 <li class="cdialog__slide" aria-label={`${i + 1} sur ${looks.length} : famille ${family.name}`}>
-                  <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
+                  <img class:list={[look.animation && `anim-${look.animation}`]} src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
                   <p class="cdialog__family" style={`--c: var(--${family.color})`}>
                     <span class="cdialog__family-label">Famille</span>
                     <strong>{family.name}</strong>
