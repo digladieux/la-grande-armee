@@ -1,0 +1,70 @@
+---
+import type { Character } from '@/data/characters';
+import CharacterFigure from './CharacterFigure.astro';
+import { url } from '@/lib/url';
+
+interface Props {
+  character: Character;
+  /** Affiche la petite phrase sous le nom. */
+  showTagline?: boolean;
+}
+
+const { character, showTagline = false } = Astro.props;
+---
+
+<a class="card" href={url(`/personnages#${character.slug}`)} style={`--card-bg: var(--${character.color})`}>
+  <div class="card__art">
+    <CharacterFigure character={character} />
+  </div>
+  <div class="card__body">
+    <h3 class="card__name">{character.name}</h3>
+    {showTagline && <p class="card__tagline">{character.tagline}</p>}
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translate(-3px, -3px) rotate(-0.6deg);
+    box-shadow: var(--shadow);
+  }
+  .card__art {
+    aspect-ratio: 4 / 5;
+    padding: 18px 14px 0;
+    background:
+      radial-gradient(circle at 50% 38%, rgb(255 255 255 / 0.55) 0 30%, transparent 31%),
+      var(--card-bg);
+    border-bottom: var(--border);
+    overflow: hidden;
+  }
+  .card__art :global(.figure) {
+    transition: transform 0.25s ease;
+    transform-origin: bottom center;
+  }
+  .card:hover .card__art :global(.figure) {
+    transform: scale(1.04);
+  }
+  .card__body {
+    padding: 14px 16px 16px;
+    text-align: center;
+  }
+  .card__name {
+    font-size: 1.35rem;
+  }
+  .card__tagline {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--ink-soft);
+  }
+</style>

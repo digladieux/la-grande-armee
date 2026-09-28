@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><clipPath id="c"><rect width="64" height="64" rx="14"/></clipPath></defs>
+  <g clip-path="url(#c)">
+    <g transform="rotate(-45 32 32)">
+      <rect x="-40" y="-40" width="144" height="12" fill="#93cd8f"/><rect x="-40" y="-28" width="144" height="12" fill="#f6a48e"/>
+      <rect x="-40" y="-16" width="144" height="12" fill="#fbf2c8"/><rect x="-40" y="-4" width="144" height="12" fill="#c7a4f3"/>
+      <rect x="-40" y="8" width="144" height="12" fill="#f8df7e"/><rect x="-40" y="20" width="144" height="12" fill="#f8b46a"/>
+      <rect x="-40" y="32" width="144" height="12" fill="#a8d4f2"/><rect x="-40" y="44" width="144" height="12" fill="#93cd8f"/>
+      <rect x="-40" y="56" width="144" height="12" fill="#f6a48e"/><rect x="-40" y="68" width="144" height="12" fill="#fbf2c8"/>
+    </g>
+    <text x="32" y="46" text-anchor="middle" font-family="Impact, Anton, sans-serif" font-size="36" fill="#161412">GA</text>
+  </g>
+</svg>

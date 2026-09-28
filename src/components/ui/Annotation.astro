@@ -1,0 +1,62 @@
+---
+/**
+ * Petite annotation manuscrite avec flèche dessinée.
+ * `arrow` indique la direction dans laquelle pointe la flèche.
+ */
+interface Props {
+  arrow?: 'down-left' | 'down-right' | 'left' | 'right' | 'none';
+  rotate?: number;
+  class?: string;
+}
+const { arrow = 'down-left', rotate = -4, class: className } = Astro.props;
+---
+
+<span class:list={['annotation', `annotation--${arrow}`, className]} style={`--rot:${rotate}deg`} aria-hidden="true">
+  <span class="annotation__text"><slot /></span>
+  {arrow !== 'none' && (
+    <svg class="annotation__arrow" viewBox="0 0 60 50" width="46" height="38">
+      <path d="M6 6 C 10 26, 24 38, 50 42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+      <path d="M40 34 L 51 42 L 39 47" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )}
+</span>
+
+<style>
+  .annotation {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    line-height: 1;
+    color: var(--ink);
+    transform: rotate(var(--rot));
+    pointer-events: none;
+  }
+  .annotation__text {
+    white-space: nowrap;
+  }
+  /* Flèche par défaut : pointe vers le bas-droite */
+  .annotation--down-left {
+    align-items: flex-end;
+  }
+  .annotation--down-left .annotation__arrow {
+    transform: scaleX(-1);
+  }
+  .annotation--left,
+  .annotation--right {
+    flex-direction: row;
+    align-items: center;
+  }
+  .annotation--left {
+    flex-direction: row-reverse;
+  }
+  .annotation--left .annotation__arrow {
+    transform: scaleX(-1) rotate(-30deg);
+  }
+  .annotation--right .annotation__arrow {
+    transform: rotate(-30deg);
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import QuizTeaser from '@/components/home/QuizTeaser.astro';
+import BandSection from '@/components/home/BandSection.astro';
+import PosterSection from '@/components/home/PosterSection.astro';
+import ShopTeaser from '@/components/home/ShopTeaser.astro';
+import { characters, featuredCharacters } from '@/data/characters';
+import { teaserProducts } from '@/data/products';
+
+const pick = (slug: string) => characters.find((c) => c.slug === slug) ?? characters[0];
+---
+
+<BaseLayout>
+  <Hero characters={featuredCharacters} />
+  <QuizTeaser character={pick('jojo')} />
+  <BandSection characters={featuredCharacters} />
+  <PosterSection character={pick('momo')} secondary={pick('titi')} />
+  <ShopTeaser products={teaserProducts} />
+</BaseLayout>

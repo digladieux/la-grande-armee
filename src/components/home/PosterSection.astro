@@ -1,0 +1,159 @@
+---
+import type { Character } from '@/data/characters';
+import PosterPreview from '@/components/ui/PosterPreview.astro';
+import CTA from '@/components/ui/CTA.astro';
+import Annotation from '@/components/ui/Annotation.astro';
+import Doodle from '@/components/ui/Doodle.astro';
+
+interface Props {
+  character: Character;
+  /** Personnage de l'affiche en arrière-plan. */
+  secondary: Character;
+}
+const { character, secondary } = Astro.props;
+
+const steps = [
+  { title: 'Choisis ton personnage', color: 'yellow' },
+  { title: 'Personnalise son style', color: 'coral' },
+  { title: 'Ajoute ses accessoires', color: 'green' },
+  { title: 'Reçois ton affiche unique', color: 'blue' },
+];
+---
+
+<section class="section poster-section">
+  <div class="container poster-section__grid">
+    <div class="poster-section__text">
+      <span class="eyebrow">Sur mesure</span>
+      <h2 class="title-lg">Crée ton affiche personnalisée</h2>
+      <p class="lead">
+        Choisis ton personnage, son style et ses accessoires, puis compose une affiche unique à ton image — prête à
+        encadrer, à offrir ou à accrocher au-dessus du canapé.
+      </p>
+
+      <ol class="steps">
+        {steps.map((step, i) => (
+          <li class="step" style={`--c: var(--${step.color})`}>
+            <span class="step__num">{i + 1}</span>
+            <span>{step.title}</span>
+          </li>
+        ))}
+      </ol>
+
+      <CTA href="/creer-mon-affiche">Créer mon affiche</CTA>
+    </div>
+
+    <div class="poster-section__visual">
+      <div class="poster-section__blob stripes" aria-hidden="true"></div>
+      <PosterPreview class="poster-section__back" character={secondary} title="Les Copains" frame="black" />
+      <PosterPreview class="poster-section__front" character={character} title="La Team Dupont" subtitle="Édition barbecue" frame="wood" />
+      <Annotation class="poster-section__note" arrow="down-left" rotate={6}>Ton affiche, ta vibe !</Annotation>
+      <Doodle class="poster-section__spark" shape="sparkle" size={40} color="var(--coral)" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .poster-section__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(40px, 6vw, 88px);
+  }
+  .poster-section__text {
+    display: grid;
+    justify-items: start;
+    gap: 20px;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    margin: 4px 0 12px;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px 10px 10px;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--paper);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+  .step__num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: var(--border);
+    border-radius: 50%;
+    background: var(--c);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+  .poster-section__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 480px;
+  }
+  .poster-section__blob {
+    position: absolute;
+    inset: 8% 6%;
+    border: var(--border);
+    border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%;
+    background-size: 160% 160%;
+    opacity: 0.9;
+  }
+  :global(.poster-section__back) {
+    position: absolute;
+    width: 44%;
+    left: 4%;
+    top: 4%;
+    transform: rotate(-8deg);
+  }
+  :global(.poster-section__front) {
+    position: relative;
+    width: 58%;
+    margin-left: 22%;
+    transform: rotate(3deg);
+    transition: transform 0.3s ease;
+  }
+  .poster-section__visual:hover :global(.poster-section__front) {
+    transform: rotate(1deg) translateY(-6px);
+  }
+  :global(.poster-section__note) {
+    position: absolute;
+    right: 0;
+    top: -2%;
+  }
+  :global(.poster-section__spark) {
+    position: absolute;
+    left: 10%;
+    bottom: 6%;
+  }
+  @media (max-width: 900px) {
+    .poster-section__grid {
+      grid-template-columns: 1fr;
+    }
+    .poster-section__visual {
+      min-height: 0;
+      padding-block: 24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+    :global(.poster-section__note) {
+      right: 4%;
+      top: 0;
+    }
+  }
+</style>

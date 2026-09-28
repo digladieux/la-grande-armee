@@ -1,0 +1,227 @@
+---
+import Logo from './Logo.astro';
+import { mainNav } from '@/data/navigation';
+import { url, isActive } from '@/lib/url';
+
+const current = Astro.url.pathname;
+---
+
+<header class="header" data-header>
+  <div class="header__inner container">
+    <Logo />
+
+    <nav class="nav" id="main-nav" aria-label="Navigation principale" data-nav>
+      <ul class="nav__list">
+        {mainNav.map((item) => {
+          const active = isActive(current, item.href);
+          return (
+            <li>
+              <a href={url(item.href)} class:list={['nav__link', { 'is-active': active }]} aria-current={active ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="nav__note hand" aria-hidden="true">Bienvenue dans la bande !</p>
+    </nav>
+
+    <div class="header__actions">
+      <a href={url('/boutique')} class="icon-btn" aria-label="Panier (bientôt disponible)">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <button class="icon-btn burger" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Ouvrir le menu" data-burger>
+        <span class="burger__bar"></span>
+        <span class="burger__bar"></span>
+        <span class="burger__bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+
+  const setOpen = (open: boolean) => {
+    if (!burger || !header) return;
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    header.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  burger?.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+  nav?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  window.matchMedia('(min-width: 961px)').addEventListener('change', (e) => e.matches && setOpen(false));
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 252 244 / 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .header.is-scrolled {
+    border-bottom-color: var(--ink);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: var(--header-h);
+  }
+  .nav__list {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 30px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nav__link {
+    position: relative;
+    padding-block: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    bottom: 0;
+    height: 7px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C 25 1, 50 7, 98 3' fill='none' stroke='%23161412' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav__link:hover::after,
+  .nav__link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav__note {
+    display: none;
+  }
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .icon-btn:hover {
+    background: var(--cream);
+  }
+  .burger {
+    display: none;
+    gap: 5px;
+    align-content: center;
+  }
+  .burger__bar {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  @media (max-width: 960px) {
+    /* backdrop-filter créerait un bloc conteneur pour le menu en position fixed */
+    .header {
+      background: var(--paper);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .burger {
+      display: grid;
+    }
+    .nav {
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px var(--gutter) 40px;
+      overflow: hidden auto;
+      background: var(--paper);
+      border-top: var(--border);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    }
+    .nav::before {
+      content: '';
+      position: absolute;
+      right: -60px;
+      bottom: -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: var(--stripes);
+      opacity: 0.9;
+      z-index: -1;
+    }
+    .is-open .nav {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+    .nav__list {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .nav__link {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 9vw, 2.6rem);
+      font-weight: 400;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .nav__note {
+      display: block;
+      font-size: 1.6rem;
+      transform: rotate(-3deg);
+    }
+    .is-open .burger__bar:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+    .is-open .burger__bar:nth-child(2) {
+      opacity: 0;
+    }
+    .is-open .burger__bar:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+  }
+</style>

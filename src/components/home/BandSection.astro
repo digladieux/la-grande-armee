@@ -1,0 +1,55 @@
+---
+import type { Character } from '@/data/characters';
+import CharacterCarousel from '@/components/characters/CharacterCarousel.astro';
+import CTA from '@/components/ui/CTA.astro';
+import Annotation from '@/components/ui/Annotation.astro';
+
+interface Props {
+  characters: Character[];
+}
+const { characters } = Astro.props;
+---
+
+<section class="section band" id="la-bande">
+  <div class="container band__head">
+    <div>
+      <span class="eyebrow">Les personnages</span>
+      <h2 class="title-lg">Découvre la bande</h2>
+    </div>
+    <Annotation class="band__note" arrow="down-left" rotate={-5}>des têtes qui te disent quelque chose…</Annotation>
+  </div>
+
+  <CharacterCarousel characters={characters} label="Aperçu des personnages" />
+
+  <div class="container band__foot">
+    <CTA href="/personnages" variant="accent">Voir tous les personnages</CTA>
+  </div>
+</section>
+
+<style>
+  .band {
+    background: var(--paper-2);
+    border-block: var(--border);
+  }
+  .band__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    margin-bottom: clamp(20px, 3vw, 36px);
+  }
+  .band__head .eyebrow {
+    margin-bottom: 10px;
+  }
+  .band__foot {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  @media (max-width: 640px) {
+    .band__head :global(.band__note) {
+      display: none;
+    }
+  }
+</style>

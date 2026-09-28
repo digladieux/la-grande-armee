@@ -1,0 +1,98 @@
+---
+/**
+ * Gabarit des pages internes (V1 = coquilles).
+ * Le contenu réel viendra remplacer le bloc « Contenu à venir » via le slot par défaut.
+ */
+import BaseLayout from './BaseLayout.astro';
+import CTA from '@/components/ui/CTA.astro';
+import Doodle from '@/components/ui/Doodle.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+  accent?: 'yellow' | 'coral' | 'green' | 'purple' | 'blue' | 'orange';
+  description?: string;
+}
+
+const { title, eyebrow, intro, accent = 'yellow', description } = Astro.props;
+const hasContent = Astro.slots.has('default');
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="page-hero" style={`--accent: var(--${accent})`}>
+    <div class="page-hero__stripes stripes" aria-hidden="true"></div>
+    <div class="container page-hero__inner">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1 class="title-lg">
+        <span class="mark" style="--mark: var(--accent)">{title}</span>
+      </h1>
+      {intro && <p class="lead">{intro}</p>}
+      <Doodle class="page-hero__doodle" shape="sparkle" size={52} color="var(--accent)" />
+    </div>
+  </section>
+
+  <section class="container page-body">
+    {hasContent ? (
+      <slot />
+    ) : (
+      <div class="coming-soon">
+        <p class="coming-soon__hand hand">Ça se prépare en coulisses…</p>
+        <h2 class="title-md">Contenu à venir</h2>
+        <p>La bande est en train de dessiner cette page. Revenez très vite !</p>
+        <CTA href="/" variant="secondary">Retour à l'accueil</CTA>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    padding-block: clamp(56px, 9vw, 104px) clamp(40px, 6vw, 64px);
+    overflow: hidden;
+  }
+  .page-hero__stripes {
+    position: absolute;
+    top: -40px;
+    right: -120px;
+    width: min(46vw, 520px);
+    height: calc(100% + 80px);
+    transform: skewX(-18deg);
+    opacity: 0.85;
+    mask-image: linear-gradient(to left, #000 40%, transparent);
+    -webkit-mask-image: linear-gradient(to left, #000 40%, transparent);
+  }
+  .page-hero__inner {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+  :global(.page-hero__doodle) {
+    position: absolute;
+    top: -24px;
+    right: var(--gutter);
+  }
+  .page-body {
+    padding-bottom: var(--section-y);
+  }
+  .coming-soon {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: clamp(48px, 8vw, 96px) 24px;
+    border: 2px dashed var(--ink);
+    border-radius: var(--radius);
+    background: var(--paper-2);
+    text-align: center;
+  }
+  .coming-soon__hand {
+    font-size: 1.6rem;
+    transform: rotate(-3deg);
+  }
+  .coming-soon p:not(.coming-soon__hand) {
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+</style>

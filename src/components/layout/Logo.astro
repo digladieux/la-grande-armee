@@ -1,0 +1,56 @@
+---
+import { url } from '@/lib/url';
+
+interface Props {
+  size?: 'sm' | 'lg';
+  inverted?: boolean;
+}
+const { size = 'sm', inverted = false } = Astro.props;
+---
+
+<a href={url('/')} class:list={['logo', `logo--${size}`, { 'logo--inverted': inverted }]} aria-label="La Grande Armée — accueil">
+  <span class="logo__line">La Grande</span>
+  <span class="logo__line logo__line--big">Armée</span>
+  <span class="logo__stripe stripes" aria-hidden="true"></span>
+</a>
+
+<style>
+  .logo {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: var(--font-display);
+    line-height: 0.86;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    transform: rotate(-3deg);
+  }
+  .logo--inverted {
+    color: var(--paper);
+  }
+  .logo__line {
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+  }
+  .logo__line--big {
+    font-size: 1.6rem;
+  }
+  .logo__stripe {
+    width: 100%;
+    height: 5px;
+    margin-top: 3px;
+    border-radius: 3px;
+    background-size: 60px 60px;
+  }
+  .logo--lg .logo__line {
+    font-size: 1.6rem;
+  }
+  .logo--lg .logo__line--big {
+    font-size: 2.8rem;
+  }
+  .logo--lg .logo__stripe {
+    height: 8px;
+  }
+</style>

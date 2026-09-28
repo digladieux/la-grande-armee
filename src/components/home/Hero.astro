@@ -1,0 +1,239 @@
+---
+/**
+ * Hero de la home : titre + composition de groupe des personnages.
+ * Les personnages se chevauchent, avec des tailles différentes, devant une
+ * « affiche » à bandes diagonales. Sur mobile, les deux extrémités sont masquées.
+ */
+import type { Character } from '@/data/characters';
+import CharacterFigure from '@/components/characters/CharacterFigure.astro';
+import CTA from '@/components/ui/CTA.astro';
+import Annotation from '@/components/ui/Annotation.astro';
+import Doodle from '@/components/ui/Doodle.astro';
+
+interface Props {
+  characters: Character[];
+}
+
+const { characters } = Astro.props;
+const group = characters.slice(0, 7);
+
+// Échelle + décalage vertical de chaque membre, du bord vers le centre.
+const layout = [
+  { s: 0.8, y: 2, z: 1 },
+  { s: 0.92, y: 0, z: 3 },
+  { s: 0.86, y: 4, z: 2 },
+  { s: 1, y: 0, z: 5 },
+  { s: 0.9, y: 3, z: 4 },
+  { s: 0.95, y: 0, z: 3 },
+  { s: 0.78, y: 2, z: 1 },
+];
+---
+
+<section class="hero">
+  <div class="container hero__intro">
+    <span class="hero__pill">Plus qu'un jeu, une bande de copains</span>
+    <h1 class="hero__title title-xl">
+      La Grande Armée
+      <Doodle class="hero__spark hero__spark--l" shape="sparkle" size={46} color="var(--yellow)" />
+      <Doodle class="hero__spark hero__spark--r" shape="burst" size={44} />
+    </h1>
+    <p class="hero__baseline">La bande de copains qu'on n'a <span class="mark">jamais choisie</span>.</p>
+    <div class="hero__ctas">
+      <CTA href="/creer-mon-affiche">Créer mon affiche</CTA>
+      <CTA href="#la-bande" variant="secondary" arrow={false}>Découvrir la bande</CTA>
+    </div>
+  </div>
+
+  <div class="hero__stage container">
+    <div class="hero__band stripes" aria-hidden="true"></div>
+
+    <Annotation class="hero__note hero__note--1" arrow="down-right" rotate={-6}>7 familles</Annotation>
+    <Annotation class="hero__note hero__note--2" arrow="down-left" rotate={5}>une quinzaine de copains</Annotation>
+    <Annotation class="hero__note hero__note--3" arrow="down-left" rotate={-3}>aucun n'a été choisi !</Annotation>
+
+    <ul class="hero__group" aria-label="La bande">
+      {group.map((character, i) => {
+        const l = layout[i] ?? { s: 0.9, y: 0, z: 1 };
+        return (
+          <li class="hero__member" style={`--s:${l.s}; --y:${l.y}%; --z:${l.z}; --d:${i * 70}ms`}>
+            <CharacterFigure character={character} eager />
+          </li>
+        );
+      })}
+    </ul>
+    <div class="hero__ground" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(40px, 7vw, 80px);
+    overflow: hidden;
+  }
+
+  /* ── Intro ── */
+  .hero__intro {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+  .hero__pill {
+    padding: 6px 16px;
+    border: var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--purple) 40%, var(--paper));
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hero__title {
+    position: relative;
+    max-width: 11ch;
+    line-height: 0.9;
+  }
+  :global(.hero__spark) {
+    position: absolute;
+  }
+  :global(.hero__spark--l) {
+    left: -0.55em;
+    top: -0.1em;
+    transform: rotate(-12deg);
+  }
+  :global(.hero__spark--r) {
+    right: -0.5em;
+    top: -0.25em;
+  }
+  .hero__baseline {
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    line-height: 1.1;
+    transform: rotate(-1.5deg);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  /* ── Scène de groupe ── */
+  .hero__stage {
+    position: relative;
+    margin-top: clamp(24px, 5vw, 56px);
+    padding-top: clamp(40px, 6vw, 70px);
+  }
+  .hero__band {
+    position: absolute;
+    inset: 30% calc(var(--gutter) + 2%) 5%;
+    border: var(--border);
+    border-radius: clamp(20px, 3vw, 36px);
+    background-size: 100% 100%;
+    background-image: repeating-linear-gradient(
+      -50deg,
+      var(--green) 0 7%,
+      var(--coral) 7% 14%,
+      var(--cream) 14% 21%,
+      var(--purple) 21% 28%,
+      var(--yellow) 28% 35%,
+      var(--orange) 35% 42%,
+      var(--blue) 42% 49%
+    );
+    transform: rotate(-1.5deg);
+  }
+  .hero__group {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0 2%;
+    list-style: none;
+  }
+  .hero__member {
+    --n: 7;
+    flex: 0 0 auto;
+    width: calc(100% / var(--n) * 1.32);
+    margin-inline: calc(100% / var(--n) * -0.16);
+    aspect-ratio: 200 / 280;
+    z-index: var(--z);
+    transform: translateY(var(--y)) scale(var(--s));
+    transform-origin: bottom center;
+    animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: var(--d);
+  }
+  .hero__member:hover {
+    animation: wiggle 0.5s ease;
+  }
+  .hero__ground {
+    position: relative;
+    height: 14px;
+    margin: -8px 4% 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 14' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 80 3, 160 12, 240 6 S 360 4, 398 9' fill='none' stroke='%23161412' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  }
+
+  /* ── Annotations ── */
+  :global(.hero__note) {
+    position: absolute;
+    z-index: 6;
+  }
+  :global(.hero__note--1) {
+    left: calc(var(--gutter) + 1%);
+    top: 4%;
+  }
+  :global(.hero__note--2) {
+    right: calc(var(--gutter) + 4%);
+    top: 0;
+  }
+  :global(.hero__note--3) {
+    right: calc(var(--gutter) + 26%);
+    top: 14%;
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--y) + 18%)) scale(calc(var(--s) * 0.9));
+    }
+  }
+  @keyframes wiggle {
+    0%, 100% { rotate: 0deg; }
+    30% { rotate: -3deg; }
+    60% { rotate: 2.5deg; }
+  }
+
+  @media (max-width: 720px) {
+    .hero__member {
+      --n: 5;
+    }
+    .hero__member:first-child,
+    .hero__member:last-child {
+      display: none;
+    }
+    .hero__stage :global(.hero__note--3) {
+      display: none;
+    }
+    :global(.hero__note--1) {
+      top: 0;
+    }
+    .hero__band {
+      inset: 34% var(--gutter) 5%;
+    }
+  }
+  @media (max-width: 420px) {
+    .hero__ctas {
+      flex-direction: column;
+      width: 100%;
+    }
+    :global(.hero__spark--l) {
+      left: -0.3em;
+    }
+    :global(.hero__spark--r) {
+      right: -0.2em;
+    }
+  }
+</style>
