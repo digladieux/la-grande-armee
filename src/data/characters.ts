@@ -300,6 +300,12 @@ export const characters: Character[] = [
         bust: { cx: 54, cy: 37, zoom: 2 },
         cutout: 'images/personnages/coco/joystick-cutout.png',
       },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/coco/bouffetout-blanc.png',
+        bust: { cx: 51, cy: 45, zoom: 2.2 },
+        cutout: 'images/personnages/coco/bouffetout-cutout.png',
+      },
     ],
   },
   {
@@ -358,6 +364,12 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 52, cy: 37, zoom: 1.9 },
         cutout: 'images/personnages/merlot/izikarate-cutout.png',
+      },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/merlot/bouffetout-blanc.png',
+        bust: { cx: 51, cy: 37, zoom: 2 },
+        cutout: 'images/personnages/merlot/bouffetout-cutout.png',
       },
     ],
   },
@@ -468,6 +480,12 @@ export const characters: Character[] = [
         image: 'images/personnages/turquet/joystick-blanc.png',
         bust: { cx: 50, cy: 45, zoom: 1.9 },
         cutout: 'images/personnages/turquet/joystick-cutout.png',
+      },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/turquet/bouffetout-blanc.png',
+        bust: { cx: 50, cy: 36, zoom: 2 },
+        cutout: 'images/personnages/turquet/bouffetout-cutout.png',
       },
     ],
   },
