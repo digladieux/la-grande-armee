@@ -140,6 +140,18 @@ export const characters: Character[] = [
         bust: { cx: 64, cy: 38, zoom: 1.6 },
         cutout: 'images/personnages/guigui/gaulois-cutout.png',
       },
+      {
+        family: 'joystick',
+        image: 'images/personnages/guigui/joystick-blanc.png',
+        bust: { cx: 40, cy: 37, zoom: 1.8 },
+        cutout: 'images/personnages/guigui/joystick-cutout.png',
+      },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/guigui/bouffetout-blanc.png',
+        bust: { cx: 50, cy: 28, zoom: 2 },
+        cutout: 'images/personnages/guigui/bouffetout-cutout.png',
+      },
     ],
   },
   {
@@ -253,6 +265,12 @@ export const characters: Character[] = [
         bust: { cx: 30, cy: 62, zoom: 1.6 },
         cutout: 'images/personnages/aubin/izikarate-cutout.png',
       },
+      {
+        family: 'joystick',
+        image: 'images/personnages/aubin/joystick-blanc.png',
+        bust: { cx: 46, cy: 44, zoom: 2.2 },
+        cutout: 'images/personnages/aubin/joystick-cutout.png',
+      },
     ],
   },
   {
@@ -275,6 +293,12 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 38, cy: 52, zoom: 2 },
         cutout: 'images/personnages/coco/gaulois-cutout.png',
+      },
+      {
+        family: 'joystick',
+        image: 'images/personnages/coco/joystick-blanc.png',
+        bust: { cx: 54, cy: 37, zoom: 2 },
+        cutout: 'images/personnages/coco/joystick-cutout.png',
       },
     ],
   },
@@ -305,6 +329,12 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 42, cy: 45, zoom: 2 },
         cutout: 'images/personnages/laurent/branquignol-cutout.png',
+      },
+      {
+        family: 'joystick',
+        image: 'images/personnages/laurent/joystick-blanc.png',
+        bust: { cx: 55, cy: 39, zoom: 2.2 },
+        cutout: 'images/personnages/laurent/joystick-cutout.png',
       },
     ],
   },
@@ -404,6 +434,12 @@ export const characters: Character[] = [
         bust: { cx: 45, cy: 36, zoom: 2.3 },
         cutout: 'images/personnages/szabo/branquignol-cutout.png',
       },
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/szabo/bouffetout-blanc.png',
+        bust: { cx: 36, cy: 36, zoom: 2 },
+        cutout: 'images/personnages/szabo/bouffetout-cutout.png',
+      },
     ],
   },
   {
@@ -427,6 +463,12 @@ export const characters: Character[] = [
         bust: { cx: 47, cy: 40, zoom: 2 },
         cutout: 'images/personnages/turquet/izikarate-cutout.png',
       },
+      {
+        family: 'joystick',
+        image: 'images/personnages/turquet/joystick-blanc.png',
+        bust: { cx: 50, cy: 45, zoom: 1.9 },
+        cutout: 'images/personnages/turquet/joystick-cutout.png',
+      },
     ],
   },
   {
@@ -449,6 +491,27 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 49, cy: 41, zoom: 1.8 },
         cutout: 'images/personnages/fred/gaulois-cutout.png',
+      },
+      {
+        family: 'ludick',
+        image: 'images/personnages/fred/ludick-blanc.png',
+        bust: { cx: 43, cy: 55, zoom: 2 },
+        cutout: 'images/personnages/fred/ludick-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'hugo',
+    name: 'Hugo',
+    color: 'pink',
+    placeholder: { hair: 'short' },
+    featured: true,
+    looks: [
+      {
+        family: 'joystick',
+        image: 'images/personnages/hugo/joystick-blanc.png',
+        bust: { cx: 42, cy: 50, zoom: 1.8 },
+        cutout: 'images/personnages/hugo/joystick-cutout.png',
       },
     ],
   },

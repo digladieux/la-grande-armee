@@ -7,6 +7,7 @@ export const palette = {
   blue: '#A8D4F2',
   orange: '#F8B46A',
   cream: '#FBF2C8',
+  pink: '#F5B8D6',
 } as const;
 
 export type PaletteColor = keyof typeof palette;

@@ -16,6 +16,7 @@ export const families = {
   'izi-karate': { name: 'Izi Karaté', color: 'yellow' },
   ludick: { name: 'Ludick', color: 'purple' },
   bouffetout: { name: 'Bouffetout', color: 'orange' },
+  joystick: { name: 'Joystick', color: 'pink' },
 } satisfies Record<string, Family>;
 
 export type FamilyId = keyof typeof families;

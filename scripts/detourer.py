@@ -139,10 +139,13 @@ def main():
     # Zones de fond coloré enfermées (dégradé), repérées par leur teinte
     if args.fond:
         bgc = tuple(int(v) for v in args.fond.split(","))
+        bg_sat = max(bgc) - min(bgc)
         orig = im.load()
         for x, y in best:
             c = orig[x, y]
-            if dist(c, bgc) < 75 and lum(c) > 150:
+            # Même teinte ET saturation proche du fond : épargne la peau, plus terne
+            sat = max(c) - min(c)
+            if dist(c, bgc) < 75 and lum(c) > 150 and sat >= 0.75 * bg_sat:
                 mp[x, y] = 0
     mask = mask.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.7))
 
