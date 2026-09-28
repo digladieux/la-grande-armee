@@ -12,7 +12,7 @@ const covers = pickCovers(characters);
   <ul class="grid">
     {characters.map((c) => (
       <li id={c.slug}>
-        <CharacterCard character={c} showTagline lookIndex={covers.get(c.slug)} />
+        <CharacterCard character={c} lookIndex={covers.get(c.slug)} />
       </li>
     ))}
   </ul>
