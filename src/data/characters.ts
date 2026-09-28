@@ -165,6 +165,13 @@ export const characters: Character[] = [
         bust: { cx: 83, cy: 58, zoom: 2.4 },
         cutout: 'images/personnages/donne/botefragile-cutout.png',
       },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/donne/branquignol-blanc.png',
+        whiteBg: true,
+        bust: { cx: 58, cy: 49, zoom: 2 },
+        cutout: 'images/personnages/donne/branquignol-cutout.png',
+      },
     ],
   },
   {
@@ -281,6 +288,54 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 51, cy: 47, zoom: 1.8 },
         cutout: 'images/personnages/nael/gaulois-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'petit',
+    name: 'Petit',
+    color: 'blue',
+    placeholder: { hair: 'long' },
+    featured: true,
+    looks: [
+      {
+        family: 'gaulois',
+        image: 'images/personnages/petit/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 49, cy: 39, zoom: 2 },
+        cutout: 'images/personnages/petit/gaulois-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'szabo',
+    name: 'Szabo',
+    color: 'orange',
+    placeholder: { hair: 'short' },
+    featured: true,
+    looks: [
+      {
+        family: 'branquignol',
+        image: 'images/personnages/szabo/branquignol-blanc.png',
+        whiteBg: true,
+        bust: { cx: 45, cy: 36, zoom: 2.3 },
+        cutout: 'images/personnages/szabo/branquignol-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'turquet',
+    name: 'Turquet',
+    color: 'yellow',
+    placeholder: { hair: 'spiky' },
+    featured: true,
+    looks: [
+      {
+        family: 'gaulois',
+        image: 'images/personnages/turquet/gaulois-blanc.png',
+        whiteBg: true,
+        bust: { cx: 54, cy: 36, zoom: 1.7 },
+        cutout: 'images/personnages/turquet/gaulois-cutout.png',
       },
     ],
   },
