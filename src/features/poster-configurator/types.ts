@@ -12,6 +12,8 @@ export interface RosterLook {
   cutout?: string;
   /** Hauteur du détourage / hauteur de la carte d'origine (échelle du dessin). */
   cutoutScale?: number;
+  /** Largeur / hauteur du détourage. */
+  cutoutRatio?: number;
   whiteBg?: boolean;
 }
 
@@ -38,6 +40,11 @@ export interface PosterState {
   frame: Frame;
   format: Format;
   orientation: Orientation;
+  /**
+   * Placement libre de chaque copain (clé = slug), une fois que l'utilisateur a
+   * modifié l'affiche. `null` = disposition automatique (photo de groupe).
+   */
+  layout: Record<string, Placement> | null;
   title: string;
   subtitle: string;
 }
@@ -74,3 +81,15 @@ export const FORMATS: { id: Format; label: string; size: string }[] = [
 
 /** Accessoires prévus (étape désactivée pour l'instant). */
 export const UPCOMING_ACCESSORIES = ['Lunettes', 'Casquette', 'Bière', 'Barbecue', 'Couronne', 'Ballon'];
+
+/**
+ * Position d'un copain sur l'affiche, en % de la feuille :
+ * x = centre horizontal, y = ligne des pieds, h = hauteur du personnage.
+ */
+export interface Placement {
+  x: number;
+  y: number;
+  h: number;
+  z: number;
+  flip?: boolean;
+}

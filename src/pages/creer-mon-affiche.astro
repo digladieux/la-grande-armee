@@ -26,6 +26,8 @@ const roster: RosterEntry[] = [...characters]
       cutout: l.cutout ? url(`/${l.cutout}`) : undefined,
       // Hauteur du personnage détouré rapportée à la carte : garde l'échelle du dessin sur l'affiche
       cutoutScale: l.cutout ? (pngSize(l.cutout)?.height ?? CARD_HEIGHT) / CARD_HEIGHT : undefined,
+      // Largeur / hauteur du détourage (pour la disposition automatique de l'affiche)
+      cutoutRatio: l.cutout ? ((s) => (s ? s.width / s.height : 0.6))(pngSize(l.cutout)) : undefined,
       whiteBg: l.whiteBg,
     })),
   }));

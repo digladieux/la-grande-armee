@@ -119,7 +119,8 @@
 }
 .poster-sheet__title {
   position: relative;
-  z-index: 10;
+  z-index: 500;
+  pointer-events: none;
   padding: 9% 6% 0;
   text-align: center;
 }
@@ -143,53 +144,75 @@
   font-size: 5.2cqi;
   line-height: 1.3;
 }
-.poster-sheet__crew {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  min-height: 0;
-  padding: 3% 5% 0;
+/* Copains : calques libres (x = centre, top = ligne des pieds) */
+.poster-member {
+  position: absolute;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  transform: translate(-50%, -100%);
+  cursor: grab;
+  touch-action: none;
+  animation: member-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i) * 40ms);
 }
-.poster-sheet__row {
-  flex: none;
-  display: flex;
-  align-items: flex-end;
-  height: 100%;
-  width: max-content;
-  transform-origin: bottom center;
-  transition: transform 0.3s ease;
+.poster-member:active {
+  cursor: grabbing;
 }
-.poster-sheet__member {
-  flex: none;
+.poster-member:focus-visible {
+  outline: none;
+}
+.poster-member__img {
+  display: block;
   height: 100%;
   width: auto;
   max-width: none;
-  margin-inline: calc(var(--crew-h) * -0.045);
-  animation: member-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: calc(var(--i) * 60ms);
+  pointer-events: none;
+  user-select: none;
 }
-.poster-sheet__member.is-cutout {
-  filter: drop-shadow(0 4px 3px rgb(22 20 18 / 0.18));
+.poster-member__img.is-cutout {
+  filter: drop-shadow(0 3px 2px rgb(22 20 18 / 0.18));
 }
-/* Illustration non détourée : fondue dans le décor */
-.poster-sheet__member.is-flat {
+.poster-member__img.is-flat {
   mix-blend-mode: multiply;
   mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
 }
+.poster-member:hover .poster-member__img.is-cutout {
+  filter: drop-shadow(0 0 1.5px var(--ink)) drop-shadow(0 3px 2px rgb(22 20 18 / 0.18));
+}
+.poster-member.is-selected .poster-member__img.is-cutout {
+  filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px var(--ink)) drop-shadow(0 0 0.5px var(--ink));
+}
+.poster-member.is-selected::after {
+  content: '';
+  position: absolute;
+  inset: -3% -6%;
+  border: 2px dashed var(--ink);
+  border-radius: 6px;
+  pointer-events: none;
+}
 @keyframes member-in {
   from {
     opacity: 0;
-    transform: translateY(12%) scale(0.92);
+    translate: 0 12%;
+    scale: 0.92;
   }
 }
 .poster-sheet__empty {
   align-self: center;
+  margin: auto;
   font-family: var(--font-hand);
   font-weight: 700;
   font-size: 7cqi;
   transform: rotate(-4deg);
+}
+.poster-sheet__brand {
+  position: relative;
+  z-index: 500;
+  margin-top: auto;
+  pointer-events: none;
 }
 .poster-sheet__brand {
   padding: 2.5cqi 0 3.5cqi;
@@ -690,7 +713,7 @@
 @media (prefers-reduced-motion: reduce) {
   .pc__hero,
   .pc__hero-img,
-  .poster-sheet__member {
+  .poster-member {
     animation: none;
   }
 }
@@ -846,4 +869,62 @@
   background: color-mix(in srgb, var(--coral) 45%, var(--paper));
   font-size: 0.88rem;
   font-weight: 600;
+}
+
+/* Barre d'édition de l'affiche */
+.pc__editbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-height: 56px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+.pc__editbar-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+.pc__editbar-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pc__editbar button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 12px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pc__editbar button:hover {
+  background: var(--yellow);
+}
+.pc__editbar-hint {
+  flex: 1;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+.pc__editbar .pc__editbar-reset {
+  margin-left: auto;
+  background: var(--ink);
+  color: var(--paper);
+}
+.pc__editbar .pc__editbar-reset:hover {
+  background: var(--ink);
+  box-shadow: 3px 3px 0 var(--yellow);
+}
+.pc__summary {
+  margin-top: 8px;
 }

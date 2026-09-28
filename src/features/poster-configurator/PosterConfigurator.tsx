@@ -8,9 +8,10 @@
  * Pas encore développé : accessoires, véhicules, animations avancées, panier.
  */
 import { useMemo, useState } from 'preact/hooks';
-import type { PosterState, RosterEntry, Selection } from './types';
+import type { Placement, PosterState, RosterEntry, Selection } from './types';
 import { BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
 import PosterCanvas from './PosterCanvas';
+import { autoLayout } from './layout';
 import Standee from './Standee';
 import './configurator.css';
 
@@ -40,6 +41,7 @@ export default function PosterConfigurator({ roster }: Props) {
     frame: 'bois',
     format: 'A3',
     orientation: 'portrait',
+    layout: null,
     title: 'La Grande Armée',
     subtitle: '',
   });
@@ -55,6 +57,37 @@ export default function PosterConfigurator({ roster }: Props) {
 
   const update = (patch: Partial<PosterState>) => setState((s) => ({ ...s, ...patch }));
 
+  // ── Disposition de l'affiche ──
+  const [selected, setSelected] = useState<string | undefined>();
+  const auto = useMemo(
+    () =>
+      autoLayout(
+        state.selection.map((s) => {
+          const l = bySlug.get(s.slug)!.looks[s.look];
+          return { slug: s.slug, scale: l.cutoutScale ?? 0.65, ratio: l.cutoutRatio ?? 0.6 };
+        }),
+        state.orientation,
+      ),
+    [state.selection, state.orientation, bySlug],
+  );
+  // Disposition libre : les copains déjà placés gardent leur place, les nouveaux arrivent devant au centre
+  const placements = useMemo(() => {
+    if (!state.layout) return auto;
+    const custom = state.layout;
+    const zMax = Math.max(0, ...Object.values(custom).map((p) => p.z));
+    const result: Record<string, Placement> = {};
+    state.selection.forEach((s, i) => {
+      result[s.slug] = custom[s.slug] ?? { ...auto[s.slug], x: 50, z: zMax + 1 + i };
+    });
+    return result;
+  }, [state.layout, state.selection, auto]);
+
+  const edit = (slug: string, patch: Partial<Placement>) =>
+    setState((s) => ({ ...s, layout: { ...placements, [slug]: { ...placements[slug], ...patch } } }));
+  const sel = selected && placements[selected] ? placements[selected] : undefined;
+  const zValues = Object.values(placements).map((p) => p.z);
+  const resize = (factor: number) => sel && edit(selected!, { h: Math.min(95, Math.max(8, sel.h * factor)) });
+
   const changeLook = (delta: number) => {
     if (!current) return;
     const n = current.looks.length;
@@ -68,6 +101,7 @@ export default function PosterConfigurator({ roster }: Props) {
     const idx = onPoster(slug);
     if (idx >= 0) update({ selection: state.selection.filter((s) => s.slug !== slug) });
     else if (!full) update({ selection: [...state.selection, { slug, look: looks[slug] ?? 0 }] });
+    if (idx >= 0 && selected === slug) setSelected(undefined);
   };
 
   const autoSubtitle = state.selection.map((s) => bySlug.get(s.slug)?.name).filter(Boolean).join(', ');
@@ -80,7 +114,37 @@ export default function PosterConfigurator({ roster }: Props) {
           <PosterCanvas
             state={{ ...state, subtitle: state.subtitle || autoSubtitle }}
             characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
+            placements={placements}
+            selected={selected}
+            onSelect={setSelected}
+            onMove={(slug, p) => edit(slug, p)}
           />
+        </div>
+
+        {/* Barre d'édition de l'affiche */}
+        <div class="pc__editbar" aria-live="polite">
+          {sel ? (
+            <>
+              <strong class="pc__editbar-name">{bySlug.get(selected!)?.name}</strong>
+              <div class="pc__editbar-tools">
+                <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
+                <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir">+</button>
+                <button type="button" onClick={() => edit(selected!, { z: Math.max(...zValues) + 1 })}>Devant</button>
+                <button type="button" onClick={() => edit(selected!, { z: Math.max(1, Math.min(...zValues) - 1) })}>Derrière</button>
+                <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
+                <button type="button" onClick={() => togglePoster(selected!)} title="Retirer de l'affiche">Retirer</button>
+              </div>
+            </>
+          ) : (
+            <p class="pc__editbar-hint">
+              {state.selection.length ? 'Clique sur un copain de l’affiche pour le déplacer, l’agrandir ou le passer devant.' : ''}
+            </p>
+          )}
+          {state.layout && (
+            <button type="button" class="pc__editbar-reset" onClick={() => { update({ layout: null }); setSelected(undefined); }}>
+              ↺ Réorganiser
+            </button>
+          )}
         </div>
         <p class="pc__summary">
           Affiche {state.format} {state.orientation} · {FRAMES.find((f) => f.id === state.frame)?.label} ·{' '}
@@ -200,7 +264,7 @@ export default function PosterConfigurator({ roster }: Props) {
               {suggestLandscape && (
                 <div class="pc__tip">
                   <span>Grosse bande ? En paysage, tout le monde a plus de place (jusqu'à {MAX_CHARACTERS.paysage}).</span>
-                  <button type="button" onClick={() => update({ orientation: 'paysage' })}>
+                  <button type="button" onClick={() => update({ orientation: 'paysage', layout: null })}>
                     Passer en paysage
                   </button>
                 </div>
@@ -281,7 +345,7 @@ export default function PosterConfigurator({ roster }: Props) {
                     type="button"
                     class={`pc__chip pc__chip--orient-${o.id}`}
                     aria-pressed={state.orientation === o.id}
-                    onClick={() => update({ orientation: o.id })}
+                    onClick={() => update({ orientation: o.id, layout: null })}
                   >
                     <span class="pc__orient-icon" />
                     <strong>{o.label}</strong>
