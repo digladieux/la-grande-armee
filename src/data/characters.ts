@@ -551,6 +551,21 @@ export const characters: Character[] = [
       },
     ],
   },
+  {
+    slug: 'saby',
+    name: 'Saby',
+    color: 'orange',
+    placeholder: { hair: 'long', beard: true },
+    featured: true,
+    looks: [
+      {
+        family: 'bouffetout',
+        image: 'images/personnages/saby/bouffetout-blanc.png',
+        bust: { cx: 50, cy: 36, zoom: 2 },
+        cutout: 'images/personnages/saby/bouffetout-cutout.png',
+      },
+    ],
+  },
 ];
 
 export const featuredCharacters = characters.filter((c) => c.featured);
