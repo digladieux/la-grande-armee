@@ -566,6 +566,10 @@ export const characters: Character[] = [
       },
     ],
   },
+  // Copains à venir : silhouette provisoire en attendant leurs cartes
+  { slug: 'theo', name: 'Théo', color: 'green', placeholder: { hair: 'short', cap: true } },
+  { slug: 'rene', name: 'René', color: 'purple', placeholder: { hair: 'bald', glasses: true, beard: true } },
+  { slug: 'momo', name: 'Momo', color: 'yellow', placeholder: { hair: 'spiky' } },
 ];
 
 export const featuredCharacters = characters.filter((c) => c.featured);
