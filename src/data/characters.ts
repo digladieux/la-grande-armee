@@ -152,6 +152,12 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 28, zoom: 2 },
         cutout: 'images/personnages/guigui/bouffetout-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/guigui/gochofacho-blanc.png',
+        bust: { cx: 50, cy: 30, zoom: 1.9 },
+        cutout: 'images/personnages/guigui/gochofacho-cutout.png',
+      },
     ],
   },
   {
@@ -188,6 +194,12 @@ export const characters: Character[] = [
         bust: { cx: 53, cy: 37, zoom: 2 },
         cutout: 'images/personnages/dauby/bouffetout-cutout.png',
       },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/dauby/branquignol-blanc.png',
+        bust: { cx: 62, cy: 33, zoom: 2.1 },
+        cutout: 'images/personnages/dauby/branquignol-cutout.png',
+      },
     ],
   },
   {
@@ -217,6 +229,12 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 51, cy: 40, zoom: 1.9 },
         cutout: 'images/personnages/donne/izikarate-cutout.png',
+      },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/donne/gochofacho-blanc.png',
+        bust: { cx: 53, cy: 35, zoom: 1.9 },
+        cutout: 'images/personnages/donne/gochofacho-cutout.png',
       },
     ],
   },
@@ -277,6 +295,12 @@ export const characters: Character[] = [
         bust: { cx: 46, cy: 44, zoom: 2.2 },
         cutout: 'images/personnages/aubin/joystick-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/aubin/gochofacho-blanc.png',
+        bust: { cx: 48, cy: 38, zoom: 2.1 },
+        cutout: 'images/personnages/aubin/gochofacho-cutout.png',
+      },
     ],
   },
   {
@@ -311,6 +335,12 @@ export const characters: Character[] = [
         image: 'images/personnages/coco/bouffetout-blanc.png',
         bust: { cx: 51, cy: 45, zoom: 2.2 },
         cutout: 'images/personnages/coco/bouffetout-cutout.png',
+      },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/coco/gochofacho-blanc.png',
+        bust: { cx: 50, cy: 35, zoom: 1.8 },
+        cutout: 'images/personnages/coco/gochofacho-cutout.png',
       },
     ],
   },
@@ -347,6 +377,12 @@ export const characters: Character[] = [
         image: 'images/personnages/laurent/joystick-blanc.png',
         bust: { cx: 55, cy: 39, zoom: 2.2 },
         cutout: 'images/personnages/laurent/joystick-cutout.png',
+      },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/laurent/gochofacho-blanc.png',
+        bust: { cx: 56, cy: 32, zoom: 2 },
+        cutout: 'images/personnages/laurent/gochofacho-cutout.png',
       },
     ],
   },
@@ -413,6 +449,12 @@ export const characters: Character[] = [
         bust: { cx: 34, cy: 37, zoom: 2 },
         cutout: 'images/personnages/nael/ludick-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/nael/gochofacho-blanc.png',
+        bust: { cx: 50, cy: 55, zoom: 2.2 },
+        cutout: 'images/personnages/nael/gochofacho-cutout.png',
+      },
     ],
   },
   {
@@ -436,6 +478,12 @@ export const characters: Character[] = [
         bust: { cx: 51, cy: 39, zoom: 1.9 },
         cutout: 'images/personnages/petit/branquignol-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/petit/gochofacho-blanc.png',
+        bust: { cx: 60, cy: 35, zoom: 2.1 },
+        cutout: 'images/personnages/petit/gochofacho-cutout.png',
+      },
     ],
   },
   {
@@ -457,6 +505,12 @@ export const characters: Character[] = [
         image: 'images/personnages/szabo/bouffetout-blanc.png',
         bust: { cx: 36, cy: 36, zoom: 2 },
         cutout: 'images/personnages/szabo/bouffetout-cutout.png',
+      },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/szabo/gochofacho-blanc.png',
+        bust: { cx: 48, cy: 35, zoom: 2 },
+        cutout: 'images/personnages/szabo/gochofacho-cutout.png',
       },
     ],
   },
@@ -493,6 +547,18 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 36, zoom: 2 },
         cutout: 'images/personnages/turquet/bouffetout-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/turquet/gochofacho-blanc.png',
+        bust: { cx: 48, cy: 32, zoom: 2 },
+        cutout: 'images/personnages/turquet/gochofacho-cutout.png',
+      },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/turquet/branquignol-blanc.png',
+        bust: { cx: 50, cy: 36, zoom: 1.8 },
+        cutout: 'images/personnages/turquet/branquignol-cutout.png',
+      },
     ],
   },
   {
@@ -527,6 +593,12 @@ export const characters: Character[] = [
         image: 'images/personnages/fred/bouffetout-blanc.png',
         bust: { cx: 54, cy: 34, zoom: 2 },
         cutout: 'images/personnages/fred/bouffetout-cutout.png',
+      },
+      {
+        family: 'branquignol',
+        image: 'images/personnages/fred/branquignol-blanc.png',
+        bust: { cx: 50, cy: 52, zoom: 1.8 },
+        cutout: 'images/personnages/fred/branquignol-cutout.png',
       },
     ],
   },
@@ -564,10 +636,30 @@ export const characters: Character[] = [
         bust: { cx: 50, cy: 36, zoom: 2 },
         cutout: 'images/personnages/saby/bouffetout-cutout.png',
       },
+      {
+        family: 'gochofacho',
+        image: 'images/personnages/saby/gochofacho-blanc.png',
+        bust: { cx: 52, cy: 37, zoom: 2 },
+        cutout: 'images/personnages/saby/gochofacho-cutout.png',
+      },
+    ],
+  },
+  {
+    slug: 'theo',
+    name: 'Théo',
+    color: 'green',
+    placeholder: { hair: 'short', cap: true },
+    featured: true,
+    looks: [
+      {
+        family: 'branquignol',
+        image: 'images/personnages/theo/branquignol-blanc.png',
+        bust: { cx: 42, cy: 32, zoom: 2 },
+        cutout: 'images/personnages/theo/branquignol-cutout.png',
+      },
     ],
   },
   // Copains à venir : silhouette provisoire en attendant leurs cartes
-  { slug: 'theo', name: 'Théo', color: 'green', placeholder: { hair: 'short', cap: true } },
   { slug: 'rene', name: 'René', color: 'purple', placeholder: { hair: 'bald', glasses: true, beard: true } },
   { slug: 'momo', name: 'Momo', color: 'yellow', placeholder: { hair: 'spiky' } },
 ];
