@@ -1,0 +1,482 @@
+{
+ "dim/botefragile": {
+  "w": 236,
+  "h": 360,
+  "ratio": 0.654
+ },
+ "dim/izikarate": {
+  "w": 192,
+  "h": 360,
+  "ratio": 0.532
+ },
+ "dim/gaulois": {
+  "w": 349,
+  "h": 360,
+  "ratio": 0.971
+ },
+ "dim/branquignol": {
+  "w": 241,
+  "h": 360,
+  "ratio": 0.671
+ },
+ "dim/ludick": {
+  "w": 238,
+  "h": 360,
+  "ratio": 0.66
+ },
+ "dim/bouffetout": {
+  "w": 170,
+  "h": 360,
+  "ratio": 0.471
+ },
+ "guigui/botefragile": {
+  "w": 285,
+  "h": 360,
+  "ratio": 0.791
+ },
+ "guigui/izikarate": {
+  "w": 168,
+  "h": 360,
+  "ratio": 0.468
+ },
+ "guigui/gaulois": {
+  "w": 356,
+  "h": 360,
+  "ratio": 0.989
+ },
+ "guigui/joystick": {
+  "w": 293,
+  "h": 360,
+  "ratio": 0.813
+ },
+ "guigui/bouffetout": {
+  "w": 318,
+  "h": 360,
+  "ratio": 0.884
+ },
+ "guigui/gochofacho": {
+  "w": 220,
+  "h": 360,
+  "ratio": 0.611
+ },
+ "dauby/botefragile": {
+  "w": 107,
+  "h": 360,
+  "ratio": 0.297
+ },
+ "dauby/gaulois": {
+  "w": 338,
+  "h": 360,
+  "ratio": 0.939
+ },
+ "dauby/izikarate": {
+  "w": 311,
+  "h": 360,
+  "ratio": 0.863
+ },
+ "dauby/bouffetout": {
+  "w": 324,
+  "h": 360,
+  "ratio": 0.9
+ },
+ "dauby/branquignol": {
+  "w": 193,
+  "h": 360,
+  "ratio": 0.535
+ },
+ "donne/botefragile": {
+  "w": 758,
+  "h": 360,
+  "ratio": 2.106
+ },
+ "donne/branquignol": {
+  "w": 212,
+  "h": 360,
+  "ratio": 0.588
+ },
+ "donne/izikarate": {
+  "w": 162,
+  "h": 360,
+  "ratio": 0.449
+ },
+ "donne/gochofacho": {
+  "w": 249,
+  "h": 360,
+  "ratio": 0.691
+ },
+ "lenoir/botefragile": {
+  "w": 415,
+  "h": 360,
+  "ratio": 1.153
+ },
+ "lenoir/gaulois": {
+  "w": 310,
+  "h": 360,
+  "ratio": 0.862
+ },
+ "lenoir/ludick": {
+  "w": 311,
+  "h": 360,
+  "ratio": 0.864
+ },
+ "aubin/botefragile": {
+  "w": 554,
+  "h": 360,
+  "ratio": 1.539
+ },
+ "aubin/izikarate": {
+  "w": 446,
+  "h": 360,
+  "ratio": 1.24
+ },
+ "aubin/joystick": {
+  "w": 304,
+  "h": 360,
+  "ratio": 0.844
+ },
+ "aubin/gochofacho": {
+  "w": 245,
+  "h": 360,
+  "ratio": 0.68
+ },
+ "coco/botefragile": {
+  "w": 150,
+  "h": 360,
+  "ratio": 0.416
+ },
+ "coco/gaulois": {
+  "w": 251,
+  "h": 360,
+  "ratio": 0.696
+ },
+ "coco/joystick": {
+  "w": 340,
+  "h": 360,
+  "ratio": 0.945
+ },
+ "coco/bouffetout": {
+  "w": 175,
+  "h": 360,
+  "ratio": 0.487
+ },
+ "coco/gochofacho": {
+  "w": 251,
+  "h": 360,
+  "ratio": 0.696
+ },
+ "laurent/botefragile": {
+  "w": 428,
+  "h": 360,
+  "ratio": 1.188
+ },
+ "laurent/izikarate": {
+  "w": 285,
+  "h": 360,
+  "ratio": 0.792
+ },
+ "laurent/branquignol": {
+  "w": 432,
+  "h": 360,
+  "ratio": 1.199
+ },
+ "laurent/joystick": {
+  "w": 254,
+  "h": 360,
+  "ratio": 0.704
+ },
+ "laurent/gochofacho": {
+  "w": 217,
+  "h": 360,
+  "ratio": 0.602
+ },
+ "merlot/gaulois": {
+  "w": 161,
+  "h": 360,
+  "ratio": 0.448
+ },
+ "merlot/izikarate": {
+  "w": 208,
+  "h": 360,
+  "ratio": 0.578
+ },
+ "merlot/bouffetout": {
+  "w": 288,
+  "h": 360,
+  "ratio": 0.801
+ },
+ "nael/botefragile": {
+  "w": 150,
+  "h": 360,
+  "ratio": 0.415
+ },
+ "nael/gaulois": {
+  "w": 380,
+  "h": 360,
+  "ratio": 1.054
+ },
+ "nael/izikarate": {
+  "w": 364,
+  "h": 360,
+  "ratio": 1.011
+ },
+ "nael/ludick": {
+  "w": 403,
+  "h": 360,
+  "ratio": 1.118
+ },
+ "nael/gochofacho": {
+  "w": 201,
+  "h": 360,
+  "ratio": 0.559
+ },
+ "petit/gaulois": {
+  "w": 225,
+  "h": 360,
+  "ratio": 0.625
+ },
+ "petit/branquignol": {
+  "w": 402,
+  "h": 360,
+  "ratio": 1.117
+ },
+ "petit/gochofacho": {
+  "w": 237,
+  "h": 360,
+  "ratio": 0.658
+ },
+ "szabo/branquignol": {
+  "w": 270,
+  "h": 360,
+  "ratio": 0.751
+ },
+ "szabo/bouffetout": {
+  "w": 260,
+  "h": 360,
+  "ratio": 0.721
+ },
+ "szabo/gochofacho": {
+  "w": 240,
+  "h": 360,
+  "ratio": 0.667
+ },
+ "turquet/gaulois": {
+  "w": 359,
+  "h": 360,
+  "ratio": 0.996
+ },
+ "turquet/izikarate": {
+  "w": 213,
+  "h": 360,
+  "ratio": 0.591
+ },
+ "turquet/joystick": {
+  "w": 339,
+  "h": 360,
+  "ratio": 0.942
+ },
+ "turquet/bouffetout": {
+  "w": 205,
+  "h": 360,
+  "ratio": 0.568
+ },
+ "turquet/gochofacho": {
+  "w": 137,
+  "h": 360,
+  "ratio": 0.382
+ },
+ "turquet/branquignol": {
+  "w": 314,
+  "h": 360,
+  "ratio": 0.871
+ },
+ "fred/izikarate": {
+  "w": 283,
+  "h": 360,
+  "ratio": 0.785
+ },
+ "fred/gaulois": {
+  "w": 222,
+  "h": 360,
+  "ratio": 0.616
+ },
+ "fred/ludick": {
+  "w": 335,
+  "h": 360,
+  "ratio": 0.931
+ },
+ "fred/bouffetout": {
+  "w": 244,
+  "h": 360,
+  "ratio": 0.678
+ },
+ "fred/branquignol": {
+  "w": 623,
+  "h": 360,
+  "ratio": 1.73
+ },
+ "hugo/joystick": {
+  "w": 363,
+  "h": 360,
+  "ratio": 1.009
+ },
+ "hugo/bouffetout": {
+  "w": 267,
+  "h": 360,
+  "ratio": 0.743
+ },
+ "saby/bouffetout": {
+  "w": 234,
+  "h": 360,
+  "ratio": 0.649
+ },
+ "saby/gochofacho": {
+  "w": 163,
+  "h": 360,
+  "ratio": 0.452
+ },
+ "theo/branquignol": {
+  "w": 293,
+  "h": 360,
+  "ratio": 0.814
+ },
+ "rene/branquignol": {
+  "w": 422,
+  "h": 360,
+  "ratio": 1.173
+ },
+ "dim/mignon": {
+  "w": 211,
+  "h": 360,
+  "ratio": 0.586
+ },
+ "guigui/mignon": {
+  "w": 194,
+  "h": 360,
+  "ratio": 0.538
+ },
+ "dim/beauf": {
+  "w": 210,
+  "h": 360,
+  "ratio": 0.584
+ },
+ "guigui/beauf": {
+  "w": 446,
+  "h": 360,
+  "ratio": 1.24
+ },
+ "lenoir/beauf": {
+  "w": 288,
+  "h": 360,
+  "ratio": 0.8
+ },
+ "merlot/beauf": {
+  "w": 326,
+  "h": 360,
+  "ratio": 0.905
+ },
+ "nael/beauf": {
+  "w": 284,
+  "h": 360,
+  "ratio": 0.789
+ },
+ "turquet/beauf": {
+  "w": 210,
+  "h": 360,
+  "ratio": 0.583
+ },
+ "dauby/capdag": {
+  "w": 214,
+  "h": 360,
+  "ratio": 0.593
+ },
+ "donne/capdag": {
+  "w": 320,
+  "h": 360,
+  "ratio": 0.889
+ },
+ "fred/capdag": {
+  "w": 257,
+  "h": 360,
+  "ratio": 0.715
+ },
+ "laurent/capdag": {
+  "w": 238,
+  "h": 360,
+  "ratio": 0.662
+ },
+ "nael/capdag": {
+  "w": 400,
+  "h": 360,
+  "ratio": 1.111
+ },
+ "petit/capdag": {
+  "w": 229,
+  "h": 360,
+  "ratio": 0.635
+ },
+ "theo/capdag": {
+  "w": 232,
+  "h": 360,
+  "ratio": 0.645
+ },
+ "turquet/capdag": {
+  "w": 293,
+  "h": 360,
+  "ratio": 0.813
+ },
+ "coco/troubadour": {
+  "w": 300,
+  "h": 360,
+  "ratio": 0.834
+ },
+ "dauby/troubadour": {
+  "w": 223,
+  "h": 360,
+  "ratio": 0.618
+ },
+ "dim/troubadour": {
+  "w": 215,
+  "h": 360,
+  "ratio": 0.597
+ },
+ "fred/troubadour": {
+  "w": 236,
+  "h": 360,
+  "ratio": 0.655
+ },
+ "guigui/troubadour": {
+  "w": 195,
+  "h": 360,
+  "ratio": 0.543
+ },
+ "theo/troubadour": {
+  "w": 243,
+  "h": 360,
+  "ratio": 0.676
+ },
+ "momo/botefragile": {
+  "w": 272,
+  "h": 360,
+  "ratio": 0.755
+ },
+ "momo/branquignol": {
+  "w": 262,
+  "h": 360,
+  "ratio": 0.728
+ },
+ "momo/ludick": {
+  "w": 450,
+  "h": 360,
+  "ratio": 1.251
+ },
+ "momo/bouffetout": {
+  "w": 251,
+  "h": 360,
+  "ratio": 0.697
+ },
+ "momo/gochofacho": {
+  "w": 313,
+  "h": 360,
+  "ratio": 0.87
+ }
+}

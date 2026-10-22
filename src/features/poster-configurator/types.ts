@@ -3,6 +3,8 @@ export interface RosterLook {
   familyName: string;
   /** Clé de palette (blue, coral…) → var(--blue). */
   familyColor: string;
+  /** Couleur exacte du fond des cartes de la famille. */
+  familyBg: string;
   /** URL finale (base GitHub Pages incluse). */
   image: string;
   /** Transform CSS du cadrage tête + buste (voir lib/crop.ts). */
@@ -31,7 +33,7 @@ export interface Selection {
 
 export type Background = 'creme' | 'bandes' | 'ciel' | 'corail';
 export type Frame = 'sans' | 'bois' | 'noir' | 'blanc';
-export type Format = 'A4' | 'A3' | 'A2';
+export type Format = 'A5' | 'A4' | 'A3';
 export type Orientation = 'portrait' | 'paysage';
 
 export interface PosterState {
@@ -46,7 +48,11 @@ export interface PosterState {
    */
   layout: Record<string, Placement> | null;
   title: string;
+  /** Sous-titre facultatif (vide = pas de sous-titre). */
   subtitle: string;
+  showSubtitle: boolean;
+  /** Mention « La Grande Armée » en bas de l'affiche. */
+  showBrand: boolean;
 }
 
 /** Nombre maximum de copains selon l'orientation. */
@@ -74,9 +80,9 @@ export const FRAMES: { id: Frame; label: string }[] = [
 ];
 
 export const FORMATS: { id: Format; label: string; size: string }[] = [
+  { id: 'A5', label: 'A5', size: '14,8 × 21 cm' },
   { id: 'A4', label: 'A4', size: '21 × 29,7 cm' },
   { id: 'A3', label: 'A3', size: '29,7 × 42 cm' },
-  { id: 'A2', label: 'A2', size: '42 × 59,4 cm' },
 ];
 
 /** Accessoires prévus (étape désactivée pour l'instant). */

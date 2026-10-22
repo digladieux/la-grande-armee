@@ -1,0 +1,12 @@
+---
+/**
+ * Affiche commandée (lien reçu par Elora) : aperçu en grand, qualité d'impression, PDF 300 dpi.
+ * Page non indexée : elle n'a de sens qu'avec le lien de la commande.
+ */
+import PageShell from '@/layouts/PageShell.astro';
+import AfficheCommande from '@/features/commande/AfficheCommande';
+---
+
+<PageShell title="Affiche commandée" eyebrow="Commande" intro="Aperçu de l'affiche et fichier d'impression." accent="blue" description="Affiche commandée">
+  <AfficheCommande client:only="preact" />
+</PageShell>

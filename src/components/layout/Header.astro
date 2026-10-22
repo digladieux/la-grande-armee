@@ -27,10 +27,11 @@ const current = Astro.url.pathname;
     </nav>
 
     <div class="header__actions">
-      <a href={url('/boutique')} class="icon-btn" aria-label="Panier (bientôt disponible)">
+      <a href={url('/panier')} class="icon-btn cart-btn" aria-label="Mon panier">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
           <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
         </svg>
+        <span class="cart-btn__count" data-cart-count hidden></span>
       </a>
       <button class="icon-btn burger" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Ouvrir le menu" data-burger>
         <span class="burger__bar"></span>
@@ -64,6 +65,25 @@ const current = Astro.url.pathname;
   const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+</script>
+
+<script>
+  // Pastille du panier : nombre d'affiches (panier gardé dans le navigateur)
+  const badge = document.querySelector<HTMLElement>('[data-cart-count]');
+  const majPanier = () => {
+    if (!badge) return;
+    let n = 0;
+    try {
+      n = (JSON.parse(localStorage.getItem('lga-panier') || '[]') as { quantite: number }[]).reduce((s, i) => s + (i.quantite || 0), 0);
+    } catch {
+      n = 0;
+    }
+    badge.textContent = String(n);
+    badge.hidden = n === 0;
+  };
+  majPanier();
+  window.addEventListener('lga-panier-change', majPanier);
+  window.addEventListener('storage', majPanier);
 </script>
 
 <style>
@@ -223,5 +243,26 @@ const current = Astro.url.pathname;
     .is-open .burger__bar:nth-child(3) {
       transform: translateY(-7.5px) rotate(-45deg);
     }
+  }
+  .cart-btn {
+    position: relative;
+  }
+  .cart-btn__count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--yellow);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 16px;
+    text-align: center;
+  }
+  .cart-btn__count[hidden] {
+    display: none;
   }
 </style>

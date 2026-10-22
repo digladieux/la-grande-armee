@@ -1,0 +1,8 @@
+---
+import PageShell from '@/layouts/PageShell.astro';
+import PagePanier from '@/features/commande/PagePanier';
+---
+
+<PageShell title="Mon panier" eyebrow="Mes affiches" intro="Vérifie tes affiches, choisis le format et la quantité, puis envoie ta commande." accent="yellow">
+  <PagePanier client:only="preact" />
+</PageShell>

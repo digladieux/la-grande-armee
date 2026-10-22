@@ -4,6 +4,7 @@
  * clic = sélection, glisser = déplacer. Les réglages (taille, devant/derrière,
  * miroir) sont dans la barre d'outils du configurateur.
  */
+import PosterTitle from './PosterTitle';
 import { useRef } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry } from './types';
 
@@ -17,7 +18,7 @@ interface Props {
 }
 
 /** Largeur relative de l'affiche selon le format, pour rendre la différence de taille visible. */
-const SCALE = { A4: 0.78, A3: 0.9, A2: 1 } as const;
+const SCALE = { A5: 0.7, A4: 0.84, A3: 1 } as const;
 
 export default function PosterCanvas({ state, characters, placements, selected, onSelect, onMove }: Props) {
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -27,6 +28,12 @@ export default function PosterCanvas({ state, characters, placements, selected, 
     e.stopPropagation();
     const p = placements[slug];
     if (!p) return;
+    // Au doigt, un copain non sélectionné laisse défiler la page : un premier toucher le sélectionne,
+    // on peut ensuite le faire glisser (sinon, impossible de faire défiler la page sur téléphone)
+    if (e.pointerType !== 'mouse' && selected !== slug) {
+      onSelect(slug);
+      return;
+    }
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     drag.current = { slug, x0: e.clientX, y0: e.clientY, start: p, moved: false };
     onSelect(slug);
@@ -78,8 +85,8 @@ export default function PosterCanvas({ state, characters, placements, selected, 
           onPointerDown={() => onSelect(undefined)}
         >
           <div class="poster-sheet__title">
-            <strong>{state.title || 'La Grande Armée'}</strong>
-            {state.subtitle && <span>{state.subtitle}</span>}
+            <PosterTitle title={state.title} base={import.meta.env.BASE_URL.replace(/\/?$/, '/')} maxChars={state.orientation === 'paysage' ? 18 : 11} />
+            {state.showSubtitle && state.subtitle && <span>{state.subtitle}</span>}
           </div>
 
           {characters.length === 0 && <p class="poster-sheet__empty">Choisis tes copains →</p>}
@@ -120,7 +127,7 @@ export default function PosterCanvas({ state, characters, placements, selected, 
             );
           })}
 
-          <p class="poster-sheet__brand">La Grande Armée</p>
+          {state.showBrand && <p class="poster-sheet__brand">La Grande Armée</p>}
         </div>
       </div>
     </div>

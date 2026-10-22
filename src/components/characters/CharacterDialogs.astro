@@ -5,7 +5,9 @@
  * portant `data-character-open="<slug>"` (ex. CharacterCard).
  * À placer une fois par page qui affiche des cartes.
  */
-import type { Character } from '@/data/characters';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import type { Character, Look } from '@/data/characters';
 import { families } from '@/data/families';
 import CharacterPortrait from './CharacterPortrait.astro';
 import { url } from '@/lib/url';
@@ -15,6 +17,18 @@ interface Props {
 }
 
 const list = Astro.props.characters.filter((c) => c.looks?.length);
+
+/** Illustration sans fond (<famille>-plein.png, même cadre) si elle existe, sinon l'illustration d'origine. */
+const artImage = (look: Look) => {
+  const plein = look.cutout?.replace('-cutout.png', '-plein.png');
+  return plein && existsSync(join(process.cwd(), 'public', plein)) ? plein : look.image;
+};
+
+/** Calque de la bulle de paroles d'origine (<famille>-bulle.png), même cadre que l'illustration. */
+const bubbleLayer = (look: Look) => {
+  const path = look.image.replace('-blanc.png', '-bulle.png');
+  return path !== look.image && existsSync(join(process.cwd(), 'public', path)) ? path : undefined;
+};
 ---
 
 {list.map((character) => {
@@ -41,22 +55,26 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
           <ul class="cdialog__track" data-track>
             {looks.map((look, i) => {
               const family = families[look.family];
+              const bubble = bubbleLayer(look);
               return (
                 <li class="cdialog__slide" aria-label={`${i + 1} sur ${looks.length} : famille ${family.name}`}>
-                  {look.video ? (
-                    <video
-                      class="cdialog__video"
-                      data-src={url(`/${look.video}`)}
-                      muted
-                      loop
-                      playsinline
-                      preload="none"
-                      aria-label={`${character.name}, famille ${family.name} (animation)`}
-                    />
-                  ) : (
-                    <img src={url(`/${look.image}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
-                  )}
-                  <p class="cdialog__family" style={`--c: var(--${family.color})`}>
+                  <div class="cdialog__art">
+                    <img src={url(`/${artImage(look)}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
+                    {/* Vidéo posée sur la carte : la carte d'origine reste visible un instant, puis l'animation démarre en fondu */}
+                    {look.video && (
+                      <video
+                        class="cdialog__video"
+                        data-src={url(`/${look.video}`)}
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label={`${character.name}, famille ${family.name} (animation)`}
+                      />
+                    )}
+                    {bubble && <img class="cdialog__bubble" src={url(`/${bubble}`)} alt={look.bubble ?? ''} loading="lazy" decoding="async" />}
+                  </div>
+                  <p class="cdialog__family" style={`--c: ${family.bg}`}>
                     <span class="cdialog__family-label">Famille</span>
                     <strong>{family.name}</strong>
                     {look.role && <span>{look.role}</span>}
@@ -75,7 +93,7 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
           <ul class="cdialog__thumbs">
             {looks.map((look, i) => (
               <li>
-                <button type="button" class="cdialog__thumb" data-goto={i} style={`--c: var(--${families[look.family].color})`} aria-label={`Famille ${families[look.family].name}`}>
+                <button type="button" class="cdialog__thumb" data-goto={i} style={`--c: ${families[look.family].bg}`} aria-label={`Famille ${families[look.family].name}`}>
                   <CharacterPortrait look={look} alt="" />
                 </button>
               </li>
@@ -99,15 +117,43 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     const next = dialog.querySelector<HTMLButtonElement>('[data-next]')!;
     let index = 0;
 
+    // Vidéos : la carte d'origine s'affiche d'abord, l'animation démarre 1 s après
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const VIDEO_DELAY = 1000;
+    let videoTimer = 0;
+    const stopVideos = () => {
+      clearTimeout(videoTimer);
+      dialog.querySelectorAll<HTMLVideoElement>('video[data-src]').forEach((v) => {
+        v.pause();
+        v.classList.remove('is-playing');
+        if (v.src) v.currentTime = 0;
+      });
+    };
+    const startVideo = () => {
+      stopVideos();
+      const v = slides[index]?.querySelector<HTMLVideoElement>('video[data-src]');
+      if (!v || reduceMotion.matches || !dialog.open) return;
+      if (!v.src) {
+        v.src = v.dataset.src!;
+        v.load();
+      }
+      videoTimer = window.setTimeout(() => {
+        v.play()
+          .then(() => v.classList.add('is-playing'))
+          .catch(() => {});
+      }, VIDEO_DELAY);
+    };
+
+    // Carrousel en boucle : après la dernière carte, on revient à la première (et inversement)
     const goTo = (i: number, smooth = true) => {
-      index = Math.max(0, Math.min(slides.length - 1, i));
+      index = (i + slides.length) % slides.length;
       track.scrollTo({ left: slides[index].offsetLeft, behavior: smooth ? 'smooth' : 'auto' });
       render();
     };
     const render = () => {
       thumbs.forEach((t, i) => t.setAttribute('aria-current', String(i === index)));
-      prev.disabled = index === 0;
-      next.disabled = index === slides.length - 1;
+      prev.hidden = next.hidden = slides.length < 2;
+      startVideo();
     };
 
     prev.addEventListener('click', () => goTo(index - 1));
@@ -133,18 +179,9 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) dialog.close();
     });
-    // Vidéos : chargées à l'ouverture seulement, mises en pause à la fermeture
-    const videos = [...dialog.querySelectorAll<HTMLVideoElement>('video[data-src]')];
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    dialog.addEventListener('open-at', () => {
-      videos.forEach((v) => {
-        if (!v.src) v.src = v.dataset.src!;
-        if (!reduceMotion.matches) v.play().catch(() => {});
-      });
-    });
     dialog.addEventListener('close', () => {
       document.body.style.overflow = '';
-      videos.forEach((v) => v.pause());
+      stopVideos();
     });
     dialog.addEventListener('open-at', (e) => goTo((e as CustomEvent<number>).detail ?? 0, false));
     render();
@@ -260,17 +297,42 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     padding: 12px 12px 16px;
     scroll-snap-align: center;
   }
-  .cdialog__slide img,
-  .cdialog__video {
+  .cdialog__art > img:not(.cdialog__bubble) {
+    display: block;
     width: auto;
     height: min(50dvh, 480px);
     object-fit: contain;
+    transition: opacity 0.45s ease;
   }
   .cdialog__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.45s ease;
     aspect-ratio: 708 / 1068;
     /* Le fond gris clair de la vidéo (≈ #f3f3f3) passe au blanc puis disparaît */
     filter: brightness(1.06) contrast(1.08);
     mix-blend-mode: multiply;
+  }
+  /* Illustration + calque de la bulle d'origine, superposés au pixel près */
+  .cdialog__art {
+    position: relative;
+  }
+  .cdialog__video.is-playing {
+    opacity: 1;
+  }
+  /* La vidéo se fond en « produit » : on efface la carte en dessous pour éviter un double dessin */
+  .cdialog__art:has(.cdialog__video.is-playing) > img:not(.cdialog__bubble) {
+    opacity: 0;
+  }
+  .cdialog__bubble {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
   .cdialog__family {
     display: flex;
@@ -291,9 +353,12 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     text-transform: uppercase;
   }
   .cdialog__family strong {
+    /* Place pour les accents des majuscules (BOTÉFRAGILE) sous le mot « Famille » */
+    margin-top: 0.3em;
     font-family: var(--font-display);
     font-weight: 400;
     font-size: 1.5rem;
+    line-height: 1.05;
     text-transform: uppercase;
   }
   .cdialog__arrow {
@@ -313,9 +378,8 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     transform: translateY(-50%);
     transition: opacity 0.2s ease;
   }
-  .cdialog__arrow:disabled {
-    opacity: 0;
-    pointer-events: none;
+  .cdialog__arrow[hidden] {
+    display: none;
   }
   .cdialog__arrow--prev {
     left: -12px;
@@ -355,8 +419,7 @@ const list = Astro.props.characters.filter((c) => c.looks?.length);
     .cdialog__arrow {
       display: none;
     }
-    .cdialog__slide img,
-    .cdialog__video {
+    .cdialog__art > img:not(.cdialog__bubble) {
       height: min(50dvh, 460px);
     }
     .cdialog__thumb {

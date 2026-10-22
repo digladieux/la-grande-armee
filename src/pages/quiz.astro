@@ -1,11 +1,17 @@
 ---
-import PageShell from '@/layouts/PageShell.astro';
-// Futur : src/features/quiz/
+// Ancienne adresse du quiz : redirige vers /jeux/quiz
+import { url } from '@/lib/url';
+const target = url('/jeux/quiz');
 ---
 
-<PageShell
-  title="C'est qui toi ?"
-  eyebrow="Le quiz"
-  intro="Fais le test et découvre quel personnage de La Grande Armée te ressemble le plus."
-  accent="purple"
-/>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Quiz</title>
+  </head>
+  <body>
+    <a href={target}>Le quiz a déménagé dans l'onglet Jeux</a>
+  </body>
+</html>

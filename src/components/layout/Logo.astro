@@ -9,8 +9,8 @@ const { size = 'sm', inverted = false } = Astro.props;
 ---
 
 <a href={url('/')} class:list={['logo', `logo--${size}`, { 'logo--inverted': inverted }]} aria-label="La Grande Armée — accueil">
-  <span class="logo__line">La Grande</span>
-  <span class="logo__line logo__line--big">Armée</span>
+  <img class="logo__line" src={url('/images/titre-la-grande.svg')} alt="" />
+  <img class="logo__line logo__line--big" src={url('/images/titre-armee.svg')} alt="" />
   <span class="logo__stripe stripes" aria-hidden="true"></span>
 </a>
 
@@ -30,12 +30,19 @@ const { size = 'sm', inverted = false } = Astro.props;
   .logo--inverted {
     color: var(--paper);
   }
+  /* Titre dessiné (scripts/titre-svg.py) : « LA GRANDE » petit, « ARMÉE » grand */
   .logo__line {
-    font-size: 1rem;
-    letter-spacing: 0.04em;
+    display: block;
+    height: 15px;
+    width: auto;
+    max-width: none; /* sinon largeur nulle dans le conteneur inline-flex (max-width: 100% global) */
   }
   .logo__line--big {
-    font-size: 1.6rem;
+    height: 26px;
+    margin-top: 2px;
+  }
+  .logo--inverted .logo__line {
+    filter: invert(1);
   }
   .logo__stripe {
     width: 100%;
@@ -45,10 +52,10 @@ const { size = 'sm', inverted = false } = Astro.props;
     background-size: 60px 60px;
   }
   .logo--lg .logo__line {
-    font-size: 1.6rem;
+    height: 26px;
   }
   .logo--lg .logo__line--big {
-    font-size: 2.8rem;
+    height: 46px;
   }
   .logo--lg .logo__stripe {
     height: 8px;

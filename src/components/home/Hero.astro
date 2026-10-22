@@ -5,41 +5,56 @@
  * « affiche » à bandes diagonales. Sur mobile, les deux extrémités sont masquées.
  */
 import type { Character } from '@/data/characters';
-import CharacterFigure from '@/components/characters/CharacterFigure.astro';
+import { heroBusts, type HeroBust } from '@/data/hero-busts';
 import CTA from '@/components/ui/CTA.astro';
 import Annotation from '@/components/ui/Annotation.astro';
 import Doodle from '@/components/ui/Doodle.astro';
+import { url } from '@/lib/url';
 
 interface Props {
   characters: Character[];
 }
 
-const { characters } = Astro.props;
-// Les personnages déjà dessinés (buste détouré) prennent le centre du groupe,
-// les silhouettes provisoires se répartissent autour.
-const CENTER_FIRST = [3, 2, 4, 1, 5, 0, 6];
-const picked = characters.slice(0, 7);
-const ordered = [...picked.filter((c) => c.cutout), ...picked.filter((c) => !c.cutout)];
-const group: Character[] = new Array(picked.length);
-ordered.forEach((c, i) => (group[CENTER_FIRST[i]] = c));
+/**
+ * Tirage des bustes : au hasard, un copain différent par place. Même code côté serveur
+ * (première image) et côté navigateur (nouveau tirage à chaque chargement).
+ */
+const N = 7;
+const ORDER = [3, 2, 4, 1, 5, 0, 6]; // du centre vers les bords
+function draw(pool: HeroBust[], random: () => number): HeroBust[] {
+  const shuffled = [...pool].map((b) => ({ b, r: random() })).sort((x, y) => x.r - y.r).map((x) => x.b);
+  const picked: HeroBust[] = [];
+  {
+    for (const b of shuffled) {
+      if (picked.length >= N) break;
+      if (picked.includes(b) || picked.some((p) => p.slug === b.slug)) continue;
+      picked.push(b);
+    }
+  }
+  const group: HeroBust[] = new Array(N);
+  picked.forEach((b, i) => (group[ORDER[i]] = b));
+  return group;
+}
+let seed = 7;
+const group = draw(heroBusts, () => ((seed = (seed * 9301 + 49297) % 233280) / 233280));
+const pool = heroBusts.map((b) => ({ ...b, src: url(`/${b.src}`) }));
 
-// Échelle + décalage vertical de chaque membre, du bord vers le centre.
-const layout = [
-  { s: 0.8, y: 2, z: 1 },
-  { s: 0.92, y: 0, z: 3 },
-  { s: 0.86, y: 4, z: 2 },
-  { s: 1, y: 0, z: 5 },
-  { s: 0.9, y: 3, z: 4 },
-  { s: 0.95, y: 0, z: 3 },
-  { s: 0.78, y: 2, z: 1 },
-];
+// Échelle + décalage vertical + profondeur : plus grand au centre, en léger zigzag vers les bords.
+const mid = (N - 1) / 2;
+const layout = group.map((_, i) => {
+  const d = Math.abs(i - mid) / mid;
+  return { s: +(1 - 0.2 * d - (i % 2 ? 0.05 : 0)).toFixed(2), y: i % 2 ? 3 : 0, z: Math.round(10 - d * 8) };
+});
 ---
 
 <section class="hero">
   <div class="container hero__intro">
     <span class="hero__pill">Plus qu'un jeu, une bande de copains</span>
-    <h1 class="hero__title title-xl">
-      La Grande Armée
+    <h1 class="hero__title">
+      {/* Titre dessiné (typographie de la marque, vectorisée par scripts/titre-svg.py) */}
+      <span class="sr-only">La Grande Armée</span>
+      <img class="hero__title-line" src={url('/images/titre-la-grande.svg')} alt="" />
+      <img class="hero__title-line hero__title-line--2" src={url('/images/titre-armee.svg')} alt="" />
       <Doodle class="hero__spark hero__spark--l" shape="sparkle" size={46} color="var(--yellow)" />
       <Doodle class="hero__spark hero__spark--r" shape="burst" size={44} />
     </h1>
@@ -57,12 +72,12 @@ const layout = [
     <Annotation class="hero__note hero__note--2" arrow="down-left" rotate={5}>une quinzaine de copains</Annotation>
     <Annotation class="hero__note hero__note--3" arrow="down-left" rotate={-3}>aucun n'a été choisi !</Annotation>
 
-    <ul class="hero__group" aria-label="La bande">
-      {group.map((character, i) => {
-        const l = layout[i] ?? { s: 0.9, y: 0, z: 1 };
+    <ul class="hero__group" aria-label="La bande" style={`--n:${N}`} data-hero-group data-pool={JSON.stringify(pool)}>
+      {group.map((b, i) => {
+        const l = layout[i];
         return (
           <li class="hero__member" style={`--s:${l.s}; --y:${l.y}%; --z:${l.z}; --d:${i * 70}ms`}>
-            <CharacterFigure character={character} eager />
+            <img class="figure" src={url(`/${b.src}`)} alt={b.name} loading="eager" decoding="async" data-hero-slot={i} style={`--k:${b.scale ?? 1}`} />
           </li>
         );
       })}
@@ -70,6 +85,33 @@ const layout = [
     <div class="hero__ground" aria-hidden="true"></div>
   </div>
 </section>
+
+<script>
+  // Nouveau tirage à chaque chargement de page (mêmes règles que côté serveur)
+  type Bust = { slug: string; name: string; family: string; src: string };
+  const groupEl = document.querySelector<HTMLElement>('[data-hero-group]');
+  if (groupEl) {
+    const pool: Bust[] = JSON.parse(groupEl.dataset.pool!);
+    const ORDER = [3, 2, 4, 1, 5, 0, 6];
+    const shuffled = pool.map((b) => ({ b, r: Math.random() })).sort((x, y) => x.r - y.r).map((x) => x.b);
+    const picked: Bust[] = [];
+    {
+      for (const b of shuffled) {
+        if (picked.length >= ORDER.length) break;
+        if (picked.includes(b) || picked.some((p) => p.slug === b.slug)) continue;
+          picked.push(b);
+      }
+    }
+    picked.forEach((b, i) => {
+      const img = groupEl.querySelector<HTMLImageElement>(`[data-hero-slot="${ORDER[i]}"]`);
+      if (img) {
+        img.src = b.src;
+        img.alt = b.name;
+        img.style.setProperty('--k', String((b as Bust & { scale?: number }).scale ?? 1));
+      }
+    });
+  }
+</script>
 
 <style>
   .hero {
@@ -86,6 +128,8 @@ const layout = [
     gap: 18px;
   }
   .hero__pill {
+    /* légèrement remonté : plus d'air entre le bandeau et le grand titre */
+    margin: -12px 0 14px;
     padding: 6px 16px;
     border: var(--border);
     border-radius: 999px;
@@ -97,20 +141,34 @@ const layout = [
   }
   .hero__title {
     position: relative;
-    max-width: 11ch;
-    line-height: 0.9;
+    width: fit-content;
+    margin-inline: auto;
+    font-size: clamp(2.6rem, 8vw, 6rem); /* taille de référence des étincelles */
+    line-height: 0;
+  }
+  .hero__title-line {
+    display: block;
+    height: clamp(3.4rem, 11vw, 8.4rem);
+    width: auto;
+    margin: 0 auto;
+  }
+  /* « ARMÉE » : son dessin inclut l'accent du É (+16 % de hauteur) → mêmes capitales que « LA GRANDE » */
+  .hero__title-line--2 {
+    height: calc(clamp(3.4rem, 11vw, 8.4rem) * 1.16);
+    margin-top: 0;
   }
   :global(.hero__spark) {
     position: absolute;
   }
+  /* Étincelles posées en dehors du titre, sans cacher les lettres */
   :global(.hero__spark--l) {
-    left: -0.55em;
-    top: -0.1em;
+    left: -0.95em;
+    top: -0.45em;
     transform: rotate(-12deg);
   }
   :global(.hero__spark--r) {
-    right: -0.5em;
-    top: -0.25em;
+    right: -0.95em;
+    top: -0.5em;
   }
   .hero__baseline {
     font-family: var(--font-hand);
@@ -161,7 +219,6 @@ const layout = [
     list-style: none;
   }
   .hero__member {
-    --n: 7;
     flex: 0 0 auto;
     width: calc(100% / var(--n) * 1.32);
     margin-inline: calc(100% / var(--n) * -0.16);
@@ -171,6 +228,15 @@ const layout = [
     transform-origin: bottom center;
     animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: var(--d);
+  }
+  .hero__member img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+    transform: scale(var(--k, 1));
+    transform-origin: bottom center;
   }
   .hero__member:hover {
     animation: wiggle 0.5s ease;
@@ -213,8 +279,12 @@ const layout = [
   }
 
   @media (max-width: 720px) {
+    .hero__group {
+      --n-mobile: calc(var(--n) - 2);
+    }
     .hero__member {
-      --n: 5;
+      width: calc(100% / var(--n-mobile) * 1.32);
+      margin-inline: calc(100% / var(--n-mobile) * -0.16);
     }
     .hero__member:first-child,
     .hero__member:last-child {
@@ -235,11 +305,16 @@ const layout = [
       flex-direction: column;
       width: 100%;
     }
+    /* Téléphone : étincelles plus petites, au-dessus des coins du titre */
     :global(.hero__spark--l) {
-      left: -0.3em;
+      left: -0.35em;
+      top: -0.85em;
+      scale: 0.7;
     }
     :global(.hero__spark--r) {
-      right: -0.2em;
+      right: -0.35em;
+      top: -0.9em;
+      scale: 0.7;
     }
   }
 </style>

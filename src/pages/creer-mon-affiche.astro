@@ -20,6 +20,7 @@ const roster: RosterEntry[] = [...characters]
     looks: (c.looks ?? []).map((l) => ({
       familyName: families[l.family].name,
       familyColor: families[l.family].color,
+      familyBg: families[l.family].bg,
       image: url(`/${l.image}`),
       bust: cropTransform(l.bust),
       animation: l.animation,

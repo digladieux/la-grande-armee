@@ -1,0 +1,106 @@
+---
+import PageShell from '@/layouts/PageShell.astro';
+import { url } from '@/lib/url';
+
+const games = [
+  {
+    href: '/jeux/la-grande-course',
+    title: 'La Grande Course',
+    text: 'Cours, saute, baisse-toi : esquive les copains le plus longtemps possible.',
+    cta: 'Jouer',
+    color: 'var(--orange)',
+    image: '/images/jeu/guigui-gaulois.webp',
+  },
+  {
+    href: '/jeux/quiz',
+    title: 'Le quiz',
+    text: 'À quel copain de La Grande Armée ressembles-tu ? 19 questions pour le savoir.',
+    cta: 'Faire le quiz',
+    color: 'var(--purple)',
+    image: '/images/jeu/dauby-izikarate.webp',
+  },
+];
+---
+
+<PageShell title="Les jeux" eyebrow="On joue ?" intro="Deux façons de passer du temps avec la bande." accent="orange">
+  <ul class="games">
+    {games.map((g) => (
+      <li>
+        <a class="game" href={url(g.href)} style={`--c: ${g.color}`}>
+          <span class="game__art stripes" aria-hidden="true">
+            <img src={url(g.image)} alt="" loading="lazy" />
+          </span>
+          <span class="game__body">
+            <strong class="game__title">{g.title}</strong>
+            <span class="game__text">{g.text}</span>
+            <span class="game__cta">{g.cta} →</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</PageShell>
+
+<style>
+  .games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    overflow: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .game:hover {
+    transform: translate(-3px, -3px) rotate(-0.5deg);
+    box-shadow: var(--shadow);
+  }
+  .game__art {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    height: 220px;
+    border-bottom: var(--border);
+    overflow: hidden;
+  }
+  .game__art img {
+    height: 92%;
+    width: auto;
+    filter: drop-shadow(3px 3px 0 rgb(22 20 18 / 0.15));
+  }
+  .game__body {
+    display: grid;
+    gap: 8px;
+    padding: 18px 20px 20px;
+    background: color-mix(in srgb, var(--c) 30%, var(--paper));
+    flex: 1;
+  }
+  .game__title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .game__text {
+    line-height: 1.45;
+  }
+  .game__cta {
+    margin-top: 4px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

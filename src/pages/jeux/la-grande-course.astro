@@ -1,0 +1,57 @@
+---
+import PageShell from '@/layouts/PageShell.astro';
+import LaGrandeCourse from '@/features/la-grande-course/LaGrandeCourse';
+import type { CourseCharacter } from '@/features/la-grande-course/types';
+import { characters } from '@/data/characters';
+import { families } from '@/data/families';
+import { cropTransform } from '@/lib/crop';
+import { url } from '@/lib/url';
+import { pickCovers } from '@/lib/covers';
+import sprites from '@/data/jeu-sprites.json';
+
+const manifest = sprites as Record<string, { w: number; h: number; ratio: number }>;
+const covers = pickCovers(characters);
+
+// Une entrée par copain jouable ; ses tenues servent aussi d'obstacles aux autres
+const roster: CourseCharacter[] = characters
+  .map((c) => {
+    const looks = (c.looks ?? []).flatMap((l) => {
+      const fam = l.image.split('/').pop()!.replace('-blanc.png', '');
+      const s = manifest[`${c.slug}/${fam}`];
+      if (!s) return [];
+      return [
+        {
+          key: `${c.slug}/${fam}`,
+          slug: c.slug,
+          name: c.name,
+          familyName: families[l.family].name,
+          bg: families[l.family].bg,
+          sprite: url(`/images/jeu/${c.slug}-${fam}.webp`),
+          head: url(`/images/jeu/${c.slug}-${fam}-tete.webp`),
+          ratio: s.ratio,
+        },
+      ];
+    });
+    const cover = c.looks?.[covers.get(c.slug) ?? 0];
+    if (!looks.length || !cover) return null;
+    const plein = cover.cutout?.replace('-cutout.png', '-plein.png');
+    return {
+      slug: c.slug,
+      name: c.name,
+      portrait: url(`/${plein ?? cover.image}`),
+      portraitTransform: cropTransform(cover.bust),
+      portraitBg: families[cover.family].bg,
+      looks,
+    };
+  })
+  .filter((c): c is CourseCharacter => !!c);
+---
+
+<PageShell
+  title="La Grande Course"
+  eyebrow="Les jeux"
+  intro="Choisis ton copain, cours, saute et baisse-toi pour esquiver toute la bande. Jusqu'où iras-tu ?"
+  accent="orange"
+>
+  <LaGrandeCourse client:only="preact" roster={roster} />
+</PageShell>

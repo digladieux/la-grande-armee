@@ -6,8 +6,8 @@ ses données et sa logique, puis sera montée dans la page correspondante de `sr
 | Dossier (à créer)        | Page                      | Notes                                                        |
 | ------------------------ | ------------------------- | ------------------------------------------------------------ |
 | `poster-configurator/` ✅ | `/creer-mon-affiche`      | Prototype Preact : bande, tenue, style, texte, format.      |
-| `quiz/`                  | `/quiz`                   | Questions/résultats en données ; résultat → `characters.ts`. |
-| `game/`                  | `/jeu` (nouvelle route)   | Mini-jeu (canvas), chargé seulement sur sa page.             |
+| `quiz/`                  | `/jeux/quiz`              | Questions/résultats en données ; résultat → `characters.ts`. |
+| `la-grande-course/` ✅    | `/jeux/la-grande-course`  | Jeu de course (canvas), images : scripts/jeu-sprites.py.     |
 | `shop/`                  | `/boutique`               | Catalogue dans `src/data/products.ts` → service externe.     |
 | `animations/`            | —                         | Animations des personnages, branchées sur `CharacterFigure`. |
 

@@ -1,0 +1,274 @@
+---
+/**
+ * Bloc « Les jeux » de l'accueil : mini-scène animée de La Grande Course (CSS seul) —
+ * un copain court et saute par-dessus les autres, dans le décor du jeu.
+ */
+import CTA from '@/components/ui/CTA.astro';
+import Annotation from '@/components/ui/Annotation.astro';
+import { url } from '@/lib/url';
+
+const runner = url('/images/jeu/dim-botefragile.webp');
+const obstacles = [url('/images/jeu/guigui-gaulois.webp'), url('/images/jeu/coco-gochofacho.webp')];
+---
+
+<section class="section games">
+  <div class="container">
+    <div class="games__panel">
+      <div class="games__text">
+        <span class="eyebrow">Les jeux</span>
+        <h2 class="title-lg">Esquive la bande&nbsp;!</h2>
+        <p class="lead">
+          Dans La Grande Course, choisis ton copain et saute par-dessus tous les autres. Ou fais le quiz pour savoir à qui
+          tu ressembles.
+        </p>
+        <div class="games__ctas">
+          <CTA href="/jeux/la-grande-course">Jouer</CTA>
+          <CTA href="/jeux" variant="secondary" arrow={false}>Tous les jeux</CTA>
+        </div>
+      </div>
+
+      <a class="games__scene" href={url('/jeux/la-grande-course')} aria-label="Jouer à La Grande Course">
+        <span class="games__sky" aria-hidden="true"></span>
+        <span class="games__cloud games__cloud--1" aria-hidden="true"></span>
+        <span class="games__cloud games__cloud--2" aria-hidden="true"></span>
+        <span class="games__hud" aria-hidden="true">
+          <span class="games__record">Record 00420</span>
+          <span class="games__score"></span>
+        </span>
+        <span class="games__ground" aria-hidden="true"></span>
+        {obstacles.map((src, i) => (
+          <img class={`games__obstacle games__obstacle--${i + 1}`} src={src} alt="" loading="lazy" decoding="async" />
+        ))}
+        <img class="games__runner" src={runner} alt="" loading="lazy" decoding="async" />
+        <Annotation class="games__note" arrow="down-left" rotate={-6}>Saute !</Annotation>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .games__panel {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    align-items: center;
+    gap: clamp(20px, 4vw, 48px);
+    padding: clamp(24px, 4.5vw, 56px);
+    border: var(--border);
+    border-radius: calc(var(--radius) * 2);
+    background: color-mix(in srgb, var(--orange) 30%, var(--paper));
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .games__text {
+    display: grid;
+    justify-items: start;
+    gap: 16px;
+  }
+  .games__text .lead {
+    color: var(--ink);
+  }
+  .games__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ── Mini-scène du jeu ── */
+  .games__scene {
+    --cycle: 2.4s;
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    transform: rotate(1.2deg);
+    transition: transform 0.2s ease;
+  }
+  .games__scene:hover {
+    transform: rotate(0deg) scale(1.01);
+  }
+  .games__sky {
+    position: absolute;
+    inset: 0 0 18%;
+    opacity: 0.55;
+    background: repeating-linear-gradient(
+      -50deg,
+      #c9e6c7 0 40px,
+      #fbd2c6 40px 80px,
+      #fdf8e3 80px 120px,
+      #e3d1f9 120px 160px,
+      #fcefbe 160px 200px,
+      #fcdab4 200px 240px,
+      #d4e9f8 240px 280px
+    );
+    background-size: 365px 100%;
+    animation: games-sky 6s linear infinite;
+  }
+  @keyframes games-sky {
+    to {
+      background-position: -365px 0;
+    }
+  }
+  .games__cloud {
+    position: absolute;
+    width: 22%;
+    aspect-ratio: 2.4;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: #fff;
+    animation: games-cloud 9s linear infinite;
+  }
+  .games__cloud::before {
+    content: '';
+    position: absolute;
+    left: 22%;
+    bottom: 40%;
+    width: 46%;
+    aspect-ratio: 1;
+    border: 2px solid var(--ink);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .games__cloud--1 {
+    top: 8%;
+  }
+  .games__cloud--2 {
+    top: 26%;
+    width: 15%;
+    animation-delay: -4.5s;
+  }
+  @keyframes games-cloud {
+    from {
+      left: 105%;
+    }
+    to {
+      left: -30%;
+    }
+  }
+  .games__ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 18%;
+    border-top: 2.5px solid var(--ink);
+    background:
+      repeating-linear-gradient(90deg, transparent 0 34px, var(--ink) 34px 44px, transparent 44px 80px) 0 40% / 80px 2px no-repeat
+        repeat-x,
+      var(--paper);
+    animation: games-ground 1.2s linear infinite;
+  }
+  @keyframes games-ground {
+    to {
+      background-position: -80px 40%, 0 0;
+    }
+  }
+  .games__hud {
+    position: absolute;
+    top: 6%;
+    right: 4%;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+  }
+  .games__record {
+    font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+    color: var(--ink-soft);
+  }
+  .games__score {
+    font-size: clamp(1rem, 2.4vw, 1.3rem);
+  }
+  .games__score::after {
+    content: '00128';
+    animation: games-score 4s steps(1) infinite;
+  }
+  @keyframes games-score {
+    0% { content: '00128'; }
+    20% { content: '00131'; }
+    40% { content: '00134'; }
+    60% { content: '00137'; }
+    80% { content: '00140'; }
+  }
+
+  /* Coureur : saute à chaque passage d'obstacle (même rythme que les obstacles) */
+  .games__runner {
+    position: absolute;
+    left: 12%;
+    bottom: 17%;
+    z-index: 2;
+    height: 40%;
+    width: auto;
+    transform-origin: bottom center;
+    animation: games-jump calc(var(--cycle) / 2) ease-in-out infinite;
+  }
+  @keyframes games-jump {
+    /* scaleX(-1) : le dessin regarde à gauche, on le retourne pour qu'il coure vers la droite */
+    0%, 8% { transform: translateY(0) rotate(0) scaleX(-1); }
+    42% { transform: translateY(-85%) rotate(-6deg) scaleX(-1); }
+    76%, 100% { transform: translateY(0) rotate(0) scaleX(-1); }
+  }
+  .games__obstacle {
+    position: absolute;
+    bottom: 17%;
+    left: 105%;
+    height: 26%;
+    width: auto;
+    animation: games-obstacle var(--cycle) linear infinite;
+  }
+  .games__obstacle--2 {
+    height: 30%;
+    animation-delay: calc(var(--cycle) / -2);
+  }
+  @keyframes games-obstacle {
+    from {
+      left: 105%;
+    }
+    to {
+      left: -25%;
+    }
+  }
+  :global(.games__note) {
+    position: absolute;
+    left: 26%;
+    top: 34%;
+    pointer-events: none;
+  }
+
+  @media (max-width: 800px) {
+    .games__panel {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 20px 18px 22px;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .games__text {
+      gap: 10px;
+    }
+    .games__text .title-lg {
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+    .games__text .lead {
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .games__scene {
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .games__scene * {
+      animation: none !important;
+    }
+    .games__obstacle--1 {
+      left: 52%;
+    }
+    .games__obstacle--2 {
+      left: 80%;
+    }
+  }
+</style>

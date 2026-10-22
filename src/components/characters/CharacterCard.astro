@@ -44,7 +44,7 @@ const familyNames = looks.map((l) => families[l.family].name);
     {looks.length > 0 && (
       <p class="card__families">
         {looks.map((l) => (
-          <span class="card__dot" style={`--c: var(--${families[l.family].color})`} title={families[l.family].name}></span>
+          <span class="card__dot" style={`--c: ${families[l.family].bg}`} title={families[l.family].name}></span>
         ))}
         <span class="sr-only">Familles : {familyNames.join(', ')}</span>
       </p>

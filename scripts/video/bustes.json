@@ -1,0 +1,164 @@
+[
+ {
+  "nom": "dim-shaker",
+  "video": "public/images/personnages/dim/bouffetout-shaker.mp4",
+  "sortie": "public/images/personnages/dim/bouffetout-buste-shaker.webp"
+ },
+ {
+  "nom": "dauby-kata",
+  "video": "public/images/personnages/dauby/izikarate-kata.mp4",
+  "sortie": "public/images/personnages/dauby/izikarate-buste.webp"
+ },
+ {
+  "nom": "dauby-casquette",
+  "video": "public/images/personnages/dauby/botefragile-casquette.mp4",
+  "sortie": "public/images/personnages/dauby/botefragile-buste-casquette.webp"
+ },
+ {
+  "nom": "guigui-course",
+  "video": "public/images/personnages/guigui/gaulois-course.mp4",
+  "sortie": "public/images/personnages/guigui/gaulois-buste-course.webp",
+  "zoom": 0.62,
+  "decalage": [
+   0.6,
+   -2.8
+  ],
+  "visage": [
+   64.5,
+   35.8,
+   10
+  ]
+ },
+ {
+  "nom": "merlot-salut",
+  "video": "public/images/personnages/merlot/gaulois-salut.mp4",
+  "sortie": "public/images/personnages/merlot/gaulois-buste.webp",
+  "zoom": 0.72,
+  "decalage": [
+   0.6,
+   -2.2
+  ],
+  "visage": [
+   41,
+   34,
+   9
+  ]
+ },
+ {
+  "nom": "nael-garde",
+  "video": "public/images/personnages/nael/izikarate-garde.mp4",
+  "sortie": "public/images/personnages/nael/izikarate-buste.webp"
+ },
+ {
+  "nom": "petit-golf",
+  "video": "public/images/personnages/petit/branquignol-golf.mp4",
+  "sortie": "public/images/personnages/petit/branquignol-buste-golf.webp",
+  "trous": true
+ },
+ {
+  "nom": "szabo-micro",
+  "video": "public/images/personnages/szabo/gochofacho-micro.mp4",
+  "sortie": "public/images/personnages/szabo/gochofacho-buste-micro.webp",
+  "zoom": 1.1
+ },
+ {
+  "nom": "momo-danse",
+  "video": "public/images/personnages/momo/bouffetout-danse.mp4",
+  "sortie": "public/images/personnages/momo/bouffetout-buste-danse.webp"
+ },
+ {
+  "nom": "laurent-casque",
+  "video": "public/images/personnages/laurent/joystick-casque.mp4",
+  "sortie": "public/images/personnages/laurent/joystick-buste-casque.webp",
+  "visage": [
+   58.5,
+   29.6,
+   10
+  ]
+ },
+ {
+  "nom": "nael-lyre",
+  "video": "public/images/personnages/nael/gaulois-lyre.mp4",
+  "sortie": "public/images/personnages/nael/gaulois-buste-lyre.webp"
+ },
+ {
+  "nom": "turquet-pied",
+  "video": "public/images/personnages/turquet/branquignol-pied.mp4",
+  "sortie": "public/images/personnages/turquet/branquignol-buste-pied.webp"
+ },
+ {
+  "nom": "donne-censure",
+  "video": "public/images/personnages/donne/gochofacho-censure.mp4",
+  "sortie": "public/images/personnages/donne/gochofacho-buste-censure.webp",
+  "zoom": 0.72,
+  "decalage": [
+   1.6,
+   -1.6
+  ]
+ },
+ {
+  "nom": "coco-censure",
+  "video": "public/images/personnages/coco/gochofacho-censure.mp4",
+  "sortie": "public/images/personnages/coco/gochofacho-buste-censure.webp",
+  "zoom": 0.7,
+  "decalage": [
+   0.6,
+   -2.4
+  ]
+ },
+ {
+  "nom": "aubin-marche",
+  "video": "public/images/personnages/aubin/gochofacho-marche.mp4",
+  "sortie": "public/images/personnages/aubin/gochofacho-buste-marche.webp",
+  "zoom": 0.75,
+  "decalage": [
+   0.4,
+   -2
+  ]
+ },
+ {
+  "nom": "coco-gaulois",
+  "video": "public/images/personnages/coco/gaulois-marche.mp4",
+  "sortie": "public/images/personnages/coco/gaulois-buste-marche.webp",
+  "visage": [
+   37,
+   48.5,
+   9
+  ],
+  "zoom": 0.78,
+  "decalage": [
+   0,
+   -1.6
+  ]
+ },
+ {
+  "nom": "dim-beauf",
+  "video": "public/images/personnages/dim/beauf-salut.mp4",
+  "sortie": "public/images/personnages/dim/beauf-buste-salut.webp"
+ },
+ {
+  "nom": "fred-troubadour",
+  "video": "public/images/personnages/fred/troubadour-anim.mp4",
+  "sortie": "public/images/personnages/fred/troubadour-buste.webp"
+ },
+ {
+  "nom": "guigui-perceuse",
+  "video": "public/images/personnages/guigui/botefragile-perceuse.mp4",
+  "sortie": "public/images/personnages/guigui/botefragile-buste-perceuse.webp"
+ },
+ {
+  "nom": "merlot-karate",
+  "video": "public/images/personnages/merlot/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/merlot/izikarate-buste-anim.webp"
+ },
+ {
+  "nom": "petit-gaulois",
+  "video": "public/images/personnages/petit/gaulois-anim.mp4",
+  "sortie": "public/images/personnages/petit/gaulois-buste.webp"
+ },
+ {
+  "nom": "theo-troubadour",
+  "video": "public/images/personnages/theo/troubadour-epee.mp4",
+  "sortie": "public/images/personnages/theo/troubadour-buste-epee.webp"
+ }
+]

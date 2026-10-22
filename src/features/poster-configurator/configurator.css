@@ -84,7 +84,38 @@
 .poster-sheet--paysage .poster-sheet__title strong {
   font-size: 8.5cqi;
 }
-.poster-sheet--paysage .poster-sheet__title span {
+/* Titre « gonflé » (PosterTitle.tsx) */
+.poster-sheet__title .poster-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-wrap: normal;
+}
+.poster-title__line {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+}
+.poster-title__line > span {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  border: 0;
+  transform-origin: 50% 85%;
+}
+.poster-title--logo img {
+  display: block;
+  width: 88%;
+  height: auto;
+  max-width: none;
+  margin: 0 auto;
+}
+.poster-sheet--paysage .poster-title--logo img {
+  width: 62%;
+}
+.poster-sheet__title > span {
   margin-top: 1.5cqi;
   font-size: 3.4cqi;
 }
@@ -135,7 +166,7 @@
   text-transform: uppercase;
   overflow-wrap: anywhere;
 }
-.poster-sheet__title span {
+.poster-sheet__title > span {
   display: inline-block;
   margin-top: 3cqi;
   padding: 0.5cqi 3cqi;
@@ -155,9 +186,13 @@
   background: none;
   transform: translate(-50%, -100%);
   cursor: grab;
-  touch-action: none;
+  /* Défilement de la page autorisé ; seul le copain sélectionné se fait glisser au doigt */
+  touch-action: pan-y pinch-zoom;
   animation: member-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   animation-delay: calc(var(--i) * 40ms);
+}
+.poster-member.is-selected {
+  touch-action: none;
 }
 .poster-member:active {
   cursor: grabbing;
@@ -262,8 +297,17 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.pc__step:hover {
+.pc__step:hover:not(:disabled) {
   background: var(--paper);
+}
+.pc__step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pc__step.is-done .pc__step-num {
+  background: var(--green);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
 }
 .pc__step[aria-selected='true'] {
   border-color: var(--ink);
@@ -351,7 +395,34 @@
   justify-items: start;
 }
 .pc__name {
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  padding: 2px 12px 4px;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  line-height: 1.1;
+  transform: rotate(-2deg);
+}
+.pc__fields .pc__check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pc__fields .pc__check input {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--ink);
 }
 .pc__switch {
   display: flex;
@@ -660,6 +731,31 @@
   cursor: not-allowed;
 }
 
+.pc__added {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 16px 12px;
+  padding: 10px 14px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--green) 45%, var(--paper));
+  font-weight: 700;
+  animation: hero-pop 0.35s ease;
+}
+.pc__added a {
+  color: var(--ink);
+  font-weight: 800;
+}
+.pc__added button {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
 /* ── Responsive ── */
 @media (max-width: 980px) {
   .pc {
@@ -686,6 +782,8 @@
   }
   .pc__showcase-info {
     justify-items: center;
+    /* La figurine reste entièrement au-dessus de l'étiquette « Tenue » */
+    margin-top: 10px;
   }
   .pc__hero-img {
     height: 200px;
@@ -762,7 +860,10 @@
 }
 @media (max-width: 520px) {
   .standee__walk {
-    height: 210px;
+    height: 190px;
+  }
+  .standee__front {
+    max-height: 190px;
   }
 }
 

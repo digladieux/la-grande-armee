@@ -1,5 +1,6 @@
 ---
 import type { Character } from '@/data/characters';
+import { families } from '@/data/families';
 import PosterPreview from '@/components/ui/PosterPreview.astro';
 import CTA from '@/components/ui/CTA.astro';
 import Annotation from '@/components/ui/Annotation.astro';
@@ -11,6 +12,14 @@ interface Props {
   secondary: Character;
 }
 const { character, secondary } = Astro.props;
+
+// Titre des affiches d'exemple : la vraie famille de la tenue affichée (même tenue que CharacterFigure « full »)
+const familyOf = (c: Character) => {
+  const look = c.looks?.find((l) => l.cutout);
+  return look ? families[look.family].name : '';
+};
+const frontFamily = familyOf(character);
+const backFamily = familyOf(secondary);
 
 const steps = [
   { title: 'Choisis ton personnage', color: 'yellow' },
@@ -44,8 +53,8 @@ const steps = [
 
     <div class="poster-section__visual">
       <div class="poster-section__blob stripes" aria-hidden="true"></div>
-      <PosterPreview class="poster-section__back" character={secondary} title="Les Copains" frame="black" />
-      <PosterPreview class="poster-section__front" character={character} title="La Team Dupont" subtitle="Édition barbecue" frame="wood" />
+      <PosterPreview class="poster-section__back" character={secondary} title={`Les ${backFamily}`} subtitle={`avec ${secondary.name}`} frame="black" />
+      <PosterPreview class="poster-section__front" character={character} title={`La Team ${frontFamily}`} subtitle={`Édition ${character.name}`} frame="wood" />
       <Annotation class="poster-section__note" arrow="down-left" rotate={6}>Ton affiche, ta vibe !</Annotation>
       <Doodle class="poster-section__spark" shape="sparkle" size={40} color="var(--coral)" />
     </div>

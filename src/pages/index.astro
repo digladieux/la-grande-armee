@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/home/Hero.astro';
-import QuizTeaser from '@/components/home/QuizTeaser.astro';
+import GamesTeaser from '@/components/home/GamesTeaser.astro';
 import BandSection from '@/components/home/BandSection.astro';
 import PosterSection from '@/components/home/PosterSection.astro';
 import ShopTeaser from '@/components/home/ShopTeaser.astro';
@@ -13,7 +13,7 @@ const pick = (slug: string) => characters.find((c) => c.slug === slug) ?? charac
 
 <BaseLayout>
   <Hero characters={featuredCharacters} />
-  <QuizTeaser character={pick('coco')} />
+  <GamesTeaser />
   <BandSection characters={featuredCharacters} />
   <PosterSection character={pick('guigui')} secondary={pick('merlot')} />
   <ShopTeaser products={teaserProducts} />

@@ -1,0 +1,35 @@
+---
+import PageShell from '@/layouts/PageShell.astro';
+import Quiz, { type QuizCharacter } from '@/features/quiz/Quiz';
+import { quiz } from '@/data/quiz';
+import { characters } from '@/data/characters';
+import { families } from '@/data/families';
+import { cropTransform } from '@/lib/crop';
+import { pickCovers } from '@/lib/covers';
+import { url } from '@/lib/url';
+
+const covers = pickCovers(characters);
+const quizCharacters: QuizCharacter[] = characters
+  .filter((c) => c.looks?.length)
+  .map((c) => {
+    const cover = c.looks![covers.get(c.slug) ?? 0];
+    const plein = cover.cutout?.replace('-cutout.png', '-plein.png');
+    return {
+      slug: c.slug,
+      name: c.name,
+      portrait: url(`/${plein ?? cover.image}`),
+      portraitTransform: cropTransform(cover.bust),
+      bg: families[cover.family].bg,
+      href: url(`/personnages#${c.slug}`),
+    };
+  });
+---
+
+<PageShell
+  title="À quel copain ressembles-tu ?"
+  eyebrow="Le quiz"
+  intro="Réponds franchement : on te dit à quel copain de La Grande Armée tu ressembles le plus."
+  accent="purple"
+>
+  <Quiz client:load questions={quiz} characters={quizCharacters} />
+</PageShell>

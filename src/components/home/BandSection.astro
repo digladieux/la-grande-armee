@@ -20,7 +20,7 @@ const { characters } = Astro.props;
     <Annotation class="band__note" arrow="down-left" rotate={-5}>des têtes qui te disent quelque chose…</Annotation>
   </div>
 
-  <CharacterCarousel characters={characters} label="Aperçu des personnages" />
+  <CharacterCarousel characters={characters} label="Aperçu des personnages" prefer={['mignon', 'beauf', 'capdag', 'troubadour']} />
 
   <div class="container band__foot">
     <CTA href="/personnages" variant="accent">Voir tous les personnages</CTA>

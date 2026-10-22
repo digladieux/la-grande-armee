@@ -13,6 +13,8 @@ import { BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIE
 import PosterCanvas from './PosterCanvas';
 import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
+import { ajouterAuPanier } from '../commande/panier';
+import type { Recette } from '../commande/recette';
 import './configurator.css';
 
 interface Props {
@@ -41,6 +43,20 @@ export default function PosterConfigurator({ roster }: Props) {
   /** Tant que l'utilisateur n'a pas choisi ses copains, l'affiche de départ suit l'orientation. */
   const [pickedByUser, setPickedByUser] = useState(false);
   const [step, setStep] = useState<StepId>('bande');
+  // Parcours guidé : on avance étape par étape ; une étape n'est accessible qu'une fois les précédentes vues
+  const [reached, setReached] = useState(0);
+  const stepIndex = STEPS.findIndex((s) => s.id === step);
+  const goToStep = (i: number) => {
+    if (i > reached) return;
+    setStep(STEPS[i].id);
+  };
+  const nextStep = () => {
+    const i = Math.min(STEPS.length - 1, stepIndex + 1);
+    setReached((r) => Math.max(r, i));
+    setStep(STEPS[i].id);
+    document.querySelector('.pc__panel')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  };
+  const allSeen = reached >= STEPS.length - 1;
   const [active, setActive] = useState<string | undefined>(playable[0]?.slug);
   /** Tenue affichée pour chaque copain (même s'il n'est pas encore sur l'affiche). */
   const [looks, setLooks] = useState<Record<string, number>>({});
@@ -54,6 +70,8 @@ export default function PosterConfigurator({ roster }: Props) {
     layout: null,
     title: 'La Grande Armée',
     subtitle: '',
+    showSubtitle: false,
+    showBrand: true,
   });
 
   const bySlug = useMemo(() => new Map(roster.map((r) => [r.slug, r])), [roster]);
@@ -69,6 +87,7 @@ export default function PosterConfigurator({ roster }: Props) {
 
   // ── Disposition de l'affiche ──
   const [selected, setSelected] = useState<string | undefined>();
+  const [ajoute, setAjoute] = useState(false);
   const [big, setBig] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const openBig = () => setBig(true);
@@ -138,12 +157,35 @@ export default function PosterConfigurator({ roster }: Props) {
   };
 
 
-  const autoSubtitle = state.selection.map((s) => bySlug.get(s.slug)?.name).filter(Boolean).join(', ');
+  // Panier : on enregistre la « recette » de l'affiche (redessinée en HD pour l'impression)
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+  const addToCart = () => {
+    const recette: Recette = {
+      v: 1,
+      orientation: state.orientation,
+      background: state.background,
+      frame: state.frame,
+      title: state.title,
+      subtitle: state.subtitle,
+      showSubtitle: state.showSubtitle,
+      showBrand: state.showBrand,
+      members: state.selection.flatMap((s) => {
+        const entry = bySlug.get(s.slug);
+        const look = entry?.looks[s.look];
+        const p = placements[s.slug];
+        if (!entry || !look || !p) return [];
+        const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
+        return [{ name: entry.name, family: look.familyName, src, p }];
+      }),
+    };
+    ajouterAuPanier(recette, state.format);
+    setAjoute(true);
+  };
 
   // Affiche + barre d'outils : affichées dans la page et dans l'aperçu en grand
   const renderCanvas = () => (
     <PosterCanvas
-      state={{ ...state, subtitle: state.subtitle || autoSubtitle }}
+      state={state}
       characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
       placements={placements}
       selected={selected}
@@ -167,7 +209,7 @@ export default function PosterConfigurator({ roster }: Props) {
         </>
       ) : (
         <p class="pc__editbar-hint">
-          {state.selection.length ? 'Clique sur un copain de l’affiche pour le déplacer, l’agrandir ou le passer devant.' : ''}
+          {state.selection.length ? 'Touche un copain de l’affiche pour le sélectionner, puis fais-le glisser, agrandis-le ou passe-le devant.' : ''}
         </p>
       )}
       {state.layout && (
@@ -190,10 +232,6 @@ export default function PosterConfigurator({ roster }: Props) {
         </div>
 
         {!big && renderEditBar()}
-        <p class="pc__summary">
-          Affiche {state.format} {state.orientation} · {FRAMES.find((f) => f.id === state.frame)?.label} ·{' '}
-          {state.selection.length} copain{state.selection.length > 1 ? 's' : ''}
-        </p>
       </div>
 
       {/* ── Panneau de réglages ── */}
@@ -205,10 +243,12 @@ export default function PosterConfigurator({ roster }: Props) {
                 type="button"
                 role="tab"
                 aria-selected={step === s.id}
-                class="pc__step"
-                onClick={() => setStep(s.id)}
+                class={`pc__step ${i < reached && step !== s.id ? 'is-done' : ''}`}
+                onClick={() => goToStep(i)}
+                disabled={i > reached}
+                title={i > reached ? 'Termine d’abord les étapes précédentes' : undefined}
               >
-                <span class="pc__step-num">{i + 1}</span>
+                <span class="pc__step-num">{i < reached && step !== s.id ? '✓' : i + 1}</span>
                 {s.label}
               </button>
             </li>
@@ -219,7 +259,7 @@ export default function PosterConfigurator({ roster }: Props) {
           {step === 'bande' && (
             <section>
               {current && (
-                <div class="pc__showcase" style={{ '--c': `var(--${current.looks[currentLook].familyColor})` }}>
+                <div class="pc__showcase" style={{ '--c': current.looks[currentLook].familyBg }}>
                   {current.looks[currentLook].cutout ? (
                     <div key={`${current.slug}-${currentLook}`} class="pc__hero">
                       <Standee
@@ -237,8 +277,9 @@ export default function PosterConfigurator({ roster }: Props) {
                     />
                   </div>
                   )}
+                  {/* Prénom en étiquette par-dessus : toujours lisible, quelle que soit la taille du dessin */}
+                  <h3 class="pc__name">{current.name}</h3>
                   <div class="pc__showcase-info">
-                    <h3 class="pc__name">{current.name}</h3>
                     <div class="pc__switch">
                       <button type="button" onClick={() => changeLook(-1)} aria-label="Tenue précédente" disabled={current.looks.length < 2}>
                         ‹
@@ -287,7 +328,7 @@ export default function PosterConfigurator({ roster }: Props) {
                       <button
                         type="button"
                         class={`pc__tile ${active === r.slug ? 'is-active' : ''}`}
-                        style={{ '--c': `var(--${look.familyColor})` }}
+                        style={{ '--c': look.familyBg }}
                         onClick={() => setActive(r.slug)}
                         onDblClick={() => togglePoster(r.slug)}
                         aria-pressed={active === r.slug}
@@ -362,16 +403,33 @@ export default function PosterConfigurator({ roster }: Props) {
                   onInput={(e) => update({ title: (e.target as HTMLInputElement).value })}
                 />
               </label>
-              <label>
-                <span class="pc__label">Sous-titre</span>
+              <label class="pc__check">
                 <input
-                  type="text"
-                  maxLength={48}
-                  placeholder={autoSubtitle || 'Les prénoms de la bande'}
-                  value={state.subtitle}
-                  onInput={(e) => update({ subtitle: (e.target as HTMLInputElement).value })}
+                  type="checkbox"
+                  checked={state.showSubtitle}
+                  onChange={(e) => update({ showSubtitle: (e.target as HTMLInputElement).checked })}
                 />
-                <small>Laisse vide pour afficher automatiquement les prénoms.</small>
+                <span>Ajouter un sous-titre</span>
+              </label>
+              {state.showSubtitle && (
+                <label>
+                  <span class="pc__label">Sous-titre</span>
+                  <input
+                    type="text"
+                    maxLength={48}
+                    placeholder="Ex. : Promo 2026, Les copains d'abord…"
+                    value={state.subtitle}
+                    onInput={(e) => update({ subtitle: (e.target as HTMLInputElement).value })}
+                  />
+                </label>
+              )}
+              <label class="pc__check">
+                <input
+                  type="checkbox"
+                  checked={state.showBrand}
+                  onChange={(e) => update({ showBrand: (e.target as HTMLInputElement).checked })}
+                />
+                <span>Afficher « La Grande Armée » en bas de l'affiche</span>
               </label>
             </section>
           )}
@@ -421,6 +479,13 @@ export default function PosterConfigurator({ roster }: Props) {
           )}
         </div>
 
+        {ajoute && (
+          <div class="pc__added" role="status">
+            <span>✓ Affiche ajoutée au panier</span>
+            <a href={`${base}panier`}>Voir le panier →</a>
+            <button type="button" onClick={() => setAjoute(false)} aria-label="Fermer">×</button>
+          </div>
+        )}
         <div class="pc__footer">
           <div>
             <small>Prix</small>
@@ -430,9 +495,15 @@ export default function PosterConfigurator({ roster }: Props) {
             <button type="button" class="pc__check" onClick={openBig}>
               Vérifier en grand
             </button>
-            <button type="button" class="pc__cart" disabled>
-              Ajouter au panier · bientôt
-            </button>
+            {stepIndex < STEPS.length - 1 ? (
+              <button type="button" class="pc__cart" onClick={nextStep} disabled={!state.selection.length}>
+                Étape suivante : {STEPS[stepIndex + 1].label} →
+              </button>
+            ) : (
+              <button type="button" class="pc__cart" onClick={addToCart} disabled={!state.selection.length || !allSeen}>
+                Ajouter au panier
+              </button>
+            )}
           </div>
         </div>
       </div>

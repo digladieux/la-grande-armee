@@ -6,14 +6,17 @@
 import type { Character } from '@/data/characters';
 import CharacterCard from './CharacterCard.astro';
 import { pickCovers } from '@/lib/covers';
+import type { FamilyId } from '@/data/families';
 
 interface Props {
   characters: Character[];
   label?: string;
+  /** Familles à mettre en avant sur les cartes (voir pickCovers). */
+  prefer?: FamilyId[];
 }
 
-const { characters, label = 'Personnages' } = Astro.props;
-const covers = pickCovers(characters);
+const { characters, label = 'Personnages', prefer = [] } = Astro.props;
+const covers = pickCovers(characters, prefer);
 ---
 
 <div class="carousel" data-carousel>

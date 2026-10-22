@@ -1,0 +1,770 @@
+[
+{
+"family": "botefragile",
+"image": "images/personnages/dim/botefragile-blanc.png",
+"cx": 50.0,
+"cy": 33.0,
+"zoom": 2.4,
+"cutout": "images/personnages/dim/botefragile-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/dim/izikarate-blanc.png",
+"cx": 51.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dim/izikarate-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/dim/gaulois-blanc.png",
+"cx": 52.0,
+"cy": 40.0,
+"zoom": 1.8,
+"cutout": "images/personnages/dim/gaulois-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/dim/branquignol-blanc.png",
+"cx": 46.0,
+"cy": 71.0,
+"zoom": 2.3,
+"cutout": "images/personnages/dim/branquignol-cutout.png"
+},
+{
+"family": "ludick",
+"image": "images/personnages/dim/ludick-blanc.png",
+"cx": 50.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dim/ludick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/dim/bouffetout-blanc.png",
+"cx": 50.0,
+"cy": 33.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dim/bouffetout-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/guigui/botefragile-blanc.png",
+"cx": 45.0,
+"cy": 41.0,
+"zoom": 1.9,
+"cutout": "images/personnages/guigui/botefragile-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/guigui/izikarate-blanc.png",
+"cx": 48.0,
+"cy": 35.0,
+"zoom": 2.0,
+"cutout": "images/personnages/guigui/izikarate-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/guigui/gaulois-blanc.png",
+"cx": 64.0,
+"cy": 38.0,
+"zoom": 1.6,
+"cutout": "images/personnages/guigui/gaulois-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/guigui/joystick-blanc.png",
+"cx": 40.0,
+"cy": 37.0,
+"zoom": 1.8,
+"cutout": "images/personnages/guigui/joystick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/guigui/bouffetout-blanc.png",
+"cx": 50.0,
+"cy": 28.0,
+"zoom": 2.0,
+"cutout": "images/personnages/guigui/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/guigui/gochofacho-blanc.png",
+"cx": 50.0,
+"cy": 30.0,
+"zoom": 1.9,
+"cutout": "images/personnages/guigui/gochofacho-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/dauby/botefragile-blanc.png",
+"cx": 44.0,
+"cy": 32.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dauby/botefragile-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/dauby/gaulois-blanc.png",
+"cx": 42.0,
+"cy": 39.0,
+"zoom": 1.8,
+"cutout": "images/personnages/dauby/gaulois-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/dauby/izikarate-blanc.png",
+"cx": 50.0,
+"cy": 41.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dauby/izikarate-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/dauby/bouffetout-blanc.png",
+"cx": 53.0,
+"cy": 37.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dauby/bouffetout-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/dauby/branquignol-blanc.png",
+"cx": 62.0,
+"cy": 33.0,
+"zoom": 2.1,
+"cutout": "images/personnages/dauby/branquignol-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/donne/botefragile-blanc.png",
+"cx": 83.0,
+"cy": 58.0,
+"zoom": 2.4,
+"cutout": "images/personnages/donne/botefragile-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/donne/branquignol-blanc.png",
+"cx": 58.0,
+"cy": 49.0,
+"zoom": 2.0,
+"cutout": "images/personnages/donne/branquignol-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/donne/izikarate-blanc.png",
+"cx": 51.0,
+"cy": 40.0,
+"zoom": 1.9,
+"cutout": "images/personnages/donne/izikarate-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/donne/gochofacho-blanc.png",
+"cx": 53.0,
+"cy": 35.0,
+"zoom": 1.9,
+"cutout": "images/personnages/donne/gochofacho-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/lenoir/botefragile-blanc.png",
+"cx": 37.0,
+"cy": 45.0,
+"zoom": 1.9,
+"cutout": "images/personnages/lenoir/botefragile-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/lenoir/gaulois-blanc.png",
+"cx": 64.0,
+"cy": 44.0,
+"zoom": 1.7,
+"cutout": "images/personnages/lenoir/gaulois-cutout.png"
+},
+{
+"family": "ludick",
+"image": "images/personnages/lenoir/ludick-blanc.png",
+"cx": 45.0,
+"cy": 40.0,
+"zoom": 2.0,
+"cutout": "images/personnages/lenoir/ludick-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/aubin/botefragile-blanc.png",
+"cx": 73.0,
+"cy": 47.0,
+"zoom": 2.2,
+"cutout": "images/personnages/aubin/botefragile-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/aubin/izikarate-blanc.png",
+"cx": 30.0,
+"cy": 62.0,
+"zoom": 1.6,
+"cutout": "images/personnages/aubin/izikarate-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/aubin/joystick-blanc.png",
+"cx": 46.0,
+"cy": 44.0,
+"zoom": 2.2,
+"cutout": "images/personnages/aubin/joystick-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/aubin/gochofacho-blanc.png",
+"cx": 48.0,
+"cy": 38.0,
+"zoom": 2.1,
+"cutout": "images/personnages/aubin/gochofacho-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/coco/botefragile-blanc.png",
+"cx": 44.0,
+"cy": 35.0,
+"zoom": 2.0,
+"cutout": "images/personnages/coco/botefragile-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/coco/gaulois-blanc.png",
+"cx": 38.0,
+"cy": 52.0,
+"zoom": 2.0,
+"cutout": "images/personnages/coco/gaulois-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/coco/joystick-blanc.png",
+"cx": 54.0,
+"cy": 37.0,
+"zoom": 2.0,
+"cutout": "images/personnages/coco/joystick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/coco/bouffetout-blanc.png",
+"cx": 51.0,
+"cy": 45.0,
+"zoom": 2.2,
+"cutout": "images/personnages/coco/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/coco/gochofacho-blanc.png",
+"cx": 50.0,
+"cy": 35.0,
+"zoom": 1.8,
+"cutout": "images/personnages/coco/gochofacho-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/laurent/botefragile-blanc.png",
+"cx": 59.0,
+"cy": 41.0,
+"zoom": 2.0,
+"cutout": "images/personnages/laurent/botefragile-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/laurent/izikarate-blanc.png",
+"cx": 50.0,
+"cy": 37.0,
+"zoom": 1.9,
+"cutout": "images/personnages/laurent/izikarate-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/laurent/branquignol-blanc.png",
+"cx": 42.0,
+"cy": 45.0,
+"zoom": 2.0,
+"cutout": "images/personnages/laurent/branquignol-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/laurent/joystick-blanc.png",
+"cx": 55.0,
+"cy": 39.0,
+"zoom": 2.2,
+"cutout": "images/personnages/laurent/joystick-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/laurent/gochofacho-blanc.png",
+"cx": 56.0,
+"cy": 32.0,
+"zoom": 2.0,
+"cutout": "images/personnages/laurent/gochofacho-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/merlot/gaulois-blanc.png",
+"cx": 42.0,
+"cy": 33.0,
+"zoom": 2.0,
+"cutout": "images/personnages/merlot/gaulois-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/merlot/izikarate-blanc.png",
+"cx": 52.0,
+"cy": 37.0,
+"zoom": 1.9,
+"cutout": "images/personnages/merlot/izikarate-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/merlot/bouffetout-blanc.png",
+"cx": 51.0,
+"cy": 37.0,
+"zoom": 2.0,
+"cutout": "images/personnages/merlot/bouffetout-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/nael/botefragile-blanc.png",
+"cx": 57.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/nael/botefragile-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/nael/gaulois-blanc.png",
+"cx": 51.0,
+"cy": 47.0,
+"zoom": 1.8,
+"cutout": "images/personnages/nael/gaulois-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/nael/izikarate-blanc.png",
+"cx": 50.0,
+"cy": 61.0,
+"zoom": 2.2,
+"cutout": "images/personnages/nael/izikarate-cutout.png"
+},
+{
+"family": "ludick",
+"image": "images/personnages/nael/ludick-blanc.png",
+"cx": 34.0,
+"cy": 37.0,
+"zoom": 2.0,
+"cutout": "images/personnages/nael/ludick-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/nael/gochofacho-blanc.png",
+"cx": 50.0,
+"cy": 55.0,
+"zoom": 2.2,
+"cutout": "images/personnages/nael/gochofacho-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/petit/gaulois-blanc.png",
+"cx": 49.0,
+"cy": 39.0,
+"zoom": 2.0,
+"cutout": "images/personnages/petit/gaulois-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/petit/branquignol-blanc.png",
+"cx": 51.0,
+"cy": 39.0,
+"zoom": 1.9,
+"cutout": "images/personnages/petit/branquignol-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/petit/gochofacho-blanc.png",
+"cx": 60.0,
+"cy": 35.0,
+"zoom": 2.1,
+"cutout": "images/personnages/petit/gochofacho-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/szabo/branquignol-blanc.png",
+"cx": 45.0,
+"cy": 36.0,
+"zoom": 2.3,
+"cutout": "images/personnages/szabo/branquignol-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/szabo/bouffetout-blanc.png",
+"cx": 36.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/szabo/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/szabo/gochofacho-blanc.png",
+"cx": 48.0,
+"cy": 35.0,
+"zoom": 2.0,
+"cutout": "images/personnages/szabo/gochofacho-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/turquet/gaulois-blanc.png",
+"cx": 54.0,
+"cy": 36.0,
+"zoom": 1.7,
+"cutout": "images/personnages/turquet/gaulois-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/turquet/izikarate-blanc.png",
+"cx": 47.0,
+"cy": 40.0,
+"zoom": 2.0,
+"cutout": "images/personnages/turquet/izikarate-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/turquet/joystick-blanc.png",
+"cx": 50.0,
+"cy": 45.0,
+"zoom": 1.9,
+"cutout": "images/personnages/turquet/joystick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/turquet/bouffetout-blanc.png",
+"cx": 50.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/turquet/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/turquet/gochofacho-blanc.png",
+"cx": 48.0,
+"cy": 32.0,
+"zoom": 2.0,
+"cutout": "images/personnages/turquet/gochofacho-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/turquet/branquignol-blanc.png",
+"cx": 50.0,
+"cy": 36.0,
+"zoom": 1.8,
+"cutout": "images/personnages/turquet/branquignol-cutout.png"
+},
+{
+"family": "izi-karate",
+"image": "images/personnages/fred/izikarate-blanc.png",
+"cx": 48.0,
+"cy": 40.0,
+"zoom": 1.8,
+"cutout": "images/personnages/fred/izikarate-cutout.png"
+},
+{
+"family": "gaulois",
+"image": "images/personnages/fred/gaulois-blanc.png",
+"cx": 49.0,
+"cy": 41.0,
+"zoom": 1.8,
+"cutout": "images/personnages/fred/gaulois-cutout.png"
+},
+{
+"family": "ludick",
+"image": "images/personnages/fred/ludick-blanc.png",
+"cx": 43.0,
+"cy": 55.0,
+"zoom": 2.0,
+"cutout": "images/personnages/fred/ludick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/fred/bouffetout-blanc.png",
+"cx": 54.0,
+"cy": 34.0,
+"zoom": 2.0,
+"cutout": "images/personnages/fred/bouffetout-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/fred/branquignol-blanc.png",
+"cx": 50.0,
+"cy": 52.0,
+"zoom": 1.8,
+"cutout": "images/personnages/fred/branquignol-cutout.png"
+},
+{
+"family": "joystick",
+"image": "images/personnages/hugo/joystick-blanc.png",
+"cx": 42.0,
+"cy": 50.0,
+"zoom": 1.8,
+"cutout": "images/personnages/hugo/joystick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/hugo/bouffetout-blanc.png",
+"cx": 52.0,
+"cy": 40.0,
+"zoom": 2.0,
+"cutout": "images/personnages/hugo/bouffetout-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/saby/bouffetout-blanc.png",
+"cx": 50.0,
+"cy": 36.0,
+"zoom": 2.0,
+"cutout": "images/personnages/saby/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/saby/gochofacho-blanc.png",
+"cx": 52.0,
+"cy": 37.0,
+"zoom": 2.0,
+"cutout": "images/personnages/saby/gochofacho-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/theo/branquignol-blanc.png",
+"cx": 42.0,
+"cy": 32.0,
+"zoom": 2.0,
+"cutout": "images/personnages/theo/branquignol-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/rene/branquignol-blanc.png",
+"cx": 70.0,
+"cy": 44.0,
+"zoom": 1.6,
+"cutout": "images/personnages/rene/branquignol-cutout.png"
+},
+{
+"family": "mignon",
+"image": "images/personnages/dim/mignon-blanc.png",
+"cx": 48.0,
+"cy": 37.0,
+"zoom": 1.5,
+"cutout": "images/personnages/dim/mignon-cutout.png"
+},
+{
+"family": "mignon",
+"image": "images/personnages/guigui/mignon-blanc.png",
+"cx": 46.0,
+"cy": 26.0,
+"zoom": 1.5,
+"cutout": "images/personnages/guigui/mignon-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/dim/beauf-blanc.png",
+"cx": 52.0,
+"cy": 42.0,
+"zoom": 2.0,
+"cutout": "images/personnages/dim/beauf-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/guigui/beauf-blanc.png",
+"cx": 69.0,
+"cy": 46.0,
+"zoom": 2.0,
+"cutout": "images/personnages/guigui/beauf-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/lenoir/beauf-blanc.png",
+"cx": 70.0,
+"cy": 46.0,
+"zoom": 2.4,
+"cutout": "images/personnages/lenoir/beauf-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/merlot/beauf-blanc.png",
+"cx": 51.0,
+"cy": 65.0,
+"zoom": 1.9,
+"cutout": "images/personnages/merlot/beauf-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/nael/beauf-blanc.png",
+"cx": 45.0,
+"cy": 65.0,
+"zoom": 2.2,
+"cutout": "images/personnages/nael/beauf-cutout.png"
+},
+{
+"family": "beauf",
+"image": "images/personnages/turquet/beauf-blanc.png",
+"cx": 56.0,
+"cy": 38.0,
+"zoom": 1.8,
+"cutout": "images/personnages/turquet/beauf-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/dauby/capdag-blanc.png",
+"cx": 40,
+"cy": 46,
+"zoom": 2.4,
+"cutout": "images/personnages/dauby/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/donne/capdag-blanc.png",
+"cx": 52,
+"cy": 52,
+"zoom": 2.4,
+"cutout": "images/personnages/donne/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/fred/capdag-blanc.png",
+"cx": 53,
+"cy": 49,
+"zoom": 2.4,
+"cutout": "images/personnages/fred/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/laurent/capdag-blanc.png",
+"cx": 52,
+"cy": 51,
+"zoom": 2.4,
+"cutout": "images/personnages/laurent/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/nael/capdag-blanc.png",
+"cx": 53,
+"cy": 60,
+"zoom": 2.4,
+"cutout": "images/personnages/nael/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/petit/capdag-blanc.png",
+"cx": 52,
+"cy": 52,
+"zoom": 2.4,
+"cutout": "images/personnages/petit/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/theo/capdag-blanc.png",
+"cx": 49,
+"cy": 47,
+"zoom": 2.4,
+"cutout": "images/personnages/theo/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/turquet/capdag-blanc.png",
+"cx": 52,
+"cy": 54,
+"zoom": 2.4,
+"cutout": "images/personnages/turquet/capdag-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/coco/troubadour-blanc.png",
+"cx": 50,
+"cy": 39,
+"zoom": 2.4,
+"cutout": "images/personnages/coco/troubadour-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/dauby/troubadour-blanc.png",
+"cx": 45,
+"cy": 37,
+"zoom": 2.4,
+"cutout": "images/personnages/dauby/troubadour-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/dim/troubadour-blanc.png",
+"cx": 45,
+"cy": 37,
+"zoom": 2.4,
+"cutout": "images/personnages/dim/troubadour-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/fred/troubadour-blanc.png",
+"cx": 43,
+"cy": 39,
+"zoom": 2.4,
+"cutout": "images/personnages/fred/troubadour-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/guigui/troubadour-blanc.png",
+"cx": 50,
+"cy": 44,
+"zoom": 2.2,
+"cutout": "images/personnages/guigui/troubadour-cutout.png"
+},
+{
+"family": "troubadour",
+"image": "images/personnages/theo/troubadour-blanc.png",
+"cx": 44,
+"cy": 42,
+"zoom": 2.4,
+"cutout": "images/personnages/theo/troubadour-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/momo/botefragile-blanc.png",
+"cx": 50,
+"cy": 36,
+"zoom": 2.4,
+"cutout": "images/personnages/momo/botefragile-cutout.png"
+},
+{
+"family": "branquignol",
+"image": "images/personnages/momo/branquignol-blanc.png",
+"cx": 52,
+"cy": 35,
+"zoom": 2.3,
+"cutout": "images/personnages/momo/branquignol-cutout.png"
+},
+{
+"family": "ludick",
+"image": "images/personnages/momo/ludick-blanc.png",
+"cx": 50,
+"cy": 48,
+"zoom": 2.2,
+"cutout": "images/personnages/momo/ludick-cutout.png"
+},
+{
+"family": "bouffetout",
+"image": "images/personnages/momo/bouffetout-blanc.png",
+"cx": 52,
+"cy": 35,
+"zoom": 2.1,
+"cutout": "images/personnages/momo/bouffetout-cutout.png"
+},
+{
+"family": "gochofacho",
+"image": "images/personnages/momo/gochofacho-blanc.png",
+"cx": 47,
+"cy": 34,
+"zoom": 2.4,
+"cutout": "images/personnages/momo/gochofacho-cutout.png"
+}
+]

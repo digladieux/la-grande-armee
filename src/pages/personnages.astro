@@ -5,7 +5,8 @@ import CharacterDialogs from '@/components/characters/CharacterDialogs.astro';
 import { characters } from '@/data/characters';
 import { pickCovers } from '@/lib/covers';
 
-const covers = pickCovers(characters);
+// Les nouvelles familles en couverture quand c'est possible (comme sur l'accueil)
+const covers = pickCovers(characters, ['mignon', 'beauf', 'capdag', 'troubadour']);
 ---
 
 <PageShell title="Personnages" eyebrow="La bande" intro="Tous les membres de La Grande Armée, famille par famille." accent="green">

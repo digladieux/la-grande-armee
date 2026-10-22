@@ -25,7 +25,7 @@ const tinted = !!plein && existsSync(join(process.cwd(), 'public', plein));
 
 <div
   class:list={['portrait', { 'portrait--tinted': tinted }, className]}
-  style={`--c: var(--${families[look.family].color})`}
+  style={`--c: ${families[look.family].bg}`}
 >
   <img
     src={url(`/${tinted ? plein : look.image}`)}
