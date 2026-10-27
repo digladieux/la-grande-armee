@@ -90,7 +90,7 @@ const bubbleLayer = (look: Look) => {
         </div>
 
         {looks.length > 1 && (
-          <ul class="cdialog__thumbs">
+          <ul class="cdialog__thumbs" data-thumbs>
             {looks.map((look, i) => (
               <li>
                 <button type="button" class="cdialog__thumb" data-goto={i} style={`--c: ${families[look.family].bg}`} aria-label={`Famille ${families[look.family].name}`}>
@@ -111,8 +111,21 @@ const bubbleLayer = (look: Look) => {
     dialogs.set(dialog.dataset.characterDialog!, dialog);
 
     const track = dialog.querySelector<HTMLElement>('[data-track]')!;
-    const slides = [...track.children] as HTMLElement[];
-    const thumbs = [...dialog.querySelectorAll<HTMLButtonElement>('[data-goto]')];
+    const thumbList = dialog.querySelector<HTMLElement>('[data-thumbs]');
+    const allSlides = [...track.children] as HTMLElement[];
+    const allThumbs = [...dialog.querySelectorAll<HTMLButtonElement>('[data-goto]')];
+    let slides = allSlides;
+    let thumbs = allThumbs;
+    // Le personnage cliqué passe en tête, les autres suivent dans l'ordre habituel
+    const putFirst = (first: number) => {
+      const order = [first, ...allSlides.keys()].filter((v, i, a) => a.indexOf(v) === i);
+      slides = order.map((i) => allSlides[i]);
+      thumbs = order.map((i) => allThumbs[i]);
+      track.append(...slides);
+      thumbList?.append(...thumbs.map((t) => t.parentElement!));
+      thumbs.forEach((t, i) => (t.dataset.goto = String(i)));
+      slides.forEach((s, i) => s.setAttribute('aria-label', s.getAttribute('aria-label')!.replace(/^\d+/, String(i + 1))));
+    };
     const prev = dialog.querySelector<HTMLButtonElement>('[data-prev]')!;
     const next = dialog.querySelector<HTMLButtonElement>('[data-next]')!;
     let index = 0;
@@ -121,12 +134,17 @@ const bubbleLayer = (look: Look) => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const VIDEO_DELAY = 1000;
     let videoTimer = 0;
+    // Masquage du dessin en style direct : iOS Safari ne l'appliquait pas toujours via le CSS
+    const setDrawingHidden = (v: HTMLVideoElement, hidden: boolean) => {
+      const img = v.parentElement?.querySelector<HTMLImageElement>('img:not(.cdialog__bubble)');
+      if (img) img.style.visibility = hidden ? 'hidden' : '';
+    };
     const stopVideos = () => {
       clearTimeout(videoTimer);
       dialog.querySelectorAll<HTMLVideoElement>('video[data-src]').forEach((v) => {
         v.pause();
         v.classList.remove('is-playing');
-        v.parentElement?.classList.remove('is-playing');
+        setDrawingHidden(v, false);
         if (v.src) v.currentTime = 0;
       });
     };
@@ -142,8 +160,8 @@ const bubbleLayer = (look: Look) => {
         v.play()
           .then(() => {
             v.classList.add('is-playing');
-            // Classe posée sur le parent plutôt qu'un :has() : Safari ne réévalue pas toujours :has() au changement de classe
-            v.parentElement?.classList.add('is-playing');
+            // Dessin masqué une fois le fondu de la vidéo terminé (pas de flash blanc entre les deux)
+            v.addEventListener('transitionend', () => v.classList.contains('is-playing') && setDrawingHidden(v, true), { once: true });
           })
           .catch(() => {});
       }, VIDEO_DELAY);
@@ -152,11 +170,14 @@ const bubbleLayer = (look: Look) => {
     // Carrousel en boucle : après la dernière carte, on revient à la première (et inversement)
     const goTo = (i: number, smooth = true) => {
       index = (i + slides.length) % slides.length;
-      track.scrollTo({ left: slides[index].offsetLeft, behavior: smooth ? 'smooth' : 'auto' });
+      track.scrollTo({ left: index * track.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
       render();
     };
     const render = () => {
       thumbs.forEach((t, i) => t.setAttribute('aria-current', String(i === index)));
+      // Garde la miniature active visible dans la rangée (sans faire défiler la fenêtre)
+      const t = thumbs[index]?.parentElement;
+      if (thumbList && t) thumbList.scrollTo({ left: t.offsetLeft - (thumbList.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
       prev.hidden = next.hidden = slides.length < 2;
       startVideo();
     };
@@ -188,7 +209,10 @@ const bubbleLayer = (look: Look) => {
       document.body.style.overflow = '';
       stopVideos();
     });
-    dialog.addEventListener('open-at', (e) => goTo((e as CustomEvent<number>).detail ?? 0, false));
+    dialog.addEventListener('open-at', (e) => {
+      putFirst((e as CustomEvent<number>).detail ?? 0);
+      goTo(0, false);
+    });
     render();
   });
 
@@ -242,6 +266,7 @@ const bubbleLayer = (look: Look) => {
     flex-direction: column;
     max-height: calc(100dvh - 28px);
     padding: clamp(18px, 3vw, 28px);
+    overflow-x: hidden;
     overflow-y: auto;
   }
   .cdialog__close {
@@ -317,9 +342,7 @@ const bubbleLayer = (look: Look) => {
     opacity: 0;
     transition: opacity 0.45s ease;
     aspect-ratio: 708 / 1068;
-    /* Le fond gris clair de la vidéo (≈ #f3f3f3) passe au blanc puis disparaît */
-    filter: brightness(1.06) contrast(1.08);
-    mix-blend-mode: multiply;
+    /* Fond déjà blanc dans le fichier (scripts/video/blanchir.swift) : pas de filtre CSS, ignoré par Safari sur une <video> */
   }
   /* Illustration + calque de la bulle d'origine, superposés au pixel près */
   .cdialog__art {
@@ -327,10 +350,6 @@ const bubbleLayer = (look: Look) => {
   }
   .cdialog__video.is-playing {
     opacity: 1;
-  }
-  /* La vidéo se fond en « produit » : on efface la carte en dessous pour éviter un double dessin */
-  .cdialog__art.is-playing > img:not(.cdialog__bubble) {
-    opacity: 0;
   }
   .cdialog__bubble {
     position: absolute;
@@ -392,13 +411,22 @@ const bubbleLayer = (look: Look) => {
   .cdialog__arrow--next {
     right: -12px;
   }
+  /* Rangée défilante à part : trop large sur mobile, elle ne doit pas élargir la fenêtre */
   .cdialog__thumbs {
     display: flex;
-    justify-content: center;
+    justify-content: safe center;
     gap: 10px;
     margin: 16px 0 0;
-    padding: 0;
+    padding: 4px 2px 8px;
     list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cdialog__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+  .cdialog__thumbs > li {
+    flex: none;
   }
   .cdialog__thumb {
     display: block;
@@ -422,7 +450,14 @@ const bubbleLayer = (look: Look) => {
   }
   @media (max-width: 560px) {
     .cdialog__arrow {
-      display: none;
+      width: 40px;
+      height: 40px;
+    }
+    .cdialog__arrow--prev {
+      left: 6px;
+    }
+    .cdialog__arrow--next {
+      right: 6px;
     }
     .cdialog__art > img:not(.cdialog__bubble) {
       height: min(50dvh, 460px);
