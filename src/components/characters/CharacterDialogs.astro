@@ -126,6 +126,7 @@ const bubbleLayer = (look: Look) => {
       dialog.querySelectorAll<HTMLVideoElement>('video[data-src]').forEach((v) => {
         v.pause();
         v.classList.remove('is-playing');
+        v.parentElement?.classList.remove('is-playing');
         if (v.src) v.currentTime = 0;
       });
     };
@@ -139,7 +140,11 @@ const bubbleLayer = (look: Look) => {
       }
       videoTimer = window.setTimeout(() => {
         v.play()
-          .then(() => v.classList.add('is-playing'))
+          .then(() => {
+            v.classList.add('is-playing');
+            // Classe posée sur le parent plutôt qu'un :has() : Safari ne réévalue pas toujours :has() au changement de classe
+            v.parentElement?.classList.add('is-playing');
+          })
           .catch(() => {});
       }, VIDEO_DELAY);
     };
@@ -324,7 +329,7 @@ const bubbleLayer = (look: Look) => {
     opacity: 1;
   }
   /* La vidéo se fond en « produit » : on efface la carte en dessous pour éviter un double dessin */
-  .cdialog__art:has(.cdialog__video.is-playing) > img:not(.cdialog__bubble) {
+  .cdialog__art.is-playing > img:not(.cdialog__bubble) {
     opacity: 0;
   }
   .cdialog__bubble {
