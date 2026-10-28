@@ -26,6 +26,12 @@ const decorImage = (look: Look) => {
   return path !== look.image && publicFile(path) ? path : undefined;
 };
 
+/** Lueur colorée de la carte prolongée tout autour (<famille>-fond.webp, à poser derrière la carte avec décor). */
+const glowImage = (look: Look) => {
+  const decor = decorImage(look);
+  return decor && publicFile(decor.replace('-decor.webp', '-fond.webp')) ? decor.replace('-decor.webp', '-fond.webp') : undefined;
+};
+
 /** Carte avec décor si elle existe, sinon illustration sans fond (<famille>-plein.png), sinon l'illustration d'origine. */
 const artImage = (look: Look) => {
   const decor = decorImage(look);
@@ -67,9 +73,12 @@ const bubbleLayer = (look: Look) => {
             {looks.map((look, i) => {
               const family = families[look.family];
               const bubble = bubbleLayer(look);
+              const glow = glowImage(look);
               return (
                 <li class="cdialog__slide" aria-label={`${i + 1} sur ${looks.length} : famille ${family.name}`}>
                   <div class="cdialog__art">
+                    {/* La couleur de fond de la carte déborde sur tout le cadre (plus d'effet d'encart) */}
+                    {glow && <span class="cdialog__glow" style={`background-image: url('${url(`/${glow}`)}')`} aria-hidden="true" />}
                     <img src={url(`/${artImage(look)}`)} alt={`${character.name}, famille ${family.name}`} loading="lazy" decoding="async" />
                     {/* Vidéo posée sur la carte : la carte d'origine reste visible un instant, puis l'animation démarre en fondu */}
                     {look.video && (
@@ -155,6 +164,7 @@ const bubbleLayer = (look: Look) => {
       dialog.querySelectorAll<HTMLVideoElement>('video[data-src]').forEach((v) => {
         v.pause();
         v.classList.remove('is-playing');
+        v.parentElement?.classList.remove('is-playing');
         setDrawingHidden(v, false);
         if (v.src) v.currentTime = 0;
       });
@@ -171,6 +181,8 @@ const bubbleLayer = (look: Look) => {
         v.play()
           .then(() => {
             v.classList.add('is-playing');
+            // La vidéo est sur fond blanc : la lueur de la carte s'efface en même temps
+            v.parentElement?.classList.add('is-playing');
             // Dessin masqué une fois le fondu de la vidéo terminé (pas de flash blanc entre les deux)
             v.addEventListener('transitionend', () => v.classList.contains('is-playing') && setDrawingHidden(v, true), { once: true });
           })
@@ -330,6 +342,9 @@ const bubbleLayer = (look: Look) => {
   }
   .cdialog__slide {
     position: relative;
+    /* La lueur de la carte déborde de l'illustration : elle reste dans sa diapositive */
+    overflow: hidden;
+    isolation: isolate;
     flex: 0 0 100%;
     display: flex;
     flex-direction: column;
@@ -358,6 +373,20 @@ const bubbleLayer = (look: Look) => {
   /* Illustration + calque de la bulle d'origine, superposés au pixel près */
   .cdialog__art {
     position: relative;
+  }
+  /* Fond prolongé : même cadre que la carte, étendu de 1,5 largeur et 1 hauteur de chaque côté (scripts/decors.py) */
+  .cdialog__glow {
+    position: absolute;
+    top: -100%;
+    bottom: -100%;
+    left: -150%;
+    right: -150%;
+    z-index: -1;
+    background: center / 100% 100% no-repeat;
+    transition: opacity 0.45s ease;
+  }
+  .cdialog__art.is-playing .cdialog__glow {
+    opacity: 0;
   }
   .cdialog__video.is-playing {
     opacity: 1;

@@ -8,7 +8,9 @@ Les cartes déposées dans un dossier (par défaut public/images/autres/, non pu
   2. recadrées au cadre 708×1068 des autres images (la vidéo s'y superpose au pixel près) ;
   3. nettoyées : le titre « Famille … » en haut et le nom du rôle en bas (« L'ONCLE »…) sont effacés
      (la fiche affiche déjà la famille dans son encart) ;
-  4. installées en public/images/personnages/<copain>/<famille>-decor.webp
+  4. installées en public/images/personnages/<copain>/<famille>-decor.webp, avec
+     <famille>-fond.webp : le fond de la carte prolongé tout autour (la fiche le pose derrière
+     la carte pour que sa couleur remplisse tout le cadre, sans effet d'encart)
      (une carte encore inconnue est rangée dans sources/personnages/<copain>/cartes/ et ajoutée
      à sources/personnages/cartes.json ; une carte déjà connue n'est pas recopiée).
 
@@ -132,6 +134,71 @@ def effacer_titre(im, perso, famille):
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
 
+# Fond prolongé : la lueur colorée de la carte, modélisée puis étendue sur un cadre de MARGE_X
+# largeurs de carte de chaque côté et MARGE_Y hauteurs en haut / en bas (basse définition : dégradé doux).
+MARGE_X, MARGE_Y, ECHELLE = 1.5, 1.0, 8
+# Bande du bord de la carte fondue dans la lueur (fraction de largeur / hauteur)
+FONDU = 0.2
+
+
+def lueur(im):
+    """Modélise le fond de la carte : blanc + halo coloré (centre, étendue, forme, teinte), ajusté
+    sur les pixels de fond (le dessin, trop éloigné du modèle, est écarté au fil des itérations)."""
+    w, h = W // ECHELLE, H // ECHELLE
+    a = np.asarray(im.resize((w, h), Image.BOX), dtype=np.float32)
+    X = np.arange(w)[None, :] / w
+    Y = np.arange(h)[:, None] / h
+    D = 255 - a
+    ok = a.min(axis=2) > 120
+    for _ in range(3):
+        best = None
+        for cx in np.linspace(0.3, 0.7, 9):
+            for cy in np.linspace(0.3, 0.75, 10):
+                for sx in (0.25, 0.35, 0.45, 0.6, 0.8):
+                    for sy in (0.2, 0.3, 0.4, 0.55, 0.75):
+                      # forme : 1 = gaussienne, au-delà halo « à plateau » qui retombe plus vite
+                      for k in (1, 2, 3):
+                        g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))[ok]
+                        d = D[ok]
+                        t = np.clip((g[:, None] * d).sum(0) / max((g * g).sum(), 1e-6), 0, 255)
+                        err = ((d - g[:, None] * t) ** 2).mean()
+                        if best is None or err < best[0]:
+                            best = (err, cx, cy, sx, sy, k, t)
+        _, cx, cy, sx, sy, k, t = best
+        g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))
+        ok = np.abs(D - g[..., None] * t).max(axis=2) < 18
+    return best[1:]
+
+
+def peindre(modele, x0, x1, y0, y1, w, h):
+    """Le modèle de lueur sur la zone [x0, x1] × [y0, y1] (unités : largeur / hauteur de carte)."""
+    cx, cy, sx, sy, k, t = modele
+    X = np.linspace(x0, x1, w)[None, :]
+    Y = np.linspace(y0, y1, h)[:, None]
+    g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))
+    return (255 - g[..., None] * t).clip(0, 255)
+
+
+def fondre_bords(im, modele):
+    """Près des bords, le fond de la carte rejoint la lueur modélisée (le dessin n'est pas touché)."""
+    a = np.asarray(im, dtype=np.float32)
+    m = peindre(modele, 0.5 / W, 1 - 0.5 / W, 0.5 / H, 1 - 0.5 / H, W, H)
+    X = np.arange(W)[None, :] / W
+    Y = np.arange(H)[:, None] / H
+    bord = np.minimum(np.minimum(X, 1 - X) / FONDU, np.minimum(Y, 1 - Y) / (FONDU * W / H))
+    f = np.clip(1 - bord, 0, 1) ** 2
+    fond = 1 - np.clip((np.abs(a - m).max(axis=2) - 30) / 40, 0, 1)
+    f = (f * fond)[..., None]
+    return Image.fromarray((a * (1 - f) + m * f).clip(0, 255).astype(np.uint8))
+
+
+def fond(modele):
+    w, h = W // ECHELLE, H // ECHELLE
+    mx, my = round(w * MARGE_X), round(h * MARGE_Y)
+    m = peindre(modele, -MARGE_X, 1 + MARGE_X, -MARGE_Y, 1 + MARGE_Y, w + 2 * mx, h + 2 * my)
+    return Image.fromarray(m.astype(np.uint8))
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     essai = "--essai" in sys.argv
@@ -173,7 +240,9 @@ def main():
             if (slug, fam) not in faites:
                 continue
             propre = effacer_titre(im, personnage(slug, fam), recaler(famille, im))
-            propre.save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
+            modele = lueur(propre)
+            fondre_bords(propre, modele).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
+            fond(modele).save(PUB / slug / f"{fam}-fond.webp", quality=85)
 
 
 if __name__ == "__main__":

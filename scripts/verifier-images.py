@@ -32,6 +32,7 @@ derived = {r.replace("-cutout.png", "-plein.png") for r in refs if r.endswith("-
 derived |= {r.replace("-blanc.png", "-bulle.png") for r in refs if r.endswith("-blanc.png")}
 # Les cartes avec décor « -decor.webp » (scripts/decors.py) remplacent l'illustration dans la fiche
 derived |= {r.replace("-blanc.png", "-decor.webp") for r in refs if r.endswith("-blanc.png")}
+derived |= {r.replace("-blanc.png", "-fond.webp") for r in refs if r.endswith("-blanc.png")}
 unused = sorted(on_disk - refs - derived)
 broken = sorted(r for r in refs if not (IMAGES / r).exists())
 print("Nouvelles images à intégrer :", *(unused or ["aucune"]), sep="\n  ")
