@@ -18,14 +18,25 @@ interface Props {
 
 const list = Astro.props.characters.filter((c) => c.looks?.length);
 
-/** Illustration sans fond (<famille>-plein.png, même cadre) si elle existe, sinon l'illustration d'origine. */
+const publicFile = (path: string) => existsSync(join(process.cwd(), 'public', path));
+
+/** Carte d'origine avec son décor (<famille>-decor.webp, scripts/decors.py), même cadre 708×1068. */
+const decorImage = (look: Look) => {
+  const path = look.image.replace('-blanc.png', '-decor.webp');
+  return path !== look.image && publicFile(path) ? path : undefined;
+};
+
+/** Carte avec décor si elle existe, sinon illustration sans fond (<famille>-plein.png), sinon l'illustration d'origine. */
 const artImage = (look: Look) => {
+  const decor = decorImage(look);
+  if (decor) return decor;
   const plein = look.cutout?.replace('-cutout.png', '-plein.png');
   return plein && existsSync(join(process.cwd(), 'public', plein)) ? plein : look.image;
 };
 
-/** Calque de la bulle de paroles d'origine (<famille>-bulle.png), même cadre que l'illustration. */
+/** Calque de la bulle de paroles d'origine (<famille>-bulle.png), même cadre que l'illustration. Inutile sur la carte avec décor (bulle déjà dessinée). */
 const bubbleLayer = (look: Look) => {
+  if (decorImage(look)) return undefined;
   const path = look.image.replace('-blanc.png', '-bulle.png');
   return path !== look.image && existsSync(join(process.cwd(), 'public', path)) ? path : undefined;
 };

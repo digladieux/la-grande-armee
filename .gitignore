@@ -5,3 +5,6 @@ node_modules/
 .env.*
 .DS_Store
 npm-debug.log*
+
+# Dépôt de fichiers à traiter (cartes, captures) : jamais publié
+public/images/autres/
