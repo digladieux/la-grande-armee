@@ -685,6 +685,14 @@ export const characters: Character[] = [
         video: 'images/personnages/turquet/gaulois-chute.mp4',
       },
       {
+        family: 'botefragile',
+        image: 'images/personnages/turquet/botefragile-blanc.png',
+        bubble: 'Tu es plus belle que la vie elle-même',
+        whiteBg: true,
+        bust: { cx: 50, cy: 32, zoom: 2 },
+        cutout: 'images/personnages/turquet/botefragile-cutout.png',
+      },
+      {
         family: 'izi-karate',
         image: 'images/personnages/turquet/izikarate-blanc.png',
         bubble: 'Tu vas pas commencer à me glonfler !',

@@ -766,5 +766,13 @@
 "cy": 34,
 "zoom": 2.4,
 "cutout": "images/personnages/momo/gochofacho-cutout.png"
+},
+{
+"family": "botefragile",
+"image": "images/personnages/turquet/botefragile-blanc.png",
+"cx": 50.0,
+"cy": 32.0,
+"zoom": 2.0,
+"cutout": "images/personnages/turquet/botefragile-cutout.png"
 }
 ]

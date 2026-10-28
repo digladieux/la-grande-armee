@@ -45,6 +45,7 @@ B = {
  ("turquet","IMG_3884","gaulois"):[(56,235,388,344)],
  ("turquet","IMG_3905","izikarate"):[(364,252,701,346)],
  ("turquet","IMG_3923","branquignol"):[(335,264,666,375)],
+ ("turquet","IMG_3895","botefragile"):[(408,256,698,362)],
 }
 only=sys.argv[1:]
 for (slug,img,fam),boxes in B.items():
