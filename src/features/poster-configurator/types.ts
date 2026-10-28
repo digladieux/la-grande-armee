@@ -53,6 +53,8 @@ export interface PosterState {
   showSubtitle: boolean;
   /** Mention « La Grande Armée » en bas de l'affiche. */
   showBrand: boolean;
+  /** Accessoires posés sur l'affiche (clé = id de l'accessoire) et leur position. */
+  accessories: Record<string, Placement>;
 }
 
 /** Nombre maximum de copains selon l'orientation. */
@@ -85,8 +87,23 @@ export const FORMATS: { id: Format; label: string; size: string }[] = [
   { id: 'A3', label: 'A3', size: '29,7 × 42 cm' },
 ];
 
-/** Accessoires prévus (étape désactivée pour l'instant). */
-export const UPCOMING_ACCESSORIES = ['Lunettes', 'Casquette', 'Bière', 'Barbecue', 'Couronne', 'Ballon'];
+/** Accessoires à poser sur l'affiche (détourages : scripts/accessoires.py). */
+export interface Accessory {
+  id: string;
+  label: string;
+  /** Chemin relatif à /public (sans base). */
+  src: string;
+  /** Hauteur par défaut sur l'affiche (% de la feuille). */
+  h: number;
+}
+
+export const ACCESSORIES: Accessory[] = [
+  { id: 'biere', label: 'Bière', src: 'images/accessoires/biere.png', h: 11 },
+  { id: 'elephant-delirium', label: 'Éléphant Delirium', src: 'images/accessoires/elephant-delirium.png', h: 13 },
+];
+
+/** Accessoires prévus, pas encore dessinés. */
+export const UPCOMING_ACCESSORIES = ['Lunettes', 'Casquette', 'Barbecue', 'Couronne', 'Ballon'];
 
 /**
  * Position d'un copain sur l'affiche, en % de la feuille :

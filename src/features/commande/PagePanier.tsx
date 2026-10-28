@@ -63,6 +63,7 @@ export default function PagePanier() {
         `  Format : ${it.format} (${PRINT_SIZES[it.format].join(' × ')} mm), ${r.orientation} — ${FRAME_LABELS[r.frame]}`,
         `  Quantité : ${it.quantite}`,
         `  Copains : ${r.members.map((m) => `${m.name} (${m.family})`).join(', ')}`,
+        r.accessories?.length ? `  Accessoires : ${r.accessories.map((a) => a.name).join(', ')}` : '',
         r.showSubtitle && r.subtitle ? `  Sous-titre : ${r.subtitle}` : '',
         `  Voir l'affiche et télécharger le PDF : ${lienAffiche(it)}`,
       ]
@@ -131,7 +132,8 @@ export default function PagePanier() {
             <div class="cmd__infos">
               <p class="cmd__nom">{titreAffiche(it.recette)}</p>
               <p class="cmd__detail">
-                {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'} · {it.recette.orientation} ·{' '}
+                {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
+                {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} · {it.recette.orientation} ·{' '}
                 {FRAME_LABELS[it.recette.frame]}
               </p>
               <div class="cmd__reglages">

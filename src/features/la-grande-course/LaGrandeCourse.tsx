@@ -117,6 +117,10 @@ export default function LaGrandeCourse({ roster }: Props) {
       },
     });
     engine.setPlayer(player as Sprite);
+    // Dessin définitif de la bière (en arrière-plan : la chope vectorielle sert en attendant)
+    loadSprite(`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}images/accessoires/biere.png`)
+      .then((sprite) => engine.setPropSprite('biere', sprite))
+      .catch(() => {});
     engineRef.current = engine;
     // Accès de test en local (console : __lgc)
     if (import.meta.env.DEV) (window as unknown as { __lgc: Engine }).__lgc = engine;

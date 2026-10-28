@@ -5,11 +5,12 @@
  * personnage mis en avant) et flèches ‹ › façon « Cartoonize » pour changer de tenue.
  * Une « tenue » = une famille du jeu dans laquelle le copain apparaît.
  *
- * Pas encore développé : accessoires, véhicules, animations avancées, panier.
+ * Accessoires : calques posés sur l'affiche comme les copains (clé « acc:<id> »).
+ * Pas encore développé : vêtements, véhicules, animations avancées.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry, Selection } from './types';
-import { BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
+import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
 import PosterCanvas from './PosterCanvas';
 import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
@@ -29,6 +30,10 @@ const STEPS = [
   { id: 'format', label: 'Format & cadre' },
 ] as const;
 type StepId = (typeof STEPS)[number]['id'];
+
+/** Les accessoires partagent la sélection / le déplacement des copains, sous la clé « acc:<id> ». */
+const ACC = 'acc:';
+const accessoryById = new Map(ACCESSORIES.map((a) => [a.id, a]));
 
 /** Copains debout d'abord (tenue par défaut peu large) : affiche de départ bien alignée. */
 function defaultSelection(roster: RosterEntry[], count: number): Selection[] {
@@ -72,6 +77,7 @@ export default function PosterConfigurator({ roster }: Props) {
     subtitle: '',
     showSubtitle: false,
     showBrand: true,
+    accessories: {},
   });
 
   const bySlug = useMemo(() => new Map(roster.map((r) => [r.slug, r])), [roster]);
@@ -126,11 +132,37 @@ export default function PosterConfigurator({ roster }: Props) {
     return result;
   }, [state.layout, state.selection, auto]);
 
-  const edit = (slug: string, patch: Partial<Placement>) =>
-    setState((s) => ({ ...s, layout: { ...placements, [slug]: { ...placements[slug], ...patch } } }));
-  const sel = selected && placements[selected] ? placements[selected] : undefined;
-  const zValues = Object.values(placements).map((p) => p.z);
+  // Copains + accessoires : tout ce qui se sélectionne et se déplace sur l'affiche
+  const allPlacements = useMemo(() => {
+    const result: Record<string, Placement> = { ...placements };
+    for (const [id, p] of Object.entries(state.accessories)) result[ACC + id] = p;
+    return result;
+  }, [placements, state.accessories]);
+
+  const edit = (key: string, patch: Partial<Placement>) => {
+    if (key.startsWith(ACC)) {
+      const id = key.slice(ACC.length);
+      setState((s) => ({ ...s, accessories: { ...s.accessories, [id]: { ...s.accessories[id], ...patch } } }));
+    } else setState((s) => ({ ...s, layout: { ...placements, [key]: { ...placements[key], ...patch } } }));
+  };
+  const sel = selected && allPlacements[selected] ? allPlacements[selected] : undefined;
+  const zValues = Object.values(allPlacements).map((p) => p.z);
   const resize = (factor: number) => sel && edit(selected!, { h: Math.min(95, Math.max(8, sel.h * factor)) });
+
+  /** Ajoute l'accessoire en bas de l'affiche (à gauche, puis à droite…), ou le retire. */
+  const toggleAccessory = (id: string) => {
+    const { [id]: present, ...rest } = state.accessories;
+    if (present) {
+      update({ accessories: rest });
+      if (selected === ACC + id) setSelected(undefined);
+      return;
+    }
+    const n = Object.keys(state.accessories).length;
+    const x = n % 2 ? 82 - (n >> 1) * 8 : 18 + (n >> 1) * 8;
+    const z = Math.max(0, ...zValues) + 1;
+    update({ accessories: { ...state.accessories, [id]: { x, y: 94, h: accessoryById.get(id)!.h, z } } });
+    setSelected(ACC + id);
+  };
 
   const changeLook = (delta: number) => {
     if (!current) return;
@@ -177,6 +209,10 @@ export default function PosterConfigurator({ roster }: Props) {
         const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
         return [{ name: entry.name, family: look.familyName, src, p }];
       }),
+      accessories: Object.entries(state.accessories).flatMap(([id, p]) => {
+        const a = accessoryById.get(id);
+        return a ? [{ name: a.label, family: '', src: a.src, p }] : [];
+      }),
     };
     ajouterAuPanier(recette, state.format);
     setAjoute(true);
@@ -187,7 +223,11 @@ export default function PosterConfigurator({ roster }: Props) {
     <PosterCanvas
       state={state}
       characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
-      placements={placements}
+      accessories={Object.keys(state.accessories).flatMap((id) => {
+        const a = accessoryById.get(id);
+        return a ? [{ key: ACC + id, label: a.label, src: base + a.src }] : [];
+      })}
+      placements={allPlacements}
       selected={selected}
       onSelect={setSelected}
       onMove={(slug, p) => edit(slug, p)}
@@ -197,19 +237,29 @@ export default function PosterConfigurator({ roster }: Props) {
     <div class="pc__editbar" aria-live="polite">
       {sel ? (
         <>
-          <strong class="pc__editbar-name">{bySlug.get(selected!)?.name}</strong>
+          <strong class="pc__editbar-name">
+            {selected!.startsWith(ACC) ? accessoryById.get(selected!.slice(ACC.length))?.label : bySlug.get(selected!)?.name}
+          </strong>
           <div class="pc__editbar-tools">
             <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
             <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir">+</button>
             <button type="button" onClick={() => edit(selected!, { z: Math.max(...zValues) + 1 })}>Devant</button>
             <button type="button" onClick={() => edit(selected!, { z: Math.max(1, Math.min(...zValues) - 1) })}>Derrière</button>
             <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
-            <button type="button" onClick={() => togglePoster(selected!)} title="Retirer de l'affiche">Retirer</button>
+            <button
+              type="button"
+              onClick={() => (selected!.startsWith(ACC) ? toggleAccessory(selected!.slice(ACC.length)) : togglePoster(selected!))}
+              title="Retirer de l'affiche"
+            >
+              Retirer
+            </button>
           </div>
         </>
       ) : (
         <p class="pc__editbar-hint">
-          {state.selection.length ? 'Touche un copain de l’affiche pour le sélectionner, puis fais-le glisser, agrandis-le ou passe-le devant.' : ''}
+          {state.selection.length || Object.keys(state.accessories).length
+            ? 'Touche un copain ou un accessoire de l’affiche pour le sélectionner, puis fais-le glisser, agrandis-le ou passe-le devant.'
+            : ''}
         </p>
       )}
       {state.layout && (
@@ -379,11 +429,28 @@ export default function PosterConfigurator({ roster }: Props) {
 
           {step === 'accessoires' && (
             <section>
-              <h4 class="pc__label">Accessoires, vêtements, véhicules</h4>
-              <p class="pc__hint">Bientôt : habille tes copains et ajoute-leur des accessoires.</p>
+              <h4 class="pc__label">Accessoires</h4>
+              <p class="pc__hint">Ajoute-les à l’affiche, puis place-les à la main : glisse-les près d’un copain, agrandis-les, retourne-les.</p>
               <ul class="pc__accessories">
+                {ACCESSORIES.map((a) => {
+                  const on = a.id in state.accessories;
+                  return (
+                    <li key={a.id}>
+                      <button
+                        type="button"
+                        class={`pc__accessory ${on ? 'is-on' : ''}`}
+                        aria-pressed={on}
+                        onClick={() => toggleAccessory(a.id)}
+                      >
+                        <img src={base + a.src} alt="" draggable={false} />
+                        <span>{a.label}</span>
+                        <small>{on ? '✓ Ajouté' : '+ Ajouter'}</small>
+                      </button>
+                    </li>
+                  );
+                })}
                 {UPCOMING_ACCESSORIES.map((a) => (
-                  <li key={a}>
+                  <li key={a} class="is-upcoming">
                     <span>{a}</span>
                     <small>Bientôt</small>
                   </li>

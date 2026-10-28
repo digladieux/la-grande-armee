@@ -25,7 +25,7 @@ export interface Sprite {
  */
 export type ActionMode = 'hop' | 'fly' | 'hang';
 
-/** Accessoires provisoires dessinés en vectoriel (à remplacer par les dessins définitifs). */
+/** Accessoires : dessin définitif s'il est chargé (setPropSprite), sinon provisoire en vectoriel. */
 export type PropName = 'biere' | 'panneau' | 'tracteur';
 
 type Pool = { look: CourseLook; sprite: Sprite }[];
@@ -151,6 +151,12 @@ export class Engine {
 
   setPlayer(sprite: Sprite) {
     this.player = sprite;
+  }
+
+  private propSprites: Partial<Record<PropName, Sprite>> = {};
+  /** Dessin définitif d'un accessoire (remplace le dessin vectoriel provisoire). */
+  setPropSprite(prop: PropName, sprite: Sprite) {
+    this.propSprites[prop] = sprite;
   }
 
   /** Ajoute des obstacles au fil du chargement (les images arrivent en arrière-plan). */
@@ -293,8 +299,10 @@ export class Engine {
     } else if (r < 0.62) {
       const choices: PropName[] = this.score > 300 ? ['biere', 'panneau', 'tracteur'] : ['biere', 'biere', 'panneau'];
       const prop = pick(choices);
-      const [w, h] = prop === 'biere' ? [0.22, 0.3] : prop === 'panneau' ? [0.55, 0.66] : [1.1, 0.56];
-      this.obstacles.push({ kind: 'prop', prop, x, y: G - h * P, w: w * P, h: h * P, spin: 0 });
+      const sprite = this.propSprites[prop];
+      const h = prop === 'biere' ? 0.3 : prop === 'panneau' ? 0.66 : 0.56;
+      const w = sprite ? (h * sprite.img.naturalWidth) / sprite.img.naturalHeight : prop === 'biere' ? 0.22 : prop === 'panneau' ? 0.55 : 1.1;
+      this.obstacles.push({ kind: 'prop', prop, sprite, x, y: G - h * P, w: w * P, h: h * P, spin: 0 });
     } else if (this.ground.length) {
       const count = this.score > 500 && Math.random() < 0.25 ? 2 : 1;
       let gx = x;
@@ -350,7 +358,7 @@ export class Engine {
           const dx = x - (o.x + r);
           const dy = y - (o.y + r);
           if (dx * dx + dy * dy < r * r * 0.8) return true;
-        } else if (o.kind === 'prop') {
+        } else if (o.kind === 'prop' && !o.sprite) {
           const fx = (x - o.x) / o.w;
           const fy = (y - o.y) / o.h;
           if (PROP_BOXES[o.prop!].some(([bx, by, bw, bh]) => fx >= bx && fx <= bx + bw && fy >= by && fy <= by + bh)) return true;
@@ -480,6 +488,10 @@ export class Engine {
   private drawProp(o: Obstacle) {
     const { ctx } = this;
     const { x, y, w, h } = o;
+    if (o.sprite) {
+      ctx.drawImage(o.sprite.img, x, y, w, h);
+      return;
+    }
     ctx.save();
     ctx.lineWidth = 2.5;
     ctx.strokeStyle = INK;

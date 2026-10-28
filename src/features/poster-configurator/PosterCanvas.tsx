@@ -1,6 +1,6 @@
 /**
  * Rendu de l'affiche (aperçu) — éditable.
- * Chaque copain est un calque positionné en % de la feuille (voir Placement) :
+ * Chaque copain (et chaque accessoire) est un calque positionné en % de la feuille (voir Placement) :
  * clic = sélection, glisser = déplacer. Les réglages (taille, devant/derrière,
  * miroir) sont dans la barre d'outils du configurateur.
  */
@@ -11,6 +11,8 @@ import type { Placement, PosterState, RosterEntry } from './types';
 interface Props {
   state: PosterState;
   characters: { entry: RosterEntry; look: number }[];
+  /** Accessoires posés (key = clé dans placements, src = URL finale). */
+  accessories: { key: string; label: string; src: string }[];
   placements: Record<string, Placement>;
   selected?: string;
   onSelect: (slug: string | undefined) => void;
@@ -20,7 +22,7 @@ interface Props {
 /** Largeur relative de l'affiche selon le format, pour rendre la différence de taille visible. */
 const SCALE = { A5: 0.7, A4: 0.84, A3: 1 } as const;
 
-export default function PosterCanvas({ state, characters, placements, selected, onSelect, onMove }: Props) {
+export default function PosterCanvas({ state, characters, accessories, placements, selected, onSelect, onMove }: Props) {
   const sheetRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ slug: string; x0: number; y0: number; start: Placement; moved: boolean } | null>(null);
 
@@ -120,6 +122,35 @@ export default function PosterCanvas({ state, characters, placements, selected, 
                   class={`poster-member__img ${l.cutout ? 'is-cutout' : 'is-flat'}`}
                   style={{ transform: p.flip ? 'scaleX(-1)' : undefined }}
                   src={l.cutout ?? l.image}
+                  alt=""
+                  draggable={false}
+                />
+              </button>
+            );
+          })}
+
+          {accessories.map(({ key, label, src }, i) => {
+            const p = placements[key];
+            if (!p) return null;
+            return (
+              <button
+                key={key}
+                type="button"
+                class={`poster-member poster-member--accessory ${selected === key ? 'is-selected' : ''}`}
+                style={{ left: `${p.x}%`, top: `${p.y}%`, height: `${p.h}%`, zIndex: p.z, '--i': characters.length + i }}
+                onPointerDown={onPointerDown(key)}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onKeyDown={onKeyDown(key)}
+                onFocus={() => onSelect(key)}
+                aria-label={`${label} : déplacer (glisser ou flèches du clavier)`}
+                aria-pressed={selected === key}
+              >
+                <img
+                  class="poster-member__img is-cutout"
+                  style={{ transform: p.flip ? 'scaleX(-1)' : undefined }}
+                  src={src}
                   alt=""
                   draggable={false}
                 />

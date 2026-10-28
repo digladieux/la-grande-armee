@@ -96,9 +96,9 @@ export async function dessinerAffiche(
     ctx.restore();
   }
 
-  // ── Copains (ordre de profondeur) ──
+  // ── Copains et accessoires (ordre de profondeur) ──
   const qualite: QualiteMembre[] = [];
-  const membres = [...r.members].sort((a, b) => a.p.z - b.p.z);
+  const membres = [...r.members, ...(r.accessories ?? [])].sort((a, b) => a.p.z - b.p.z);
   const imgs = await Promise.all(membres.map((m) => loadImage(base + m.src).catch(() => null)));
   membres.forEach((m, i) => {
     const img = imgs[i];

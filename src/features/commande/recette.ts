@@ -28,6 +28,8 @@ export interface Recette {
   showSubtitle: boolean;
   showBrand: boolean;
   members: RecetteMembre[];
+  /** Accessoires posés sur l'affiche (name = nom de l'accessoire, family vide). */
+  accessories?: RecetteMembre[];
 }
 
 /** Dimensions en mm. */
