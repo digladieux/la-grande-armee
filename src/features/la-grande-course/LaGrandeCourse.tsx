@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { Engine, loadSprite, type ActionMode, type Sprite } from './engine';
 import type { CourseCharacter, CourseLook } from './types';
+import { melanger } from '../../lib/melanger';
+import { FACING_LEFT } from './sens';
 import './course.css';
 
 interface Props {
@@ -28,22 +30,7 @@ const saveRecord = (v: number) => {
   }
 };
 const pad = (n: number) => String(n).padStart(5, '0');
-const shuffle = <T,>(list: T[]) => [...list].sort(() => Math.random() - 0.5);
-/** Tenues dessinées en marche / en course vers la gauche : le joueur avance vers la droite, on les retourne. */
-const FACING_LEFT = new Set([
-  'aubin/gochofacho',
-  'aubin/botefragile',
-  'coco/gaulois',
-  'coco/gochofacho',
-  'dim/botefragile',
-  'guigui/beauf',
-  'hugo/joystick',
-  'laurent/branquignol',
-  'laurent/joystick',
-  'saby/gochofacho',
-  'szabo/branquignol',
-  'turquet/gaulois',
-]);
+const shuffle = melanger;
 /** Copains « en action » sur leur carte : ils bougent au lieu de rester plantés au sol. */
 const ACTIONS: Record<string, ActionMode> = {
   'turquet/gaulois': 'fly', // le forgeron qui bondit
@@ -76,6 +63,9 @@ export default function LaGrandeCourse({ roster }: Props) {
   phaseRef.current = phase;
 
   useEffect(() => setRecord(readRecord()), []);
+  // Grille des copains dans un ordre différent à chaque visite (mélangée après l'hydratation)
+  const [order, setOrder] = useState(roster);
+  useEffect(() => setOrder(melanger(roster)), [roster]);
 
   /** Choix d'un copain : tenue tirée au hasard, chargement du joueur + premiers obstacles. */
   const choose = async (c: CourseCharacter) => {
@@ -257,7 +247,7 @@ export default function LaGrandeCourse({ roster }: Props) {
             <p class="lgc__title">Choisis ton copain</p>
             <p class="lgc__hint hand">Sa tenue est tirée au sort à chaque partie !</p>
             <ul class="lgc__roster">
-              {roster.map((c) => (
+              {order.map((c) => (
                 <li key={c.slug}>
                   <button type="button" class="lgc__pick" onClick={() => choose(c)} style={`--c: ${c.portraitBg}`}>
                     <span class="lgc__pick-art">

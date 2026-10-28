@@ -10,7 +10,7 @@ const covers = pickCovers(characters, ['mignon', 'beauf', 'capdag', 'troubadour'
 ---
 
 <PageShell title="Personnages" eyebrow="La bande" intro="Tous les membres de La Grande Armée, famille par famille." accent="green">
-  <ul class="grid">
+  <ul class="grid" data-melanger>
     {characters.map((c) => (
       <li id={c.slug}>
         <CharacterCard character={c} lookIndex={covers.get(c.slug)} />
@@ -19,6 +19,13 @@ const covers = pickCovers(characters, ['mignon', 'beauf', 'capdag', 'troubadour'
   </ul>
   <CharacterDialogs characters={characters} />
 </PageShell>
+
+<script>
+  import { melangerEnfants } from '@/lib/melanger';
+
+  // Nouvel ordre à chaque visite : pas toujours les mêmes copains en premier
+  document.querySelectorAll('[data-melanger]').forEach(melangerEnfants);
+</script>
 
 <style>
   .grid {

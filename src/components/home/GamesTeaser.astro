@@ -1,14 +1,21 @@
 ---
 /**
- * Bloc « Les jeux » de l'accueil : mini-scène animée de La Grande Course (CSS seul) —
+ * Bloc « Les jeux » de l'accueil : mini-scène animée de La Grande Course (animation CSS) —
  * un copain court et saute par-dessus les autres, dans le décor du jeu.
+ * Coureur et obstacles sont tirés au sort à chaque visite (petit script).
  */
 import CTA from '@/components/ui/CTA.astro';
 import Annotation from '@/components/ui/Annotation.astro';
 import { url } from '@/lib/url';
+import sprites from '@/data/jeu-sprites.json';
+import { FACING_LEFT } from '@/features/la-grande-course/sens';
 
-const runner = url('/images/jeu/dim-botefragile.webp');
-const obstacles = [url('/images/jeu/guigui-gaulois.webp'), url('/images/jeu/coco-gochofacho.webp')];
+const sprite = (key: string) => url(`/images/jeu/${key.replace('/', '-')}.webp`);
+const keys = Object.keys(sprites) as (keyof typeof sprites)[];
+// Coureurs : dessinés en marche vers la gauche (la scène les retourne), debout ; obstacles : pas trop larges
+const runners = keys.filter((k) => FACING_LEFT.has(k) && sprites[k].ratio <= 0.95).map((k) => [k.split('/')[0], sprite(k)]);
+const obstacles = keys.filter((k) => sprites[k].ratio <= 1).map((k) => [k.split('/')[0], sprite(k)]);
+const fallback = { runner: url('/images/jeu/dim-botefragile.webp'), obstacles: [url('/images/jeu/guigui-gaulois.webp'), url('/images/jeu/coco-gochofacho.webp')] };
 ---
 
 <section class="section games">
@@ -27,7 +34,13 @@ const obstacles = [url('/images/jeu/guigui-gaulois.webp'), url('/images/jeu/coco
         </div>
       </div>
 
-      <a class="games__scene" href={url('/jeux/la-grande-course')} aria-label="Jouer à La Grande Course">
+      <a
+        class="games__scene"
+        href={url('/jeux/la-grande-course')}
+        aria-label="Jouer à La Grande Course"
+        data-runners={JSON.stringify(runners)}
+        data-obstacles={JSON.stringify(obstacles)}
+      >
         <span class="games__sky" aria-hidden="true"></span>
         <span class="games__cloud games__cloud--1" aria-hidden="true"></span>
         <span class="games__cloud games__cloud--2" aria-hidden="true"></span>
@@ -36,15 +49,30 @@ const obstacles = [url('/images/jeu/guigui-gaulois.webp'), url('/images/jeu/coco
           <span class="games__score"></span>
         </span>
         <span class="games__ground" aria-hidden="true"></span>
-        {obstacles.map((src, i) => (
+        {fallback.obstacles.map((src, i) => (
           <img class={`games__obstacle games__obstacle--${i + 1}`} src={src} alt="" loading="lazy" decoding="async" />
         ))}
-        <img class="games__runner" src={runner} alt="" loading="lazy" decoding="async" />
+        <img class="games__runner" src={fallback.runner} alt="" loading="lazy" decoding="async" />
         <Annotation class="games__note" arrow="down-left" rotate={-6}>Saute !</Annotation>
       </a>
     </div>
   </div>
 </section>
+
+<script>
+  import { melanger } from '@/lib/melanger';
+
+  // Un coureur et deux obstacles au hasard, trois copains différents
+  document.querySelectorAll<HTMLElement>('.games__scene').forEach((scene) => {
+    const runners: [string, string][] = JSON.parse(scene.dataset.runners ?? '[]');
+    const obstacles: [string, string][] = JSON.parse(scene.dataset.obstacles ?? '[]');
+    const [slug, runner] = melanger(runners)[0] ?? [];
+    if (!runner) return;
+    const others = melanger(obstacles).filter(([s], i, a) => s !== slug && a.findIndex(([t]) => t === s) === i);
+    scene.querySelector<HTMLImageElement>('.games__runner')!.src = runner;
+    scene.querySelectorAll<HTMLImageElement>('.games__obstacle').forEach((img, i) => others[i] && (img.src = others[i][1]));
+  });
+</script>
 
 <style>
   .games__panel {

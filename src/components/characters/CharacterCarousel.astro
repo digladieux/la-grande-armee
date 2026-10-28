@@ -38,11 +38,17 @@ const covers = pickCovers(characters, prefer);
 </div>
 
 <script>
+  import { melangerEnfants } from '@/lib/melanger';
+
   document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
     const track = root.querySelector<HTMLElement>('[data-track]');
     const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
     const next = root.querySelector<HTMLButtonElement>('[data-next]');
     if (!track || !prev || !next) return;
+
+    // Nouvel ordre à chaque visite : pas toujours les mêmes copains en premier
+    melangerEnfants(track);
+    [...track.children].forEach((li, i) => (li as HTMLElement).style.setProperty('--tilt', `${i % 2 ? 1 : -1}deg`));
 
     const step = () => (track.querySelector('li')?.getBoundingClientRect().width ?? 240) + 20;
     prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));

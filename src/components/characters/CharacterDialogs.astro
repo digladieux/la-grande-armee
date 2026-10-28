@@ -126,6 +126,8 @@ const bubbleLayer = (look: Look) => {
 })}
 
 <script>
+  import { melanger } from '@/lib/melanger';
+
   const dialogs = new Map<string, HTMLDialogElement>();
   document.querySelectorAll<HTMLDialogElement>('[data-character-dialog]').forEach((dialog) => {
     dialogs.set(dialog.dataset.characterDialog!, dialog);
@@ -138,7 +140,8 @@ const bubbleLayer = (look: Look) => {
     let thumbs = allThumbs;
     // Le personnage cliqué passe en tête, les autres suivent dans l'ordre habituel
     const putFirst = (first: number) => {
-      const order = [first, ...allSlides.keys()].filter((v, i, a) => a.indexOf(v) === i);
+      // la tenue cliquée d'abord, les autres dans un ordre différent à chaque ouverture
+      const order = [first, ...melanger([...allSlides.keys()].filter((i) => i !== first))];
       slides = order.map((i) => allSlides[i]);
       thumbs = order.map((i) => allThumbs[i]);
       track.append(...slides);
