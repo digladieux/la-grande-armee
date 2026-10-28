@@ -39,6 +39,7 @@ export type Orientation = 'portrait' | 'paysage';
 export interface PosterState {
   selection: Selection[];
   background: Background;
+  /** Aperçu seulement : le cadre n'est pas fourni (affiche seule). */
   frame: Frame;
   format: Format;
   orientation: Orientation;
@@ -75,7 +76,7 @@ export const BACKGROUNDS: { id: Background; label: string }[] = [
 ];
 
 export const FRAMES: { id: Frame; label: string }[] = [
-  { id: 'sans', label: 'Sans cadre' },
+  { id: 'sans', label: 'Affiche seule' },
   { id: 'bois', label: 'Bois' },
   { id: 'noir', label: 'Noir' },
   { id: 'blanc', label: 'Blanc' },

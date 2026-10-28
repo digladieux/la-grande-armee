@@ -27,7 +27,7 @@ const STEPS = [
   { id: 'style', label: 'Style' },
   { id: 'accessoires', label: 'Accessoires' },
   { id: 'texte', label: 'Texte' },
-  { id: 'format', label: 'Format & cadre' },
+  { id: 'format', label: 'Format' },
 ] as const;
 type StepId = (typeof STEPS)[number]['id'];
 
@@ -69,7 +69,8 @@ export default function PosterConfigurator({ roster }: Props) {
     // Affiche de départ : 3 copains debout, alignés (5 en paysage)
     selection: defaultSelection(roster, ALIGNED_MAX.portrait),
     background: 'bandes',
-    frame: 'bois',
+    // Seule l'affiche est fournie : le cadre n'est qu'un aperçu, désactivé par défaut
+    frame: 'sans',
     format: 'A3',
     orientation: 'portrait',
     layout: null,
@@ -533,7 +534,10 @@ export default function PosterConfigurator({ roster }: Props) {
                   </button>
                 ))}
               </div>
-              <h4 class="pc__label">Encadrement</h4>
+              <h4 class="pc__label">Aperçu encadré</h4>
+              <p class="pc__hint">
+                Tu reçois l’affiche imprimée seule, sans cadre. Ces cadres servent juste à imaginer le rendu une fois encadrée chez toi.
+              </p>
               <div class="pc__chips">
                 {FRAMES.map((f) => (
                   <button key={f.id} type="button" class={`pc__chip pc__chip--frame-${f.id}`} aria-pressed={state.frame === f.id} onClick={() => update({ frame: f.id })}>

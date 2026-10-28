@@ -4,7 +4,7 @@
  * et produit le PDF au format commandé (300 dpi).
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { decodeRecette, FRAME_LABELS, PRINT_SIZES, titreAffiche, type PrintFormat, type Recette } from './recette';
+import { decodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat, type Recette } from './recette';
 import { dessinerAffiche, type QualiteMembre } from './rendu';
 import './commande.css';
 
@@ -81,7 +81,7 @@ export default function AfficheCommande() {
           <dt>Orientation</dt>
           <dd>{recette.orientation}</dd>
           <dt>Cadre</dt>
-          <dd>{FRAME_LABELS[recette.frame]}</dd>
+          <dd>Affiche seule, sans cadre</dd>
           {recette.showSubtitle && recette.subtitle && (
             <>
               <dt>Sous-titre</dt>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { commande } from '@/data/commande';
 import { ecrirePanier, EVENT, lirePanier, type ArticlePanier } from './panier';
-import { encodeRecette, FRAME_LABELS, PRINT_SIZES, titreAffiche, type PrintFormat } from './recette';
+import { encodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat } from './recette';
 import { dessinerAffiche } from './rendu';
 import './commande.css';
 
@@ -60,7 +60,7 @@ export default function PagePanier() {
       const r = it.recette;
       return [
         `Affiche ${n + 1} — « ${titreAffiche(r)} »`,
-        `  Format : ${it.format} (${PRINT_SIZES[it.format].join(' × ')} mm), ${r.orientation} — ${FRAME_LABELS[r.frame]}`,
+        `  Format : ${it.format} (${PRINT_SIZES[it.format].join(' × ')} mm), ${r.orientation} — affiche seule, sans cadre`,
         `  Quantité : ${it.quantite}`,
         `  Copains : ${r.members.map((m) => `${m.name} (${m.family})`).join(', ')}`,
         r.accessories?.length ? `  Accessoires : ${r.accessories.map((a) => a.name).join(', ')}` : '',
@@ -134,7 +134,7 @@ export default function PagePanier() {
               <p class="cmd__detail">
                 {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
                 {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} · {it.recette.orientation} ·{' '}
-                {FRAME_LABELS[it.recette.frame]}
+                affiche seule, sans cadre
               </p>
               <div class="cmd__reglages">
                 <label>

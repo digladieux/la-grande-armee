@@ -22,6 +22,7 @@ export interface Recette {
   v: 1;
   orientation: Orientation;
   background: Background;
+  /** Cadre de l'aperçu seulement (jamais fourni : on n'imprime que l'affiche). */
   frame: Frame;
   title: string;
   subtitle: string;
@@ -37,13 +38,6 @@ export const PRINT_SIZES: Record<PrintFormat, [number, number]> = {
   A5: [148, 210],
   A4: [210, 297],
   A3: [297, 420],
-};
-
-export const FRAME_LABELS: Record<Frame, string> = {
-  sans: 'Sans cadre',
-  bois: 'Cadre bois',
-  noir: 'Cadre noir',
-  blanc: 'Cadre blanc',
 };
 
 // ── Encodage compact pour les liens (base64url du JSON) ──
