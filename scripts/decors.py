@@ -17,13 +17,14 @@ Les cartes déposées dans un dossier (par défaut public/images/autres/, non pu
     python3 scripts/decors.py                     # tout le dossier public/images/autres
     python3 scripts/decors.py dossier/ carte.png  # d'autres fichiers / dossiers
     python3 scripts/decors.py --essai ...         # affiche la reconnaissance sans rien écrire
+    python3 scripts/decors.py --tout [copain/famille ...]  # refait les cartes déjà installées
 """
 import json
 import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
 PUB = ROOT / "public/images/personnages"
@@ -134,75 +135,142 @@ def effacer_titre(im, perso, famille):
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
 
-# Fond prolongé : la lueur colorée de la carte, modélisée puis étendue sur un cadre de MARGE_X
-# largeurs de carte de chaque côté et MARGE_Y hauteurs en haut / en bas (basse définition : dégradé doux).
+# Fond prolongé : le fond de la carte (hors dessin), lissé et étendu sur un cadre de MARGE_X largeurs
+# de carte de chaque côté et MARGE_Y hauteurs en haut / en bas (basse définition : dégradé doux).
 MARGE_X, MARGE_Y, ECHELLE = 1.5, 1.0, 8
-# Bande du bord de la carte fondue dans la lueur (fraction de largeur / hauteur)
-FONDU = 0.2
+# Bande du bord de la carte fondue dans le fond prolongé (fraction de largeur / hauteur)
+FONDU = 0.12
+# Lisière du panneau coloré (px), souvent plus pâle : repeinte avec les marges
+LISIERE = 41
+# Écart (0–255) au fond lissé au-delà duquel un pixel « de fond » est en fait du décor
+ECART = 40
+# Hors de la carte, la couleur s'estompe vers le blanc (distance en largeurs de carte)
+ESTOMPE = 0.9
 
 
-def lueur(im):
-    """Modélise le fond de la carte : blanc + halo coloré (centre, étendue, forme, teinte), ajusté
-    sur les pixels de fond (le dessin, trop éloigné du modèle, est écarté au fil des itérations)."""
+def flou(a, r):
+    """Flou gaussien d'écart-type r (hors de l'image : zéro)."""
+    n = int(3 * r)
+    k = np.exp(-0.5 * (np.arange(-n, n + 1) / r) ** 2)
+    k /= k.sum()
+    for axe in (0, 1):
+        a = np.moveaxis(a, axe, 0)
+        p = np.pad(a, ((n, n), (0, 0)))
+        a = np.moveaxis(sum(k[i] * p[i:i + a.shape[0]] for i in range(2 * n + 1)), 0, axe)
+    return a
+
+
+def remplir(v, poids):
+    """Comble les trous (poids nul) par « push-pull » : chaque trou prend la couleur des pixels connus
+    les plus proches, de plus en plus lissée en s'en éloignant."""
+    h, w = poids.shape
+    if poids.min() > 0:
+        return v
+    if min(h, w) <= 2:
+        moyenne = (v * poids[..., None]).sum((0, 1)) / max(poids.sum(), 1e-6) if poids.sum() > 0 else np.full(3, 255.0)
+        p = np.minimum(poids, 1)[..., None]
+        return v * p + moyenne * (1 - p)
+    hp, wp = h + h % 2, w + w % 2
+    vp = np.pad(v * poids[..., None], ((0, hp - h), (0, wp - w), (0, 0)))
+    pp = np.pad(poids, ((0, hp - h), (0, wp - w)))
+    ps = pp.reshape(hp // 2, 2, wp // 2, 2).sum(axis=(1, 3))
+    vs = vp.reshape(hp // 2, 2, wp // 2, 2, 3).sum(axis=(1, 3)) / np.maximum(ps, 1e-6)[..., None]
+    grossier = remplir(vs, np.minimum(ps, 1))
+    agrandir = lambda x: np.asarray(Image.fromarray(x.astype(np.float32)).resize((wp, hp), Image.BILINEAR))
+    haut = np.stack([agrandir(grossier[..., c]) for c in range(3)], axis=2)[:h, :w]
+    p = np.minimum(poids, 1)[..., None]
+    return v * p + haut * (1 - p)
+
+
+def marges_blanches(im, fond):
+    """Le blanc de fond relié au bord de la carte (marges autour du panneau coloré, zone des titres
+    effacés) ; l'intérieur des bulles, entouré d'un trait, n'en fait pas partie."""
+    a = np.asarray(im, dtype=np.int16)
+    blanc = (a.min(axis=2) > 238) & (a.max(axis=2) - a.min(axis=2) < 12) & fond
+    m = Image.fromarray((blanc * 255).astype(np.uint8)).copy()
+    for x, y in [(x, y) for x in range(0, W, 4) for y in (0, H - 1)] + [(x, y) for y in range(0, H, 4) for x in (0, W - 1)]:
+        if m.getpixel((x, y)) == 255:
+            ImageDraw.floodfill(m, (x, y), 128)
+    return np.asarray(m) == 128
+
+
+def champ(im, perso):
+    """Le fond coloré de la carte comme un champ de couleur continu, sur tout le cadre étendu (unités :
+    pixels basse définition). Ne comptent que les pixels de fond colorés : hors personnage, sans
+    trait (faible variation locale) et hors marges blanches. Ailleurs (marges, autour de la carte),
+    la couleur du fond connu le plus proche, qui s'estompe vers le blanc en s'éloignant de la carte."""
+    lum = np.asarray(im.convert("L"), dtype=np.float32)
+    n = flou(np.ones_like(lum), 4)
+    var = flou(lum * lum, 4) / n - (flou(lum, 4) / n) ** 2
+    fond = ~perso & (var < 40)
+    marges = marges_blanches(im, fond)
+    # les gris neutres (carrosserie, ombres…) appartiennent au dessin, pas au fond coloré
+    rgb = np.asarray(im, dtype=np.int16)
+    gris_neutre = rgb.max(axis=2) - rgb.min(axis=2) < 10
+    ok = (fond & ~gris_neutre & ~dilater(marges, LISIERE)).astype(np.float32)
     w, h = W // ECHELLE, H // ECHELLE
-    a = np.asarray(im.resize((w, h), Image.BOX), dtype=np.float32)
-    X = np.arange(w)[None, :] / w
-    Y = np.arange(h)[:, None] / h
-    D = 255 - a
-    ok = a.min(axis=2) > 120
-    for _ in range(3):
-        best = None
-        for cx in np.linspace(0.3, 0.7, 9):
-            for cy in np.linspace(0.3, 0.75, 10):
-                for sx in (0.25, 0.35, 0.45, 0.6, 0.8):
-                    for sy in (0.2, 0.3, 0.4, 0.55, 0.75):
-                      # forme : 1 = gaussienne, au-delà halo « à plateau » qui retombe plus vite
-                      for k in (1, 2, 3):
-                        g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))[ok]
-                        d = D[ok]
-                        t = np.clip((g[:, None] * d).sum(0) / max((g * g).sum(), 1e-6), 0, 255)
-                        err = ((d - g[:, None] * t) ** 2).mean()
-                        if best is None or err < best[0]:
-                            best = (err, cx, cy, sx, sy, k, t)
-        _, cx, cy, sx, sy, k, t = best
-        g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))
-        ok = np.abs(D - g[..., None] * t).max(axis=2) < 18
-    return best[1:]
+    mx, my = round(w * MARGE_X), round(h * MARGE_Y)
+    a = np.asarray(im, dtype=np.float32) * ok[..., None]
+    reduire = lambda x: np.asarray(Image.fromarray(x).resize((w, h), Image.BOX), dtype=np.float32)
+    lisser = lambda x, r: np.stack([flou(x[..., c], r) for c in range(3)], axis=2) / flou(np.ones(x.shape[:2], np.float32), r)[..., None]
+    poids = reduire(ok)
+    connu = poids > 0.5
+    couleur = np.stack([reduire(a[..., c]) for c in range(3)], axis=2) / np.maximum(poids, 1e-6)[..., None]
+    # un élément de décor coloré (porte, canapé, roseaux…) tranche sur la teinte dominante du fond
+    # ou sur le fond lissé à grande échelle : écarté, pour ne pas baver autour de la carte
+    if connu.sum() >= 20:
+        connu &= np.abs(couleur - np.median(couleur[connu], axis=0)).max(axis=2) < 2 * ECART
+        large = lisser(remplir(couleur, connu.astype(np.float32)), 6)
+        connu &= np.abs(couleur - large).max(axis=2) < ECART
+    if connu.sum() >= 20:
+        carte_ = lisser(remplir(couleur, connu.astype(np.float32)), 2)
+    else:
+        carte_ = np.full((h, w, 3), 255, np.float32)  # sans fond coloré, le champ reste blanc
+    # autour de la carte : la couleur du bord le plus proche, de plus en plus lissée en s'éloignant
+    ys = np.clip(np.arange(h + 2 * my) - my, 0, h - 1)
+    xs = np.clip(np.arange(w + 2 * mx) - mx, 0, w - 1)
+    champ = lisser(carte_, 6)[ys[:, None], xs[None, :]]
+    X = (np.arange(w + 2 * mx)[None, :] - mx + 0.5) / w
+    Y = (np.arange(h + 2 * my)[:, None] - my + 0.5) / h
+    dx = np.maximum(np.maximum(-X, X - 1), 0)
+    dy = np.maximum(np.maximum(-Y, Y - 1), 0) * H / W
+    d = np.sqrt(dx * dx + dy * dy)[..., None]
+    t = np.clip(d / 0.15, 0, 1)
+    champ = champ * (1 - t) + lisser(champ, 25) * t
+    garde = np.exp(-(d * d / ESTOMPE ** 2))
+    return (255 - (255 - champ) * garde).clip(0, 255), fond, marges
 
 
-def peindre(modele, x0, x1, y0, y1, w, h):
-    """Le modèle de lueur sur la zone [x0, x1] × [y0, y1] (unités : largeur / hauteur de carte)."""
-    cx, cy, sx, sy, k, t = modele
-    X = np.linspace(x0, x1, w)[None, :]
-    Y = np.linspace(y0, y1, h)[:, None]
-    g = np.exp(-((((X - cx) / sx) ** 2 + ((Y - cy) / sy) ** 2) ** k))
-    return (255 - g[..., None] * t).clip(0, 255)
-
-
-def fondre_bords(im, modele):
-    """Près des bords, le fond de la carte rejoint la lueur modélisée (le dessin n'est pas touché)."""
+def fondre_bords(im, fond_lisse, fond, marges, perso):
+    """Les marges blanches prennent la couleur du fond prolongé, et près des bords tout le fond de la
+    carte la rejoint (le dessin n'est pas touché)."""
+    w, h = W // ECHELLE, H // ECHELLE
+    mx, my = round(w * MARGE_X), round(h * MARGE_Y)
+    interieur = Image.fromarray(fond_lisse[my:my + h, mx:mx + w].astype(np.uint8)).resize((W, H), Image.BICUBIC)
+    m = np.asarray(interieur, dtype=np.float32)
     a = np.asarray(im, dtype=np.float32)
-    m = peindre(modele, 0.5 / W, 1 - 0.5 / W, 0.5 / H, 1 - 0.5 / H, W, H)
     X = np.arange(W)[None, :] / W
     Y = np.arange(H)[:, None] / H
     bord = np.minimum(np.minimum(X, 1 - X) / FONDU, np.minimum(Y, 1 - Y) / (FONDU * W / H))
-    f = np.clip(1 - bord, 0, 1) ** 2
-    fond = 1 - np.clip((np.abs(a - m).max(axis=2) - 30) / 40, 0, 1)
-    f = (f * fond)[..., None]
-    return Image.fromarray((a * (1 - f) + m * f).clip(0, 255).astype(np.uint8))
-
-
-def fond(modele):
-    w, h = W // ECHELLE, H // ECHELLE
-    mx, my = round(w * MARGE_X), round(h * MARGE_Y)
-    m = peindre(modele, -MARGE_X, 1 + MARGE_X, -MARGE_Y, 1 + MARGE_Y, w + 2 * mx, h + 2 * my)
-    return Image.fromarray(m.astype(np.uint8))
+    un = flou(np.ones((H, W), np.float32), 2)
+    f = np.clip(1 - bord, 0, 1) ** 2 * flou(fond.astype(np.float32), 2) / un
+    # les marges, élargies pour couvrir la lisière du panneau coloré (pixels clairs, entre le blanc
+    # et la couleur du panneau : les traits du dessin, plus sombres, restent)
+    bande = np.zeros((H, W), dtype=bool)
+    bande[:8], bande[-8:], bande[:, :8], bande[:, -8:] = True, True, True, True
+    lisiere = (dilater(marges, LISIERE) | bande) & ~perso & (a >= m - 25).all(axis=2)
+    f = np.maximum(f, flou(lisiere.astype(np.float32), 2) / un)[..., None]
+    r = a * (1 - f) + m * f
+    # au-delà, le dégradé d'origine ne doit pas repasser plus pâle que le fond prolongé (liseré clair)
+    pres = flou((dilater(marges, 2 * LISIERE + 1) & fond).astype(np.float32), 4) / flou(np.ones((H, W), np.float32), 4)
+    r = np.where(pres[..., None] > 0, r * (1 - pres[..., None]) + np.minimum(r, m) * pres[..., None], r)
+    return Image.fromarray(r.clip(0, 255).astype(np.uint8))
 
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     essai = "--essai" in sys.argv
-    entrees = [Path(a) for a in args] or [ROOT / "public/images/autres"]
+    entrees = [] if "--tout" in sys.argv else [Path(a) for a in args] or [ROOT / "public/images/autres"]
     fichiers = []
     for e in entrees:
         fichiers += sorted(p for p in e.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp")) if e.is_dir() else [e]
@@ -228,6 +296,9 @@ def main():
             cartes[f"{slug}/{fam}"] = str(dst.relative_to(SRC))
             print(f"  nouvelle carte → {dst.relative_to(ROOT)}")
         faites.add(key)
+    if "--tout" in sys.argv:
+        # Refait toutes les cartes déjà installées (ou seulement copain/famille donnés en argument)
+        faites = {tuple(k.split("/")) for k in cartes if (PUB / f"{k}-decor.webp").exists() and (not args or k in args)}
     if not essai:
         CARTES.write_text(json.dumps(cartes, indent=1, ensure_ascii=False) + "\n")
     # Nettoyage, famille par famille (le titre de famille se déduit de toutes ses cartes)
@@ -240,9 +311,10 @@ def main():
             if (slug, fam) not in faites:
                 continue
             propre = effacer_titre(im, personnage(slug, fam), recaler(famille, im))
-            modele = lueur(propre)
-            fondre_bords(propre, modele).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
-            fond(modele).save(PUB / slug / f"{fam}-fond.webp", quality=85)
+            perso = personnage(slug, fam)
+            lisse, fond_, marges = champ(propre, perso)
+            fondre_bords(propre, lisse, fond_, marges, perso).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
+            Image.fromarray(lisse.astype(np.uint8)).save(PUB / slug / f"{fam}-fond.webp", quality=85)
 
 
 if __name__ == "__main__":
