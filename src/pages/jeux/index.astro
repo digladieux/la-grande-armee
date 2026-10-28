@@ -22,7 +22,7 @@ const games = [
 ];
 ---
 
-<PageShell title="Les jeux" eyebrow="On joue ?" intro="Deux façons de passer du temps avec la bande." accent="orange">
+<PageShell title="Les jeux" eyebrow="On joue ?" intro="Deux façons de passer du temps avec la bande." accent="orange" compact>
   <ul class="games">
     {games.map((g) => (
       <li>
@@ -68,15 +68,19 @@ const games = [
   }
   .game__art {
     position: relative;
-    display: grid;
-    place-items: end center;
     height: 220px;
     border-bottom: var(--border);
     overflow: hidden;
   }
+  /* Cadre fixe + contain : le personnage entier reste visible (Safari ne résolvait pas la hauteur en %) */
   .game__art img {
+    position: absolute;
+    left: 4%;
+    bottom: 0;
+    width: 92%;
     height: 92%;
-    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
     filter: drop-shadow(3px 3px 0 rgb(22 20 18 / 0.15));
   }
   .game__body {
@@ -102,5 +106,36 @@ const games = [
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+  /* Téléphone : cartes à l'horizontale, les deux jeux tiennent sur un écran */
+  @media (max-width: 640px) {
+    .games {
+      gap: 16px;
+    }
+    .game {
+      flex-direction: row;
+    }
+    .game__art {
+      flex: 0 0 38%;
+      height: auto;
+      min-height: 150px;
+      border-bottom: 0;
+      border-right: var(--border);
+    }
+    .game__body {
+      align-content: center;
+      gap: 6px;
+      padding: 14px 14px 16px;
+    }
+    .game__title {
+      font-size: 1.45rem;
+    }
+    .game__text {
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+    .game__cta {
+      font-size: 0.78rem;
+    }
   }
 </style>

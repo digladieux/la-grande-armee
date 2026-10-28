@@ -83,6 +83,11 @@ a {
   color: inherit;
 }
 
+/* Safari iOS colore le texte des boutons en bleu par défaut */
+button {
+  color: inherit;
+}
+
 h1,
 h2,
 h3,

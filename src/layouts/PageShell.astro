@@ -13,14 +13,16 @@ interface Props {
   intro?: string;
   accent?: 'yellow' | 'coral' | 'green' | 'purple' | 'blue' | 'orange';
   description?: string;
+  /** En-tête resserré sur téléphone (pages dont le contenu doit tenir sur un écran). */
+  compact?: boolean;
 }
 
-const { title, eyebrow, intro, accent = 'yellow', description } = Astro.props;
+const { title, eyebrow, intro, accent = 'yellow', description, compact = false } = Astro.props;
 const hasContent = Astro.slots.has('default');
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="page-hero" style={`--accent: var(--${accent})`}>
+  <section class:list={['page-hero', { 'page-hero--compact': compact }]} style={`--accent: var(--${accent})`}>
     <div class="page-hero__stripes stripes" aria-hidden="true"></div>
     <div class="container page-hero__inner">
       {eyebrow && <span class="eyebrow">{eyebrow}</span>}
@@ -51,6 +53,14 @@ const hasContent = Astro.slots.has('default');
     position: relative;
     padding-block: clamp(56px, 9vw, 104px) clamp(40px, 6vw, 64px);
     overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .page-hero--compact {
+      padding-block: 28px 22px;
+    }
+    .page-hero--compact .page-hero__inner {
+      gap: 10px;
+    }
   }
   .page-hero__stripes {
     position: absolute;

@@ -29,6 +29,21 @@ const saveRecord = (v: number) => {
 };
 const pad = (n: number) => String(n).padStart(5, '0');
 const shuffle = <T,>(list: T[]) => [...list].sort(() => Math.random() - 0.5);
+/** Tenues dessinées en marche / en course vers la gauche : le joueur avance vers la droite, on les retourne. */
+const FACING_LEFT = new Set([
+  'aubin/gochofacho',
+  'aubin/botefragile',
+  'coco/gaulois',
+  'coco/gochofacho',
+  'dim/botefragile',
+  'guigui/beauf',
+  'hugo/joystick',
+  'laurent/branquignol',
+  'laurent/joystick',
+  'saby/gochofacho',
+  'szabo/branquignol',
+  'turquet/gaulois',
+]);
 /** Copains « en action » sur leur carte : ils bougent au lieu de rester plantés au sol. */
 const ACTIONS: Record<string, ActionMode> = {
   'turquet/gaulois': 'fly', // le forgeron qui bondit
@@ -82,7 +97,7 @@ export default function LaGrandeCourse({ roster }: Props) {
 
     const actionLooks = others.filter((l) => ACTIONS[l.key]);
     const [player, firstGround, firstHeads, actions] = await Promise.all([
-      loadSprite(myLook.sprite),
+      loadSprite(myLook.sprite, FACING_LEFT.has(myLook.key)),
       Promise.all(ground.slice(0, FIRST_BATCH).map((l) => load(l, 'sprite'))).then(keep),
       Promise.all(others.slice(0, 4).map((l) => load(l, 'head'))).then(keep),
       Promise.all(actionLooks.map((l) => load(l, 'sprite'))).then((list) => keep(list).map((a) => ({ ...a, mode: ACTIONS[a.look.key] }))),

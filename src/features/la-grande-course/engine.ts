@@ -13,6 +13,8 @@ export interface Sprite {
   mask: Uint8Array;
   mw: number;
   mh: number;
+  /** Dessin retourné (personnage tourné vers la gauche sur sa carte) : le masque l'est déjà. */
+  flip?: boolean;
 }
 
 /**
@@ -85,7 +87,7 @@ const DUCK_SX = 1.12;
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 const pick = <T,>(list: T[]) => list[Math.floor(Math.random() * list.length)];
 
-export function loadSprite(src: string): Promise<Sprite> {
+export function loadSprite(src: string, flip = false): Promise<Sprite> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.decoding = 'async';
@@ -96,11 +98,15 @@ export function loadSprite(src: string): Promise<Sprite> {
       c.width = mw;
       c.height = mh;
       const ctx = c.getContext('2d', { willReadFrequently: true })!;
+      if (flip) {
+        ctx.translate(mw, 0);
+        ctx.scale(-1, 1);
+      }
       ctx.drawImage(img, 0, 0, mw, mh);
       const data = ctx.getImageData(0, 0, mw, mh).data;
       const mask = new Uint8Array(mw * mh);
       for (let i = 0; i < mask.length; i++) mask[i] = data[i * 4 + 3] > 110 ? 1 : 0;
-      resolve({ img, mask, mw, mh });
+      resolve({ img, mask, mw, mh, flip });
     };
     img.onerror = reject;
     img.src = src;
@@ -447,6 +453,7 @@ export class Engine {
       const tilt = this.py > 0 ? -0.06 : this.running && !this.ducking ? Math.sin(this.elapsed * 14) * 0.03 : 0;
       ctx.translate(r.x + r.w / 2, r.y + r.h);
       ctx.rotate(tilt);
+      if (this.player.flip) ctx.scale(-1, 1);
       ctx.drawImage(this.player.img, -r.w / 2, -r.h, r.w, r.h);
       ctx.restore();
     }

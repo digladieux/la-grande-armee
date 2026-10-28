@@ -17,6 +17,8 @@ interface Props {
 }
 
 const LETTERS = 'ABCDEF';
+/** Typographie française : espace insécable après « et avant » ? ! : ; (pas de guillemet seul en début de ligne). */
+const fr = (t: string) => t.replace(/« /g, '«\u00a0').replace(/ ([»?!:;])/g, '\u00a0$1');
 
 /** Points par copain ; égalité départagée par les dernières questions (les plus précises). */
 function rank(questions: QuizQuestion[], picks: number[], slugs: string[]) {
@@ -109,13 +111,13 @@ export default function Quiz({ questions, characters }: Props) {
       <p class="qz__count">
         Question {step + 1} / {questions.length}
       </p>
-      <h2 class="qz__question">{q.question}</h2>
+      <h2 class="qz__question">{fr(q.question)}</h2>
       <ul class="qz__answers">
         {q.answers.map((a, i) => (
           <li key={`${step}-${i}`}>
             <button type="button" class="qz__answer" aria-pressed={picks[step] === i} onClick={() => choose(i)}>
               <span class="qz__letter">{LETTERS[i]}</span>
-              <span>{a.text}</span>
+              <span>{fr(a.text)}</span>
             </button>
           </li>
         ))}
