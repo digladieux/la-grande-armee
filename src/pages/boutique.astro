@@ -1,6 +1,7 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
-// Futur : src/features/shop/
+import ProductGrid from '@/components/shop/ProductGrid.astro';
+import { teaserProducts } from '@/data/products';
 ---
 
 <PageShell
@@ -8,4 +9,6 @@ import PageShell from '@/layouts/PageShell.astro';
   eyebrow="Ouverture prochaine"
   intro="Le jeu des 7 familles, les affiches et quelques goodies bien choisis."
   accent="blue"
-/>
+>
+  <ProductGrid products={teaserProducts} />
+</PageShell>
