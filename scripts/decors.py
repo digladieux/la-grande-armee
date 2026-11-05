@@ -267,6 +267,17 @@ def fondre_bords(im, fond_lisse, fond, marges, perso):
     return Image.fromarray(r.clip(0, 255).astype(np.uint8))
 
 
+def hd(decor, slug, fam):
+    """Tenue passée en HD (scripts/hd.py, cadre ×2) : la carte est agrandie (fond en dégradé doux) et le
+    dessin HD détouré y est reposé par-dessus, pour que le personnage soit net dans la fiche."""
+    plein = Image.open(PUB / slug / f"{fam}-plein.png").convert("RGBA") if (PUB / slug / f"{fam}-plein.png").exists() else None
+    if plein is None or plein.width <= W:
+        return decor
+    grand = decor.convert("RGBA").resize(plein.size, Image.LANCZOS)
+    grand.alpha_composite(plein)
+    return grand.convert("RGB")
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     essai = "--essai" in sys.argv
@@ -313,7 +324,7 @@ def main():
             propre = effacer_titre(im, personnage(slug, fam), recaler(famille, im))
             perso = personnage(slug, fam)
             lisse, fond_, marges = champ(propre, perso)
-            fondre_bords(propre, lisse, fond_, marges, perso).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
+            hd(fondre_bords(propre, lisse, fond_, marges, perso), slug, fam).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
             Image.fromarray(lisse.astype(np.uint8)).save(PUB / slug / f"{fam}-fond.webp", quality=85)
 
 

@@ -23,8 +23,8 @@ export const families = {
   gochofacho: { name: 'Gaucho Facho', color: 'teal', bg: '#F6E894' },
   mignon: { name: 'Minion', color: 'blue', bg: '#89B9E0' },
   beauf: { name: 'Beauf', color: 'pink', bg: '#EDB6CF' },
-  capdag: { name: 'Capdag', color: 'teal', bg: '#98D7D5' },
-  troubadour: { name: 'Troubadour', color: 'purple', bg: '#6973B3' },
+  capdag: { name: 'Capdag', color: 'teal', bg: '#96D5D3' },
+  troubadour: { name: 'Troubadour', color: 'purple', bg: '#5B66AB' },
 } satisfies Record<string, Family>;
 
 export type FamilyId = keyof typeof families;

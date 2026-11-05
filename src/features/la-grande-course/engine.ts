@@ -26,7 +26,7 @@ export interface Sprite {
 export type ActionMode = 'hop' | 'fly' | 'hang';
 
 /** Accessoires : dessin définitif s'il est chargé (setPropSprite), sinon provisoire en vectoriel. */
-export type PropName = 'biere' | 'panneau' | 'tracteur';
+export type PropName = 'biere' | 'panneau' | 'tracteur' | 'r5' | 'ceinture';
 
 type Pool = { look: CourseLook; sprite: Sprite }[];
 export type ActionPool = { look: CourseLook; sprite: Sprite; mode: ActionMode }[];
@@ -297,10 +297,13 @@ export class Engine {
         this.obstacles.push({ kind: 'hang', look: a.look, sprite: a.sprite, x, y: G - 0.68 * P - h, w, h, spin: 0 });
       }
     } else if (r < 0.62) {
-      const choices: PropName[] = this.score > 300 ? ['biere', 'panneau', 'tracteur'] : ['biere', 'biere', 'panneau'];
+      // R5 et ceinture de judo : seulement une fois leur dessin chargé (pas de version vectorielle)
+      const choices = (
+        this.score > 300 ? ['biere', 'panneau', 'tracteur', 'r5', 'ceinture'] : ['biere', 'biere', 'panneau', 'ceinture']
+      ).filter((p) => (p !== 'r5' && p !== 'ceinture') || this.propSprites[p as PropName]) as PropName[];
       const prop = pick(choices);
       const sprite = this.propSprites[prop];
-      const h = prop === 'biere' ? 0.3 : prop === 'panneau' ? 0.66 : 0.56;
+      const h = { biere: 0.3, panneau: 0.66, tracteur: 0.56, r5: 0.42, ceinture: 0.17 }[prop];
       const w = sprite ? (h * sprite.img.naturalWidth) / sprite.img.naturalHeight : prop === 'biere' ? 0.22 : prop === 'panneau' ? 0.55 : 1.1;
       this.obstacles.push({ kind: 'prop', prop, sprite, x, y: G - h * P, w: w * P, h: h * P, spin: 0 });
     } else if (this.ground.length) {

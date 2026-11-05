@@ -26,7 +26,7 @@ NOMS = {"botefragile": "Botéfragile", "branquignol": "Branquignol", "gaulois": 
         "capdag": "Capdag", "troubadour": "Troubadour"}
 COULEURS = {"botefragile": "#BDDDF2", "branquignol": "#F8A08E", "gaulois": "#8FC178", "izi-karate": "#F6EBA8",
             "ludick": "#C0A1FF", "bouffetout": "#FFBA75", "gochofacho": "#F6E894", "mignon": "#89B9E0",
-            "beauf": "#EDB6CF", "capdag": "#98D7D5", "troubadour": "#9AA2D6"}
+            "beauf": "#EDB6CF", "capdag": "#96D5D3", "troubadour": "#5B66AB"}
 # Tenues dessinées en marche vers la gauche (voir src/features/la-grande-course/sens.ts)
 GAUCHE = set(re.findall(r"'([a-z]+/[a-z-]+)'", (ROOT / "src/features/la-grande-course/sens.ts").read_text()))
 PRENOMS = dict(re.findall(r"slug: '([a-z]+)',\s*name: '([^']+)'", (ROOT / "src/data/characters.ts").read_text()))

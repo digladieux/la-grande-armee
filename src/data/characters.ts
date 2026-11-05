@@ -137,6 +137,12 @@ export const characters: Character[] = [
         bust: { cx: 45, cy: 37, zoom: 2.4 },
         cutout: 'images/personnages/dim/troubadour-cutout.png',
       },
+      {
+        family: 'capdag',
+        image: 'images/personnages/dim/capdag-blanc.png',
+        bust: { cx: 50, cy: 39, zoom: 2.4 },
+        cutout: 'images/personnages/dim/capdag-cutout.png',
+      },
     ],
   },
   {
@@ -260,7 +266,7 @@ export const characters: Character[] = [
       {
         family: 'capdag',
         image: 'images/personnages/dauby/capdag-blanc.png',
-        bust: { cx: 40, cy: 46, zoom: 2.4 },
+        bust: { cx: 37, cy: 55, zoom: 3 },
         cutout: 'images/personnages/dauby/capdag-cutout.png',
       },
       {
@@ -390,6 +396,12 @@ export const characters: Character[] = [
         bust: { cx: 48, cy: 38, zoom: 2.1 },
         cutout: 'images/personnages/aubin/gochofacho-cutout.png',
         video: 'images/personnages/aubin/gochofacho-marche.mp4',
+      },
+      {
+        family: 'capdag',
+        image: 'images/personnages/aubin/capdag-blanc.png',
+        bust: { cx: 54, cy: 49, zoom: 2.4 },
+        cutout: 'images/personnages/aubin/capdag-cutout.png',
       },
     ],
   },

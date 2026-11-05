@@ -390,9 +390,9 @@
   "ratio": 0.594
  },
  "donne/capdag": {
-  "w": 320,
+  "w": 321,
   "h": 360,
-  "ratio": 0.889
+  "ratio": 0.891
  },
  "fred/capdag": {
   "w": 258,
@@ -432,37 +432,37 @@
  "dauby/troubadour": {
   "w": 223,
   "h": 360,
-  "ratio": 0.618
+  "ratio": 0.619
  },
  "dim/troubadour": {
-  "w": 215,
+  "w": 211,
   "h": 360,
-  "ratio": 0.597
+  "ratio": 0.586
  },
  "fred/troubadour": {
   "w": 236,
   "h": 360,
-  "ratio": 0.655
+  "ratio": 0.656
  },
  "guigui/troubadour": {
-  "w": 195,
+  "w": 196,
   "h": 360,
-  "ratio": 0.543
+  "ratio": 0.544
  },
  "theo/troubadour": {
-  "w": 243,
+  "w": 244,
   "h": 360,
-  "ratio": 0.676
+  "ratio": 0.677
  },
  "momo/botefragile": {
-  "w": 272,
+  "w": 273,
   "h": 360,
-  "ratio": 0.755
+  "ratio": 0.758
  },
  "momo/branquignol": {
   "w": 262,
   "h": 360,
-  "ratio": 0.728
+  "ratio": 0.727
  },
  "momo/ludick": {
   "w": 450,
@@ -472,16 +472,26 @@
  "momo/bouffetout": {
   "w": 251,
   "h": 360,
-  "ratio": 0.697
+  "ratio": 0.698
  },
  "momo/gochofacho": {
-  "w": 313,
+  "w": 314,
   "h": 360,
-  "ratio": 0.87
+  "ratio": 0.871
  },
  "turquet/botefragile": {
   "w": 121,
   "h": 360,
   "ratio": 0.336
+ },
+ "dim/capdag": {
+  "w": 249,
+  "h": 360,
+  "ratio": 0.691
+ },
+ "aubin/capdag": {
+  "w": 275,
+  "h": 360,
+  "ratio": 0.763
  }
 }

@@ -1033,7 +1033,7 @@
   "v": 1,
   "orientation": "paysage",
   "background": "creme",
-  "couleur": "#98D7D5",
+  "couleur": "#96D5D3",
   "frame": "sans",
   "title": "La Grande Armée",
   "subtitle": "Famille Capdag",
@@ -1041,13 +1041,13 @@
   "showBrand": false,
   "members": [
    {
-    "name": "Fred",
+    "name": "Dim",
     "family": "Capdag",
-    "src": "images/personnages/fred/capdag-cutout.png",
+    "src": "images/personnages/dim/capdag-cutout.png",
     "p": {
-     "x": 18.41,
-     "y": 87.5,
-     "h": 42.3,
+     "x": 14.41,
+     "y": 81.5,
+     "h": 41.05,
      "z": 8
     }
    },
@@ -1056,10 +1056,10 @@
     "family": "Capdag",
     "src": "images/personnages/petit/capdag-cutout.png",
     "p": {
-     "x": 33.04,
-     "y": 87.5,
-     "h": 42.81,
-     "z": 9
+     "x": 27.76,
+     "y": 81.5,
+     "h": 38.05,
+     "z": 8
     }
    },
    {
@@ -1067,9 +1067,9 @@
     "family": "Capdag",
     "src": "images/personnages/laurent/capdag-cutout.png",
     "p": {
-     "x": 48.27,
-     "y": 87.5,
-     "h": 49.3,
+     "x": 41.28,
+     "y": 81.5,
+     "h": 43.86,
      "z": 10
     }
    },
@@ -1078,10 +1078,21 @@
     "family": "Capdag",
     "src": "images/personnages/theo/capdag-cutout.png",
     "p": {
-     "x": 65.57,
-     "y": 87.5,
-     "h": 54.69,
-     "z": 9
+     "x": 56.64,
+     "y": 81.5,
+     "h": 48.61,
+     "z": 10
+    }
+   },
+   {
+    "name": "Aubin",
+    "family": "Capdag",
+    "src": "images/personnages/aubin/capdag-cutout.png",
+    "p": {
+     "x": 72.64,
+     "y": 81.5,
+     "h": 41.42,
+     "z": 8
     }
    },
    {
@@ -1089,9 +1100,9 @@
     "family": "Capdag",
     "src": "images/personnages/dauby/capdag-cutout.png",
     "p": {
-     "x": 81.59,
-     "y": 87.5,
-     "h": 46.64,
+     "x": 85.59,
+     "y": 81.5,
+     "h": 32.51,
      "z": 8
     }
    },
@@ -1100,20 +1111,20 @@
     "family": "Capdag",
     "src": "images/personnages/nael/capdag-cutout.png",
     "p": {
-     "x": 27.45,
+     "x": 20.55,
      "y": 95.5,
-     "h": 39.12,
-     "z": 29
+     "h": 34.77,
+     "z": 28
     }
    },
    {
-    "name": "Turquet",
+    "name": "Fred",
     "family": "Capdag",
-    "src": "images/personnages/turquet/capdag-cutout.png",
+    "src": "images/personnages/fred/capdag-cutout.png",
     "p": {
-     "x": 50.04,
+     "x": 40.06,
      "y": 95.5,
-     "h": 44.55,
+     "h": 42.12,
      "z": 30
     }
    },
@@ -1122,10 +1133,21 @@
     "family": "Capdag",
     "src": "images/personnages/donne/capdag-cutout.png",
     "p": {
-     "x": 72.55,
+     "x": 59.47,
      "y": 95.5,
-     "h": 48.61,
-     "z": 29
+     "h": 43.12,
+     "z": 30
+    }
+   },
+   {
+    "name": "Turquet",
+    "family": "Capdag",
+    "src": "images/personnages/turquet/capdag-cutout.png",
+    "p": {
+     "x": 79.45,
+     "y": 95.5,
+     "h": 39.6,
+     "z": 28
     }
    }
   ]
@@ -1134,7 +1156,7 @@
   "v": 1,
   "orientation": "paysage",
   "background": "creme",
-  "couleur": "#9AA2D6",
+  "couleur": "#5B66AB",
   "frame": "sans",
   "title": "La Grande Armée",
   "subtitle": "Famille Troubadour",
@@ -1146,9 +1168,9 @@
     "family": "Troubadour",
     "src": "images/personnages/dim/troubadour-cutout.png",
     "p": {
-     "x": 26.98,
+     "x": 22.89,
      "y": 84.5,
-     "h": 51.99,
+     "h": 52.13,
      "z": 8
     }
    },
@@ -1157,7 +1179,7 @@
     "family": "Troubadour",
     "src": "images/personnages/dauby/troubadour-cutout.png",
     "p": {
-     "x": 43.19,
+     "x": 41.89,
      "y": 84.5,
      "h": 52.66,
      "z": 10
@@ -1168,7 +1190,7 @@
     "family": "Troubadour",
     "src": "images/personnages/guigui/troubadour-cutout.png",
     "p": {
-     "x": 58.28,
+     "x": 59.7,
      "y": 84.5,
      "h": 48.84,
      "z": 10
@@ -1179,7 +1201,7 @@
     "family": "Troubadour",
     "src": "images/personnages/fred/troubadour-cutout.png",
     "p": {
-     "x": 73.02,
+     "x": 77.11,
      "y": 84.5,
      "h": 47.72,
      "z": 8
@@ -1190,7 +1212,7 @@
     "family": "Troubadour",
     "src": "images/personnages/theo/troubadour-cutout.png",
     "p": {
-     "x": 39.23,
+     "x": 37.88,
      "y": 95.5,
      "h": 47.9,
      "z": 30
@@ -1201,7 +1223,7 @@
     "family": "Troubadour",
     "src": "images/personnages/coco/troubadour-cutout.png",
     "p": {
-     "x": 60.77,
+     "x": 62.12,
      "y": 95.5,
      "h": 52.43,
      "z": 30

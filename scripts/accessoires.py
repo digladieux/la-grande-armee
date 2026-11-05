@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "sources/accessoires"
@@ -28,6 +28,9 @@ PUB = ROOT / "public/images/accessoires"
 # Au-dessus de ce niveau (sur les trois canaux), un pixel est du blanc de fond
 BLANC = 250
 MARGE = 4
+# Accessoires dont le blanc enfermé est aussi du fond (trou de l'anse de la bière) ; pour les autres,
+# seul le blanc relié au bord de l'image est retiré (vitres de la R5, phares du tracteur gardés)
+TROUS = {"biere", "elephant-delirium"}
 
 
 def nom(path):
@@ -35,9 +38,18 @@ def nom(path):
     return re.sub(r"(?<=[a-z])(?=[A-Z])", "-", base).replace("_", "-").replace(" ", "-").lower()
 
 
-def detourer(im):
+def fond_exterieur(blanc):
+    """Blanc relié au bord de l'image (remplissage depuis un cadre ajouté tout autour)."""
+    m = Image.fromarray(np.pad(blanc, 1, constant_values=True).astype(np.uint8) * 255).copy()  # copie : floodfill sans effet sinon
+    ImageDraw.floodfill(m, (0, 0), 128)
+    return (np.asarray(m) == 128)[1:-1, 1:-1]
+
+
+def detourer(im, trous=True):
     a = np.asarray(im.convert("RGB"), dtype=np.float32)
     blanc = a.min(axis=2) >= BLANC
+    if not trous:
+        blanc = fond_exterieur(blanc)
     alpha = (~blanc).astype(np.float32)
     # Bord du dessin : pixel mêlé de blanc → couleur du trait, opacité selon sa part de blanc
     voisin = np.asarray(Image.fromarray((blanc * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5))) > 0
@@ -65,7 +77,7 @@ def main():
         n = nom(f)
         im = Image.open(f)
         im.save(SRC / f"{n}.png")
-        d = detourer(im)
+        d = detourer(im, n in TROUS)
         d.save(PUB / f"{n}.png", optimize=True)
         print(f"{f.name} → images/accessoires/{n}.png  ({d.width}×{d.height})")
 

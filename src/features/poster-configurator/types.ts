@@ -101,6 +101,9 @@ export interface Accessory {
 export const ACCESSORIES: Accessory[] = [
   { id: 'biere', label: 'Bière', src: 'images/accessoires/biere.png', h: 11 },
   { id: 'elephant-delirium', label: 'Éléphant Delirium', src: 'images/accessoires/elephant-delirium.png', h: 13 },
+  { id: 'renault-r5', label: 'Renault 5', src: 'images/accessoires/renault-r5.png', h: 14 },
+  { id: 'tracteur', label: 'Tracteur', src: 'images/accessoires/tracteur.png', h: 18 },
+  { id: 'ceinture-judo', label: 'Ceinture de judo', src: 'images/accessoires/ceinture-judo.png', h: 7 },
 ];
 
 /** Accessoires prévus, pas encore dessinés. */

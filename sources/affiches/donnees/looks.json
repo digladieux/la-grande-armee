@@ -618,9 +618,9 @@
 {
 "family": "capdag",
 "image": "images/personnages/dauby/capdag-blanc.png",
-"cx": 40,
-"cy": 46,
-"zoom": 2.4,
+"cx": 37.0,
+"cy": 55.0,
+"zoom": 3.0,
 "cutout": "images/personnages/dauby/capdag-cutout.png"
 },
 {
@@ -774,5 +774,21 @@
 "cy": 32.0,
 "zoom": 2.0,
 "cutout": "images/personnages/turquet/botefragile-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/dim/capdag-blanc.png",
+"cx": 50.0,
+"cy": 39.0,
+"zoom": 2.4,
+"cutout": "images/personnages/dim/capdag-cutout.png"
+},
+{
+"family": "capdag",
+"image": "images/personnages/aubin/capdag-blanc.png",
+"cx": 54.0,
+"cy": 49.0,
+"zoom": 2.4,
+"cutout": "images/personnages/aubin/capdag-cutout.png"
 }
 ]
