@@ -387,7 +387,7 @@
  "dauby/capdag": {
   "w": 214,
   "h": 360,
-  "ratio": 0.593
+  "ratio": 0.594
  },
  "donne/capdag": {
   "w": 320,
@@ -395,9 +395,9 @@
   "ratio": 0.889
  },
  "fred/capdag": {
-  "w": 257,
+  "w": 258,
   "h": 360,
-  "ratio": 0.715
+  "ratio": 0.717
  },
  "laurent/capdag": {
   "w": 238,
@@ -405,24 +405,24 @@
   "ratio": 0.662
  },
  "nael/capdag": {
-  "w": 400,
+  "w": 401,
   "h": 360,
-  "ratio": 1.111
+  "ratio": 1.115
  },
  "petit/capdag": {
-  "w": 229,
+  "w": 228,
   "h": 360,
-  "ratio": 0.635
+  "ratio": 0.633
  },
  "theo/capdag": {
   "w": 232,
   "h": 360,
-  "ratio": 0.645
+  "ratio": 0.644
  },
  "turquet/capdag": {
-  "w": 293,
+  "w": 292,
   "h": 360,
-  "ratio": 0.813
+  "ratio": 0.812
  },
  "coco/troubadour": {
   "w": 300,

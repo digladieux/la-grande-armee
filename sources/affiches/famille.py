@@ -20,7 +20,7 @@ for l in looks:
     l["plein"]=("public/"+l["cutout"].replace("-cutout","-plein")) if l["cutout"] else f"{S}/rene-branquignol-plein.png"
     if l["key"]=="hugo/joystick": l["plein"]=f"{S}/hugo-joystick-sans-arc-en-ciel.png"
     l["im"]=Image.open(l["plein"]).convert("RGBA")
-    l["lo"]=l["im"].getchannel("A").point(lambda v:255 if v>100 else 0)
+    l["lo"]=l["im"].resize((708,1068)).getchannel("A").point(lambda v:255 if v>100 else 0)
     fx,fy,fw=faces[str(i)]; l["face"]=(fx/100*708, fy/100*1068, max(fw,7)/100*708*0.55)
 FOND={"dim/branquignol","aubin/botefragile","laurent/branquignol","lenoir/botefragile","fred/branquignol","rene/branquignol","hugo/joystick","aubin/joystick","donne/botefragile"}
 rnd=random.Random(seed)

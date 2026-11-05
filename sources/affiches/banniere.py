@@ -17,8 +17,13 @@ for i,l in enumerate(looks):
         l["plein"]=f"{S}/posters/{l['key'].replace('/','-')}.png"
         fx,fy,fw=POSTERS[l["key"]]; faces[str(i)]=[fx,fy,fw]; l["cx"],l["cy"],l["zoom"]=fx,fy+6,round(min(2.4,max(1.4,18/fw)),1)
     l["im"]=Image.open(l["plein"]).convert("RGBA")
-    l["lo"]=l["im"].getchannel("A").point(lambda v:255 if v>100 else 0)
+    l["lo"]=l["im"].resize((708,1068)).getchannel("A").point(lambda v:255 if v>100 else 0)   # tenues HD : cadre ×2
     fx,fy,fw=faces[str(i)]; l["face"]=(fx/100*708, fy/100*1068, max(fw,7)/100*708*0.55)
+# Tête en bas : seuls ses pieds dépassent de la foule, le reste du corps (visage compris) caché derrière
+PIEDS={"dim/branquignol"}
+for l in looks:
+    if l["key"] in PIEDS:
+        x0,y0,x1,y1=l["lo"].getbbox(); l["pieds"]=((x0+x1)/2, y0, y0+0.2*(y1-y0))
 FOND={"dim/branquignol","aubin/botefragile","laurent/branquignol","lenoir/botefragile","fred/branquignol","rene/branquignol","donne/botefragile","guigui/beauf"}
 rnd=random.Random(seed)
 # Emplacements : (rangée, x du visage, y du visage, taille du buste) ; ordre de dessin du fond vers l'avant
@@ -34,6 +39,10 @@ assign=pool[:]          # assign[k] = look dans slots[k] (slots déjà triés pa
 # NB : slots est rangé par rangée, l'ordre aléatoire dans la rangée sert d'ordre de dessin
 def geom(sl,l):
     s=sl["b"]*l["zoom"]/708
+    if "pieds" in l:
+        # le bout des pieds à hauteur des têtes de la rangée, le corps plonge derrière les rangées de devant
+        px,top,_=l["pieds"]
+        return s, int(sl["x"]-px*s), int(sl["y"]-0.45*sl["b"]-top*s)
     # on aligne le visage sur l'emplacement (tête à la bonne hauteur dans la rangée)
     fx,fy,_=l["face"]
     return s, int(sl["x"]-fx*s), int(sl["y"]-(fy+0.12*708/l["zoom"])*s)
@@ -46,6 +55,19 @@ def evaluate(assign):
         lab.paste(k,(x//K,y//K,x//K+m.width,y//K+m.height),m)
     lp=lab.load(); pen=0; vis=[]
     for k,(sl,l) in enumerate(zip(slots,assign),1):
+        if "pieds" in l:
+            # tout ce qui est sous les pieds doit être caché
+            s,x,y=G[k-1]; lo=l["lo"]; _,haut,bas=l["pieds"]
+            def visible(w0,w1):
+                tot=v=0
+                for w in range(int(w0),int(w1),6):
+                    for u in range(0,708,6):
+                        if not lo.getpixel((u,w)): continue
+                        xx,yy=int((x+u*s)/K),int((y+w*s)/K); tot+=1
+                        if 0<=xx<W//K and 0<=yy<H//K and lp[xx,yy]==k: v+=1
+                return v/max(tot,1)
+            # pieds bien visibles, tout le reste caché
+            pen+=visible(bas,1068)*30+max(0,0.8-visible(haut,bas))*30; vis.append(1.0); continue
         s,x,y=G[k-1]; lo=l["lo"]; fx,fy,r=l["face"]; cx,cy,rr=(x+fx*s)/K,(y+fy*s)/K,r*s/K
         tot=v=0
         for yy in range(int(cy-rr),int(cy+rr)+1):

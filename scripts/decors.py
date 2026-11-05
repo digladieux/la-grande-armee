@@ -88,8 +88,8 @@ def personnage(slug, fam):
     """Masque du personnage dessiné (détourage -plein.png, à défaut l'illustration -blanc.png)."""
     plein = PUB / slug / f"{fam}-plein.png"
     if plein.exists():
-        return dilater(np.asarray(Image.open(plein).convert("RGBA"))[..., 3] > 0, 5)
-    return np.asarray(Image.open(PUB / slug / f"{fam}-blanc.png").convert("L")) < 235
+        return dilater(np.asarray(Image.open(plein).convert("RGBA").resize((W, H)))[..., 3] > 0, 5)
+    return np.asarray(Image.open(PUB / slug / f"{fam}-blanc.png").convert("L").resize((W, H))) < 235
 
 
 def titre_famille(cartes):
