@@ -23,7 +23,8 @@ for i,l in enumerate(looks):
 PIEDS={"dim/branquignol"}
 for l in looks:
     if l["key"] in PIEDS:
-        x0,y0,x1,y1=l["lo"].getbbox(); l["pieds"]=((x0+x1)/2, y0, y0+0.2*(y1-y0))
+        # visible : des pieds jusqu'à la bougie (40 % du dessin) ; caché : sous la corde (55 %)
+        x0,y0,x1,y1=l["lo"].getbbox(); l["pieds"]=((x0+x1)/2, y0, y0+0.4*(y1-y0), y0+0.55*(y1-y0))
 FOND={"dim/branquignol","aubin/botefragile","laurent/branquignol","lenoir/botefragile","fred/branquignol","rene/branquignol","donne/botefragile","guigui/beauf"}
 rnd=random.Random(seed)
 # Emplacements : (rangée, x du visage, y du visage, taille du buste) ; ordre de dessin du fond vers l'avant
@@ -40,24 +41,28 @@ assign=pool[:]          # assign[k] = look dans slots[k] (slots déjà triés pa
 def geom(sl,l):
     s=sl["b"]*l["zoom"]/708
     if "pieds" in l:
-        # le bout des pieds à hauteur des têtes de la rangée, le corps plonge derrière les rangées de devant
-        px,top,_=l["pieds"]
-        return s, int(sl["x"]-px*s), int(sl["y"]-0.45*sl["b"]-top*s)
+        # les jambes dépassent au-dessus des têtes de la rangée, le corps plonge derrière les rangées de devant
+        px,top,_,_=l["pieds"]
+        return s, int(sl["x"]-px*s), int(sl["y"]-0.8*sl["b"]-top*s)
     # on aligne le visage sur l'emplacement (tête à la bonne hauteur dans la rangée)
     fx,fy,_=l["face"]
     return s, int(sl["x"]-fx*s), int(sl["y"]-(fy+0.12*708/l["zoom"])*s)
+def dessin(assign):
+    """Ordre de dessin (indices à partir de 1) : les « pieds » tout au fond, puis les rangées."""
+    ks=list(range(1,min(len(slots),len(assign))+1))
+    return sorted(ks,key=lambda k: "pieds" not in assign[k-1])
 def evaluate(assign):
     lab=Image.new("L",(W//K,H//K),0)
-    G=[]
-    for k,(sl,l) in enumerate(zip(slots,assign),1):
-        s,x,y=geom(sl,l); G.append((s,x,y))
+    G=[geom(sl,l) for sl,l in zip(slots,assign)]
+    for k in dessin(assign):
+        s,x,y=G[k-1]; l=assign[k-1]
         m=l["lo"].resize((max(1,int(708*s/K)),max(1,int(1068*s/K))))
         lab.paste(k,(x//K,y//K,x//K+m.width,y//K+m.height),m)
     lp=lab.load(); pen=0; vis=[]
     for k,(sl,l) in enumerate(zip(slots,assign),1):
         if "pieds" in l:
-            # tout ce qui est sous les pieds doit être caché
-            s,x,y=G[k-1]; lo=l["lo"]; _,haut,bas=l["pieds"]
+            # jambes jusqu'à la bougie visibles, tout ce qui est sous la corde caché
+            s,x,y=G[k-1]; lo=l["lo"]; _,haut,bougie,bas=l["pieds"]
             def visible(w0,w1):
                 tot=v=0
                 for w in range(int(w0),int(w1),6):
@@ -67,7 +72,7 @@ def evaluate(assign):
                         if 0<=xx<W//K and 0<=yy<H//K and lp[xx,yy]==k: v+=1
                 return v/max(tot,1)
             # pieds bien visibles, tout le reste caché
-            pen+=visible(bas,1068)*30+max(0,0.8-visible(haut,bas))*30; vis.append(1.0); continue
+            pen+=visible(bas,1068)*30+max(0,0.9-visible(haut,bougie))*40; vis.append(1.0); continue
         s,x,y=G[k-1]; lo=l["lo"]; fx,fy,r=l["face"]; cx,cy,rr=(x+fx*s)/K,(y+fy*s)/K,r*s/K
         tot=v=0
         for yy in range(int(cy-rr),int(cy+rr)+1):
@@ -86,6 +91,8 @@ def evaluate(assign):
                 la,lb=assign[a],assign[b]
                 if la["slug"]==lb["slug"]: pen+=3
                 if la["family"]==lb["family"]: pen+=1
+    # il y a une tenue de plus que de places : jamais les « pieds » sur la touche
+    pen+=100*sum("pieds" in l for l in assign[len(slots):])
     # décors encombrants : uniquement dans les deux rangées du fond
     for sl,l in zip(slots,assign):
         if l["key"] in FOND and sl["r"]>1: pen+=4
@@ -107,7 +114,8 @@ for k in range(-int(L/band)-2,int(L/band)+3):
     t0=-L/2+k*band; t1=t0+band
     d.polygon([(W/2+dx*t-dy*e, H/2+dy*t+dx*e) for t,e in ((t0,-L),(t0,L),(t1,L),(t1,-L))],fill=cols[k%7])
 canvas=bg.convert("RGBA")
-for (s,x,y),l in zip(G,assign):
+for k in dessin(assign):
+    (s,x,y),l=G[k-1],assign[k-1]
     im=l["im"].resize((int(708*s),int(1068*s)),Image.LANCZOS); canvas.paste(im,(x,y),im)
 canvas.convert("RGB").save(out,quality=92)
 dbg=canvas.copy(); dd=ImageDraw.Draw(dbg)
