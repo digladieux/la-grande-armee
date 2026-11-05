@@ -43,8 +43,12 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
 
   return (
     <div class="flemme">
-      <button type="button" class="flemme__bulle hand" onClick={() => setOuvert(true)} aria-haspopup="dialog">
-        T'as la flemme de créer ton affiche ?
+      <button type="button" class="flemme__bulle" onClick={() => setOuvert(true)} aria-haspopup="dialog">
+        <span class="flemme__question hand">T'as la flemme de créer ton affiche ?</span>
+        <span class="flemme__action">
+          Voir les modèles
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </span>
       </button>
       <dialog
         ref={dialog}
