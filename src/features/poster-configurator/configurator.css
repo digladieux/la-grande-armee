@@ -649,18 +649,6 @@
   padding: 0;
   list-style: none;
 }
-.pc__accessories li.is-upcoming {
-  display: grid;
-  place-items: center;
-  gap: 2px;
-  aspect-ratio: 1;
-  border: 2px dashed rgb(22 20 18 / 0.35);
-  border-radius: var(--radius);
-  color: rgb(22 20 18 / 0.5);
-  font-weight: 700;
-  text-align: center;
-  align-content: center;
-}
 .pc__accessories small {
   font-family: var(--font-hand);
   font-size: 1.05rem;

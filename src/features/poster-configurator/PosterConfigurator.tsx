@@ -10,7 +10,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry, Selection } from './types';
-import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, UPCOMING_ACCESSORIES } from './types';
+import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS } from './types';
 import PosterCanvas from './PosterCanvas';
 import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
@@ -450,12 +450,6 @@ export default function PosterConfigurator({ roster }: Props) {
                     </li>
                   );
                 })}
-                {UPCOMING_ACCESSORIES.map((a) => (
-                  <li key={a} class="is-upcoming">
-                    <span>{a}</span>
-                    <small>Bientôt</small>
-                  </li>
-                ))}
               </ul>
             </section>
           )}

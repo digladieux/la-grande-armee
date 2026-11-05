@@ -1,0 +1,118 @@
+---
+import PageShell from '@/layouts/PageShell.astro';
+import CTA from '@/components/ui/CTA.astro';
+import { url } from '@/lib/url';
+
+/** Grande affiche « foule » : tous les copains dans toutes leurs tenues (sources/affiches/banniere.py). */
+const full = url('/images/boutique/affiche-la-bande.jpg');
+---
+
+<PageShell
+  title="Affiche « La bande »"
+  eyebrow="Bientôt en boutique"
+  intro="Toute la Grande Armée réunie sur une seule affiche : les copains dans toutes leurs tenues, empilés joyeusement sur les bandes pastel."
+  accent="green"
+  description="La grande affiche avec tous les copains de La Grande Armée."
+>
+  <figure class="bande">
+    <div class="bande__viewport" data-bande tabindex="0" aria-label="Affiche « La bande » : faire défiler pour parcourir la foule">
+      <img src={full} alt="La grande affiche : tous les copains de La Grande Armée, toutes familles confondues" width="4400" height="1943" decoding="async" draggable="false" />
+    </div>
+    <figcaption class="hand">Fais glisser l'affiche pour parcourir la foule et retrouver tout le monde !</figcaption>
+    <a class="bande__full" href={full} target="_blank" rel="noopener">Voir l'affiche entière</a>
+  </figure>
+
+  <div class="bande__info">
+    <p>
+      Affiche en cours de finition : le titre et le format d'impression arrivent bientôt. En attendant, tu peux
+      composer ta propre affiche avec les copains de ton choix.
+    </p>
+    <div class="bande__ctas">
+      <CTA href="/creer-mon-affiche">Créer mon affiche</CTA>
+      <CTA href="/" variant="secondary" arrow={false}>Retour à l'accueil</CTA>
+    </div>
+  </div>
+</PageShell>
+
+<style>
+  .bande {
+    margin: 0;
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+  }
+  /* Affiche très large : montrée en grand (visages lisibles), à parcourir de gauche à droite */
+  .bande__viewport {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    cursor: grab;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+  .bande__viewport.is-dragging {
+    cursor: grabbing;
+  }
+  .bande__viewport img {
+    display: block;
+    height: clamp(340px, 62vh, 760px);
+    width: auto;
+    max-width: none;
+    user-select: none;
+  }
+  .bande__full {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .bande figcaption {
+    font-size: 1.3rem;
+    transform: rotate(-1.5deg);
+    text-align: center;
+  }
+  .bande__info {
+    display: grid;
+    gap: 18px;
+    max-width: 62ch;
+    margin: clamp(28px, 5vw, 48px) auto 0;
+    text-align: center;
+    justify-items: center;
+  }
+  .bande__info p {
+    color: var(--ink-soft);
+  }
+  .bande__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  // Départ au centre de la foule ; glisser à la souris (au doigt, le défilement natif suffit)
+  for (const el of document.querySelectorAll<HTMLElement>('[data-bande]')) {
+    const centre = () => (el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2);
+    const img = el.querySelector('img');
+    if (img?.complete) centre();
+    else img?.addEventListener('load', centre, { once: true });
+    centre();
+    let x0 = 0;
+    let s0 = 0;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      x0 = e.clientX;
+      s0 = el.scrollLeft;
+      el.classList.add('is-dragging');
+      el.setPointerCapture(e.pointerId);
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (el.classList.contains('is-dragging')) el.scrollLeft = s0 - (e.clientX - x0);
+    });
+    const stop = () => el.classList.remove('is-dragging');
+    el.addEventListener('pointerup', stop);
+    el.addEventListener('pointercancel', stop);
+  }
+</script>

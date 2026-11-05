@@ -106,8 +106,6 @@ export const ACCESSORIES: Accessory[] = [
   { id: 'ceinture-judo', label: 'Ceinture de judo', src: 'images/accessoires/ceinture-judo.png', h: 7 },
 ];
 
-/** Accessoires prévus, pas encore dessinés. */
-export const UPCOMING_ACCESSORIES = ['Lunettes', 'Casquette', 'Barbecue', 'Couronne', 'Ballon'];
 
 /**
  * Position d'un copain sur l'affiche, en % de la feuille :
