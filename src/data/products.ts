@@ -11,7 +11,13 @@ export interface Product {
 }
 
 export const teaserProducts: Product[] = [
-  { slug: 'jeu-7-familles', name: 'Le jeu des 7 familles', tag: 'Le jeu', color: 'purple' },
+  {
+    slug: 'jeu-7-familles',
+    name: 'Le jeu des 7 familles',
+    tag: 'Le jeu',
+    color: 'purple',
+    image: 'images/boutique/jeu-7-familles.webp',
+  },
   {
     slug: 'affiche-perso',
     name: 'Affiche personnalisée',
