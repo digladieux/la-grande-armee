@@ -2,52 +2,52 @@
  "dim/botefragile": {
   "w": 236,
   "h": 360,
-  "ratio": 0.654
+  "ratio": 0.656
  },
  "dim/izikarate": {
-  "w": 192,
+  "w": 191,
   "h": 360,
   "ratio": 0.532
  },
  "dim/gaulois": {
-  "w": 349,
+  "w": 350,
   "h": 360,
-  "ratio": 0.971
+  "ratio": 0.972
  },
  "dim/branquignol": {
-  "w": 241,
+  "w": 242,
   "h": 360,
   "ratio": 0.671
  },
  "dim/ludick": {
   "w": 238,
   "h": 360,
-  "ratio": 0.66
+  "ratio": 0.662
  },
  "dim/bouffetout": {
-  "w": 170,
+  "w": 169,
   "h": 360,
-  "ratio": 0.471
+  "ratio": 0.47
  },
  "guigui/botefragile": {
-  "w": 285,
+  "w": 284,
   "h": 360,
-  "ratio": 0.791
+  "ratio": 0.79
  },
  "guigui/izikarate": {
-  "w": 168,
+  "w": 169,
   "h": 360,
-  "ratio": 0.468
+  "ratio": 0.469
  },
  "guigui/gaulois": {
-  "w": 356,
+  "w": 357,
   "h": 360,
-  "ratio": 0.989
+  "ratio": 0.991
  },
  "guigui/joystick": {
-  "w": 293,
+  "w": 292,
   "h": 360,
-  "ratio": 0.813
+  "ratio": 0.81
  },
  "guigui/bouffetout": {
   "w": 318,
@@ -62,27 +62,27 @@
  "dauby/botefragile": {
   "w": 107,
   "h": 360,
-  "ratio": 0.297
+  "ratio": 0.298
  },
  "dauby/gaulois": {
-  "w": 338,
+  "w": 339,
   "h": 360,
-  "ratio": 0.939
+  "ratio": 0.941
  },
  "dauby/izikarate": {
   "w": 311,
   "h": 360,
-  "ratio": 0.863
+  "ratio": 0.865
  },
  "dauby/bouffetout": {
   "w": 324,
   "h": 360,
-  "ratio": 0.9
+  "ratio": 0.901
  },
  "dauby/branquignol": {
   "w": 193,
   "h": 360,
-  "ratio": 0.535
+  "ratio": 0.536
  },
  "donne/botefragile": {
   "w": 758,
@@ -92,7 +92,7 @@
  "donne/branquignol": {
   "w": 212,
   "h": 360,
-  "ratio": 0.588
+  "ratio": 0.589
  },
  "donne/izikarate": {
   "w": 162,
@@ -102,32 +102,32 @@
  "donne/gochofacho": {
   "w": 249,
   "h": 360,
-  "ratio": 0.691
+  "ratio": 0.692
  },
  "lenoir/botefragile": {
   "w": 415,
   "h": 360,
-  "ratio": 1.153
+  "ratio": 1.154
  },
  "lenoir/gaulois": {
   "w": 310,
   "h": 360,
-  "ratio": 0.862
+  "ratio": 0.86
  },
  "lenoir/ludick": {
   "w": 311,
   "h": 360,
-  "ratio": 0.864
+  "ratio": 0.865
  },
  "aubin/botefragile": {
-  "w": 554,
+  "w": 553,
   "h": 360,
-  "ratio": 1.539
+  "ratio": 1.537
  },
  "aubin/izikarate": {
-  "w": 446,
+  "w": 447,
   "h": 360,
-  "ratio": 1.24
+  "ratio": 1.242
  },
  "aubin/joystick": {
   "w": 304,
@@ -137,7 +137,7 @@
  "aubin/gochofacho": {
   "w": 245,
   "h": 360,
-  "ratio": 0.68
+  "ratio": 0.681
  },
  "coco/botefragile": {
   "w": 150,
@@ -145,9 +145,9 @@
   "ratio": 0.416
  },
  "coco/gaulois": {
-  "w": 251,
+  "w": 250,
   "h": 360,
-  "ratio": 0.696
+  "ratio": 0.695
  },
  "coco/joystick": {
   "w": 340,
@@ -155,34 +155,34 @@
   "ratio": 0.945
  },
  "coco/bouffetout": {
-  "w": 175,
+  "w": 176,
   "h": 360,
-  "ratio": 0.487
+  "ratio": 0.488
  },
  "coco/gochofacho": {
-  "w": 251,
+  "w": 250,
   "h": 360,
   "ratio": 0.696
  },
  "laurent/botefragile": {
-  "w": 428,
+  "w": 429,
   "h": 360,
-  "ratio": 1.188
+  "ratio": 1.19
  },
  "laurent/izikarate": {
-  "w": 285,
+  "w": 286,
   "h": 360,
-  "ratio": 0.792
+  "ratio": 0.794
  },
  "laurent/branquignol": {
   "w": 432,
   "h": 360,
-  "ratio": 1.199
+  "ratio": 1.201
  },
  "laurent/joystick": {
   "w": 254,
   "h": 360,
-  "ratio": 0.704
+  "ratio": 0.705
  },
  "laurent/gochofacho": {
   "w": 217,
@@ -195,34 +195,34 @@
   "ratio": 0.448
  },
  "merlot/izikarate": {
-  "w": 208,
+  "w": 209,
   "h": 360,
-  "ratio": 0.578
+  "ratio": 0.581
  },
  "merlot/bouffetout": {
   "w": 288,
   "h": 360,
-  "ratio": 0.801
+  "ratio": 0.8
  },
  "nael/botefragile": {
-  "w": 150,
+  "w": 149,
   "h": 360,
   "ratio": 0.415
  },
  "nael/gaulois": {
   "w": 380,
   "h": 360,
-  "ratio": 1.054
+  "ratio": 1.055
  },
  "nael/izikarate": {
-  "w": 364,
+  "w": 366,
   "h": 360,
-  "ratio": 1.011
+  "ratio": 1.017
  },
  "nael/ludick": {
-  "w": 403,
+  "w": 404,
   "h": 360,
-  "ratio": 1.118
+  "ratio": 1.121
  },
  "nael/gochofacho": {
   "w": 201,
@@ -230,34 +230,34 @@
   "ratio": 0.559
  },
  "petit/gaulois": {
-  "w": 225,
+  "w": 226,
   "h": 360,
-  "ratio": 0.625
+  "ratio": 0.627
  },
  "petit/branquignol": {
-  "w": 402,
+  "w": 403,
   "h": 360,
-  "ratio": 1.117
+  "ratio": 1.118
  },
  "petit/gochofacho": {
   "w": 237,
   "h": 360,
-  "ratio": 0.658
+  "ratio": 0.659
  },
  "szabo/branquignol": {
-  "w": 270,
+  "w": 271,
   "h": 360,
-  "ratio": 0.751
+  "ratio": 0.752
  },
  "szabo/bouffetout": {
-  "w": 260,
+  "w": 259,
   "h": 360,
-  "ratio": 0.721
+  "ratio": 0.72
  },
  "szabo/gochofacho": {
   "w": 240,
   "h": 360,
-  "ratio": 0.667
+  "ratio": 0.666
  },
  "turquet/gaulois": {
   "w": 359,
@@ -265,19 +265,19 @@
   "ratio": 0.996
  },
  "turquet/izikarate": {
-  "w": 213,
+  "w": 214,
   "h": 360,
-  "ratio": 0.591
+  "ratio": 0.594
  },
  "turquet/joystick": {
   "w": 339,
   "h": 360,
-  "ratio": 0.942
+  "ratio": 0.943
  },
  "turquet/bouffetout": {
   "w": 205,
   "h": 360,
-  "ratio": 0.568
+  "ratio": 0.569
  },
  "turquet/gochofacho": {
   "w": 137,
@@ -287,17 +287,17 @@
  "turquet/branquignol": {
   "w": 314,
   "h": 360,
-  "ratio": 0.871
+  "ratio": 0.872
  },
  "fred/izikarate": {
-  "w": 283,
+  "w": 284,
   "h": 360,
-  "ratio": 0.785
+  "ratio": 0.788
  },
  "fred/gaulois": {
   "w": 222,
   "h": 360,
-  "ratio": 0.616
+  "ratio": 0.617
  },
  "fred/ludick": {
   "w": 335,
@@ -305,14 +305,14 @@
   "ratio": 0.931
  },
  "fred/bouffetout": {
-  "w": 244,
+  "w": 245,
   "h": 360,
-  "ratio": 0.678
+  "ratio": 0.679
  },
  "fred/branquignol": {
-  "w": 623,
+  "w": 621,
   "h": 360,
-  "ratio": 1.73
+  "ratio": 1.724
  },
  "hugo/joystick": {
   "w": 363,
@@ -320,19 +320,19 @@
   "ratio": 1.009
  },
  "hugo/bouffetout": {
-  "w": 267,
+  "w": 268,
   "h": 360,
-  "ratio": 0.743
+  "ratio": 0.744
  },
  "saby/bouffetout": {
   "w": 234,
   "h": 360,
-  "ratio": 0.649
+  "ratio": 0.65
  },
  "saby/gochofacho": {
   "w": 163,
   "h": 360,
-  "ratio": 0.452
+  "ratio": 0.453
  },
  "theo/branquignol": {
   "w": 293,
@@ -342,27 +342,27 @@
  "rene/branquignol": {
   "w": 422,
   "h": 360,
-  "ratio": 1.173
+  "ratio": 1.171
  },
  "dim/mignon": {
   "w": 211,
   "h": 360,
-  "ratio": 0.586
+  "ratio": 0.585
  },
  "guigui/mignon": {
-  "w": 194,
+  "w": 193,
   "h": 360,
-  "ratio": 0.538
+  "ratio": 0.537
  },
  "dim/beauf": {
   "w": 210,
   "h": 360,
-  "ratio": 0.584
+  "ratio": 0.585
  },
  "guigui/beauf": {
   "w": 446,
   "h": 360,
-  "ratio": 1.24
+  "ratio": 1.238
  },
  "lenoir/beauf": {
   "w": 288,
@@ -372,12 +372,12 @@
  "merlot/beauf": {
   "w": 326,
   "h": 360,
-  "ratio": 0.905
+  "ratio": 0.906
  },
  "nael/beauf": {
-  "w": 284,
+  "w": 285,
   "h": 360,
-  "ratio": 0.789
+  "ratio": 0.792
  },
  "turquet/beauf": {
   "w": 210,
@@ -482,7 +482,7 @@
  "turquet/botefragile": {
   "w": 121,
   "h": 360,
-  "ratio": 0.336
+  "ratio": 0.335
  },
  "dim/capdag": {
   "w": 249,

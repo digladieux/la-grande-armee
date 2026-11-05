@@ -273,8 +273,21 @@ def hd(decor, slug, fam):
     plein = Image.open(PUB / slug / f"{fam}-plein.png").convert("RGBA") if (PUB / slug / f"{fam}-plein.png").exists() else None
     if plein is None or plein.width <= W:
         return decor
+    # Recalage : la carte peut être décalée de quelques pixels par rapport à l'illustration (traits sombres)
+    petit = plein.resize((W, H), Image.LANCZOS)
+    a = np.asarray(petit)
+    traits_p = (a[..., :3].min(axis=2) < 90) & (a[..., 3] > 200)
+    traits_c = np.asarray(decor.convert("L")) < 90
+    dy, dx = max(
+        ((np.roll(traits_p, (dy, dx), (0, 1)) & traits_c).sum(), dy, dx) for dy in range(-12, 13) for dx in range(-12, 13)
+    )[1:]
+    k = plein.width / W
     grand = decor.convert("RGBA").resize(plein.size, Image.LANCZOS)
-    grand.alpha_composite(plein)
+    calque = Image.new("RGBA", plein.size, (0, 0, 0, 0))
+    calque.paste(plein, (round(dx * k), round(dy * k)))  # décalage négatif possible (paste, pas alpha_composite)
+    grand.alpha_composite(calque)
+    if dx or dy:
+        print(f"  {slug}/{fam} : carte décalée de {dx},{dy} px, dessin HD recalé")
     return grand.convert("RGB")
 
 
