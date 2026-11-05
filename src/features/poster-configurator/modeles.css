@@ -2,7 +2,7 @@
 .flemme {
   display: flex;
   justify-content: center;
-  margin-top: clamp(40px, 6vw, 64px);
+  margin-top: clamp(96px, 14vw, 160px);
 }
 .flemme__bulle {
   position: relative;
