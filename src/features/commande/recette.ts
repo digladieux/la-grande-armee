@@ -24,6 +24,8 @@ export interface Recette {
   background: Background;
   /** Cadre de l'aperçu seulement (jamais fourni : on n'imprime que l'affiche). */
   frame: Frame;
+  /** Fond à la couleur d'une famille (affiches par famille), à la place de `background`. */
+  couleur?: string;
   title: string;
   subtitle: string;
   showSubtitle: boolean;

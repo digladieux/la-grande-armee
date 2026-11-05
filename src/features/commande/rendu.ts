@@ -69,7 +69,15 @@ export async function dessinerAffiche(
   ]).catch(() => {});
 
   // ── Fond ──
-  if (r.background === 'creme') {
+  if (r.couleur) {
+    // Couleur d'une famille (affiches par famille) : halo clair au centre, comme sur les cartes du jeu
+    const g = ctx.createRadialGradient(W / 2, H * 0.55, 0, W / 2, H * 0.55, Math.hypot(W, H) * 0.55);
+    g.addColorStop(0, '#ffffff');
+    g.addColorStop(0.18, '#ffffff');
+    g.addColorStop(1, r.couleur);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  } else if (r.background === 'creme') {
     ctx.fillStyle = '#fdf8ea';
     ctx.fillRect(0, 0, W, H);
   } else if (r.background === 'ciel' || r.background === 'corail') {
