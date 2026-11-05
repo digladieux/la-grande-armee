@@ -1,6 +1,8 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
 import PosterConfigurator from '@/features/poster-configurator/PosterConfigurator';
+import ModelesAffiches, { type Modele } from '@/features/poster-configurator/ModelesAffiches';
+import recettes from '../../sources/affiches/familles/recettes.json';
 import type { RosterEntry } from '@/features/poster-configurator/types';
 import { characters } from '@/data/characters';
 import { families } from '@/data/families';
@@ -33,6 +35,13 @@ const roster: RosterEntry[] = [...characters]
       whiteBg: l.whiteBg,
     })),
   }));
+
+// Affiches toutes faites, une par famille (sources/affiches/familles.py) : Izi Karaté en premier
+const ordre = ['izi-karate', ...Object.keys(recettes).filter((f) => f !== 'izi-karate')];
+const modeles: Modele[] = ordre.map((f) => {
+  const r = (recettes as Record<string, any>)[f];
+  return { id: f, name: r.subtitle.replace(/^Famille /, ''), color: r.couleur, preview: url(`/images/modeles/${f}.webp`), recette: r };
+});
 ---
 
 <PageShell
@@ -42,4 +51,5 @@ const roster: RosterEntry[] = [...characters]
   accent="yellow"
 >
   <PosterConfigurator client:load roster={roster} />
+  <ModelesAffiches client:visible modeles={modeles} />
 </PageShell>

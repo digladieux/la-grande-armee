@@ -1,0 +1,126 @@
+/* Encart « T'as la flemme ? » : affiches toutes faites, sous le configurateur. */
+.modeles {
+  margin-top: clamp(48px, 7vw, 80px);
+  padding: clamp(18px, 3vw, 28px);
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+.modeles__head {
+  margin-bottom: 18px;
+}
+.modeles__flemme {
+  margin: 0;
+  font-size: 1.45rem;
+  transform: rotate(-1.5deg);
+  transform-origin: left;
+}
+.modeles__titre {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.modeles__body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(18px, 3vw, 32px);
+  align-items: center;
+}
+.modeles__controls {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+.modeles__field {
+  display: grid;
+  gap: 6px;
+}
+.modeles__field > span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.modeles select {
+  min-height: 46px;
+  padding: 0 40px 0 14px;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%23161412' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      right 12px center / 18px no-repeat,
+    color-mix(in srgb, var(--c) 35%, var(--paper));
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.modeles__formats {
+  display: flex;
+  gap: 8px;
+}
+.modeles__formats button {
+  flex: 1;
+  min-height: 40px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.modeles__formats button.is-on {
+  background: var(--ink);
+  color: var(--paper);
+}
+.modeles__cart {
+  min-height: 48px;
+  padding: 0 20px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.modeles__ok {
+  margin: 0;
+  padding: 10px 14px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--green) 45%, var(--paper));
+  font-weight: 700;
+}
+.modeles__ok a {
+  color: var(--ink);
+}
+.modeles__preview {
+  margin: 0;
+}
+.modeles__preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 0.12),
+    0 22px 34px -16px rgb(60 40 10 / 0.5);
+}
+@media (max-width: 760px) {
+  .modeles__body {
+    grid-template-columns: 1fr;
+  }
+  .modeles__preview {
+    order: -1;
+  }
+}
