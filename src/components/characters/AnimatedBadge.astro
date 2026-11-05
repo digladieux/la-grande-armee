@@ -1,0 +1,38 @@
+---
+/**
+ * Toute petite caméra noire, sans fond, très discrète : cette carte s'anime (vidéo posée sur l'illustration).
+ * Posée dans un coin du parent (qui doit être en position relative).
+ */
+interface Props {
+  class?: string;
+  /** Coin : 'tr' (haut droite, défaut) ou 'tl' (haut gauche). */
+  corner?: 'tr' | 'tl';
+  /** Décalage depuis le bord, en px. */
+  inset?: number;
+}
+const { class: className, corner = 'tr', inset = 8 } = Astro.props;
+const pos = corner === 'tl' ? `top:${inset}px;left:${inset}px` : `top:${inset}px;right:${inset}px`;
+---
+
+<span class:list={['anim-badge', className]} style={pos} title="Carte animée">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2.5" y="6.5" width="13" height="11" rx="2.5" fill="currentColor" />
+    <path d="M16.5 10.2l5-3v9.6l-5-3z" fill="currentColor" />
+  </svg>
+  <span class="sr-only">Carte animée</span>
+</span>
+
+<style>
+  .anim-badge {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    line-height: 0;
+    color: rgb(22 20 18 / 0.8);
+    pointer-events: none;
+  }
+  .anim-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+</style>

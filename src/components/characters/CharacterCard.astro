@@ -3,6 +3,7 @@ import type { Character } from '@/data/characters';
 import { families } from '@/data/families';
 import CharacterFigure from './CharacterFigure.astro';
 import CharacterPortrait from './CharacterPortrait.astro';
+import AnimatedBadge from './AnimatedBadge.astro';
 import { url } from '@/lib/url';
 
 interface Props {
@@ -33,6 +34,7 @@ const familyNames = looks.map((l) => families[l.family].name);
     ) : (
       <CharacterFigure character={character} />
     )}
+    {cover?.video && <AnimatedBadge corner="tl" inset={10} />}
     {looks.length > 1 && (
       <span class="card__count" aria-label={`${looks.length} personnages`}>
         ×{looks.length}
