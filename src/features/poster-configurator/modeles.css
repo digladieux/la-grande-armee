@@ -1,13 +1,76 @@
-/* Encart « T'as la flemme ? » : affiches toutes faites, sous le configurateur. */
-.modeles {
-  margin-top: clamp(48px, 7vw, 80px);
-  padding: clamp(18px, 3vw, 28px);
-  border: 2px dashed var(--ink);
+/* « T'as la flemme ? » : petite bulle discrète sous le configurateur, qui ouvre les affiches toutes faites. */
+.flemme {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(40px, 6vw, 64px);
+}
+.flemme__bulle {
+  position: relative;
+  padding: 8px 18px 9px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+/* Petite queue de bulle */
+.flemme__bulle::after {
+  content: '';
+  position: absolute;
+  left: 26px;
+  bottom: -7px;
+  width: 11px;
+  height: 11px;
+  border-right: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  background: inherit;
+  transform: rotate(45deg);
+}
+.flemme__bulle:hover {
+  color: var(--ink);
+  background: var(--yellow);
+  transform: rotate(0deg) scale(1.03);
+}
+.flemme__dialog {
+  width: min(980px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: var(--border);
   border-radius: var(--radius);
-  background: var(--paper-2);
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--ink);
+  overflow: auto;
+}
+.flemme__dialog::backdrop {
+  background: rgb(22 20 18 / 0.55);
+}
+.flemme__dialog[open] {
+  animation: hero-pop 0.3s ease;
+}
+.modeles {
+  position: relative;
+  padding: clamp(18px, 3vw, 28px);
+}
+.modeles__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: var(--border);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
 }
 .modeles__head {
   margin-bottom: 18px;
+  padding-right: 48px;
 }
 .modeles__flemme {
   margin: 0;

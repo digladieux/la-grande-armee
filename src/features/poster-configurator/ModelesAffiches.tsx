@@ -1,8 +1,9 @@
 /**
  * « T'as la flemme ? » : affiches toutes faites, une par famille (sources/affiches/familles.py),
- * à commander telles quelles. Petit encart sous le configurateur.
+ * à commander telles quelles. Discret : une petite bulle sous le configurateur ouvre une fenêtre
+ * (le but de la page reste de créer son affiche).
  */
-import { useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Recette, PrintFormat } from '../commande/recette';
 import { ajouterAuPanier } from '../commande/panier';
 import { FORMATS } from './types';
@@ -23,6 +24,14 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
   const [id, setId] = useState(modeles[0]?.id);
   const [format, setFormat] = useState<PrintFormat>('A4');
   const [ajoute, setAjoute] = useState(false);
+  const [ouvert, setOuvert] = useState(false);
+  const dialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const d = dialog.current;
+    if (!d) return;
+    if (ouvert && !d.open) d.showModal();
+    if (!ouvert && d.open) d.close();
+  }, [ouvert]);
   const modele = modeles.find((m) => m.id === id) ?? modeles[0];
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   if (!modele) return null;
@@ -33,7 +42,21 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
   };
 
   return (
-    <section class="modeles" style={{ '--c': modele.color }} aria-labelledby="modeles-titre">
+    <div class="flemme">
+      <button type="button" class="flemme__bulle hand" onClick={() => setOuvert(true)} aria-haspopup="dialog">
+        T'as la flemme de créer ton affiche ?
+      </button>
+      <dialog
+        ref={dialog}
+        class="flemme__dialog"
+        aria-labelledby="modeles-titre"
+        onClose={() => setOuvert(false)}
+        onClick={(e) => e.target === dialog.current && setOuvert(false)}
+      >
+    <section class="modeles" style={{ '--c': modele.color }}>
+      <button type="button" class="modeles__close" onClick={() => setOuvert(false)} aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" /></svg>
+      </button>
       <div class="modeles__head">
         <p class="modeles__flemme hand">T'as la flemme de créer ton affiche ?</p>
         <h2 class="modeles__titre" id="modeles-titre">
@@ -95,9 +118,11 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
         </div>
 
         <figure class="modeles__preview">
-          <img src={modele.preview} alt={`Affiche toute faite : famille ${modele.name}`} width={1400} height={990} loading="lazy" decoding="async" />
+          {ouvert && <img src={modele.preview} alt={`Affiche toute faite : famille ${modele.name}`} width={1400} height={990} decoding="async" />}
         </figure>
       </div>
     </section>
+      </dialog>
+    </div>
   );
 }
