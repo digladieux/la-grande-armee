@@ -10,7 +10,8 @@ import type { Placement, PosterState, RosterEntry } from './types';
 
 interface Props {
   state: PosterState;
-  characters: { entry: RosterEntry; look: number }[];
+  /** key = clé du calque (voir keyOf). */
+  characters: { key: string; entry: RosterEntry; look: number }[];
   /** Accessoires posés (key = clé dans placements, src = URL finale). */
   accessories: { key: string; label: string; src: string }[];
   placements: Record<string, Placement>;
@@ -93,15 +94,15 @@ export default function PosterCanvas({ state, characters, accessories, placement
 
           {characters.length === 0 && <p class="poster-sheet__empty">Choisis tes copains →</p>}
 
-          {characters.map(({ entry, look }, i) => {
+          {characters.map(({ key, entry, look }, i) => {
             const l = entry.looks[look];
-            const p = placements[entry.slug];
+            const p = placements[key];
             if (!p) return null;
             return (
               <button
-                key={entry.slug}
+                key={key}
                 type="button"
-                class={`poster-member ${selected === entry.slug ? 'is-selected' : ''}`}
+                class={`poster-member ${selected === key ? 'is-selected' : ''}`}
                 style={{
                   left: `${p.x}%`,
                   top: `${p.y}%`,
@@ -109,14 +110,14 @@ export default function PosterCanvas({ state, characters, accessories, placement
                   zIndex: p.z,
                   '--i': i,
                 }}
-                onPointerDown={onPointerDown(entry.slug)}
+                onPointerDown={onPointerDown(key)}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
                 onPointerCancel={onPointerUp}
-                onKeyDown={onKeyDown(entry.slug)}
-                onFocus={() => onSelect(entry.slug)}
-                aria-label={`${entry.name} : déplacer (glisser ou flèches du clavier)`}
-                aria-pressed={selected === entry.slug}
+                onKeyDown={onKeyDown(key)}
+                onFocus={() => onSelect(key)}
+                aria-label={`${entry.name} (${l.familyName}) : déplacer (glisser ou flèches du clavier)`}
+                aria-pressed={selected === key}
               >
                 <img
                   class={`poster-member__img ${l.cutout ? 'is-cutout' : 'is-flat'}`}

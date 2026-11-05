@@ -3,6 +3,7 @@ import PageShell from '@/layouts/PageShell.astro';
 import PosterConfigurator from '@/features/poster-configurator/PosterConfigurator';
 import ModelesAffiches, { type Modele } from '@/features/poster-configurator/ModelesAffiches';
 import recettes from '../../sources/affiches/familles/recettes.json';
+import recettesCopains from '../../sources/affiches/copains/recettes.json';
 import type { RosterEntry } from '@/features/poster-configurator/types';
 import { characters } from '@/data/characters';
 import { families } from '@/data/families';
@@ -40,8 +41,12 @@ const roster: RosterEntry[] = [...characters]
 const ordre = ['izi-karate', ...Object.keys(recettes).filter((f) => f !== 'izi-karate')];
 const modeles: Modele[] = ordre.map((f) => {
   const r = (recettes as Record<string, any>)[f];
-  return { id: f, name: r.subtitle.replace(/^Famille /, ''), color: r.couleur, preview: url(`/images/modeles/${f}.webp`), recette: r };
+  return { id: f, kind: 'famille', name: r.subtitle.replace(/^Famille /, ''), color: r.couleur, preview: url(`/images/modeles/${f}.webp`), recette: r };
 });
+// … et une par copain, dans toutes ses tenues (familles.py --copains), par ordre alphabétique
+for (const [slug, r] of Object.entries(recettesCopains as Record<string, any>).sort((a, b) => a[1].members[0].name.localeCompare(b[1].members[0].name))) {
+  modeles.push({ id: `copain-${slug}`, kind: 'copain', name: r.members[0].name, color: '#f7e39c', preview: url(`/images/modeles/copains/${slug}.webp`), recette: r });
+}
 ---
 
 <PageShell

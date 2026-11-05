@@ -481,6 +481,39 @@
   background: var(--paper);
   color: var(--ink);
 }
+.pc__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+/* Affiche « 100 % un copain » : toutes ses tenues d'un coup */
+.pc__all {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 10px auto 0;
+  padding: 6px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pc__all small {
+  font-weight: 600;
+  opacity: 0.75;
+}
+.pc__all:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
 .pc__toggle:disabled {
   opacity: 0.4;
   cursor: not-allowed;

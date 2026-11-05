@@ -11,9 +11,11 @@ import './modeles.css';
 
 export interface Modele {
   id: string;
-  /** Nom de la famille. */
+  /** Affiche d'une famille, ou d'un copain dans toutes ses tenues. */
+  kind: 'famille' | 'copain';
+  /** Nom de la famille, ou prénom du copain. */
   name: string;
-  /** Couleur des cartes de la famille. */
+  /** Couleur des cartes de la famille (ou couleur d'accent pour un copain). */
   color: string;
   /** Aperçu (chemin avec base). */
   preview: string;
@@ -21,6 +23,8 @@ export interface Modele {
 }
 
 export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
+  const [kind, setKind] = useState<Modele['kind']>('famille');
+  const liste = modeles.filter((m) => m.kind === kind);
   const [id, setId] = useState(modeles[0]?.id);
   const [format, setFormat] = useState<PrintFormat>('A4');
   const [ajoute, setAjoute] = useState(false);
@@ -32,12 +36,17 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
     if (ouvert && !d.open) d.showModal();
     if (!ouvert && d.open) d.close();
   }, [ouvert]);
-  const modele = modeles.find((m) => m.id === id) ?? modeles[0];
+  const modele = liste.find((m) => m.id === id) ?? liste[0] ?? modeles[0];
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   if (!modele) return null;
 
   const choisir = (v: string) => {
     setId(v);
+    setAjoute(false);
+  };
+  const changerKind = (k: Modele['kind']) => {
+    setKind(k);
+    setId(modeles.find((m) => m.kind === k)?.id);
     setAjoute(false);
   };
 
@@ -70,12 +79,20 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
 
       <div class="modeles__body">
         <div class="modeles__controls">
+          <div class="modeles__kinds" role="tablist" aria-label="Type d'affiche">
+            {(['famille', 'copain'] as const).map((k) => (
+              <button key={k} type="button" role="tab" aria-selected={kind === k} class={kind === k ? 'is-on' : ''} onClick={() => changerKind(k)}>
+                {k === 'famille' ? 'Une famille' : 'Un copain'}
+              </button>
+            ))}
+          </div>
+
           <label class="modeles__field">
-            <span>Famille</span>
-            <select value={id} onChange={(e) => choisir((e.target as HTMLSelectElement).value)}>
-              {modeles.map((m) => (
+            <span>{kind === 'famille' ? 'Famille' : 'Copain (toutes ses tenues)'}</span>
+            <select value={modele.id} onChange={(e) => choisir((e.target as HTMLSelectElement).value)}>
+              {liste.map((m) => (
                 <option key={m.id} value={m.id}>
-                  Famille {m.name}
+                  {m.kind === 'famille' ? `Famille ${m.name}` : m.name}
                 </option>
               ))}
             </select>
@@ -122,7 +139,7 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
         </div>
 
         <figure class="modeles__preview">
-          {ouvert && <img src={modele.preview} alt={`Affiche toute faite : famille ${modele.name}`} width={1400} height={990} decoding="async" />}
+          {ouvert && <img src={modele.preview} alt={`Affiche toute faite : ${modele.kind === 'famille' ? `famille ${modele.name}` : `${modele.name} dans toutes ses familles`}`} width={1400} height={990} decoding="async" />}
         </figure>
       </div>
     </section>

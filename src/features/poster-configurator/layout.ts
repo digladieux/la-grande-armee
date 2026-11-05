@@ -12,6 +12,7 @@
 import type { Orientation, Placement } from './types';
 
 export interface LayoutItem {
+  /** Clé du calque (slug, ou slug~n pour une tenue de plus du même copain). */
   slug: string;
   /** Hauteur du dessin rapportée à la carte d'origine. */
   scale: number;
@@ -84,7 +85,11 @@ export function autoLayout(items: LayoutItem[], orientation: Orientation): Recor
 
   // Deux rangées : devant les couchés (larges) et les plus petits
   const byLowness = [...items].sort((a, b) => b.ratio / b.scale - a.ratio / a.scale);
-  const frontCount = Math.max(1, Math.min(Math.floor(items.length / 2), items.filter((i) => i.ratio > 1 || i.scale < tallest * 0.7).length || Math.floor(items.length / 3)));
+  // Grande bande (7 et plus) : deux rangées équilibrées, sinon la rangée du fond devient minuscule
+  const frontCount =
+    items.length >= 7
+      ? Math.floor(items.length / 2)
+      : Math.max(1, Math.min(Math.floor(items.length / 2), items.filter((i) => i.ratio > 1 || i.scale < tallest * 0.7).length || Math.floor(items.length / 3)));
   const frontSet = new Set(byLowness.slice(0, frontCount).map((i) => i.slug));
   // On garde l'ordre choisi par l'utilisateur à l'intérieur de chaque rangée
   const front = items.filter((i) => frontSet.has(i.slug));

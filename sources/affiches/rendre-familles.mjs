@@ -1,12 +1,14 @@
-// Rend les affiches par famille (sources/affiches/familles/recettes.json) avec le moteur du site :
+// Rend les affiches par famille (sources/affiches/familles/recettes.json), ou par copain avec --copains
+// (sources/affiches/copains/recettes.json), avec le moteur du site :
 // page /commande/affiche, puis export JPEG A3 paysage 300 dpi → sources/affiches/familles/<famille>.jpg
 // Prérequis : serveur local lancé (npm run dev) et Playwright (chemin du module dans PLAYWRIGHT si non installé ici).
 //   node sources/affiches/rendre-familles.mjs [url du site] [famille ...]
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const dir = new URL('./familles/', import.meta.url);
+const copains = process.argv.includes('--copains');
+const dir = new URL(copains ? './copains/' : './familles/', import.meta.url);
 const recettes = JSON.parse(readFileSync(new URL('recettes.json', dir)));
-const [site = 'http://localhost:4321', ...seules] = process.argv.slice(2);
+const [site = 'http://localhost:4321', ...seules] = process.argv.slice(2).filter((a) => a !== '--copains');
 const encode = (r) => Buffer.from(JSON.stringify(r)).toString('base64url');
 const liens = {};
 const { webkit } = await import(process.env.PLAYWRIGHT ?? 'playwright');

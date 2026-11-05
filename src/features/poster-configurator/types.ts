@@ -29,7 +29,15 @@ export interface RosterEntry {
 export interface Selection {
   slug: string;
   look: number;
+  /**
+   * Clé du calque sur l'affiche (placements, sélection). Absente = le slug (une seule tenue du copain) ;
+   * « slug~n » pour une tenue de plus du même copain (affiche « toutes ses tenues »).
+   */
+  key?: string;
 }
+
+/** Clé d'un copain posé sur l'affiche. */
+export const keyOf = (s: Selection) => s.key ?? s.slug;
 
 export type Background = 'creme' | 'bandes' | 'ciel' | 'corail';
 export type Frame = 'sans' | 'bois' | 'noir' | 'blanc';
@@ -44,7 +52,7 @@ export interface PosterState {
   format: Format;
   orientation: Orientation;
   /**
-   * Placement libre de chaque copain (clé = slug), une fois que l'utilisateur a
+   * Placement libre de chaque copain (clé = keyOf(selection)), une fois que l'utilisateur a
    * modifié l'affiche. `null` = disposition automatique (photo de groupe).
    */
   layout: Record<string, Placement> | null;

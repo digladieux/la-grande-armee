@@ -6,11 +6,13 @@
  * Une « tenue » = une famille du jeu dans laquelle le copain apparaît.
  *
  * Accessoires : calques posés sur l'affiche comme les copains (clé « acc:<id> »).
+ * Un copain peut être posé plusieurs fois, une fois par tenue (clé « slug~n », voir keyOf) :
+ * « affiche 100 % Guigui » avec toutes ses familles.
  * Pas encore développé : vêtements, véhicules, animations avancées.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry, Selection } from './types';
-import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS } from './types';
+import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, keyOf } from './types';
 import PosterCanvas from './PosterCanvas';
 import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
@@ -85,6 +87,11 @@ export default function PosterConfigurator({ roster }: Props) {
   const current = active ? bySlug.get(active) : undefined;
   const currentLook = current ? (looks[current.slug] ?? 0) : 0;
   const onPoster = (slug: string) => state.selection.findIndex((s) => s.slug === slug);
+  /** Tenues de ce copain déjà sur l'affiche. */
+  const instances = (slug: string) => state.selection.filter((s) => s.slug === slug);
+  const lookOnPoster = (slug: string, look: number) => state.selection.find((s) => s.slug === slug && s.look === look);
+  /** Copain d'un calque (clé « slug » ou « slug~n »). */
+  const slugOf = (key: string) => key.split('~')[0];
   const max = MAX_CHARACTERS[state.orientation];
   const full = state.selection.length >= max;
   const tooMany = state.selection.length > max;
@@ -115,7 +122,7 @@ export default function PosterConfigurator({ roster }: Props) {
       autoLayout(
         state.selection.map((s) => {
           const l = bySlug.get(s.slug)!.looks[s.look];
-          return { slug: s.slug, scale: l.cutoutScale ?? 0.65, ratio: l.cutoutRatio ?? 0.6 };
+          return { slug: keyOf(s), scale: l.cutoutScale ?? 0.65, ratio: l.cutoutRatio ?? 0.6 };
         }),
         state.orientation,
       ),
@@ -128,7 +135,8 @@ export default function PosterConfigurator({ roster }: Props) {
     const zMax = Math.max(0, ...Object.values(custom).map((p) => p.z));
     const result: Record<string, Placement> = {};
     state.selection.forEach((s, i) => {
-      result[s.slug] = custom[s.slug] ?? { ...auto[s.slug], x: 50, z: zMax + 1 + i };
+      const k = keyOf(s);
+      result[k] = custom[k] ?? { ...auto[k], x: 50, z: zMax + 1 + i };
     });
     return result;
   }, [state.layout, state.selection, auto]);
@@ -169,9 +177,8 @@ export default function PosterConfigurator({ roster }: Props) {
     if (!current) return;
     const n = current.looks.length;
     const next = (currentLook + delta + n) % n;
+    // On parcourt ses tenues sans toucher à l'affiche : les boutons proposent ensuite d'ajouter / remplacer
     setLooks((l) => ({ ...l, [current.slug]: next }));
-    // Si le copain est déjà sur l'affiche, sa tenue suit.
-    update({ selection: state.selection.map((s) => (s.slug === current.slug ? { ...s, look: next } : s)) });
   };
 
   const setOrientation = (orientation: PosterState['orientation']) =>
@@ -181,14 +188,51 @@ export default function PosterConfigurator({ roster }: Props) {
       ...(pickedByUser ? {} : { selection: defaultSelection(roster, ALIGNED_MAX[orientation]) }),
     });
 
-  const togglePoster = (slug: string) => {
+  /** Retire un calque copain (clé) de l'affiche. */
+  const removeKey = (key: string) => {
     setPickedByUser(true);
-    const idx = onPoster(slug);
-    if (idx >= 0) update({ selection: state.selection.filter((s) => s.slug !== slug) });
-    else if (!full) update({ selection: [...state.selection, { slug, look: looks[slug] ?? 0 }] });
-    if (idx >= 0 && selected === slug) setSelected(undefined);
+    update({ selection: state.selection.filter((s) => keyOf(s) !== key) });
+    if (selected === key) setSelected(undefined);
   };
-
+  /** Ajoute une tenue d'un copain (une tenue de plus si le copain est déjà sur l'affiche). */
+  const addLook = (slug: string, look: number) => {
+    if (full || lookOnPoster(slug, look)) return;
+    setPickedByUser(true);
+    const keys = new Set(state.selection.map(keyOf));
+    let n = 1;
+    while (keys.has(`${slug}~${n}`)) n++;
+    const key = keys.has(slug) || instances(slug).length ? `${slug}~${n}` : undefined;
+    update({ selection: [...state.selection, { slug, look, ...(key ? { key } : {}) }] });
+  };
+  /** Ajoute / retire la tenue affichée de ce copain. */
+  const togglePoster = (slug: string) => {
+    const look = looks[slug] ?? 0;
+    const there = lookOnPoster(slug, look);
+    if (there) removeKey(keyOf(there));
+    else addLook(slug, look);
+  };
+  /** Le copain est sur l'affiche avec une autre tenue : il prend celle affichée (même place). */
+  const replaceLook = (slug: string) => {
+    setPickedByUser(true);
+    const look = looks[slug] ?? 0;
+    update({ selection: state.selection.map((s) => (s.slug === slug ? { ...s, look } : s)) });
+  };
+  /** Affiche 100 % un copain : toutes ses tenues, en paysage dès qu'elles sont nombreuses. */
+  const allLooks = (slug: string) => {
+    const entry = bySlug.get(slug);
+    if (!entry) return;
+    const orientation = entry.looks.length >= LANDSCAPE_HINT_FROM ? 'paysage' : state.orientation;
+    const n = Math.min(entry.looks.length, MAX_CHARACTERS[orientation]);
+    setPickedByUser(true);
+    setSelected(undefined);
+    update({
+      orientation,
+      layout: null,
+      selection: entry.looks.slice(0, n).map((_, look) => ({ slug, look, ...(look ? { key: `${slug}~${look}` } : {}) })),
+      // Sous-titre proposé (modifiable à l'étape Texte), sauf s'il a déjà été écrit
+      ...(state.subtitle ? {} : { subtitle: `${entry.name} dans toutes ses familles`, showSubtitle: true }),
+    });
+  };
 
   // Panier : on enregistre la « recette » de l'affiche (redessinée en HD pour l'impression)
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
@@ -205,7 +249,7 @@ export default function PosterConfigurator({ roster }: Props) {
       members: state.selection.flatMap((s) => {
         const entry = bySlug.get(s.slug);
         const look = entry?.looks[s.look];
-        const p = placements[s.slug];
+        const p = placements[keyOf(s)];
         if (!entry || !look || !p) return [];
         const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
         return [{ name: entry.name, family: look.familyName, src, p }];
@@ -223,7 +267,7 @@ export default function PosterConfigurator({ roster }: Props) {
   const renderCanvas = () => (
     <PosterCanvas
       state={state}
-      characters={state.selection.map((s: Selection) => ({ entry: bySlug.get(s.slug)!, look: s.look }))}
+      characters={state.selection.map((s: Selection) => ({ key: keyOf(s), entry: bySlug.get(s.slug)!, look: s.look }))}
       accessories={Object.keys(state.accessories).flatMap((id) => {
         const a = accessoryById.get(id);
         return a ? [{ key: ACC + id, label: a.label, src: base + a.src }] : [];
@@ -239,7 +283,7 @@ export default function PosterConfigurator({ roster }: Props) {
       {sel ? (
         <>
           <strong class="pc__editbar-name">
-            {selected!.startsWith(ACC) ? accessoryById.get(selected!.slice(ACC.length))?.label : bySlug.get(selected!)?.name}
+            {selected!.startsWith(ACC) ? accessoryById.get(selected!.slice(ACC.length))?.label : bySlug.get(slugOf(selected!))?.name}
           </strong>
           <div class="pc__editbar-tools">
             <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
@@ -249,7 +293,7 @@ export default function PosterConfigurator({ roster }: Props) {
             <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
             <button
               type="button"
-              onClick={() => (selected!.startsWith(ACC) ? toggleAccessory(selected!.slice(ACC.length)) : togglePoster(selected!))}
+              onClick={() => (selected!.startsWith(ACC) ? toggleAccessory(selected!.slice(ACC.length)) : removeKey(selected!))}
               title="Retirer de l'affiche"
             >
               Retirer
@@ -343,15 +387,32 @@ export default function PosterConfigurator({ roster }: Props) {
                         ›
                       </button>
                     </div>
-                    <button
-                      type="button"
-                      class={`pc__toggle ${onPoster(current.slug) >= 0 ? 'is-on' : ''}`}
-                      onClick={() => togglePoster(current.slug)}
-                      disabled={onPoster(current.slug) < 0 && full}
-                    >
-                      {onPoster(current.slug) >= 0 ? '✓ Sur l’affiche — retirer' : '+ Ajouter à l’affiche'}
-                    </button>
+                    {lookOnPoster(current.slug, currentLook) ? (
+                      <button type="button" class="pc__toggle is-on" onClick={() => togglePoster(current.slug)}>
+                        ✓ Sur l’affiche — retirer
+                      </button>
+                    ) : instances(current.slug).length ? (
+                      <div class="pc__toggles">
+                        {instances(current.slug).length === 1 && (
+                          <button type="button" class="pc__toggle is-on" onClick={() => replaceLook(current.slug)}>
+                            Remplacer sa tenue
+                          </button>
+                        )}
+                        <button type="button" class="pc__toggle" onClick={() => addLook(current.slug, currentLook)} disabled={full}>
+                          + Ajouter aussi
+                        </button>
+                      </div>
+                    ) : (
+                      <button type="button" class="pc__toggle" onClick={() => togglePoster(current.slug)} disabled={full}>
+                        + Ajouter à l’affiche
+                      </button>
+                    )}
                   </div>
+                  {current.looks.length > 1 && (
+                    <button type="button" class="pc__all" onClick={() => allLooks(current.slug)}>
+                      ★ Affiche 100 % {current.name} <small>({Math.min(current.looks.length, MAX_CHARACTERS.paysage)} tenues)</small>
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -388,7 +449,7 @@ export default function PosterConfigurator({ roster }: Props) {
                         <span class="pc__tile-img">
                           <img src={look.image} alt="" style={{ transform: look.bust }} draggable={false} />
                         </span>
-                        {idx >= 0 && <span class="pc__badge">{idx + 1}</span>}
+                        {idx >= 0 && <span class="pc__badge">{instances(r.slug).length > 1 ? `×${instances(r.slug).length}` : idx + 1}</span>}
                       </button>
                     </li>
                   );

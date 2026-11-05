@@ -1,7 +1,9 @@
 # Affiches par famille (paysage) : composition « photo de groupe » harmonieuse, rendue ensuite par le site.
 #
 #   python3 sources/affiches/familles.py            # écrit sources/affiches/familles/recettes.json
+#   python3 sources/affiches/familles.py --copains  # une affiche par copain (toutes ses tenues) → copains/recettes.json
 #   node sources/affiches/rendre-familles.mjs       # (serveur local lancé) → familles/<famille>.jpg
+#   node sources/affiches/rendre-familles.mjs --copains
 #
 # Règles de composition :
 #  - tous les copains à la même échelle de dessin (comme dans le configurateur) ;
@@ -27,19 +29,23 @@ NOMS = {"botefragile": "Botéfragile", "branquignol": "Branquignol", "gaulois": 
 COULEURS = {"botefragile": "#BDDDF2", "branquignol": "#F8A08E", "gaulois": "#8FC178", "izi-karate": "#F6EBA8",
             "ludick": "#C0A1FF", "bouffetout": "#FFBA75", "gochofacho": "#F6E894", "mignon": "#89B9E0",
             "beauf": "#EDB6CF", "capdag": "#96D5D3", "troubadour": "#5B66AB"}
+# Famille (nom affiché) d'une tenue ; Joystick est rangée dans Ludick
+FAMILLE_DE = {**NOMS, "joystick": "Ludick", "izi-karate": "Izi Karaté"}
 # Tenues dessinées en marche vers la gauche (voir src/features/la-grande-course/sens.ts)
 GAUCHE = set(re.findall(r"'([a-z]+/[a-z-]+)'", (ROOT / "src/features/la-grande-course/sens.ts").read_text()))
 PRENOMS = dict(re.findall(r"slug: '([a-z]+)',\s*name: '([^']+)'", (ROOT / "src/data/characters.ts").read_text()))
 
 
-def charger(fam):
+def charger(fam, slug=None):
     looks = json.load(open(DATA / "looks.json"))
     faces = json.load(open(DATA / "faces.json"))
     out = []
     for i, l in enumerate(looks):
-        if l["family"] not in GROUPES.get(fam, [fam]) or not l["cutout"]:
+        if not l["cutout"]:
             continue
-        slug = l["image"].split("/")[2]
+        s_ = l["image"].split("/")[2]
+        if (slug and s_ != slug) or (not slug and l["family"] not in GROUPES.get(fam, [fam])):
+            continue
         nom = l["image"].split("/")[-1].replace("-blanc.png", "")
         plein = Image.open(ROOT / "public" / l["cutout"].replace("-cutout", "-plein")).convert("RGBA")
         W, H = plein.size
@@ -48,8 +54,8 @@ def charger(fam):
         fx, fy, fw = faces[str(i)]
         u, v = (fx / 100 * W - x0) / (x1 - x0), (fy / 100 * H - y0) / (y1 - y0)
         # orientation : tenue en marche vers la gauche, sinon côté du visage par rapport au corps
-        d = -1 if f"{slug}/{nom}" in GAUCHE else (1 if u > 0.58 else -1 if u < 0.42 else 0)
-        out.append(dict(key=f"{slug}/{nom}", slug=slug, src=l["cutout"], s=(y1 - y0) / H, r=(x1 - x0) / (y1 - y0),
+        d = -1 if f"{s_}/{nom}" in GAUCHE else (1 if u > 0.58 else -1 if u < 0.42 else 0)
+        out.append(dict(key=f"{s_}/{nom}", slug=s_, famille=FAMILLE_DE.get(l["family"], l["family"]), src=l["cutout"], s=(y1 - y0) / H, r=(x1 - x0) / (y1 - y0),
                         u=u, v=v, rayon=max(fw, 7) / 100 * W * 0.55 / (y1 - y0), d=d,
                         masque=alpha.crop((x0, y0, x1, y1))))
     return out
@@ -130,8 +136,8 @@ def noter(pos):
     return pen, vis
 
 
-def composer(fam):
-    items = charger(fam)
+def composer(fam, slug=None):
+    items = charger(fam, slug)
     n = len(items)
     best = None
     # répartitions possibles : une rangée (petites familles) ou deux rangées (fond / devant)
@@ -164,12 +170,18 @@ def composer(fam):
                     score, pos, vis, amelioree = pen2 - k * 12, pos2, vis2, True
                 else:
                     rang[a], rang[b] = rang[b], rang[a]
-    print(f"{fam:12s} {n:2d} copains  échelle {k:.2f}  visage le moins visible : {min(v for _, v in vis):.0%}",
+    print(f"{slug or fam:12s} {n:2d} copains  échelle {k:.2f}  visage le moins visible : {min(v for _, v in vis):.0%}",
           [f"{key} {v:.0%}" for key, v in vis if v < 0.85])
+    prenom = PRENOMS.get(slug, slug)
+    entete = (
+        dict(background="bandes", subtitle=f"{prenom} dans toutes ses familles")
+        if slug
+        else dict(background="creme", couleur=COULEURS[fam], subtitle=f"Famille {NOMS[fam]}")
+    )
     return dict(
-        v=1, orientation="paysage", background="creme", couleur=COULEURS[fam], frame="sans",
-        title="La Grande Armée", subtitle=f"Famille {NOMS[fam]}", showSubtitle=True, showBrand=False,
-        members=[dict(name=PRENOMS.get(p["it"]["slug"], p["it"]["slug"]), family=NOMS[fam], src=p["it"]["src"],
+        v=1, orientation="paysage", frame="sans", **entete,
+        title="La Grande Armée", showSubtitle=True, showBrand=False,
+        members=[dict(name=PRENOMS.get(p["it"]["slug"], p["it"]["slug"]), family=p["it"]["famille"], src=p["it"]["src"],
                       p=dict(x=round(p["x"] / A * 100, 2), y=round(p["y"] * 100, 2), h=round(p["h"] * 100, 2), z=p["z"]))
                  for p in pos],
     )
@@ -177,9 +189,23 @@ def composer(fam):
 
 if __name__ == "__main__":
     import sys
-    fams = sys.argv[1:] or list(NOMS)
-    sortie = ROOT / "sources/affiches/familles/recettes.json"
-    recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
-    for fam in fams:
-        recettes[fam] = composer(fam)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--copains" in sys.argv:
+        # Une affiche par copain : tous ceux qui ont au moins 3 tenues
+        looks = json.load(open(DATA / "looks.json"))
+        compte = {}
+        for l in looks:
+            if l["cutout"]:
+                compte[l["image"].split("/")[2]] = compte.get(l["image"].split("/")[2], 0) + 1
+        cles = args or sorted(k for k, v in compte.items() if v >= 3)
+        sortie = ROOT / "sources/affiches/copains/recettes.json"
+        sortie.parent.mkdir(exist_ok=True)
+        recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
+        for slug in cles:
+            recettes[slug] = composer(None, slug)
+    else:
+        sortie = ROOT / "sources/affiches/familles/recettes.json"
+        recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
+        for fam in args or list(NOMS):
+            recettes[fam] = composer(fam)
     sortie.write_text(json.dumps(recettes, indent=1, ensure_ascii=False))

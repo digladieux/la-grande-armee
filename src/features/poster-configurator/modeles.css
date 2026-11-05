@@ -128,6 +128,29 @@
   gap: 16px;
   align-content: start;
 }
+.modeles__kinds {
+  display: flex;
+  padding: 3px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--paper);
+}
+.modeles__kinds button {
+  flex: 1;
+  min-height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.modeles__kinds button.is-on {
+  background: var(--ink);
+  color: var(--paper);
+}
 .modeles__field {
   display: grid;
   gap: 6px;
