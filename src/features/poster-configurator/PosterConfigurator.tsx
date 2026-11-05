@@ -6,8 +6,8 @@
  * Une « tenue » = une famille du jeu dans laquelle le copain apparaît.
  *
  * Accessoires : calques posés sur l'affiche comme les copains (clé « acc:<id> »).
- * Un copain peut être posé plusieurs fois, une fois par tenue (clé « slug~n », voir keyOf) :
- * « affiche 100 % Guigui » avec toutes ses familles.
+ * Un copain peut être posé plusieurs fois, une fois par tenue (clé « slug~n », voir keyOf).
+ * Les affiches « un copain dans toutes ses familles » sont proposées toutes faites (ModelesAffiches).
  * Pas encore développé : vêtements, véhicules, animations avancées.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
@@ -217,23 +217,6 @@ export default function PosterConfigurator({ roster }: Props) {
     const look = looks[slug] ?? 0;
     update({ selection: state.selection.map((s) => (s.slug === slug ? { ...s, look } : s)) });
   };
-  /** Affiche 100 % un copain : toutes ses tenues, en paysage dès qu'elles sont nombreuses. */
-  const allLooks = (slug: string) => {
-    const entry = bySlug.get(slug);
-    if (!entry) return;
-    const orientation = entry.looks.length >= LANDSCAPE_HINT_FROM ? 'paysage' : state.orientation;
-    const n = Math.min(entry.looks.length, MAX_CHARACTERS[orientation]);
-    setPickedByUser(true);
-    setSelected(undefined);
-    update({
-      orientation,
-      layout: null,
-      selection: entry.looks.slice(0, n).map((_, look) => ({ slug, look, ...(look ? { key: `${slug}~${look}` } : {}) })),
-      // Sous-titre proposé (modifiable à l'étape Texte), sauf s'il a déjà été écrit
-      ...(state.subtitle ? {} : { subtitle: `${entry.name} dans toutes ses familles`, showSubtitle: true }),
-    });
-  };
-
   // Panier : on enregistre la « recette » de l'affiche (redessinée en HD pour l'impression)
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   const addToCart = () => {
@@ -408,11 +391,6 @@ export default function PosterConfigurator({ roster }: Props) {
                       </button>
                     )}
                   </div>
-                  {current.looks.length > 1 && (
-                    <button type="button" class="pc__all" onClick={() => allLooks(current.slug)}>
-                      ★ Affiche 100 % {current.name} <small>({Math.min(current.looks.length, MAX_CHARACTERS.paysage)} tenues)</small>
-                    </button>
-                  )}
                 </div>
               )}
 
