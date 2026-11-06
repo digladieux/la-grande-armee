@@ -117,7 +117,6 @@ const bubbleLayer = (look: Look) => {
               <li>
                 <button type="button" class="cdialog__thumb" data-goto={i} style={`--c: ${families[look.family].bg}`} aria-label={`Famille ${families[look.family].name}`}>
                   <CharacterPortrait look={look} alt="" />
-                  {look.video && <AnimatedBadge inset={3} />}
                 </button>
               </li>
             ))}
