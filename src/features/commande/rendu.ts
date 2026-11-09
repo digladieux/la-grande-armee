@@ -65,7 +65,7 @@ export async function dessinerAffiche(
 
   await Promise.all([
     document.fonts.load(`400 ${Math.round(13 * cqi)}px Anton`),
-    document.fonts.load(`700 ${Math.round(5 * cqi)}px Caveat`),
+    document.fonts.load(`700 ${Math.round(5 * cqi)}px "Kalam Main"`),
   ]).catch(() => {});
 
   // ── Fond ──
@@ -180,7 +180,7 @@ export async function dessinerAffiche(
   // ── Sous-titre (pastille) ──
   if (r.showSubtitle && r.subtitle.trim()) {
     const fs = (paysage ? 3.4 : 5.2) * cqi;
-    ctx.font = `700 ${fs}px Caveat, cursive`;
+    ctx.font = `700 ${fs}px "Kalam Main", cursive`;
     const tw = ctx.measureText(r.subtitle).width;
     const padX = 3 * cqi;
     const bh = fs * 1.3 + cqi;

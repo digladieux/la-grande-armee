@@ -1,7 +1,16 @@
 @import '@fontsource/anton/400.css';
-@import '@fontsource/caveat/600.css';
-@import '@fontsource/caveat/700.css';
 @import '@fontsource-variable/dm-sans';
+
+/* Police « écrite à la main » : Kalam, ramenée à 75 % (size-adjust) pour garder la largeur de l'ancienne
+   (Caveat) : les phrases tiennent sur la même ligne qu'avant. Sert aussi aux affiches (rendu.ts). */
+@font-face {
+  font-family: 'Kalam Main';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  size-adjust: 75%;
+  src: url('../assets/fonts/kalam-latin-700-normal.woff2') format('woff2');
+}
 
 /* ─── Tokens ─────────────────────────────────────────────── */
 :root {
@@ -22,7 +31,7 @@
   --teal: #9fdcd0;
 
   --font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
-  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+  --font-hand: 'Kalam Main', 'Comic Sans MS', cursive;
   --font-body: 'DM Sans Variable', system-ui, -apple-system, sans-serif;
 
   --radius: 14px;
