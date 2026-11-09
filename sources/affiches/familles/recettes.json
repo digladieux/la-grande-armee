@@ -261,9 +261,9 @@
     "family": "Branquignol",
     "src": "images/personnages/petit/branquignol-cutout.png",
     "p": {
-     "x": 29.28,
-     "y": 79.99,
-     "h": 35.98,
+     "x": 33.86,
+     "y": 81.62,
+     "h": 40.3,
      "z": 10
     }
    },
@@ -272,9 +272,9 @@
     "family": "Branquignol",
     "src": "images/personnages/turquet/branquignol-cutout.png",
     "p": {
-     "x": 10.6,
-     "y": 77.33,
-     "h": 36.59,
+     "x": 12.24,
+     "y": 78.95,
+     "h": 40.98,
      "z": 11,
      "flip": true
     }
@@ -284,9 +284,9 @@
     "family": "Branquignol",
     "src": "images/personnages/szabo/branquignol-cutout.png",
     "p": {
-     "x": 70.19,
-     "y": 81.13,
-     "h": 36.04,
+     "x": 68.17,
+     "y": 82.08,
+     "h": 40.36,
      "z": 12
     }
    },
@@ -295,9 +295,9 @@
     "family": "Branquignol",
     "src": "images/personnages/dauby/branquignol-cutout.png",
     "p": {
-     "x": 73.98,
-     "y": 79.68,
-     "h": 36.25,
+     "x": 70.99,
+     "y": 80.6,
+     "h": 40.6,
      "z": 13,
      "flip": true
     }
@@ -307,9 +307,9 @@
     "family": "Branquignol",
     "src": "images/personnages/laurent/branquignol-cutout.png",
     "p": {
-     "x": 89.59,
-     "y": 83.87,
-     "h": 41.5,
+     "x": 86.87,
+     "y": 84.68,
+     "h": 46.48,
      "z": 14
     }
    },
@@ -318,9 +318,9 @@
     "family": "Branquignol",
     "src": "images/personnages/dim/branquignol-cutout.png",
     "p": {
-     "x": 54.17,
-     "y": 88.66,
-     "h": 38.57,
+     "x": 51.85,
+     "y": 89.25,
+     "h": 43.2,
      "z": 15
     }
    },
@@ -329,9 +329,9 @@
     "family": "Branquignol",
     "src": "images/personnages/theo/branquignol-cutout.png",
     "p": {
-     "x": 50.19,
-     "y": 80.09,
-     "h": 38.57,
+     "x": 50.64,
+     "y": 83.9,
+     "h": 43.2,
      "z": 16
     }
    },
@@ -340,9 +340,9 @@
     "family": "Branquignol",
     "src": "images/personnages/rene/branquignol-cutout.png",
     "p": {
-     "x": 10.97,
-     "y": 89.12,
-     "h": 34.25,
+     "x": 14.92,
+     "y": 91.02,
+     "h": 38.36,
      "z": 17,
      "flip": true
     }
@@ -352,9 +352,9 @@
     "family": "Branquignol",
     "src": "images/personnages/fred/branquignol-cutout.png",
     "p": {
-     "x": 92.29,
-     "y": 89.47,
-     "h": 16.74,
+     "x": 88.66,
+     "y": 91.12,
+     "h": 18.75,
      "z": 18
     }
    },
@@ -365,7 +365,7 @@
     "p": {
      "x": 39.26,
      "y": 90.87,
-     "h": 25.18,
+     "h": 28.2,
      "z": 19
     }
    }
