@@ -1129,8 +1129,8 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/turquet/gochofacho-cutout.png",
     "p": {
-     "x": 16.83,
-     "y": 87.5,
+     "x": 68.24,
+     "y": 87.24,
      "h": 53.19,
      "z": 8
     }
@@ -1140,8 +1140,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/turquet/izikarate-cutout.png",
     "p": {
-     "x": 27.77,
-     "y": 87.5,
+     "x": 28.99,
+     "y": 84.9,
      "h": 44.9,
      "z": 8
     }
@@ -1151,8 +1151,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/turquet/bouffetout-cutout.png",
     "p": {
-     "x": 39.86,
-     "y": 87.5,
+     "x": 39.29,
+     "y": 84.89,
      "h": 44.26,
      "z": 10
     }
@@ -1162,8 +1162,8 @@
     "family": "Beauf",
     "src": "images/personnages/turquet/beauf-cutout.png",
     "p": {
-     "x": 53.4,
-     "y": 87.5,
+     "x": 89.49,
+     "y": 88.6,
      "h": 56.22,
      "z": 10
     }
@@ -1173,10 +1173,11 @@
     "family": "Branquignol",
     "src": "images/personnages/turquet/branquignol-cutout.png",
     "p": {
-     "x": 70.37,
-     "y": 87.5,
+     "x": 11.29,
+     "y": 86.87,
      "h": 45.83,
-     "z": 8
+     "z": 8,
+     "flip": true
     }
    },
    {
@@ -1184,8 +1185,8 @@
     "family": "Botéfragile",
     "src": "images/personnages/turquet/botefragile-cutout.png",
     "p": {
-     "x": 83.17,
-     "y": 87.5,
+     "x": 56.47,
+     "y": 84.09,
      "h": 44.48,
      "z": 8
     }
@@ -1195,9 +1196,9 @@
     "family": "Capdag",
     "src": "images/personnages/turquet/capdag-cutout.png",
     "p": {
-     "x": 30.22,
-     "y": 95.5,
-     "h": 37.62,
+     "x": 47.55,
+     "y": 90.46,
+     "h": 33.59,
      "z": 29
     }
    },
@@ -1206,9 +1207,9 @@
     "family": "Ludick",
     "src": "images/personnages/turquet/joystick-cutout.png",
     "p": {
-     "x": 48.91,
-     "y": 95.5,
-     "h": 45.43,
+     "x": 87.84,
+     "y": 91.53,
+     "h": 40.56,
      "z": 30
     }
    },
@@ -1217,9 +1218,9 @@
     "family": "Gaulois",
     "src": "images/personnages/turquet/gaulois-cutout.png",
     "p": {
-     "x": 69.78,
-     "y": 95.5,
-     "h": 39.25,
+     "x": 12.15,
+     "y": 41.31,
+     "h": 35.04,
      "z": 29
     }
    }
