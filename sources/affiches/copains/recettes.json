@@ -437,8 +437,8 @@
     "family": "Troubadour",
     "src": "images/personnages/fred/troubadour-cutout.png",
     "p": {
-     "x": 20.16,
-     "y": 84.5,
+     "x": 14.05,
+     "y": 83.28,
      "h": 47.72,
      "z": 8
     }
@@ -448,8 +448,8 @@
     "family": "Gaulois",
     "src": "images/personnages/fred/gaulois-cutout.png",
     "p": {
-     "x": 34.7,
-     "y": 84.5,
+     "x": 26.32,
+     "y": 82.63,
      "h": 50.26,
      "z": 9
     }
@@ -459,8 +459,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/fred/bouffetout-cutout.png",
     "p": {
-     "x": 50.24,
-     "y": 84.5,
+     "x": 42.06,
+     "y": 89.03,
      "h": 52.36,
      "z": 10
     }
@@ -470,9 +470,9 @@
     "family": "Capdag",
     "src": "images/personnages/fred/capdag-cutout.png",
     "p": {
-     "x": 64.84,
-     "y": 84.5,
-     "h": 37.6,
+     "x": 57.26,
+     "y": 82.37,
+     "h": 33.57,
      "z": 9
     }
    },
@@ -481,8 +481,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/fred/izikarate-cutout.png",
     "p": {
-     "x": 79.84,
-     "y": 84.5,
+     "x": 77.36,
+     "y": 85.96,
      "h": 47.42,
      "z": 8
     }
@@ -492,9 +492,9 @@
     "family": "Branquignol",
     "src": "images/personnages/fred/branquignol-cutout.png",
     "p": {
-     "x": 39.4,
-     "y": 95.5,
-     "h": 30.54,
+     "x": 85.93,
+     "y": 88.74,
+     "h": 24.35,
      "z": 30
     }
    },
@@ -503,9 +503,9 @@
     "family": "Ludick",
     "src": "images/personnages/fred/ludick-cutout.png",
     "p": {
-     "x": 60.6,
-     "y": 95.5,
-     "h": 32.8,
+     "x": 51.84,
+     "y": 93.08,
+     "h": 26.15,
      "z": 30
     }
    }
