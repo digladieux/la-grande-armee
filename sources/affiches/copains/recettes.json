@@ -1084,8 +1084,8 @@
     "family": "Capdag",
     "src": "images/personnages/theo/capdag-cutout.png",
     "p": {
-     "x": 21.68,
-     "y": 95.5,
+     "x": 19.84,
+     "y": 95.36,
      "h": 55.91,
      "z": 9
     }
@@ -1095,8 +1095,8 @@
     "family": "Branquignol",
     "src": "images/personnages/theo/branquignol-cutout.png",
     "p": {
-     "x": 50.44,
-     "y": 95.5,
+     "x": 49.59,
+     "y": 95.44,
      "h": 64.39,
      "z": 10
     }
@@ -1106,9 +1106,9 @@
     "family": "Troubadour",
     "src": "images/personnages/theo/troubadour-cutout.png",
     "p": {
-     "x": 78.32,
-     "y": 95.5,
-     "h": 49.19,
+     "x": 80.18,
+     "y": 93.07,
+     "h": 61.7,
      "z": 9
     }
    }

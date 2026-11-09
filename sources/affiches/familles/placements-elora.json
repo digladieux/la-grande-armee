@@ -1475,5 +1475,34 @@
     "z": 9
    }
   }
+ ],
+ "copain-theo": [
+  {
+   "src": "images/personnages/theo/capdag-cutout.png",
+   "p": {
+    "x": 19.84,
+    "y": 95.36,
+    "h": 55.91,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/theo/branquignol-cutout.png",
+   "p": {
+    "x": 49.59,
+    "y": 95.44,
+    "h": 64.39,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/theo/troubadour-cutout.png",
+   "p": {
+    "x": 80.18,
+    "y": 93.07,
+    "h": 61.7,
+    "z": 9
+   }
+  }
  ]
 }
