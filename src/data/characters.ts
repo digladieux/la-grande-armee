@@ -93,6 +93,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 52, cy: 40, zoom: 1.8 },
         cutout: 'images/personnages/dim/gaulois-cutout.png',
+        video: 'images/personnages/dim/gaulois-anim.mp4',
       },
       {
         family: 'branquignol',
@@ -136,6 +137,7 @@ export const characters: Character[] = [
         image: 'images/personnages/dim/troubadour-blanc.png',
         bust: { cx: 45, cy: 37, zoom: 2.4 },
         cutout: 'images/personnages/dim/troubadour-cutout.png',
+        video: 'images/personnages/dim/troubadour-anim.mp4',
       },
       {
         family: 'capdag',
@@ -168,6 +170,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 48, cy: 35, zoom: 2 },
         cutout: 'images/personnages/guigui/izikarate-cutout.png',
+        video: 'images/personnages/guigui/izikarate-anim.mp4',
       },
       {
         family: 'gaulois',
@@ -197,6 +200,7 @@ export const characters: Character[] = [
         image: 'images/personnages/guigui/gochofacho-blanc.png',
         bust: { cx: 50, cy: 30, zoom: 1.9 },
         cutout: 'images/personnages/guigui/gochofacho-cutout.png',
+        video: 'images/personnages/guigui/gochofacho-anim.mp4',
       },
       {
         family: 'mignon',
@@ -262,6 +266,7 @@ export const characters: Character[] = [
         image: 'images/personnages/dauby/branquignol-blanc.png',
         bust: { cx: 62, cy: 33, zoom: 2.1 },
         cutout: 'images/personnages/dauby/branquignol-cutout.png',
+        video: 'images/personnages/dauby/branquignol-anim.mp4',
       },
       {
         family: 'capdag',
@@ -274,6 +279,7 @@ export const characters: Character[] = [
         image: 'images/personnages/dauby/troubadour-blanc.png',
         bust: { cx: 45, cy: 37, zoom: 2.4 },
         cutout: 'images/personnages/dauby/troubadour-cutout.png',
+        video: 'images/personnages/dauby/troubadour-anim.mp4',
       },
     ],
   },
@@ -300,6 +306,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 58, cy: 49, zoom: 2 },
         cutout: 'images/personnages/donne/branquignol-cutout.png',
+        video: 'images/personnages/donne/branquignol-anim.mp4',
       },
       {
         family: 'izi-karate',
@@ -338,6 +345,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 37, cy: 45, zoom: 1.9 },
         cutout: 'images/personnages/lenoir/botefragile-cutout.png',
+        video: 'images/personnages/lenoir/botefragile-anim.mp4',
       },
       {
         family: 'gaulois',
@@ -383,6 +391,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 30, cy: 62, zoom: 1.6 },
         cutout: 'images/personnages/aubin/izikarate-cutout.png',
+        video: 'images/personnages/aubin/izikarate-anim.mp4',
       },
       {
         family: 'joystick',
@@ -442,6 +451,7 @@ export const characters: Character[] = [
         bubble: 'Facile !',
         bust: { cx: 51, cy: 45, zoom: 2.2 },
         cutout: 'images/personnages/coco/bouffetout-cutout.png',
+        video: 'images/personnages/coco/bouffetout-anim.mp4',
       },
       {
         family: 'gochofacho',
@@ -455,6 +465,7 @@ export const characters: Character[] = [
         image: 'images/personnages/coco/troubadour-blanc.png',
         bust: { cx: 50, cy: 39, zoom: 2.4 },
         cutout: 'images/personnages/coco/troubadour-cutout.png',
+        video: 'images/personnages/coco/troubadour-anim.mp4',
       },
     ],
   },
@@ -479,6 +490,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 50, cy: 37, zoom: 1.9 },
         cutout: 'images/personnages/laurent/izikarate-cutout.png',
+        video: 'images/personnages/laurent/izikarate-anim.mp4',
       },
       {
         family: 'branquignol',
@@ -592,6 +604,7 @@ export const characters: Character[] = [
         image: 'images/personnages/nael/gochofacho-blanc.png',
         bust: { cx: 50, cy: 55, zoom: 2.2 },
         cutout: 'images/personnages/nael/gochofacho-cutout.png',
+        video: 'images/personnages/nael/gochofacho-anim.mp4',
       },
       {
         family: 'beauf',
@@ -711,12 +724,14 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 47, cy: 40, zoom: 2 },
         cutout: 'images/personnages/turquet/izikarate-cutout.png',
+        video: 'images/personnages/turquet/izikarate-anim.mp4',
       },
       {
         family: 'joystick',
         image: 'images/personnages/turquet/joystick-blanc.png',
         bust: { cx: 50, cy: 45, zoom: 1.9 },
         cutout: 'images/personnages/turquet/joystick-cutout.png',
+        video: 'images/personnages/turquet/joystick-anim.mp4',
       },
       {
         family: 'bouffetout',
@@ -743,6 +758,7 @@ export const characters: Character[] = [
         image: 'images/personnages/turquet/beauf-blanc.png',
         bust: { cx: 56, cy: 38, zoom: 1.8 },
         cutout: 'images/personnages/turquet/beauf-cutout.png',
+        video: 'images/personnages/turquet/beauf-anim.mp4',
       },
       {
         family: 'capdag',
@@ -765,6 +781,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 48, cy: 40, zoom: 1.8 },
         cutout: 'images/personnages/fred/izikarate-cutout.png',
+        video: 'images/personnages/fred/izikarate-anim.mp4',
       },
       {
         family: 'gaulois',
@@ -772,6 +789,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 49, cy: 41, zoom: 1.8 },
         cutout: 'images/personnages/fred/gaulois-cutout.png',
+        video: 'images/personnages/fred/gaulois-anim.mp4',
       },
       {
         family: 'ludick',
@@ -921,6 +939,7 @@ export const characters: Character[] = [
         bubble: 'Oh là là !!!',
         bust: { cx: 50, cy: 48, zoom: 2.2 },
         cutout: 'images/personnages/momo/ludick-cutout.png',
+        video: 'images/personnages/momo/ludick-anim.mp4',
       },
       {
         family: 'bouffetout',
