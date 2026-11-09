@@ -526,8 +526,8 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/guigui/gochofacho-cutout.png",
     "p": {
-     "x": 16.19,
-     "y": 81.5,
+     "x": 16.05,
+     "y": 81.28,
      "h": 45.37,
      "z": 8
     }
@@ -537,8 +537,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/guigui/izikarate-cutout.png",
     "p": {
-     "x": 27.97,
-     "y": 81.5,
+     "x": 32.81,
+     "y": 85.03,
      "h": 48.49,
      "z": 8
     }
@@ -548,9 +548,9 @@
     "family": "Bouffetout",
     "src": "images/personnages/guigui/bouffetout-cutout.png",
     "p": {
-     "x": 43.53,
-     "y": 81.5,
-     "h": 49.6,
+     "x": 49.23,
+     "y": 83.55,
+     "h": 44.29,
      "z": 10
     }
    },
@@ -559,8 +559,8 @@
     "family": "Minion",
     "src": "images/personnages/guigui/mignon-cutout.png",
     "p": {
-     "x": 59.7,
-     "y": 81.5,
+     "x": 91.82,
+     "y": 85.56,
      "h": 47.18,
      "z": 10
     }
@@ -570,9 +570,9 @@
     "family": "Troubadour",
     "src": "images/personnages/guigui/troubadour-cutout.png",
     "p": {
-     "x": 70.9,
-     "y": 81.5,
-     "h": 41.51,
+     "x": 68.48,
+     "y": 86.22,
+     "h": 52.07,
      "z": 8
     }
    },
@@ -581,10 +581,10 @@
     "family": "Botéfragile",
     "src": "images/personnages/guigui/botefragile-cutout.png",
     "p": {
-     "x": 83.81,
-     "y": 81.5,
+     "x": 82.02,
+     "y": 84.59,
      "h": 41.45,
-     "z": 8
+     "z": 31
     }
    },
    {
@@ -592,9 +592,9 @@
     "family": "Gaulois",
     "src": "images/personnages/guigui/gaulois-cutout.png",
     "p": {
-     "x": 28.5,
-     "y": 95.5,
-     "h": 46.49,
+     "x": 13.53,
+     "y": 86.15,
+     "h": 37.06,
      "z": 29
     }
    },
@@ -603,9 +603,9 @@
     "family": "Ludick",
     "src": "images/personnages/guigui/joystick-cutout.png",
     "p": {
-     "x": 49.61,
-     "y": 95.5,
-     "h": 45.43,
+     "x": 55.3,
+     "y": 89.61,
+     "h": 36.22,
      "z": 30
     }
    },
@@ -614,8 +614,8 @@
     "family": "Beauf",
     "src": "images/personnages/guigui/beauf-cutout.png",
     "p": {
-     "x": 71.5,
-     "y": 95.5,
+     "x": 27.98,
+     "y": 92.98,
      "h": 39.65,
      "z": 29
     }
