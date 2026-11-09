@@ -897,5 +897,61 @@
     "z": 8
    }
   }
+ ],
+ "copain-coco": [
+  {
+   "src": "images/personnages/coco/botefragile-cutout.png",
+   "p": {
+    "x": 42.83,
+    "y": 88.82,
+    "h": 42.95,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/coco/gochofacho-cutout.png",
+   "p": {
+    "x": 12.7,
+    "y": 86.86,
+    "h": 49.75,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/coco/bouffetout-cutout.png",
+   "p": {
+    "x": 76.66,
+    "y": 86.73,
+    "h": 39.07,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/coco/troubadour-cutout.png",
+   "p": {
+    "x": 27.53,
+    "y": 91.55,
+    "h": 47.19,
+    "z": 29
+   }
+  },
+  {
+   "src": "images/personnages/coco/joystick-cutout.png",
+   "p": {
+    "x": 59.44,
+    "y": 84.5,
+    "h": 50.48,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/coco/gaulois-cutout.png",
+   "p": {
+    "x": 90.89,
+    "y": 87.65,
+    "h": 28.41,
+    "z": 29
+   }
+  }
  ]
 }

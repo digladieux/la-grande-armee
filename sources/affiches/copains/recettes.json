@@ -81,9 +81,9 @@
     "family": "Botéfragile",
     "src": "images/personnages/coco/botefragile-cutout.png",
     "p": {
-     "x": 36.2,
-     "y": 81.5,
-     "h": 48.1,
+     "x": 42.83,
+     "y": 88.82,
+     "h": 42.95,
      "z": 9
     }
    },
@@ -92,8 +92,8 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/coco/gochofacho-cutout.png",
     "p": {
-     "x": 50.12,
-     "y": 81.5,
+     "x": 12.7,
+     "y": 86.86,
      "h": 49.75,
      "z": 10
     }
@@ -103,8 +103,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/coco/bouffetout-cutout.png",
     "p": {
-     "x": 63.8,
-     "y": 81.5,
+     "x": 76.66,
+     "y": 86.73,
      "h": 39.07,
      "z": 9
     }
@@ -114,8 +114,8 @@
     "family": "Troubadour",
     "src": "images/personnages/coco/troubadour-cutout.png",
     "p": {
-     "x": 27.44,
-     "y": 95.5,
+     "x": 27.53,
+     "y": 91.55,
      "h": 47.19,
      "z": 29
     }
@@ -125,10 +125,10 @@
     "family": "Ludick",
     "src": "images/personnages/coco/joystick-cutout.png",
     "p": {
-     "x": 52.07,
-     "y": 95.5,
+     "x": 59.44,
+     "y": 84.5,
      "h": 50.48,
-     "z": 30
+     "z": 8
     }
    },
    {
@@ -136,9 +136,9 @@
     "family": "Gaulois",
     "src": "images/personnages/coco/gaulois-cutout.png",
     "p": {
-     "x": 72.56,
-     "y": 95.5,
-     "h": 35.64,
+     "x": 90.89,
+     "y": 87.65,
+     "h": 28.41,
      "z": 29
     }
    }
