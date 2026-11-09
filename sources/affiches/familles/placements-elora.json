@@ -1045,5 +1045,52 @@
     "z": 7
    }
   }
+ ],
+ "copain-donne": [
+  {
+   "src": "images/personnages/donne/capdag-cutout.png",
+   "p": {
+    "x": 17.76,
+    "y": 93.49,
+    "h": 38.5,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/donne/botefragile-cutout.png",
+   "p": {
+    "x": 36.55,
+    "y": 93.5,
+    "h": 20.6,
+    "z": 11
+   }
+  },
+  {
+   "src": "images/personnages/donne/izikarate-cutout.png",
+   "p": {
+    "x": 39.59,
+    "y": 92.21,
+    "h": 57.56,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/donne/gochofacho-cutout.png",
+   "p": {
+    "x": 61.45,
+    "y": 94.36,
+    "h": 53.18,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/donne/branquignol-cutout.png",
+   "p": {
+    "x": 80.03,
+    "y": 94.75,
+    "h": 40.79,
+    "z": 8
+   }
+  }
  ]
 }
