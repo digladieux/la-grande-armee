@@ -17,7 +17,7 @@ import PosterCanvas from './PosterCanvas';
 import { ALIGNED_MAX, autoLayout } from './layout';
 import Standee from './Standee';
 import { ajouterAuPanier } from '../commande/panier';
-import type { Recette } from '../commande/recette';
+import { decodeRecette, type Recette } from '../commande/recette';
 import './configurator.css';
 
 interface Props {
@@ -84,6 +84,61 @@ export default function PosterConfigurator({ roster }: Props) {
   });
 
   const bySlug = useMemo(() => new Map(roster.map((r) => [r.slug, r])), [roster]);
+
+  // Retouche d'un modèle « T'as la flemme ? » (réservé à Elora) : ?retouche=<famille>&r=<recette>
+  // ouvre le modèle tel quel ; « Copier pour Claude » renvoie les nouvelles positions.
+  const [retouche, setRetouche] = useState<string | null>(null);
+  const [copie, setCopie] = useState(false);
+  useEffect(() => {
+    const q = new URLSearchParams(location.search);
+    const id = q.get('retouche');
+    const r = id && q.get('r') ? decodeRecette(q.get('r')!) : null;
+    if (!id || !r) return;
+    const selection: Selection[] = [];
+    const layout: Record<string, Placement> = {};
+    for (const m of r.members) {
+      const slug = m.src.split('/')[2];
+      const entry = bySlug.get(slug);
+      const look = entry?.looks.findIndex((l) => (l.cutout ?? l.image).endsWith(m.src)) ?? -1;
+      if (!entry || look < 0) continue;
+      const n = selection.filter((x) => x.slug === slug).length;
+      const sel: Selection = n ? { slug, look, key: `${slug}~${n + 1}` } : { slug, look };
+      selection.push(sel);
+      layout[keyOf(sel)] = m.p;
+    }
+    setState((s) => ({
+      ...s,
+      selection,
+      layout,
+      orientation: r.orientation,
+      background: r.background,
+      title: r.title,
+      subtitle: r.subtitle,
+      showSubtitle: r.showSubtitle,
+      showBrand: r.showBrand,
+    }));
+    setPickedByUser(true);
+    setReached(STEPS.length - 1);
+    setRetouche(id);
+  }, []);
+  const copierPourClaude = async () => {
+    const r2 = (v: number) => Math.round(v * 100) / 100;
+    const members = state.selection.flatMap((s) => {
+      const look = bySlug.get(s.slug)?.looks[s.look];
+      const p = placements[keyOf(s)];
+      if (!look || !p) return [];
+      const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
+      return [{ src, p: { x: r2(p.x), y: r2(p.y), h: r2(p.h), z: p.z, ...(p.flip ? { flip: true } : {}) } }];
+    });
+    const texte = `Retouche du modèle « ${retouche} » :\n${JSON.stringify({ modele: retouche, members })}`;
+    try {
+      await navigator.clipboard.writeText(texte);
+    } catch {
+      window.prompt('Copie ce texte et colle-le à Claude :', texte);
+    }
+    setCopie(true);
+    setTimeout(() => setCopie(false), 2500);
+  };
   const current = active ? bySlug.get(active) : undefined;
   const currentLook = current ? (looks[current.slug] ?? 0) : 0;
   const onPoster = (slug: string) => state.selection.findIndex((s) => s.slug === slug);
@@ -300,6 +355,16 @@ export default function PosterConfigurator({ roster }: Props) {
 
   return (
     <div class="pc">
+      {retouche && (
+        <div class="pc__retouche">
+          <span>
+            ✎ Retouche du modèle <strong>{retouche}</strong> : déplace, agrandis, retourne… puis
+          </span>
+          <button type="button" onClick={copierPourClaude}>
+            {copie ? '✓ Copié ! Colle-le à Claude' : 'Copier pour Claude'}
+          </button>
+        </div>
+      )}
       {/* ── Aperçu ── */}
       <div class="pc__preview">
         <div class="pc__wall">

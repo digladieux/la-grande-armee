@@ -1129,3 +1129,32 @@
   padding: 0;
   min-height: 44px;
 }
+
+/* Retouche d'un modèle « T'as la flemme ? » (réservé à Elora, ?retouche=) */
+.pc__retouche {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  padding: 10px 14px;
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
+  font-weight: 700;
+}
+.pc__retouche button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}

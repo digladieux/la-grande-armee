@@ -241,3 +241,14 @@
     order: -1;
   }
 }
+.modeles__retouche {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 6px 14px;
+  border: 2px dashed var(--ink);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}

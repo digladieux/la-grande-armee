@@ -4,7 +4,7 @@
  * (le but de la page reste de créer son affiche).
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
-import type { Recette, PrintFormat } from '../commande/recette';
+import { encodeRecette, type Recette, type PrintFormat } from '../commande/recette';
 import { ajouterAuPanier } from '../commande/panier';
 import { FORMATS } from './types';
 import './modeles.css';
@@ -29,6 +29,9 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
   const [format, setFormat] = useState<PrintFormat>('A4');
   const [ajoute, setAjoute] = useState(false);
   const [ouvert, setOuvert] = useState(false);
+  // Lien « Retoucher ce modèle » : seulement pour Elora (page ouverte avec ?retouche)
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => setAdmin(new URLSearchParams(location.search).has('retouche')), []);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const d = dialog.current;
@@ -138,6 +141,11 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
           )}
         </div>
 
+        {admin && (
+          <a class="modeles__retouche" href={`${base}creer-mon-affiche?retouche=${modele.id}&r=${encodeRecette(modele.recette)}`}>
+            ✎ Retoucher ce modèle
+          </a>
+        )}
         <figure class="modeles__preview">
           {ouvert && <img src={modele.preview} alt={`Affiche toute faite : ${modele.kind === 'famille' ? `famille ${modele.name}` : `${modele.name} dans toutes ses familles`}`} width={1400} height={990} decoding="async" />}
         </figure>
