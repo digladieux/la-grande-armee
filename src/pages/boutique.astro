@@ -1,6 +1,6 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
-import ProductGrid from '@/components/shop/ProductGrid.astro';
+import ProductCatalog from '@/components/shop/ProductCatalog.astro';
 import { teaserProducts } from '@/data/products';
 ---
 
@@ -10,5 +10,5 @@ import { teaserProducts } from '@/data/products';
   intro="Le jeu des 7 familles, les affiches et quelques goodies bien choisis."
   accent="blue"
 >
-  <ProductGrid products={teaserProducts} />
+  <ProductCatalog products={teaserProducts} />
 </PageShell>
