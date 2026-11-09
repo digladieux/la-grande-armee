@@ -3,90 +3,90 @@
   {
    "src": "images/personnages/turquet/izikarate-cutout.png",
    "p": {
-    "x": 20.45,
-    "y": 70.82,
-    "h": 32.23,
+    "x": 22.04,
+    "y": 71.21,
+    "h": 36.1,
     "z": 10
    }
   },
   {
    "src": "images/personnages/donne/izikarate-cutout.png",
    "p": {
-    "x": 75.06,
-    "y": 71.29,
-    "h": 35.02,
+    "x": 78.35,
+    "y": 72,
+    "h": 39.22,
     "z": 11
    }
   },
   {
    "src": "images/personnages/merlot/izikarate-cutout.png",
    "p": {
-    "x": 65.62,
-    "y": 71.92,
-    "h": 35.23,
+    "x": 69.68,
+    "y": 72.76,
+    "h": 39.46,
     "z": 12
    }
   },
   {
    "src": "images/personnages/nael/izikarate-cutout.png",
    "p": {
-    "x": 74.15,
-    "y": 89.47,
-    "h": 18.0,
+    "x": 74.1,
+    "y": 79.33,
+    "h": 20.16,
     "z": 13
    }
   },
   {
    "src": "images/personnages/aubin/izikarate-cutout.png",
    "p": {
-    "x": 29.43,
-    "y": 94.18,
-    "h": 26.51,
+    "x": 28.63,
+    "y": 95.2,
+    "h": 29.69,
     "z": 14
    }
   },
   {
    "src": "images/personnages/laurent/izikarate-cutout.png",
    "p": {
-    "x": 32.95,
-    "y": 70.5,
-    "h": 33.49,
+    "x": 31.51,
+    "y": 70.68,
+    "h": 37.51,
     "z": 15
    }
   },
   {
    "src": "images/personnages/guigui/izikarate-cutout.png",
    "p": {
-    "x": 44.72,
-    "y": 71.23,
-    "h": 38.91,
+    "x": 45.18,
+    "y": 73.95,
+    "h": 43.58,
     "z": 16
    }
   },
   {
    "src": "images/personnages/dim/izikarate-cutout.png",
    "p": {
-    "x": 54.76,
-    "y": 72.39,
-    "h": 35.66,
+    "x": 58.06,
+    "y": 73.39,
+    "h": 39.94,
     "z": 17
    }
   },
   {
    "src": "images/personnages/dauby/izikarate-cutout.png",
    "p": {
-    "x": 43.48,
-    "y": 89.97,
-    "h": 30.71,
+    "x": 43.53,
+    "y": 88.67,
+    "h": 34.4,
     "z": 18
    }
   },
   {
    "src": "images/personnages/fred/izikarate-cutout.png",
    "p": {
-    "x": 61.47,
-    "y": 91.03,
-    "h": 31.99,
+    "x": 63.36,
+    "y": 89.76,
+    "h": 35.83,
     "z": 19
    }
   }
