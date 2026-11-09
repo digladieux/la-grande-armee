@@ -914,8 +914,8 @@
     "family": "Beauf",
     "src": "images/personnages/guigui/beauf-cutout.png",
     "p": {
-     "x": 21.08,
-     "y": 71.43,
+     "x": 24.27,
+     "y": 78.06,
      "h": 38.3,
      "z": 10
     }
@@ -925,8 +925,8 @@
     "family": "Beauf",
     "src": "images/personnages/dim/beauf-cutout.png",
     "p": {
-     "x": 63.5,
-     "y": 74.95,
+     "x": 64.41,
+     "y": 82.07,
      "h": 45.78,
      "z": 11
     }
@@ -936,8 +936,8 @@
     "family": "Beauf",
     "src": "images/personnages/turquet/beauf-cutout.png",
     "p": {
-     "x": 47.09,
-     "y": 75.65,
+     "x": 48.06,
+     "y": 82.55,
      "h": 47.87,
      "z": 12,
      "flip": true
@@ -948,8 +948,8 @@
     "family": "Beauf",
     "src": "images/personnages/nael/beauf-cutout.png",
     "p": {
-     "x": 91.54,
-     "y": 76.29,
+     "x": 76.99,
+     "y": 85.28,
      "h": 26.26,
      "z": 13
     }
@@ -959,8 +959,8 @@
     "family": "Beauf",
     "src": "images/personnages/lenoir/beauf-cutout.png",
     "p": {
-     "x": 24.94,
-     "y": 80.46,
+     "x": 28.95,
+     "y": 86.24,
      "h": 31.49,
      "z": 14
     }
@@ -970,8 +970,8 @@
     "family": "Beauf",
     "src": "images/personnages/merlot/beauf-cutout.png",
     "p": {
-     "x": 55.13,
-     "y": 83.58,
+     "x": 54.62,
+     "y": 84.32,
      "h": 27.51,
      "z": 15
     }
