@@ -1334,5 +1334,52 @@
     "z": 8
    }
   }
+ ],
+ "copain-momo": [
+  {
+   "src": "images/personnages/momo/botefragile-cutout.png",
+   "p": {
+    "x": 14.6,
+    "y": 85.45,
+    "h": 39.37,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/momo/bouffetout-cutout.png",
+   "p": {
+    "x": 33.21,
+    "y": 86.15,
+    "h": 41.11,
+    "z": 12
+   }
+  },
+  {
+   "src": "images/personnages/momo/gochofacho-cutout.png",
+   "p": {
+    "x": 48.64,
+    "y": 86.74,
+    "h": 43.69,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/momo/branquignol-cutout.png",
+   "p": {
+    "x": 65.05,
+    "y": 87.03,
+    "h": 40.51,
+    "z": 11
+   }
+  },
+  {
+   "src": "images/personnages/momo/ludick-cutout.png",
+   "p": {
+    "x": 82.2,
+    "y": 88.58,
+    "h": 32.41,
+    "z": 8
+   }
+  }
  ]
 }
