@@ -175,13 +175,13 @@ def composer(fam, slug=None):
           [f"{key} {v:.0%}" for key, v in vis if v < 0.85])
     prenom = PRENOMS.get(slug, slug)
     entete = (
-        dict(background="bandes", subtitle=f"{prenom} dans toutes ses familles")
+        dict(background="bandes", subtitle="")
         if slug
         else dict(background="creme", couleur=COULEURS[fam], subtitle=f"Famille {NOMS[fam]}")
     )
     return dict(
         v=1, orientation="paysage", frame="sans", **entete,
-        title="La Grande Armée", showSubtitle=True, showBrand=False,
+        title="La Grande Armée", showSubtitle=not slug, showBrand=False,
         members=[dict(name=PRENOMS.get(p["it"]["slug"], p["it"]["slug"]), family=p["it"]["famille"], src=p["it"]["src"],
                       p=dict(x=round(p["x"] / A * 100, 2), y=round(p["y"] * 100, 2), h=round(p["h"] * 100, 2), z=p["z"]))
                  for p in pos],
@@ -211,7 +211,7 @@ if __name__ == "__main__":
             prenom = PRENOMS.get(slug, slug)
             recettes[slug] = dict(
                 v=1, orientation="paysage", frame="sans", background="bandes",
-                subtitle=f"{prenom} dans toutes ses familles", title="La Grande Armée", showSubtitle=True, showBrand=False,
+                subtitle="", title="La Grande Armée", showSubtitle=False, showBrand=False,
                 members=[dict(name=prenom, family=FAMILLE_DE.get(looks_fam[m["src"]], looks_fam[m["src"]]), src=m["src"], p=m["p"])
                          for m in PLACEMENTS[f"copain-{slug}"]],
             )
