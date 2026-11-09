@@ -14,9 +14,9 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/aubin/gochofacho-cutout.png",
     "p": {
-     "x": 25.01,
-     "y": 84.96,
-     "h": 43.28,
+     "x": 20.66,
+     "y": 85.82,
+     "h": 54.29,
      "z": 8
     }
    },
@@ -25,9 +25,9 @@
     "family": "Ludick",
     "src": "images/personnages/aubin/joystick-cutout.png",
     "p": {
-     "x": 42.82,
-     "y": 80.2,
-     "h": 35.15,
+     "x": 40.08,
+     "y": 82.72,
+     "h": 44.09,
      "z": 6
     }
    },
@@ -36,9 +36,9 @@
     "family": "Capdag",
     "src": "images/personnages/aubin/capdag-cutout.png",
     "p": {
-     "x": 58.08,
-     "y": 83.52,
-     "h": 36.38,
+     "x": 56.42,
+     "y": 83.11,
+     "h": 40.75,
      "z": 7
     }
    },
@@ -47,8 +47,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/aubin/izikarate-cutout.png",
     "p": {
-     "x": 52.57,
-     "y": 96.28,
+     "x": 47.29,
+     "y": 98.24,
      "h": 27.5,
      "z": 9
     }
@@ -58,9 +58,9 @@
     "family": "Botéfragile",
     "src": "images/personnages/aubin/botefragile-cutout.png",
     "p": {
-     "x": 82.68,
-     "y": 82.26,
-     "h": 33,
+     "x": 79.69,
+     "y": 85.28,
+     "h": 41.4,
      "z": 8
     }
    }
