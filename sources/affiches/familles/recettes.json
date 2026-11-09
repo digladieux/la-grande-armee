@@ -2,23 +2,23 @@
  "gaulois": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#8FC178",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Gaulois",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Lenoir",
+    "name": "Turquet",
     "family": "Gaulois",
-    "src": "images/personnages/lenoir/gaulois-cutout.png",
+    "src": "images/personnages/turquet/gaulois-cutout.png",
     "p": {
-     "x": 19.88,
-     "y": 69.5,
-     "h": 33.72,
-     "z": 8
+     "x": 16.67,
+     "y": 34.84,
+     "h": 31.99,
+     "z": 10
     }
    },
    {
@@ -26,10 +26,10 @@
     "family": "Gaulois",
     "src": "images/personnages/petit/gaulois-cutout.png",
     "p": {
-     "x": 33.15,
-     "y": 69.5,
-     "h": 36.82,
-     "z": 8
+     "x": 64.71,
+     "y": 72.8,
+     "h": 38.5,
+     "z": 11
     }
    },
    {
@@ -37,43 +37,10 @@
     "family": "Gaulois",
     "src": "images/personnages/merlot/gaulois-cutout.png",
     "p": {
-     "x": 43.25,
-     "y": 69.5,
-     "h": 36.93,
-     "z": 10
-    }
-   },
-   {
-    "name": "Fred",
-    "family": "Gaulois",
-    "src": "images/personnages/fred/gaulois-cutout.png",
-    "p": {
-     "x": 53.2,
-     "y": 69.5,
-     "h": 36.39,
-     "z": 10
-    }
-   },
-   {
-    "name": "Dauby",
-    "family": "Gaulois",
-    "src": "images/personnages/dauby/gaulois-cutout.png",
-    "p": {
-     "x": 67.26,
-     "y": 69.5,
-     "h": 34.7,
-     "z": 8
-    }
-   },
-   {
-    "name": "Coco",
-    "family": "Gaulois",
-    "src": "images/personnages/coco/gaulois-cutout.png",
-    "p": {
-     "x": 80.12,
-     "y": 69.5,
-     "h": 25.58,
-     "z": 8
+     "x": 54.91,
+     "y": 73.07,
+     "h": 39.09,
+     "z": 12
     }
    },
    {
@@ -81,10 +48,32 @@
     "family": "Gaulois",
     "src": "images/personnages/dim/gaulois-cutout.png",
     "p": {
-     "x": 19.82,
-     "y": 95.5,
-     "h": 37.41,
-     "z": 28
+     "x": 32.88,
+     "y": 75.64,
+     "h": 35.42,
+     "z": 13
+    }
+   },
+   {
+    "name": "Lenoir",
+    "family": "Gaulois",
+    "src": "images/personnages/lenoir/gaulois-cutout.png",
+    "p": {
+     "x": 17.61,
+     "y": 74.14,
+     "h": 35.25,
+     "z": 14
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Gaulois",
+    "src": "images/personnages/dauby/gaulois-cutout.png",
+    "p": {
+     "x": 50.63,
+     "y": 77.07,
+     "h": 34.1,
+     "z": 15
     }
    },
    {
@@ -92,10 +81,32 @@
     "family": "Gaulois",
     "src": "images/personnages/guigui/gaulois-cutout.png",
     "p": {
-     "x": 41.22,
-     "y": 95.5,
-     "h": 39.66,
-     "z": 30
+     "x": 86.5,
+     "y": 79.73,
+     "h": 38.58,
+     "z": 16
+    }
+   },
+   {
+    "name": "Fred",
+    "family": "Gaulois",
+    "src": "images/personnages/fred/gaulois-cutout.png",
+    "p": {
+     "x": 74.87,
+     "y": 70.6,
+     "h": 35.54,
+     "z": 17
+    }
+   },
+   {
+    "name": "Coco",
+    "family": "Gaulois",
+    "src": "images/personnages/coco/gaulois-cutout.png",
+    "p": {
+     "x": 9.74,
+     "y": 84.04,
+     "h": 26.96,
+     "z": 18
     }
    },
    {
@@ -103,21 +114,10 @@
     "family": "Gaulois",
     "src": "images/personnages/nael/gaulois-cutout.png",
     "p": {
-     "x": 62.04,
-     "y": 95.5,
-     "h": 32.54,
-     "z": 30
-    }
-   },
-   {
-    "name": "Turquet",
-    "family": "Gaulois",
-    "src": "images/personnages/turquet/gaulois-cutout.png",
-    "p": {
-     "x": 80.18,
-     "y": 95.5,
-     "h": 29.93,
-     "z": 28
+     "x": 69.05,
+     "y": 84.88,
+     "h": 28.04,
+     "z": 19
     }
    }
   ]
@@ -125,67 +125,23 @@
  "botefragile": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#BDDDF2",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Botéfragile",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
-   {
-    "name": "Nael",
-    "family": "Botéfragile",
-    "src": "images/personnages/nael/botefragile-cutout.png",
-    "p": {
-     "x": 19.38,
-     "y": 66.5,
-     "h": 34.57,
-     "z": 7
-    }
-   },
-   {
-    "name": "Momo",
-    "family": "Botéfragile",
-    "src": "images/personnages/momo/botefragile-cutout.png",
-    "p": {
-     "x": 30.98,
-     "y": 66.5,
-     "h": 31.99,
-     "z": 8
-    }
-   },
-   {
-    "name": "Coco",
-    "family": "Botéfragile",
-    "src": "images/personnages/coco/botefragile-cutout.png",
-    "p": {
-     "x": 42.62,
-     "y": 66.5,
-     "h": 34.76,
-     "z": 9
-    }
-   },
-   {
-    "name": "Dauby",
-    "family": "Botéfragile",
-    "src": "images/personnages/dauby/botefragile-cutout.png",
-    "p": {
-     "x": 50.11,
-     "y": 66.5,
-     "h": 35.2,
-     "z": 10
-    }
-   },
    {
     "name": "Turquet",
     "family": "Botéfragile",
     "src": "images/personnages/turquet/botefragile-cutout.png",
     "p": {
-     "x": 56.33,
-     "y": 66.5,
-     "h": 30.43,
-     "z": 9
+     "x": 43.88,
+     "y": 74.76,
+     "h": 35.84,
+     "z": 10
     }
    },
    {
@@ -193,10 +149,32 @@
     "family": "Botéfragile",
     "src": "images/personnages/guigui/botefragile-cutout.png",
     "p": {
-     "x": 66.92,
-     "y": 66.5,
-     "h": 31.7,
-     "z": 8
+     "x": 29.41,
+     "y": 75.43,
+     "h": 38.56,
+     "z": 11
+    }
+   },
+   {
+    "name": "Coco",
+    "family": "Botéfragile",
+    "src": "images/personnages/coco/botefragile-cutout.png",
+    "p": {
+     "x": 53.59,
+     "y": 76.08,
+     "h": 37.84,
+     "z": 12
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Botéfragile",
+    "src": "images/personnages/dauby/botefragile-cutout.png",
+    "p": {
+     "x": 61.61,
+     "y": 76.47,
+     "h": 38.21,
+     "z": 13
     }
    },
    {
@@ -204,43 +182,10 @@
     "family": "Botéfragile",
     "src": "images/personnages/dim/botefragile-cutout.png",
     "p": {
-     "x": 80.62,
-     "y": 66.5,
-     "h": 31.4,
-     "z": 7
-    }
-   },
-   {
-    "name": "Donné",
-    "family": "Botéfragile",
-    "src": "images/personnages/donne/botefragile-cutout.png",
-    "p": {
-     "x": 17.76,
-     "y": 95.5,
-     "h": 14.94,
-     "z": 28
-    }
-   },
-   {
-    "name": "Laurent",
-    "family": "Botéfragile",
-    "src": "images/personnages/laurent/botefragile-cutout.png",
-    "p": {
-     "x": 37.65,
-     "y": 95.5,
-     "h": 26.12,
-     "z": 30
-    }
-   },
-   {
-    "name": "Lenoir",
-    "family": "Botéfragile",
-    "src": "images/personnages/lenoir/botefragile-cutout.png",
-    "p": {
-     "x": 58.91,
-     "y": 95.5,
-     "h": 31.03,
-     "z": 30
+     "x": 71.03,
+     "y": 78.07,
+     "h": 35.44,
+     "z": 14
     }
    },
    {
@@ -248,10 +193,54 @@
     "family": "Botéfragile",
     "src": "images/personnages/aubin/botefragile-cutout.png",
     "p": {
-     "x": 82.24,
-     "y": 95.5,
-     "h": 24.38,
-     "z": 28
+     "x": 87.12,
+     "y": 77.23,
+     "h": 28.36,
+     "z": 15
+    }
+   },
+   {
+    "name": "Nael",
+    "family": "Botéfragile",
+    "src": "images/personnages/nael/botefragile-cutout.png",
+    "p": {
+     "x": 80.62,
+     "y": 84.44,
+     "h": 35.19,
+     "z": 16
+    }
+   },
+   {
+    "name": "Lenoir",
+    "family": "Botéfragile",
+    "src": "images/personnages/lenoir/botefragile-cutout.png",
+    "p": {
+     "x": 17.63,
+     "y": 88.0,
+     "h": 35.29,
+     "z": 17
+    }
+   },
+   {
+    "name": "Laurent",
+    "family": "Botéfragile",
+    "src": "images/personnages/laurent/botefragile-cutout.png",
+    "p": {
+     "x": 38.89,
+     "y": 88.73,
+     "h": 24.12,
+     "z": 18
+    }
+   },
+   {
+    "name": "Donné",
+    "family": "Botéfragile",
+    "src": "images/personnages/donne/botefragile-cutout.png",
+    "p": {
+     "x": 55.74,
+     "y": 91.86,
+     "h": 15.56,
+     "z": 19
     }
    }
   ]
@@ -259,55 +248,22 @@
  "branquignol": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#F8A08E",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Branquignol",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Szabo",
+    "name": "Petit",
     "family": "Branquignol",
-    "src": "images/personnages/szabo/branquignol-cutout.png",
+    "src": "images/personnages/petit/branquignol-cutout.png",
     "p": {
-     "x": 16.68,
-     "y": 69.5,
-     "h": 30.28,
-     "z": 7
-    }
-   },
-   {
-    "name": "Dauby",
-    "family": "Branquignol",
-    "src": "images/personnages/dauby/branquignol-cutout.png",
-    "p": {
-     "x": 26.27,
-     "y": 69.5,
-     "h": 34.03,
-     "z": 8
-    }
-   },
-   {
-    "name": "Théo",
-    "family": "Branquignol",
-    "src": "images/personnages/theo/branquignol-cutout.png",
-    "p": {
-     "x": 37.47,
-     "y": 69.5,
-     "h": 36.42,
-     "z": 9
-    }
-   },
-   {
-    "name": "Dim",
-    "family": "Branquignol",
-    "src": "images/personnages/dim/branquignol-cutout.png",
-    "p": {
-     "x": 50.07,
-     "y": 69.5,
-     "h": 36.22,
+     "x": 29.28,
+     "y": 79.99,
+     "h": 35.98,
      "z": 10
     }
    },
@@ -316,65 +272,34 @@
     "family": "Branquignol",
     "src": "images/personnages/turquet/branquignol-cutout.png",
     "p": {
-     "x": 62.12,
-     "y": 69.5,
-     "h": 31.36,
-     "z": 9
+     "x": 10.6,
+     "y": 77.33,
+     "h": 36.59,
+     "z": 11,
+     "flip": true
     }
    },
    {
-    "name": "Momo",
+    "name": "Szabo",
     "family": "Branquignol",
-    "src": "images/personnages/momo/branquignol-cutout.png",
+    "src": "images/personnages/szabo/branquignol-cutout.png",
     "p": {
-     "x": 74.09,
-     "y": 69.5,
-     "h": 32.91,
-     "z": 8
+     "x": 70.19,
+     "y": 81.13,
+     "h": 36.04,
+     "z": 12
     }
    },
    {
-    "name": "Donné",
+    "name": "Dauby",
     "family": "Branquignol",
-    "src": "images/personnages/donne/branquignol-cutout.png",
+    "src": "images/personnages/dauby/branquignol-cutout.png",
     "p": {
-     "x": 83.32,
-     "y": 69.5,
-     "h": 26.49,
-     "z": 7
-    }
-   },
-   {
-    "name": "Fred",
-    "family": "Branquignol",
-    "src": "images/personnages/fred/branquignol-cutout.png",
-    "p": {
-     "x": 21.16,
-     "y": 95.5,
-     "h": 19.85,
-     "z": 28
-    }
-   },
-   {
-    "name": "René",
-    "family": "Branquignol",
-    "src": "images/personnages/rene/branquignol-cutout.png",
-    "p": {
-     "x": 39.68,
-     "y": 95.5,
-     "h": 32.88,
-     "z": 30
-    }
-   },
-   {
-    "name": "Petit",
-    "family": "Branquignol",
-    "src": "images/personnages/petit/branquignol-cutout.png",
-    "p": {
-     "x": 59.32,
-     "y": 95.5,
-     "h": 34.57,
-     "z": 30
+     "x": 73.98,
+     "y": 79.68,
+     "h": 36.25,
+     "z": 13,
+     "flip": true
     }
    },
    {
@@ -382,10 +307,66 @@
     "family": "Branquignol",
     "src": "images/personnages/laurent/branquignol-cutout.png",
     "p": {
-     "x": 78.84,
-     "y": 95.5,
-     "h": 31.74,
-     "z": 28
+     "x": 89.59,
+     "y": 83.87,
+     "h": 41.5,
+     "z": 14
+    }
+   },
+   {
+    "name": "Dim",
+    "family": "Branquignol",
+    "src": "images/personnages/dim/branquignol-cutout.png",
+    "p": {
+     "x": 54.17,
+     "y": 88.66,
+     "h": 38.57,
+     "z": 15
+    }
+   },
+   {
+    "name": "Théo",
+    "family": "Branquignol",
+    "src": "images/personnages/theo/branquignol-cutout.png",
+    "p": {
+     "x": 50.19,
+     "y": 80.09,
+     "h": 38.57,
+     "z": 16
+    }
+   },
+   {
+    "name": "René",
+    "family": "Branquignol",
+    "src": "images/personnages/rene/branquignol-cutout.png",
+    "p": {
+     "x": 10.97,
+     "y": 89.12,
+     "h": 34.25,
+     "z": 17,
+     "flip": true
+    }
+   },
+   {
+    "name": "Fred",
+    "family": "Branquignol",
+    "src": "images/personnages/fred/branquignol-cutout.png",
+    "p": {
+     "x": 92.29,
+     "y": 89.47,
+     "h": 16.74,
+     "z": 18
+    }
+   },
+   {
+    "name": "Donné",
+    "family": "Branquignol",
+    "src": "images/personnages/donne/branquignol-cutout.png",
+    "p": {
+     "x": 39.26,
+     "y": 90.87,
+     "h": 25.18,
+     "z": 19
     }
    }
   ]
@@ -393,11 +374,11 @@
  "izi-karate": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#F6EBA8",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Izi Karaté",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
@@ -406,54 +387,10 @@
     "family": "Izi Karaté",
     "src": "images/personnages/turquet/izikarate-cutout.png",
     "p": {
-     "x": 18.55,
-     "y": 78.5,
-     "h": 38.99,
-     "z": 8
-    }
-   },
-   {
-    "name": "Laurent",
-    "family": "Izi Karaté",
-    "src": "images/personnages/laurent/izikarate-cutout.png",
-    "p": {
-     "x": 32.72,
-     "y": 78.5,
-     "h": 40.91,
-     "z": 8
-    }
-   },
-   {
-    "name": "Dim",
-    "family": "Izi Karaté",
-    "src": "images/personnages/dim/izikarate-cutout.png",
-    "p": {
-     "x": 46.85,
-     "y": 78.5,
-     "h": 43.2,
+     "x": 20.45,
+     "y": 70.82,
+     "h": 32.23,
      "z": 10
-    }
-   },
-   {
-    "name": "Guigui",
-    "family": "Izi Karaté",
-    "src": "images/personnages/guigui/izikarate-cutout.png",
-    "p": {
-     "x": 58.34,
-     "y": 78.5,
-     "h": 47.09,
-     "z": 10
-    }
-   },
-   {
-    "name": "Merlot",
-    "family": "Izi Karaté",
-    "src": "images/personnages/merlot/izikarate-cutout.png",
-    "p": {
-     "x": 70.28,
-     "y": 78.5,
-     "h": 42.64,
-     "z": 8
     }
    },
    {
@@ -461,10 +398,21 @@
     "family": "Izi Karaté",
     "src": "images/personnages/donne/izikarate-cutout.png",
     "p": {
-     "x": 81.45,
-     "y": 78.5,
-     "h": 42.46,
-     "z": 8
+     "x": 75.06,
+     "y": 71.29,
+     "h": 35.02,
+     "z": 11
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Izi Karaté",
+    "src": "images/personnages/merlot/izikarate-cutout.png",
+    "p": {
+     "x": 65.62,
+     "y": 71.92,
+     "h": 35.23,
+     "z": 12
     }
    },
    {
@@ -472,32 +420,10 @@
     "family": "Izi Karaté",
     "src": "images/personnages/nael/izikarate-cutout.png",
     "p": {
-     "x": 20.02,
-     "y": 95.5,
-     "h": 24.64,
-     "z": 28
-    }
-   },
-   {
-    "name": "Dauby",
-    "family": "Izi Karaté",
-    "src": "images/personnages/dauby/izikarate-cutout.png",
-    "p": {
-     "x": 37.39,
-     "y": 95.5,
-     "h": 42.01,
-     "z": 30
-    }
-   },
-   {
-    "name": "Fred",
-    "family": "Izi Karaté",
-    "src": "images/personnages/fred/izikarate-cutout.png",
-    "p": {
-     "x": 57.44,
-     "y": 95.5,
-     "h": 43.81,
-     "z": 30
+     "x": 74.15,
+     "y": 89.47,
+     "h": 18.0,
+     "z": 13
     }
    },
    {
@@ -505,10 +431,65 @@
     "family": "Izi Karaté",
     "src": "images/personnages/aubin/izikarate-cutout.png",
     "p": {
-     "x": 79.98,
-     "y": 95.5,
-     "h": 36.34,
-     "z": 28
+     "x": 29.43,
+     "y": 94.18,
+     "h": 26.51,
+     "z": 14
+    }
+   },
+   {
+    "name": "Laurent",
+    "family": "Izi Karaté",
+    "src": "images/personnages/laurent/izikarate-cutout.png",
+    "p": {
+     "x": 32.95,
+     "y": 70.5,
+     "h": 33.49,
+     "z": 15
+    }
+   },
+   {
+    "name": "Guigui",
+    "family": "Izi Karaté",
+    "src": "images/personnages/guigui/izikarate-cutout.png",
+    "p": {
+     "x": 44.72,
+     "y": 71.23,
+     "h": 38.91,
+     "z": 16
+    }
+   },
+   {
+    "name": "Dim",
+    "family": "Izi Karaté",
+    "src": "images/personnages/dim/izikarate-cutout.png",
+    "p": {
+     "x": 54.76,
+     "y": 72.39,
+     "h": 35.66,
+     "z": 17
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Izi Karaté",
+    "src": "images/personnages/dauby/izikarate-cutout.png",
+    "p": {
+     "x": 43.48,
+     "y": 89.97,
+     "h": 30.71,
+     "z": 18
+    }
+   },
+   {
+    "name": "Fred",
+    "family": "Izi Karaté",
+    "src": "images/personnages/fred/izikarate-cutout.png",
+    "p": {
+     "x": 61.47,
+     "y": 91.03,
+     "h": 31.99,
+     "z": 19
     }
    }
   ]
@@ -516,44 +497,22 @@
  "ludick": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#C0A1FF",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Ludick",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Lenoir",
+    "name": "Aubin",
     "family": "Ludick",
-    "src": "images/personnages/lenoir/ludick-cutout.png",
+    "src": "images/personnages/aubin/joystick-cutout.png",
     "p": {
-     "x": 12.14,
-     "y": 63.5,
-     "h": 27.15,
-     "z": 8
-    }
-   },
-   {
-    "name": "Coco",
-    "family": "Ludick",
-    "src": "images/personnages/coco/joystick-cutout.png",
-    "p": {
-     "x": 27.72,
-     "y": 63.5,
-     "h": 30.07,
-     "z": 8
-    }
-   },
-   {
-    "name": "Dim",
-    "family": "Ludick",
-    "src": "images/personnages/dim/ludick-cutout.png",
-    "p": {
-     "x": 42.51,
-     "y": 63.5,
-     "h": 31.46,
+     "x": 10.68,
+     "y": 35.96,
+     "h": 28.48,
      "z": 10
     }
    },
@@ -562,21 +521,32 @@
     "family": "Ludick",
     "src": "images/personnages/hugo/joystick-cutout.png",
     "p": {
-     "x": 58.34,
-     "y": 63.5,
-     "h": 31.37,
-     "z": 10
+     "x": 88.51,
+     "y": 52.5,
+     "h": 37.19,
+     "z": 11
     }
    },
    {
-    "name": "Guigui",
+    "name": "Dim",
     "family": "Ludick",
-    "src": "images/personnages/guigui/joystick-cutout.png",
+    "src": "images/personnages/dim/ludick-cutout.png",
     "p": {
-     "x": 74.89,
-     "y": 63.5,
-     "h": 28.58,
-     "z": 8
+     "x": 24.75,
+     "y": 72.8,
+     "h": 36.87,
+     "z": 12
+    }
+   },
+   {
+    "name": "Coco",
+    "family": "Ludick",
+    "src": "images/personnages/coco/joystick-cutout.png",
+    "p": {
+     "x": 65.27,
+     "y": 73.83,
+     "h": 44.09,
+     "z": 13
     }
    },
    {
@@ -584,43 +554,10 @@
     "family": "Ludick",
     "src": "images/personnages/laurent/joystick-cutout.png",
     "p": {
-     "x": 87.86,
-     "y": 63.5,
-     "h": 28.27,
-     "z": 8
-    }
-   },
-   {
-    "name": "Momo",
-    "family": "Ludick",
-    "src": "images/personnages/momo/ludick-cutout.png",
-    "p": {
-     "x": 15.17,
-     "y": 95.5,
-     "h": 24.31,
-     "z": 28
-    }
-   },
-   {
-    "name": "Nael",
-    "family": "Ludick",
-    "src": "images/personnages/nael/ludick-cutout.png",
-    "p": {
-     "x": 34.11,
-     "y": 95.5,
-     "h": 25.97,
-     "z": 29
-    }
-   },
-   {
-    "name": "Aubin",
-    "family": "Ludick",
-    "src": "images/personnages/aubin/joystick-cutout.png",
-    "p": {
-     "x": 52.58,
-     "y": 95.5,
-     "h": 30.1,
-     "z": 30
+     "x": 43.01,
+     "y": 74.13,
+     "h": 37.13,
+     "z": 14
     }
    },
    {
@@ -628,10 +565,43 @@
     "family": "Ludick",
     "src": "images/personnages/turquet/joystick-cutout.png",
     "p": {
-     "x": 70.39,
-     "y": 95.5,
-     "h": 28.69,
-     "z": 29
+     "x": 90.28,
+     "y": 82.39,
+     "h": 34.04,
+     "z": 15
+    }
+   },
+   {
+    "name": "Lenoir",
+    "family": "Ludick",
+    "src": "images/personnages/lenoir/ludick-cutout.png",
+    "p": {
+     "x": 10.73,
+     "y": 86.33,
+     "h": 35.53,
+     "z": 16
+    }
+   },
+   {
+    "name": "Guigui",
+    "family": "Ludick",
+    "src": "images/personnages/guigui/joystick-cutout.png",
+    "p": {
+     "x": 34.65,
+     "y": 91.23,
+     "h": 37.49,
+     "z": 17
+    }
+   },
+   {
+    "name": "Nael",
+    "family": "Ludick",
+    "src": "images/personnages/nael/ludick-cutout.png",
+    "p": {
+     "x": 55.05,
+     "y": 93.78,
+     "h": 24.55,
+     "z": 18
     }
    },
    {
@@ -639,10 +609,10 @@
     "family": "Ludick",
     "src": "images/personnages/fred/ludick-cutout.png",
     "p": {
-     "x": 84.83,
-     "y": 95.5,
-     "h": 19.68,
-     "z": 28
+     "x": 71.02,
+     "y": 95.3,
+     "h": 20.88,
+     "z": 19
     }
    }
   ]
@@ -650,78 +620,23 @@
  "bouffetout": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#FFBA75",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Bouffetout",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Momo",
+    "name": "Guigui",
     "family": "Bouffetout",
-    "src": "images/personnages/momo/bouffetout-cutout.png",
+    "src": "images/personnages/guigui/bouffetout-cutout.png",
     "p": {
-     "x": 14.37,
-     "y": 69.5,
-     "h": 37.25,
-     "z": 7
-    }
-   },
-   {
-    "name": "Coco",
-    "family": "Bouffetout",
-    "src": "images/personnages/coco/bouffetout-cutout.png",
-    "p": {
-     "x": 25.76,
-     "y": 69.5,
-     "h": 31.44,
-     "z": 8
-    }
-   },
-   {
-    "name": "Turquet",
-    "family": "Bouffetout",
-    "src": "images/personnages/turquet/bouffetout-cutout.png",
-    "p": {
-     "x": 35.29,
-     "y": 69.5,
-     "h": 33.72,
-     "z": 9
-    }
-   },
-   {
-    "name": "Saby",
-    "family": "Bouffetout",
-    "src": "images/personnages/saby/bouffetout-cutout.png",
-    "p": {
-     "x": 46.2,
-     "y": 69.5,
-     "h": 31.28,
+     "x": 17.48,
+     "y": 73.74,
+     "h": 37.51,
      "z": 10
-    }
-   },
-   {
-    "name": "Fred",
-    "family": "Bouffetout",
-    "src": "images/personnages/fred/bouffetout-cutout.png",
-    "p": {
-     "x": 58.91,
-     "y": 69.5,
-     "h": 37.96,
-     "z": 9
-    }
-   },
-   {
-    "name": "Szabo",
-    "family": "Bouffetout",
-    "src": "images/personnages/szabo/bouffetout-cutout.png",
-    "p": {
-     "x": 73.5,
-     "y": 69.5,
-     "h": 37.58,
-     "z": 8
     }
    },
    {
@@ -729,43 +644,21 @@
     "family": "Bouffetout",
     "src": "images/personnages/dim/bouffetout-cutout.png",
     "p": {
-     "x": 85.63,
-     "y": 69.5,
-     "h": 35.84,
-     "z": 7
+     "x": 75.29,
+     "y": 78.97,
+     "h": 36.78,
+     "z": 11
     }
    },
    {
-    "name": "Dauby",
+    "name": "Szabo",
     "family": "Bouffetout",
-    "src": "images/personnages/dauby/bouffetout-cutout.png",
+    "src": "images/personnages/szabo/bouffetout-cutout.png",
     "p": {
-     "x": 18.34,
-     "y": 95.5,
-     "h": 35.95,
-     "z": 28
-    }
-   },
-   {
-    "name": "Merlot",
-    "family": "Bouffetout",
-    "src": "images/personnages/merlot/bouffetout-cutout.png",
-    "p": {
-     "x": 37.76,
-     "y": 95.5,
-     "h": 39.35,
-     "z": 30
-    }
-   },
-   {
-    "name": "Guigui",
-    "family": "Bouffetout",
-    "src": "images/personnages/guigui/bouffetout-cutout.png",
-    "p": {
-     "x": 60.09,
-     "y": 95.5,
-     "h": 47.38,
-     "z": 30
+     "x": 9.84,
+     "y": 82.63,
+     "h": 42.74,
+     "z": 12
     }
    },
    {
@@ -773,10 +666,76 @@
     "family": "Bouffetout",
     "src": "images/personnages/hugo/bouffetout-cutout.png",
     "p": {
-     "x": 81.66,
-     "y": 95.5,
-     "h": 39.05,
-     "z": 28
+     "x": 89.46,
+     "y": 83.76,
+     "h": 41.68,
+     "z": 13
+    }
+   },
+   {
+    "name": "Saby",
+    "family": "Bouffetout",
+    "src": "images/personnages/saby/bouffetout-cutout.png",
+    "p": {
+     "x": 57.33,
+     "y": 84.07,
+     "h": 34.47,
+     "z": 14
+    }
+   },
+   {
+    "name": "Turquet",
+    "family": "Bouffetout",
+    "src": "images/personnages/turquet/bouffetout-cutout.png",
+    "p": {
+     "x": 50.51,
+     "y": 77.46,
+     "h": 34.02,
+     "z": 15
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Bouffetout",
+    "src": "images/personnages/merlot/bouffetout-cutout.png",
+    "p": {
+     "x": 28.55,
+     "y": 85.27,
+     "h": 38.76,
+     "z": 16
+    }
+   },
+   {
+    "name": "Coco",
+    "family": "Bouffetout",
+    "src": "images/personnages/coco/bouffetout-cutout.png",
+    "p": {
+     "x": 66.86,
+     "y": 86.8,
+     "h": 35.17,
+     "z": 17
+    }
+   },
+   {
+    "name": "Fred",
+    "family": "Bouffetout",
+    "src": "images/personnages/fred/bouffetout-cutout.png",
+    "p": {
+     "x": 41.21,
+     "y": 87.22,
+     "h": 41.15,
+     "z": 18
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Bouffetout",
+    "src": "images/personnages/dauby/bouffetout-cutout.png",
+    "p": {
+     "x": 78.36,
+     "y": 88.96,
+     "h": 35.44,
+     "z": 19
     }
    }
   ]
@@ -784,23 +743,23 @@
  "gochofacho": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#F6E894",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Gaucho Facho",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Laurent",
+    "name": "Guigui",
     "family": "Gaucho Facho",
-    "src": "images/personnages/laurent/gochofacho-cutout.png",
+    "src": "images/personnages/guigui/gochofacho-cutout.png",
     "p": {
-     "x": 18.84,
-     "y": 78.5,
-     "h": 39.53,
-     "z": 8
+     "x": 16.08,
+     "y": 81.76,
+     "h": 37.49,
+     "z": 10
     }
    },
    {
@@ -808,21 +767,10 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/turquet/gochofacho-cutout.png",
     "p": {
-     "x": 29.12,
-     "y": 78.5,
-     "h": 43.37,
-     "z": 8
-    }
-   },
-   {
-    "name": "Guigui",
-    "family": "Gaucho Facho",
-    "src": "images/personnages/guigui/gochofacho-cutout.png",
-    "p": {
-     "x": 39.76,
-     "y": 78.5,
-     "h": 41.33,
-     "z": 10
+     "x": 37.82,
+     "y": 85.88,
+     "h": 38.12,
+     "z": 11
     }
    },
    {
@@ -830,21 +778,10 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/petit/gochofacho-cutout.png",
     "p": {
-     "x": 53.67,
-     "y": 78.5,
-     "h": 44.58,
-     "z": 10
-    }
-   },
-   {
-    "name": "Coco",
-    "family": "Gaucho Facho",
-    "src": "images/personnages/coco/gochofacho-cutout.png",
-    "p": {
-     "x": 68.73,
-     "y": 78.5,
-     "h": 42.78,
-     "z": 8
+     "x": 57.52,
+     "y": 85.9,
+     "h": 43.2,
+     "z": 12
     }
    },
    {
@@ -852,43 +789,32 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/saby/gochofacho-cutout.png",
     "p": {
-     "x": 81.16,
-     "y": 78.5,
-     "h": 42.09,
-     "z": 8
+     "x": 68.57,
+     "y": 86.28,
+     "h": 43.31,
+     "z": 13
     }
    },
    {
-    "name": "Szabo",
+    "name": "Coco",
     "family": "Gaucho Facho",
-    "src": "images/personnages/szabo/gochofacho-cutout.png",
+    "src": "images/personnages/coco/gochofacho-cutout.png",
     "p": {
-     "x": 14.93,
-     "y": 95.5,
-     "h": 40.77,
-     "z": 28
+     "x": 81.1,
+     "y": 86.53,
+     "h": 35.16,
+     "z": 14
     }
    },
    {
-    "name": "Momo",
+    "name": "Laurent",
     "family": "Gaucho Facho",
-    "src": "images/personnages/momo/gochofacho-cutout.png",
+    "src": "images/personnages/laurent/gochofacho-cutout.png",
     "p": {
-     "x": 34.3,
-     "y": 95.5,
-     "h": 47.4,
-     "z": 29
-    }
-   },
-   {
-    "name": "Donné",
-    "family": "Gaucho Facho",
-    "src": "images/personnages/donne/gochofacho-cutout.png",
-    "p": {
-     "x": 54.99,
-     "y": 95.5,
-     "h": 46.1,
-     "z": 30
+     "x": 93.62,
+     "y": 86.99,
+     "h": 35.62,
+     "z": 15
     }
    },
    {
@@ -896,10 +822,32 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/aubin/gochofacho-cutout.png",
     "p": {
-     "x": 72.23,
-     "y": 95.5,
-     "h": 42.72,
-     "z": 29
+     "x": 26.26,
+     "y": 88.2,
+     "h": 34.46,
+     "z": 16
+    }
+   },
+   {
+    "name": "Donné",
+    "family": "Gaucho Facho",
+    "src": "images/personnages/donne/gochofacho-cutout.png",
+    "p": {
+     "x": 46.72,
+     "y": 88.57,
+     "h": 33.22,
+     "z": 17
+    }
+   },
+   {
+    "name": "Szabo",
+    "family": "Gaucho Facho",
+    "src": "images/personnages/szabo/gochofacho-cutout.png",
+    "p": {
+     "x": 10.36,
+     "y": 89.74,
+     "h": 38.23,
+     "z": 18
     }
    },
    {
@@ -907,10 +855,10 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/nael/gochofacho-cutout.png",
     "p": {
-     "x": 85.07,
-     "y": 95.5,
-     "h": 29.06,
-     "z": 28
+     "x": 64.96,
+     "y": 89.99,
+     "h": 23.45,
+     "z": 19
     }
    }
   ]
@@ -953,23 +901,34 @@
  "beauf": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#EDB6CF",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Beauf",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
+   {
+    "name": "Guigui",
+    "family": "Beauf",
+    "src": "images/personnages/guigui/beauf-cutout.png",
+    "p": {
+     "x": 21.08,
+     "y": 71.43,
+     "h": 38.3,
+     "z": 10
+    }
+   },
    {
     "name": "Dim",
     "family": "Beauf",
     "src": "images/personnages/dim/beauf-cutout.png",
     "p": {
-     "x": 42.19,
-     "y": 87.5,
-     "h": 50.3,
-     "z": 10
+     "x": 63.5,
+     "y": 74.95,
+     "h": 45.78,
+     "z": 11
     }
    },
    {
@@ -977,43 +936,11 @@
     "family": "Beauf",
     "src": "images/personnages/turquet/beauf-cutout.png",
     "p": {
-     "x": 57.81,
-     "y": 87.5,
-     "h": 54.81,
-     "z": 10
-    }
-   },
-   {
-    "name": "Lenoir",
-    "family": "Beauf",
-    "src": "images/personnages/lenoir/beauf-cutout.png",
-    "p": {
-     "x": 19.74,
-     "y": 95.5,
-     "h": 35.39,
-     "z": 28
-    }
-   },
-   {
-    "name": "Guigui",
-    "family": "Beauf",
-    "src": "images/personnages/guigui/beauf-cutout.png",
-    "p": {
-     "x": 42.88,
-     "y": 95.5,
-     "h": 43.07,
-     "z": 30
-    }
-   },
-   {
-    "name": "Merlot",
-    "family": "Beauf",
-    "src": "images/personnages/merlot/beauf-cutout.png",
-    "p": {
-     "x": 65.9,
-     "y": 95.5,
-     "h": 30.89,
-     "z": 30
+     "x": 47.09,
+     "y": 75.65,
+     "h": 47.87,
+     "z": 12,
+     "flip": true
     }
    },
    {
@@ -1021,10 +948,32 @@
     "family": "Beauf",
     "src": "images/personnages/nael/beauf-cutout.png",
     "p": {
-     "x": 80.26,
-     "y": 95.5,
-     "h": 28.71,
-     "z": 28
+     "x": 91.54,
+     "y": 76.29,
+     "h": 26.26,
+     "z": 13
+    }
+   },
+   {
+    "name": "Lenoir",
+    "family": "Beauf",
+    "src": "images/personnages/lenoir/beauf-cutout.png",
+    "p": {
+     "x": 24.94,
+     "y": 80.46,
+     "h": 31.49,
+     "z": 14
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Beauf",
+    "src": "images/personnages/merlot/beauf-cutout.png",
+    "p": {
+     "x": 55.13,
+     "y": 83.58,
+     "h": 27.51,
+     "z": 15
     }
    }
   ]
@@ -1032,44 +981,22 @@
  "capdag": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#96D5D3",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Capdag",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
    {
-    "name": "Dim",
+    "name": "Aubin",
     "family": "Capdag",
-    "src": "images/personnages/dim/capdag-cutout.png",
+    "src": "images/personnages/aubin/capdag-cutout.png",
     "p": {
-     "x": 14.41,
-     "y": 81.5,
-     "h": 41.05,
-     "z": 8
-    }
-   },
-   {
-    "name": "Petit",
-    "family": "Capdag",
-    "src": "images/personnages/petit/capdag-cutout.png",
-    "p": {
-     "x": 27.76,
-     "y": 81.5,
-     "h": 38.05,
-     "z": 8
-    }
-   },
-   {
-    "name": "Laurent",
-    "family": "Capdag",
-    "src": "images/personnages/laurent/capdag-cutout.png",
-    "p": {
-     "x": 41.28,
-     "y": 81.5,
-     "h": 43.86,
+     "x": 42.12,
+     "y": 64.72,
+     "h": 34.47,
      "z": 10
     }
    },
@@ -1078,65 +1005,21 @@
     "family": "Capdag",
     "src": "images/personnages/theo/capdag-cutout.png",
     "p": {
-     "x": 56.64,
-     "y": 81.5,
-     "h": 48.61,
-     "z": 10
+     "x": 62.75,
+     "y": 68.18,
+     "h": 38.53,
+     "z": 11
     }
    },
    {
-    "name": "Aubin",
+    "name": "Dim",
     "family": "Capdag",
-    "src": "images/personnages/aubin/capdag-cutout.png",
+    "src": "images/personnages/dim/capdag-cutout.png",
     "p": {
-     "x": 72.64,
-     "y": 81.5,
-     "h": 41.42,
-     "z": 8
-    }
-   },
-   {
-    "name": "Dauby",
-    "family": "Capdag",
-    "src": "images/personnages/dauby/capdag-cutout.png",
-    "p": {
-     "x": 85.59,
-     "y": 81.5,
-     "h": 32.51,
-     "z": 8
-    }
-   },
-   {
-    "name": "Nael",
-    "family": "Capdag",
-    "src": "images/personnages/nael/capdag-cutout.png",
-    "p": {
-     "x": 20.55,
-     "y": 95.5,
-     "h": 34.77,
-     "z": 28
-    }
-   },
-   {
-    "name": "Fred",
-    "family": "Capdag",
-    "src": "images/personnages/fred/capdag-cutout.png",
-    "p": {
-     "x": 40.06,
-     "y": 95.5,
-     "h": 42.12,
-     "z": 30
-    }
-   },
-   {
-    "name": "Donné",
-    "family": "Capdag",
-    "src": "images/personnages/donne/capdag-cutout.png",
-    "p": {
-     "x": 59.47,
-     "y": 95.5,
-     "h": 43.12,
-     "z": 30
+     "x": 51.47,
+     "y": 65.2,
+     "h": 36.5,
+     "z": 12
     }
    },
    {
@@ -1144,10 +1027,76 @@
     "family": "Capdag",
     "src": "images/personnages/turquet/capdag-cutout.png",
     "p": {
-     "x": 79.45,
-     "y": 95.5,
-     "h": 39.6,
-     "z": 28
+     "x": 60.35,
+     "y": 77.3,
+     "h": 34.04,
+     "z": 13
+    }
+   },
+   {
+    "name": "Donné",
+    "family": "Capdag",
+    "src": "images/personnages/donne/capdag-cutout.png",
+    "p": {
+     "x": 49.24,
+     "y": 73.65,
+     "h": 29.65,
+     "z": 14
+    }
+   },
+   {
+    "name": "Laurent",
+    "family": "Capdag",
+    "src": "images/personnages/laurent/capdag-cutout.png",
+    "p": {
+     "x": 40.99,
+     "y": 74.77,
+     "h": 35.64,
+     "z": 15
+    }
+   },
+   {
+    "name": "Petit",
+    "family": "Capdag",
+    "src": "images/personnages/petit/capdag-cutout.png",
+    "p": {
+     "x": 30.43,
+     "y": 75.63,
+     "h": 38.57,
+     "z": 16
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Capdag",
+    "src": "images/personnages/dauby/capdag-cutout.png",
+    "p": {
+     "x": 71.2,
+     "y": 78.84,
+     "h": 36.24,
+     "z": 17
+    }
+   },
+   {
+    "name": "Fred",
+    "family": "Capdag",
+    "src": "images/personnages/fred/capdag-cutout.png",
+    "p": {
+     "x": 36.42,
+     "y": 84.89,
+     "h": 33.75,
+     "z": 18
+    }
+   },
+   {
+    "name": "Nael",
+    "family": "Capdag",
+    "src": "images/personnages/nael/capdag-cutout.png",
+    "p": {
+     "x": 51.78,
+     "y": 87.42,
+     "h": 29.47,
+     "z": 19
     }
    }
   ]
@@ -1155,44 +1104,22 @@
  "troubadour": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#5B66AB",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Troubadour",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
-   {
-    "name": "Dim",
-    "family": "Troubadour",
-    "src": "images/personnages/dim/troubadour-cutout.png",
-    "p": {
-     "x": 22.89,
-     "y": 84.5,
-     "h": 52.13,
-     "z": 8
-    }
-   },
    {
     "name": "Dauby",
     "family": "Troubadour",
     "src": "images/personnages/dauby/troubadour-cutout.png",
     "p": {
-     "x": 41.89,
-     "y": 84.5,
-     "h": 52.66,
-     "z": 10
-    }
-   },
-   {
-    "name": "Guigui",
-    "family": "Troubadour",
-    "src": "images/personnages/guigui/troubadour-cutout.png",
-    "p": {
-     "x": 59.7,
-     "y": 84.5,
-     "h": 48.84,
+     "x": 11.69,
+     "y": 84.73,
+     "h": 53.03,
      "z": 10
     }
    },
@@ -1201,10 +1128,10 @@
     "family": "Troubadour",
     "src": "images/personnages/fred/troubadour-cutout.png",
     "p": {
-     "x": 77.11,
-     "y": 84.5,
-     "h": 47.72,
-     "z": 8
+     "x": 43.04,
+     "y": 87.45,
+     "h": 42.94,
+     "z": 11
     }
    },
    {
@@ -1212,10 +1139,32 @@
     "family": "Troubadour",
     "src": "images/personnages/theo/troubadour-cutout.png",
     "p": {
-     "x": 37.88,
-     "y": 95.5,
-     "h": 47.9,
-     "z": 30
+     "x": 27.74,
+     "y": 85.52,
+     "h": 43.05,
+     "z": 12
+    }
+   },
+   {
+    "name": "Guigui",
+    "family": "Troubadour",
+    "src": "images/personnages/guigui/troubadour-cutout.png",
+    "p": {
+     "x": 86.38,
+     "y": 87.95,
+     "h": 67.52,
+     "z": 13
+    }
+   },
+   {
+    "name": "Dim",
+    "family": "Troubadour",
+    "src": "images/personnages/dim/troubadour-cutout.png",
+    "p": {
+     "x": 68.63,
+     "y": 88.97,
+     "h": 40.9,
+     "z": 14
     }
    },
    {
@@ -1223,10 +1172,10 @@
     "family": "Troubadour",
     "src": "images/personnages/coco/troubadour-cutout.png",
     "p": {
-     "x": 62.12,
-     "y": 95.5,
-     "h": 52.43,
-     "z": 30
+     "x": 54.8,
+     "y": 89.26,
+     "h": 42.07,
+     "z": 15
     }
    }
   ]

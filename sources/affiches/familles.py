@@ -33,6 +33,7 @@ COULEURS = {"botefragile": "#BDDDF2", "branquignol": "#F8A08E", "gaulois": "#8FC
 FAMILLE_DE = {**NOMS, "joystick": "Ludick", "izi-karate": "Izi Karaté"}
 # Tenues dessinées en marche vers la gauche (voir src/features/la-grande-course/sens.ts)
 GAUCHE = set(re.findall(r"'([a-z]+/[a-z-]+)'", (ROOT / "src/features/la-grande-course/sens.ts").read_text()))
+PLACEMENTS = json.loads((ROOT / "sources/affiches/familles/placements-elora.json").read_text())
 PRENOMS = dict(re.findall(r"slug: '([a-z]+)',\s*name: '([^']+)'", (ROOT / "src/data/characters.ts").read_text()))
 
 
@@ -207,5 +208,17 @@ if __name__ == "__main__":
         sortie = ROOT / "sources/affiches/familles/recettes.json"
         recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
         for fam in args or list(NOMS):
-            recettes[fam] = composer(fam)
+            if fam not in PLACEMENTS:
+                recettes[fam] = composer(fam)
+                continue
+            # Placements faits à la main par Elora dans le configurateur (relevés sur ses captures) :
+            # ils remplacent la disposition automatique ; titre, sous-titre et couleur restent ceux de la famille
+            looks = {l["cutout"]: l["family"] for l in json.load(open(DATA / "looks.json")) if l["cutout"]}
+            recettes[fam] = dict(
+                v=1, orientation="paysage", frame="sans", background="creme", couleur=COULEURS[fam],
+                subtitle=f"Famille {NOMS[fam]}", title="La Grande Armée", showSubtitle=True, showBrand=False,
+                members=[dict(name=PRENOMS.get(m["src"].split("/")[2], m["src"].split("/")[2]),
+                              family=FAMILLE_DE.get(looks[m["src"]], looks[m["src"]]), src=m["src"], p=m["p"])
+                         for m in PLACEMENTS[fam]],
+            )
     sortie.write_text(json.dumps(recettes, indent=1, ensure_ascii=False))
