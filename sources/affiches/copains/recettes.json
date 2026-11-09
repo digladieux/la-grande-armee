@@ -248,8 +248,8 @@
     "family": "Minion",
     "src": "images/personnages/dim/mignon-cutout.png",
     "p": {
-     "x": 27.32,
-     "y": 69.5,
+     "x": 30.93,
+     "y": 78.35,
      "h": 37.57,
      "z": 8
     }
@@ -259,8 +259,8 @@
     "family": "Troubadour",
     "src": "images/personnages/dim/troubadour-cutout.png",
     "p": {
-     "x": 39.27,
-     "y": 69.5,
+     "x": 39.82,
+     "y": 84.92,
      "h": 36.47,
      "z": 9
     }
@@ -270,8 +270,8 @@
     "family": "Beauf",
     "src": "images/personnages/dim/beauf-cutout.png",
     "p": {
-     "x": 51.29,
-     "y": 69.5,
+     "x": 47.34,
+     "y": 81.86,
      "h": 38.09,
      "z": 10
     }
@@ -281,8 +281,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/dim/izikarate-cutout.png",
     "p": {
-     "x": 62.81,
-     "y": 69.5,
+     "x": 66.73,
+     "y": 77.75,
      "h": 36.65,
      "z": 9
     }
@@ -292,8 +292,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/dim/bouffetout-cutout.png",
     "p": {
-     "x": 72.68,
-     "y": 69.5,
+     "x": 77.62,
+     "y": 77.54,
      "h": 34.58,
      "z": 8
     }
@@ -303,8 +303,8 @@
     "family": "Gaulois",
     "src": "images/personnages/dim/gaulois-cutout.png",
     "p": {
-     "x": 16.54,
-     "y": 95.5,
+     "x": 17.5,
+     "y": 83.91,
      "h": 36.15,
      "z": 28
     }
@@ -314,9 +314,9 @@
     "family": "Ludick",
     "src": "images/personnages/dim/ludick-cutout.png",
     "p": {
-     "x": 35.49,
-     "y": 95.5,
-     "h": 41.14,
+     "x": 92.95,
+     "y": 79.3,
+     "h": 36.73,
      "z": 29
     }
    },
@@ -325,8 +325,8 @@
     "family": "Branquignol",
     "src": "images/personnages/dim/branquignol-cutout.png",
     "p": {
-     "x": 52.68,
-     "y": 95.5,
+     "x": 56.25,
+     "y": 85.57,
      "h": 43.72,
      "z": 30
     }
@@ -336,8 +336,8 @@
     "family": "Botéfragile",
     "src": "images/personnages/dim/botefragile-cutout.png",
     "p": {
-     "x": 69.15,
-     "y": 95.5,
+     "x": 83.38,
+     "y": 83.81,
      "h": 37.94,
      "z": 29
     }
@@ -347,10 +347,10 @@
     "family": "Capdag",
     "src": "images/personnages/dim/capdag-cutout.png",
     "p": {
-     "x": 83.46,
-     "y": 95.5,
+     "x": 6.86,
+     "y": 74.71,
      "h": 32.18,
-     "z": 28
+     "z": 7
     }
    }
   ]

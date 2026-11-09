@@ -953,5 +953,97 @@
     "z": 29
    }
   }
+ ],
+ "copain-dim": [
+  {
+   "src": "images/personnages/dim/mignon-cutout.png",
+   "p": {
+    "x": 30.93,
+    "y": 78.35,
+    "h": 37.57,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/dim/troubadour-cutout.png",
+   "p": {
+    "x": 39.82,
+    "y": 84.92,
+    "h": 36.47,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/dim/beauf-cutout.png",
+   "p": {
+    "x": 47.34,
+    "y": 81.86,
+    "h": 38.09,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/dim/izikarate-cutout.png",
+   "p": {
+    "x": 66.73,
+    "y": 77.75,
+    "h": 36.65,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/dim/bouffetout-cutout.png",
+   "p": {
+    "x": 77.62,
+    "y": 77.54,
+    "h": 34.58,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/dim/gaulois-cutout.png",
+   "p": {
+    "x": 17.5,
+    "y": 83.91,
+    "h": 36.15,
+    "z": 28
+   }
+  },
+  {
+   "src": "images/personnages/dim/ludick-cutout.png",
+   "p": {
+    "x": 92.95,
+    "y": 79.3,
+    "h": 36.73,
+    "z": 29
+   }
+  },
+  {
+   "src": "images/personnages/dim/branquignol-cutout.png",
+   "p": {
+    "x": 56.25,
+    "y": 85.57,
+    "h": 43.72,
+    "z": 30
+   }
+  },
+  {
+   "src": "images/personnages/dim/botefragile-cutout.png",
+   "p": {
+    "x": 83.38,
+    "y": 83.81,
+    "h": 37.94,
+    "z": 29
+   }
+  },
+  {
+   "src": "images/personnages/dim/capdag-cutout.png",
+   "p": {
+    "x": 6.86,
+    "y": 74.71,
+    "h": 32.18,
+    "z": 7
+   }
+  }
  ]
 }
