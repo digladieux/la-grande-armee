@@ -1039,8 +1039,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/szabo/bouffetout-cutout.png",
     "p": {
-     "x": 29.97,
-     "y": 95.5,
+     "x": 28.75,
+     "y": 88.51,
      "h": 62.25,
      "z": 9
     }
@@ -1050,10 +1050,10 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/szabo/gochofacho-cutout.png",
     "p": {
-     "x": 50.35,
-     "y": 95.5,
+     "x": 75.97,
+     "y": 84.32,
      "h": 56.36,
-     "z": 10
+     "z": 8
     }
    },
    {
@@ -1061,9 +1061,9 @@
     "family": "Branquignol",
     "src": "images/personnages/szabo/branquignol-cutout.png",
     "p": {
-     "x": 70.03,
-     "y": 95.5,
-     "h": 55.91,
+     "x": 58.89,
+     "y": 93.91,
+     "h": 62.62,
      "z": 9
     }
    }
