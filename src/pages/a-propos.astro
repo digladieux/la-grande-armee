@@ -1,10 +1,156 @@
 ---
 import PageShell from '@/layouts/PageShell.astro';
+import CTA from '@/components/ui/CTA.astro';
+import { url } from '@/lib/url';
+
+// Trois cartes de familles nées d'un moment de l'année
+const cartes = [
+  { src: 'turquet/beauf-decor.webp', nom: 'Famille Beauf', tourne: -5 },
+  { src: 'dauby/troubadour-decor.webp', nom: 'Famille Troubadour', tourne: 2 },
+  { src: 'aubin/capdag-decor.webp', nom: 'Famille Capdag', tourne: 6 },
+];
 ---
 
 <PageShell
   title="À propos"
   eyebrow="L'histoire"
-  intro="D'un jeu des 7 familles dessiné entre copains à tout un univers illustré."
+  intro="Des souvenirs entre copains, posés sur papier et en dessin."
   accent="coral"
-/>
+>
+  <div class="apropos">
+    <article class="apropos__texte">
+      <h2 class="title-md">Au début, un jeu de cartes</h2>
+      <p>
+        L'hiver dernier, j'ai offert à toute la bande de copains un jeu des 7 familles. Chaque carte raconte un
+        souvenir de ces dernières années ensemble : nos thèmes, nos blagues, nos soirées… et beaucoup de private
+        jokes. Tout est dessiné à la tablette, pour que ces moments ne restent pas que dans nos têtes.
+      </p>
+
+      <h2 class="title-md">La Grande Armée, c'est eux</h2>
+      <p>
+        Le nom, ce sont les copains qui l'ont trouvé : on est juste une grande bande. Mon envie, c'était de la rendre
+        concrète, de l'animer en petits personnages et de construire tout un univers autour, parce que créer, c'est
+        ce que je préfère.
+      </p>
+
+      <h2 class="title-md">Une famille de plus chaque année</h2>
+      <p>
+        Le jeu grandit avec nous. Chaque année, j'ajoute de nouvelles familles ou de nouveaux personnages selon ce
+        qu'on a vécu : la famille Beauf pour la soirée des 30 ans de Coco, la famille Troubadour, la famille
+        Capdag… Ça ne fait que deux ans, mais il y a déjà de quoi faire.
+      </p>
+
+      <h2 class="title-md">Et maintenant, des affiches</h2>
+      <p>
+        Un jeu de cartes, ça se range dans un tiroir. Ce site est là pour que chacun puisse créer son affiche avec
+        ses personnages préférés et garder un vrai souvenir accroché au mur.
+      </p>
+
+      <p class="apropos__signature hand">Elora</p>
+
+      <div class="apropos__actions">
+        <CTA href="/creer-mon-affiche">Créer mon affiche</CTA>
+        <CTA href="/personnages" variant="secondary">Voir la bande</CTA>
+      </div>
+    </article>
+
+    <div class="apropos__cartes" aria-label="Quelques familles du jeu">
+      {cartes.map((c) => (
+        <figure class="apropos__carte" style={`--r: ${c.tourne}deg`}>
+          <img src={url(`/images/personnages/${c.src}`)} alt={c.nom} width="354" height="534" loading="lazy" decoding="async" />
+          <figcaption class="hand">{c.nom}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</PageShell>
+
+<style>
+  .apropos {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: start;
+  }
+  .apropos__texte {
+    display: grid;
+    gap: 14px;
+    max-width: 62ch;
+  }
+  .apropos__texte h2:not(:first-child) {
+    margin-top: 18px;
+  }
+  .apropos__texte p {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.6;
+  }
+  .apropos__signature {
+    margin-top: 10px !important;
+    font-size: 2rem !important;
+    transform: rotate(-3deg);
+    transform-origin: left;
+  }
+  .apropos__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .apropos__cartes {
+    position: sticky;
+    top: 100px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 18px;
+  }
+  .apropos__carte {
+    margin: 0;
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    transform: rotate(var(--r));
+    transition: transform 0.25s ease;
+  }
+  .apropos__carte:nth-child(3) {
+    grid-column: 1 / -1;
+    width: 50%;
+    justify-self: center;
+  }
+  .apropos__carte:hover {
+    transform: rotate(0deg) translateY(-4px);
+  }
+  .apropos__carte img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .apropos__carte figcaption {
+    font-size: 1.15rem;
+  }
+  @media (max-width: 820px) {
+    .apropos {
+      grid-template-columns: 1fr;
+    }
+    .apropos__cartes {
+      position: static;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding-inline: 6px;
+    }
+    .apropos__carte:nth-child(3) {
+      grid-column: auto;
+      width: auto;
+    }
+    .apropos__carte {
+      transform: rotate(calc(var(--r) * 0.5));
+    }
+    .apropos__carte figcaption {
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  }
+</style>
