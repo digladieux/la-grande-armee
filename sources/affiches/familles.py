@@ -202,8 +202,19 @@ if __name__ == "__main__":
         sortie = ROOT / "sources/affiches/copains/recettes.json"
         sortie.parent.mkdir(exist_ok=True)
         recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
+        looks_fam = {l["cutout"]: l["family"] for l in looks if l["cutout"]}
         for slug in cles:
-            recettes[slug] = composer(None, slug)
+            if f"copain-{slug}" not in PLACEMENTS:
+                recettes[slug] = composer(None, slug)
+                continue
+            # Retouche d'Elora (« Copier pour Claude ») : ses positions, l'en-tête habituel du copain
+            prenom = PRENOMS.get(slug, slug)
+            recettes[slug] = dict(
+                v=1, orientation="paysage", frame="sans", background="bandes",
+                subtitle=f"{prenom} dans toutes ses familles", title="La Grande Armée", showSubtitle=True, showBrand=False,
+                members=[dict(name=prenom, family=FAMILLE_DE.get(looks_fam[m["src"]], looks_fam[m["src"]]), src=m["src"], p=m["p"])
+                         for m in PLACEMENTS[f"copain-{slug}"]],
+            )
     else:
         sortie = ROOT / "sources/affiches/familles/recettes.json"
         recettes = json.loads(sortie.read_text()) if sortie.exists() else {}
