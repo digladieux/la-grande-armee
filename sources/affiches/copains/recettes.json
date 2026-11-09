@@ -715,8 +715,8 @@
     "family": "Ludick",
     "src": "images/personnages/lenoir/ludick-cutout.png",
     "p": {
-     "x": 21.24,
-     "y": 95.5,
+     "x": 13.48,
+     "y": 88.39,
      "h": 45.21,
      "z": 8
     }
@@ -726,8 +726,8 @@
     "family": "Botéfragile",
     "src": "images/personnages/lenoir/botefragile-cutout.png",
     "p": {
-     "x": 43.08,
-     "y": 95.5,
+     "x": 42.89,
+     "y": 92.33,
      "h": 42.58,
      "z": 10
     }
@@ -737,9 +737,9 @@
     "family": "Beauf",
     "src": "images/personnages/lenoir/beauf-cutout.png",
     "p": {
-     "x": 62.04,
-     "y": 95.5,
-     "h": 34.23,
+     "x": 61.85,
+     "y": 92.02,
+     "h": 42.94,
      "z": 10
     }
    },
@@ -748,8 +748,8 @@
     "family": "Gaulois",
     "src": "images/personnages/lenoir/gaulois-cutout.png",
     "p": {
-     "x": 78.76,
-     "y": 95.5,
+     "x": 85.76,
+     "y": 92.87,
      "h": 46.59,
      "z": 8
     }

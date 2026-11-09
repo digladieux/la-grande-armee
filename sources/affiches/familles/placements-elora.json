@@ -1296,5 +1296,43 @@
     "z": 29
    }
   }
+ ],
+ "copain-lenoir": [
+  {
+   "src": "images/personnages/lenoir/ludick-cutout.png",
+   "p": {
+    "x": 13.48,
+    "y": 88.39,
+    "h": 45.21,
+    "z": 8
+   }
+  },
+  {
+   "src": "images/personnages/lenoir/botefragile-cutout.png",
+   "p": {
+    "x": 42.89,
+    "y": 92.33,
+    "h": 42.58,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/lenoir/beauf-cutout.png",
+   "p": {
+    "x": 61.85,
+    "y": 92.02,
+    "h": 42.94,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/lenoir/gaulois-cutout.png",
+   "p": {
+    "x": 85.76,
+    "y": 92.87,
+    "h": 46.59,
+    "z": 8
+   }
+  }
  ]
 }
