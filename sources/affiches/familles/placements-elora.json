@@ -650,8 +650,8 @@
   {
    "src": "images/personnages/aubin/capdag-cutout.png",
    "p": {
-    "x": 42.12,
-    "y": 64.72,
+    "x": 42.42,
+    "y": 69.97,
     "h": 34.47,
     "z": 10
    }
@@ -659,8 +659,8 @@
   {
    "src": "images/personnages/theo/capdag-cutout.png",
    "p": {
-    "x": 62.75,
-    "y": 68.18,
+    "x": 63.78,
+    "y": 73.88,
     "h": 38.53,
     "z": 11
    }
@@ -668,8 +668,8 @@
   {
    "src": "images/personnages/dim/capdag-cutout.png",
    "p": {
-    "x": 51.47,
-    "y": 65.2,
+    "x": 51.91,
+    "y": 70.21,
     "h": 36.5,
     "z": 12
    }
@@ -677,8 +677,8 @@
   {
    "src": "images/personnages/turquet/capdag-cutout.png",
    "p": {
-    "x": 60.35,
-    "y": 77.3,
+    "x": 60.37,
+    "y": 82.01,
     "h": 34.04,
     "z": 13
    }
@@ -686,8 +686,8 @@
   {
    "src": "images/personnages/donne/capdag-cutout.png",
    "p": {
-    "x": 49.24,
-    "y": 73.65,
+    "x": 49.2,
+    "y": 78.43,
     "h": 29.65,
     "z": 14
    }
@@ -695,8 +695,8 @@
   {
    "src": "images/personnages/laurent/capdag-cutout.png",
    "p": {
-    "x": 40.99,
-    "y": 74.77,
+    "x": 41.06,
+    "y": 79.19,
     "h": 35.64,
     "z": 15
    }
@@ -704,8 +704,8 @@
   {
    "src": "images/personnages/petit/capdag-cutout.png",
    "p": {
-    "x": 30.43,
-    "y": 75.63,
+    "x": 30.47,
+    "y": 81.33,
     "h": 38.57,
     "z": 16
    }
@@ -713,8 +713,8 @@
   {
    "src": "images/personnages/dauby/capdag-cutout.png",
    "p": {
-    "x": 71.2,
-    "y": 78.84,
+    "x": 70.59,
+    "y": 87.1,
     "h": 36.24,
     "z": 17
    }
@@ -722,8 +722,8 @@
   {
    "src": "images/personnages/fred/capdag-cutout.png",
    "p": {
-    "x": 36.42,
-    "y": 84.89,
+    "x": 38.05,
+    "y": 89.65,
     "h": 33.75,
     "z": 18
    }
@@ -731,8 +731,8 @@
   {
    "src": "images/personnages/nael/capdag-cutout.png",
    "p": {
-    "x": 51.78,
-    "y": 87.42,
+    "x": 51.7,
+    "y": 92.6,
     "h": 29.47,
     "z": 19
    }
