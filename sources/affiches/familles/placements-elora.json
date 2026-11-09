@@ -1240,5 +1240,61 @@
     "z": 29
    }
   }
+ ],
+ "copain-laurent": [
+  {
+   "src": "images/personnages/laurent/capdag-cutout.png",
+   "p": {
+    "x": 28.29,
+    "y": 86.61,
+    "h": 33.29,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/laurent/gochofacho-cutout.png",
+   "p": {
+    "x": 39.17,
+    "y": 85.12,
+    "h": 43.36,
+    "z": 10
+   }
+  },
+  {
+   "src": "images/personnages/laurent/joystick-cutout.png",
+   "p": {
+    "x": 65.05,
+    "y": 83.4,
+    "h": 40.11,
+    "z": 9
+   }
+  },
+  {
+   "src": "images/personnages/laurent/botefragile-cutout.png",
+   "p": {
+    "x": 12.2,
+    "y": 85.88,
+    "h": 27.18,
+    "z": 29
+   }
+  },
+  {
+   "src": "images/personnages/laurent/izikarate-cutout.png",
+   "p": {
+    "x": 52.75,
+    "y": 85.23,
+    "h": 42.15,
+    "z": 30
+   }
+  },
+  {
+   "src": "images/personnages/laurent/branquignol-cutout.png",
+   "p": {
+    "x": 83.24,
+    "y": 87.61,
+    "h": 41.5,
+    "z": 29
+   }
+  }
  ]
 }
