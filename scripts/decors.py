@@ -20,6 +20,8 @@ Les cartes déposées dans un dossier (par défaut public/images/autres/, non pu
     python3 scripts/decors.py --tout [copain/famille ...]  # refait les cartes déjà installées
 """
 import json
+
+import halos  # scripts/halos.py
 import sys
 from pathlib import Path
 
@@ -339,6 +341,7 @@ def main():
             lisse, fond_, marges = champ(propre, perso)
             hd(fondre_bords(propre, lisse, fond_, marges, perso), slug, fam).save(PUB / slug / f"{fam}-decor.webp", quality=90, method=6)
             Image.fromarray(lisse.astype(np.uint8)).save(PUB / slug / f"{fam}-fond.webp", quality=85)
+            halos.lisser(slug, fam)  # halo régulier, fond prolongé assorti (scripts/halos.py)
 
 
 if __name__ == "__main__":
