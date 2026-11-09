@@ -374,8 +374,8 @@
   {
    "src": "images/personnages/aubin/joystick-cutout.png",
    "p": {
-    "x": 10.68,
-    "y": 35.96,
+    "x": 21.79,
+    "y": 65.22,
     "h": 28.48,
     "z": 10
    }
@@ -383,80 +383,80 @@
   {
    "src": "images/personnages/hugo/joystick-cutout.png",
    "p": {
-    "x": 88.51,
-    "y": 52.5,
-    "h": 37.19,
-    "z": 11
+    "x": 53.47,
+    "y": 89.06,
+    "h": 29.65,
+    "z": 8
    }
   },
   {
    "src": "images/personnages/dim/ludick-cutout.png",
    "p": {
-    "x": 24.75,
-    "y": 72.8,
-    "h": 36.87,
+    "x": 26.21,
+    "y": 89.53,
+    "h": 32.92,
     "z": 12
    }
   },
   {
    "src": "images/personnages/coco/joystick-cutout.png",
    "p": {
-    "x": 65.27,
-    "y": 73.83,
-    "h": 44.09,
+    "x": 75.27,
+    "y": 86.04,
+    "h": 39.37,
     "z": 13
    }
   },
   {
    "src": "images/personnages/laurent/joystick-cutout.png",
    "p": {
-    "x": 43.01,
-    "y": 74.13,
-    "h": 37.13,
-    "z": 14
+    "x": 40.69,
+    "y": 81.25,
+    "h": 33.15,
+    "z": 9
    }
   },
   {
    "src": "images/personnages/turquet/joystick-cutout.png",
    "p": {
-    "x": 90.28,
-    "y": 82.39,
-    "h": 34.04,
+    "x": 91.65,
+    "y": 88.24,
+    "h": 30.39,
     "z": 15
    }
   },
   {
    "src": "images/personnages/lenoir/ludick-cutout.png",
    "p": {
-    "x": 10.73,
-    "y": 86.33,
-    "h": 35.53,
+    "x": 9.12,
+    "y": 85.99,
+    "h": 31.72,
     "z": 16
    }
   },
   {
    "src": "images/personnages/guigui/joystick-cutout.png",
    "p": {
-    "x": 34.65,
-    "y": 91.23,
-    "h": 37.49,
+    "x": 38.56,
+    "y": 91.03,
+    "h": 33.47,
     "z": 17
    }
   },
   {
    "src": "images/personnages/nael/ludick-cutout.png",
    "p": {
-    "x": 55.05,
-    "y": 93.78,
-    "h": 24.55,
+    "x": 15.77,
+    "y": 89.99,
+    "h": 21.92,
     "z": 18
    }
   },
   {
    "src": "images/personnages/fred/ludick-cutout.png",
    "p": {
-    "x": 71.02,
-    "y": 95.3,
+    "x": 65.74,
+    "y": 90.55,
     "h": 20.88,
     "z": 19
    }
