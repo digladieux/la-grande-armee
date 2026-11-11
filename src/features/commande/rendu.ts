@@ -177,18 +177,12 @@ export async function dessinerAffiche(
     yBas = padTop + fs * 0.92 * rows.length;
   }
 
-  // ── Sous-titre (pastille) ──
+  // ── Sous-titre (sans fond) ──
   if (r.showSubtitle && r.subtitle.trim()) {
-    const fs = (paysage ? 3.4 : 5.2) * cqi;
+    const fs = (paysage ? 3.7 : 5.6) * cqi;
     ctx.font = `700 ${fs}px "Kalam Main", cursive`;
-    const tw = ctx.measureText(r.subtitle).width;
-    const padX = 3 * cqi;
     const bh = fs * 1.3 + cqi;
-    const by = yBas + (paysage ? 1.5 : 3) * cqi;
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.beginPath();
-    ctx.roundRect((W - tw) / 2 - padX, by, tw + 2 * padX, bh, bh / 2);
-    ctx.fill();
+    const by = yBas + (paysage ? 1 : 2) * cqi;
     ctx.fillStyle = INK;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';

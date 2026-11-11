@@ -116,8 +116,8 @@
   width: 62%;
 }
 .poster-sheet__title > span {
-  margin-top: 1.5cqi;
-  font-size: 3.4cqi;
+  margin-top: 1cqi;
+  font-size: 3.7cqi;
 }
 .poster-sheet--paysage .poster-sheet__brand {
   padding: 1.5cqi 0 2.2cqi;
@@ -168,13 +168,10 @@
 }
 .poster-sheet__title > span {
   display: inline-block;
-  margin-top: 3cqi;
-  padding: 0.5cqi 3cqi;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.85);
+  margin-top: 2cqi;
   font-family: var(--font-hand);
   font-weight: 700;
-  font-size: 5.2cqi;
+  font-size: 5.6cqi;
   line-height: 1.3;
 }
 /* Copains : calques libres (x = centre, top = ligne des pieds) */
