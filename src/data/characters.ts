@@ -187,6 +187,7 @@ export const characters: Character[] = [
         bubble: 'C’est pas évident !',
         bust: { cx: 40, cy: 37, zoom: 1.8 },
         cutout: 'images/personnages/guigui/joystick-cutout.png',
+        video: 'images/personnages/guigui/joystick-anim.mp4',
       },
       {
         family: 'bouffetout',
@@ -194,6 +195,7 @@ export const characters: Character[] = [
         bubble: 'On est pas des bêtes !!',
         bust: { cx: 50, cy: 28, zoom: 2 },
         cutout: 'images/personnages/guigui/bouffetout-cutout.png',
+        video: 'images/personnages/guigui/bouffetout-anim.mp4',
       },
       {
         family: 'gochofacho',
@@ -219,6 +221,7 @@ export const characters: Character[] = [
         image: 'images/personnages/guigui/troubadour-blanc.png',
         bust: { cx: 50, cy: 44, zoom: 2.2 },
         cutout: 'images/personnages/guigui/troubadour-cutout.png',
+        video: 'images/personnages/guigui/troubadour-anim.mp4',
       },
     ],
   },
@@ -260,6 +263,7 @@ export const characters: Character[] = [
         bubble: 'Le poivre, ce démon !',
         bust: { cx: 53, cy: 37, zoom: 2 },
         cutout: 'images/personnages/dauby/bouffetout-cutout.png',
+        video: 'images/personnages/dauby/bouffetout-anim.mp4',
       },
       {
         family: 'branquignol',
@@ -354,6 +358,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 64, cy: 44, zoom: 1.7 },
         cutout: 'images/personnages/lenoir/gaulois-cutout.png',
+        video: 'images/personnages/lenoir/gaulois-anim.mp4',
       },
       {
         family: 'ludick',
@@ -428,6 +433,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 44, cy: 35, zoom: 2 },
         cutout: 'images/personnages/coco/botefragile-cutout.png',
+        video: 'images/personnages/coco/botefragile-anim.mp4',
       },
       {
         family: 'gaulois',
@@ -552,6 +558,7 @@ export const characters: Character[] = [
         image: 'images/personnages/merlot/bouffetout-blanc.png',
         bust: { cx: 51, cy: 37, zoom: 2 },
         cutout: 'images/personnages/merlot/bouffetout-cutout.png',
+        video: 'images/personnages/merlot/bouffetout-anim.mp4',
       },
       {
         family: 'beauf',
@@ -575,6 +582,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 57, cy: 36, zoom: 2 },
         cutout: 'images/personnages/nael/botefragile-cutout.png',
+        video: 'images/personnages/nael/botefragile-anim.mp4',
       },
       {
         family: 'gaulois',
@@ -683,6 +691,7 @@ export const characters: Character[] = [
         bubble: 'Pâte au poivron, recette du champion !',
         bust: { cx: 36, cy: 36, zoom: 2 },
         cutout: 'images/personnages/szabo/bouffetout-cutout.png',
+        video: 'images/personnages/szabo/bouffetout-anim.mp4',
       },
       {
         family: 'gochofacho',
@@ -716,6 +725,7 @@ export const characters: Character[] = [
         whiteBg: true,
         bust: { cx: 50, cy: 32, zoom: 2 },
         cutout: 'images/personnages/turquet/botefragile-cutout.png',
+        video: 'images/personnages/turquet/botefragile-anim.mp4',
       },
       {
         family: 'izi-karate',
@@ -738,12 +748,14 @@ export const characters: Character[] = [
         image: 'images/personnages/turquet/bouffetout-blanc.png',
         bust: { cx: 50, cy: 36, zoom: 2 },
         cutout: 'images/personnages/turquet/bouffetout-cutout.png',
+        video: 'images/personnages/turquet/bouffetout-anim.mp4',
       },
       {
         family: 'gochofacho',
         image: 'images/personnages/turquet/gochofacho-blanc.png',
         bust: { cx: 48, cy: 32, zoom: 2 },
         cutout: 'images/personnages/turquet/gochofacho-cutout.png',
+        video: 'images/personnages/turquet/gochofacho-anim.mp4',
       },
       {
         family: 'branquignol',
@@ -811,6 +823,7 @@ export const characters: Character[] = [
         bubble: '♪ Dim dam talé lam vacarme, s’en va dans lumi éternam, et Gustave dôme guardéam, dilim dili lili lam, Lutèce séra dolilom séram ♪',
         bust: { cx: 50, cy: 52, zoom: 1.8 },
         cutout: 'images/personnages/fred/branquignol-cutout.png',
+        video: 'images/personnages/fred/branquignol-anim.mp4',
       },
       {
         family: 'capdag',
@@ -846,6 +859,7 @@ export const characters: Character[] = [
         image: 'images/personnages/hugo/bouffetout-blanc.png',
         bust: { cx: 52, cy: 40, zoom: 2 },
         cutout: 'images/personnages/hugo/bouffetout-cutout.png',
+        video: 'images/personnages/hugo/bouffetout-anim.mp4',
       },
     ],
   },
@@ -867,6 +881,7 @@ export const characters: Character[] = [
         image: 'images/personnages/saby/gochofacho-blanc.png',
         bust: { cx: 52, cy: 37, zoom: 2 },
         cutout: 'images/personnages/saby/gochofacho-cutout.png',
+        video: 'images/personnages/saby/gochofacho-anim.mp4',
       },
     ],
   },
@@ -926,12 +941,14 @@ export const characters: Character[] = [
         bubble: 'Oh là là…',
         bust: { cx: 50, cy: 36, zoom: 2.4 },
         cutout: 'images/personnages/momo/botefragile-cutout.png',
+        video: 'images/personnages/momo/botefragile-anim.mp4',
       },
       {
         family: 'branquignol',
         image: 'images/personnages/momo/branquignol-blanc.png',
         bust: { cx: 52, cy: 35, zoom: 2.3 },
         cutout: 'images/personnages/momo/branquignol-cutout.png',
+        video: 'images/personnages/momo/branquignol-anim.mp4',
       },
       {
         family: 'ludick',
