@@ -278,13 +278,15 @@ export class Engine {
     const P = this.P;
     const G = this.G;
     const x = this.W + 10;
+    // Environ 70 % de copains (au sol, sauteurs, volants, têtes) et 30 % d'accessoires / panneaux
+    const perso = Math.random() >= 0.3 && this.ground.length > 0;
     const r = Math.random();
-    if (this.score > 250 && this.heads.length && r < 0.2) {
+    if (perso && this.score > 250 && this.heads.length && r < 0.2) {
       const h = pick(this.heads);
       const size = 0.4 * P;
       // Assez haut pour passer dessous en se baissant, assez bas pour toucher debout
       this.obstacles.push({ kind: 'head', look: h.look, sprite: h.sprite, x, y: G - 0.86 * P - size / 2, w: size, h: size, spin: 0 });
-    } else if (this.score > 120 && this.actions.length && r < 0.4) {
+    } else if (perso && this.score > 120 && this.actions.length && r < 0.45) {
       const a = pick(this.actions);
       const ratio = a.look.ratio;
       if (a.mode === 'hop') {
@@ -301,7 +303,7 @@ export class Engine {
         const w = h * ratio;
         this.obstacles.push({ kind: 'hang', look: a.look, sprite: a.sprite, x, y: G - 0.68 * P - h, w, h, spin: 0 });
       }
-    } else if (r < 0.62) {
+    } else if (!perso) {
       // R5 et ceinture de judo : seulement une fois leur dessin chargé (pas de version vectorielle)
       const choices = (
         this.score > 300 ? ['biere', 'panneau', 'tracteur', 'r5', 'ceinture'] : ['biere', 'biere', 'panneau', 'ceinture']
@@ -311,7 +313,7 @@ export class Engine {
       const h = { biere: 0.3, panneau: 0.66, tracteur: 0.56, r5: 0.42, ceinture: 0.17 }[prop];
       const w = sprite ? (h * sprite.img.naturalWidth) / sprite.img.naturalHeight : prop === 'biere' ? 0.22 : prop === 'panneau' ? 0.55 : 1.1;
       this.obstacles.push({ kind: 'prop', prop, sprite, x, y: G - h * P, w: w * P, h: h * P, spin: 0 });
-    } else if (this.ground.length) {
+    } else {
       const count = this.score > 500 && Math.random() < 0.25 ? 2 : 1;
       let gx = x;
       for (let i = 0; i < count; i++) {
