@@ -779,6 +779,29 @@
 }
 
 /* ── Responsive ── */
+/* Tablette en paysage / petit portable : panneau un peu plus large, onglets sur une ligne */
+@media (min-width: 981px) and (max-width: 1280px) {
+  .pc {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 24px;
+  }
+  .pc__steps {
+    flex-wrap: nowrap;
+    gap: 2px;
+    padding: 8px;
+  }
+  .pc__step {
+    gap: 5px;
+    padding: 7px 7px;
+    font-size: 0.78rem;
+  }
+  .pc__footer {
+    flex-wrap: wrap;
+  }
+}
+.pc__footer strong {
+  white-space: nowrap;
+}
 @media (max-width: 980px) {
   .pc {
     grid-template-columns: 1fr;
