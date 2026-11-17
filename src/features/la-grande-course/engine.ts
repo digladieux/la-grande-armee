@@ -130,6 +130,8 @@ export class Engine {
   private wantDuck = false;
 
   private speed = START_SPEED;
+  /** Score (distance ×2, corrigée du ralenti sur petit écran). */
+  private points = 0;
   private elapsed = 0;
   private distance = 0; // en P
   private score = 0;
@@ -190,8 +192,8 @@ export class Engine {
     this.py = 0;
     this.vy = 0;
     this.ducking = this.wantDuck = false;
-    this.speed = START_SPEED;
-    this.elapsed = this.distance = this.score = 0;
+    this.speed = START_SPEED * Math.min(1, Math.max(0.6, this.W / this.P / 5));
+    this.elapsed = this.distance = this.score = this.points = 0;
     this.obstacles = [];
     this.nextSpawn = 9;
     this.events.onScore(0);
@@ -233,9 +235,14 @@ export class Engine {
   // ── Logique ──
   private update(dt: number) {
     this.elapsed += dt;
-    this.speed = START_SPEED + (MAX_SPEED - START_SPEED) * (1 - Math.exp(-this.elapsed / ACCEL_TIME));
+    // Petit écran (téléphone) : on voit moins loin devant (largeur en P plus faible), donc tout ralentit
+    // d'autant pour garder le même temps de réaction qu’à l’ordinateur (5 P de large ou plus : vitesse normale)
+    const ecran = Math.min(1, Math.max(0.6, this.W / this.P / 5));
+    this.speed = ecran * (START_SPEED + (MAX_SPEED - START_SPEED) * (1 - Math.exp(-this.elapsed / ACCEL_TIME)));
     const step = this.speed * dt;
     this.distance += step;
+    // Score au même rythme sur téléphone et sur ordinateur (malgré le ralenti)
+    this.points += (step / ecran) * 2;
     this.scroll += step * this.P;
 
     // Saut / chute (se baisser en l'air = chute rapide)
@@ -256,7 +263,7 @@ export class Engine {
     if (this.distance >= this.nextSpawn) this.spawn();
 
     // Score
-    const score = Math.floor(this.distance * 2);
+    const score = Math.floor(this.points);
     if (score !== this.score) {
       this.score = score;
       this.events.onScore(score);
