@@ -1068,8 +1068,8 @@
   {
    "src": "images/personnages/donne/capdag-cutout.png",
    "p": {
-    "x": 17.76,
-    "y": 93.49,
+    "x": 24.19,
+    "y": 93.46,
     "h": 38.5,
     "z": 8
    }
@@ -1104,8 +1104,8 @@
   {
    "src": "images/personnages/donne/branquignol-cutout.png",
    "p": {
-    "x": 80.03,
-    "y": 94.75,
+    "x": 12.06,
+    "y": 93.21,
     "h": 40.79,
     "z": 8
    }
@@ -1728,6 +1728,17 @@
      "y": 92.32,
      "h": 44.57,
      "z": 9
+    }
+   }
+  ],
+  "copain-donne": [
+   {
+    "id": "francois-damiens",
+    "p": {
+     "x": 91.41,
+     "y": 85.58,
+     "h": 42.65,
+     "z": 12
     }
    }
   ]
