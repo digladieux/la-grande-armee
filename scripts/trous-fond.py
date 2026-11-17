@@ -103,7 +103,9 @@ def corriger(key, original):
     o = np.asarray(decors.carte(original).resize((w, h), Image.LANCZOS), dtype=np.float32)
     blanc = (a.min(2) >= BLANC).astype(np.uint8)
     # coloré sur l'original, même à 3 px près (le dessin peut être décalé d'un ou deux pixels)
-    colore = (o.min(2) < 236) & (o.max(2) - o.min(2) > 10)
+    # coloré sur l'original ET de la couleur du fond à cet endroit (un blanc du dessin légèrement teinté,
+    # comme des voiles ou un masque, reste un blanc du dessin)
+    colore = (o.min(2) < 236) & (o.max(2) - o.min(2) > 10) & (np.abs(o - lisse).max(2) < 30)
     colore = cv2.erode(colore.astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
     n, lab, st, _ = cv2.connectedComponentsWithStats(blanc, 8)
     part = np.bincount(lab[colore], minlength=n) / np.maximum(st[:, cv2.CC_STAT_AREA], 1)
