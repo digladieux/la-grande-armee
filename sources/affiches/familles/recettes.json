@@ -929,6 +929,19 @@
      "z": 19
     }
    }
+  ],
+  "accessories": [
+   {
+    "name": "Tracteur",
+    "family": "",
+    "src": "images/accessoires/tracteur.png",
+    "p": {
+     "x": 35.32,
+     "y": 92.32,
+     "h": 44.57,
+     "z": 9
+    }
+   }
   ]
  },
  "beauf": {
