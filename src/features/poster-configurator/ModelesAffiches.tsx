@@ -40,6 +40,22 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
     if (!ouvert && d.open) d.close();
   }, [ouvert]);
   const modele = liste.find((m) => m.id === id) ?? liste[0] ?? modeles[0];
+  // Téléphone / tablette : on fait glisser les affiches (le menu déroulant reste sur ordinateur)
+  const swipe = useRef<HTMLUListElement>(null);
+  const idx = Math.max(0, liste.findIndex((m) => m.id === modele?.id));
+  useEffect(() => {
+    const el = swipe.current;
+    if (!el || !ouvert) return;
+    const cible = idx * el.clientWidth;
+    if (Math.abs(el.scrollLeft - cible) > 4) el.scrollTo({ left: cible });
+  }, [ouvert, kind]);
+  const onSwipe = () => {
+    const el = swipe.current;
+    if (!el) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    const m = liste[i];
+    if (m && m.id !== modele?.id) choisir(m.id);
+  };
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   if (!modele) return null;
 
@@ -90,7 +106,7 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
             ))}
           </div>
 
-          <label class="modeles__field">
+          <label class="modeles__field modeles__field--liste">
             <span>{kind === 'famille' ? 'Famille' : 'Copain (toutes ses tenues)'}</span>
             <select value={modele.id} onChange={(e) => choisir((e.target as HTMLSelectElement).value)}>
               {liste.map((m) => (
@@ -146,6 +162,19 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
             ✎ Retoucher ce modèle
           </a>
         )}
+        <div class="modeles__swipe-wrap">
+          <ul class="modeles__swipe" ref={swipe} onScroll={onSwipe} aria-label={kind === 'famille' ? 'Familles : fais glisser' : 'Copains : fais glisser'}>
+            {liste.map((m) => (
+              <li key={m.id}>
+                {ouvert && <img src={m.preview} alt={`Affiche toute faite : ${m.kind === 'famille' ? `famille ${m.name}` : `${m.name} dans toutes ses familles`}`} width={1400} height={990} loading="lazy" decoding="async" />}
+                <span>{m.kind === 'famille' ? `Famille ${m.name}` : m.name}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="modeles__swipe-hint hand">
+            ← Fais glisser · {idx + 1}/{liste.length} →
+          </p>
+        </div>
         <figure class="modeles__preview">
           {ouvert && <img src={modele.preview} alt={`Affiche toute faite : ${modele.kind === 'famille' ? `famille ${modele.name}` : `${modele.name} dans toutes ses familles`}`} width={1400} height={990} decoding="async" />}
         </figure>

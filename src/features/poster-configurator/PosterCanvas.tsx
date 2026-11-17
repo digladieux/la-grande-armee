@@ -92,7 +92,11 @@ export default function PosterCanvas({ state, characters, accessories, placement
             {state.showSubtitle && state.subtitle && <span>{state.subtitle}</span>}
           </div>
 
-          {characters.length === 0 && <p class="poster-sheet__empty">Choisis tes copains →</p>}
+          {characters.length === 0 && (
+            <p class="poster-sheet__empty">
+              Choisis tes copains <span class="poster-sheet__arrow" aria-hidden="true"></span>
+            </p>
+          )}
 
           {characters.map(({ key, entry, look, src }, i) => {
             const l = entry.looks[look];

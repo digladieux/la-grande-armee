@@ -33,6 +33,8 @@ DATA = ROOT / "src/data/scenes.json"
 OBJETS_MIN = 0.03
 # Rectangles à effacer (fractions de la carte : x0, y0, x1, y1)
 EFFACER = {"guigui/botefragile": [(0.6, 0, 1, 0.2)]}
+# Tenues dont le décor n'apporte presque rien (juste la bulle et l'ombre) : pas d'option « décor »
+SANS = {"guigui/joystick"}
 
 
 def bbox(alpha, seuil=24):
@@ -74,8 +76,12 @@ def main():
         plein = PUB / slug / f"{fam}-plein.png"
         if not cutout.exists() or not plein.exists():
             continue
-        d, alpha, objets = scene(slug, fam)
         sortie = PUB / slug / f"{fam}-scene.png"
+        if key in SANS:
+            data.pop(key, None)
+            sortie.unlink(missing_ok=True)
+            continue
+        d, alpha, objets = scene(slug, fam)
         if objets < OBJETS_MIN:
             data.pop(key, None)
             sortie.unlink(missing_ok=True)

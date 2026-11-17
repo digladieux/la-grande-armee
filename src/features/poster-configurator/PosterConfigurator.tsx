@@ -400,7 +400,8 @@ export default function PosterConfigurator({ roster }: Props) {
           </button>
         </div>
 
-        {!big && renderEditBar()}
+        {/* Barre d'édition seulement quand il y a quelque chose sur l'affiche (sinon un cadre vide) */}
+        {!big && (state.selection.length > 0 || Object.keys(state.accessories).length > 0) && renderEditBar()}
       </div>
 
       {/* ── Panneau de réglages ── */}

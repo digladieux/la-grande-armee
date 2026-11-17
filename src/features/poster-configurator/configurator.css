@@ -1200,3 +1200,22 @@
   -webkit-mask-image: none;
   filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.15));
 }
+
+/* « Choisis tes copains » : flèche vers la liste (à droite sur grand écran, en dessous sur téléphone) */
+.poster-sheet__arrow::after {
+  content: '→';
+}
+@media (max-width: 980px) {
+  .poster-sheet__arrow::after {
+    content: '↓';
+  }
+}
+/* Téléphone : « Aperçu en grand » sous l'affiche, plus par-dessus */
+@media (max-width: 640px) {
+  .pc__wall {
+    gap: 12px;
+  }
+  .pc__zoom {
+    position: static;
+  }
+}

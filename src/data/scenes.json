@@ -35,12 +35,6 @@
   "dx": 0.0142,
   "dy": 0.0015
  },
- "guigui/joystick": {
-  "src": "images/personnages/guigui/joystick-scene.png",
-  "k": 1.04,
-  "dx": 0.0,
-  "dy": 0.0016
- },
  "lenoir/botefragile": {
   "src": "images/personnages/lenoir/botefragile-scene.png",
   "k": 1.1653,
