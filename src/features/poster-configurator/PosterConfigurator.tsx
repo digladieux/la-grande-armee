@@ -106,10 +106,17 @@ export default function PosterConfigurator({ roster }: Props) {
       selection.push(sel);
       layout[keyOf(sel)] = m.p;
     }
+    // Accessoires du modèle (tracteur, bière…), retrouvés par leur image
+    const accessories: Record<string, Placement> = {};
+    for (const a of r.accessories ?? []) {
+      const acc = ACCESSORIES.find((x) => a.src.endsWith(x.src));
+      if (acc) accessories[acc.id] = a.p;
+    }
     setState((s) => ({
       ...s,
       selection,
       layout,
+      accessories,
       orientation: r.orientation,
       background: r.background,
       title: r.title,
@@ -130,7 +137,11 @@ export default function PosterConfigurator({ roster }: Props) {
       const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
       return [{ src, p: { x: r2(p.x), y: r2(p.y), h: r2(p.h), z: p.z, ...(p.flip ? { flip: true } : {}) } }];
     });
-    const texte = `Retouche du modèle « ${retouche} » :\n${JSON.stringify({ modele: retouche, members })}`;
+    const accessoires = Object.entries(state.accessories).map(([id, p]) => ({
+      id,
+      p: { x: r2(p.x), y: r2(p.y), h: r2(p.h), z: p.z, ...(p.flip ? { flip: true } : {}) },
+    }));
+    const texte = `Retouche du modèle « ${retouche} » :\n${JSON.stringify({ modele: retouche, members, ...(accessoires.length ? { accessoires } : {}) })}`;
     try {
       await navigator.clipboard.writeText(texte);
     } catch {

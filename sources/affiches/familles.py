@@ -34,6 +34,17 @@ FAMILLE_DE = {**NOMS, "joystick": "Ludick", "izi-karate": "Izi Karaté"}
 # Tenues dessinées en marche vers la gauche (voir src/features/la-grande-course/sens.ts)
 GAUCHE = set(re.findall(r"'([a-z]+/[a-z-]+)'", (ROOT / "src/features/la-grande-course/sens.ts").read_text()))
 PLACEMENTS = json.loads((ROOT / "sources/affiches/familles/placements-elora.json").read_text())
+# Accessoires posés par Elora sur ses modèles : {modèle: [{id, p}]} (clé « accessoires » du fichier de placements)
+ACCESSOIRES = PLACEMENTS.get("accessoires", {})
+ACC_INFOS = {i: (label, src) for i, label, src in re.findall(r"\{ id: '([^']+)', label: '([^']+)', src: '([^']+)'", (ROOT / "src/features/poster-configurator/types.ts").read_text())}
+
+
+def accessoires(modele):
+    """Champ « accessories » de la recette (absent quand le modèle n'en a pas)."""
+    liste = [dict(name=ACC_INFOS[a["id"]][0], family="", src=ACC_INFOS[a["id"]][1], p=a["p"]) for a in ACCESSOIRES.get(modele, []) if a["id"] in ACC_INFOS]
+    return {"accessories": liste} if liste else {}
+
+
 PRENOMS = dict(re.findall(r"slug: '([a-z]+)',\s*name: '([^']+)'", (ROOT / "src/data/characters.ts").read_text()))
 
 
@@ -214,6 +225,7 @@ if __name__ == "__main__":
                 subtitle="", title="La Grande Armée", showSubtitle=False, showBrand=False,
                 members=[dict(name=prenom, family=FAMILLE_DE.get(looks_fam[m["src"]], looks_fam[m["src"]]), src=m["src"], p=m["p"])
                          for m in PLACEMENTS[f"copain-{slug}"]],
+                **accessoires(f"copain-{slug}"),
             )
     else:
         sortie = ROOT / "sources/affiches/familles/recettes.json"
@@ -231,5 +243,6 @@ if __name__ == "__main__":
                 members=[dict(name=PRENOMS.get(m["src"].split("/")[2], m["src"].split("/")[2]),
                               family=FAMILLE_DE.get(looks[m["src"]], looks[m["src"]]), src=m["src"], p=m["p"])
                          for m in PLACEMENTS[fam]],
+                **accessoires(fam),
             )
     sortie.write_text(json.dumps(recettes, indent=1, ensure_ascii=False))

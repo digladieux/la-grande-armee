@@ -768,24 +768,13 @@
   "members": [
    {
     "name": "Merlot",
-    "family": "Beauf",
-    "src": "images/personnages/merlot/beauf-cutout.png",
-    "p": {
-     "x": 16.04,
-     "y": 95.5,
-     "h": 37.36,
-     "z": 8
-    }
-   },
-   {
-    "name": "Merlot",
     "family": "Bouffetout",
     "src": "images/personnages/merlot/bouffetout-cutout.png",
     "p": {
-     "x": 39.91,
+     "x": 22.94,
      "y": 95.5,
-     "h": 60.58,
-     "z": 10
+     "h": 48.46,
+     "z": 8
     }
    },
    {
@@ -793,9 +782,20 @@
     "family": "Izi Karaté",
     "src": "images/personnages/merlot/izikarate-cutout.png",
     "p": {
-     "x": 64.83,
+     "x": 39.96,
      "y": 95.5,
-     "h": 64.61,
+     "h": 51.69,
+     "z": 9
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Minion",
+    "src": "images/personnages/merlot/mignon-cutout.png",
+    "p": {
+     "x": 53.23,
+     "y": 95.5,
+     "h": 63.26,
      "z": 10
     }
    },
@@ -804,9 +804,20 @@
     "family": "Gaulois",
     "src": "images/personnages/merlot/gaulois-cutout.png",
     "p": {
-     "x": 83.96,
+     "x": 64.72,
      "y": 95.5,
-     "h": 63.62,
+     "h": 50.9,
+     "z": 9
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Beauf",
+    "src": "images/personnages/merlot/beauf-cutout.png",
+    "p": {
+     "x": 77.06,
+     "y": 95.5,
+     "h": 29.89,
      "z": 8
     }
    }
