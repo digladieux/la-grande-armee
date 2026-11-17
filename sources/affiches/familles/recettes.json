@@ -866,11 +866,11 @@
  "mignon": {
   "v": 1,
   "orientation": "paysage",
+  "frame": "sans",
   "background": "creme",
   "couleur": "#89B9E0",
-  "frame": "sans",
-  "title": "La Grande Armée",
   "subtitle": "Famille Minion",
+  "title": "La Grande Armée",
   "showSubtitle": true,
   "showBrand": false,
   "members": [
@@ -879,10 +879,10 @@
     "family": "Minion",
     "src": "images/personnages/dim/mignon-cutout.png",
     "p": {
-     "x": 39.99,
-     "y": 95.5,
-     "h": 60.42,
-     "z": 10
+     "x": 41.22,
+     "y": 57.34,
+     "h": 13.85,
+     "z": 20
     }
    },
    {
@@ -890,10 +890,43 @@
     "family": "Minion",
     "src": "images/personnages/guigui/mignon-cutout.png",
     "p": {
-     "x": 60.01,
-     "y": 95.5,
-     "h": 62.53,
+     "x": 79.94,
+     "y": 93.38,
+     "h": 70.03,
      "z": 10
+    }
+   },
+   {
+    "name": "Dauby",
+    "family": "Minion",
+    "src": "images/personnages/dauby/mignon-cutout.png",
+    "p": {
+     "x": 23.63,
+     "y": 64.92,
+     "h": 24.63,
+     "z": 18
+    }
+   },
+   {
+    "name": "Coco",
+    "family": "Minion",
+    "src": "images/personnages/coco/mignon-cutout.png",
+    "p": {
+     "x": 30.94,
+     "y": 63.73,
+     "h": 22.08,
+     "z": 17
+    }
+   },
+   {
+    "name": "Merlot",
+    "family": "Minion",
+    "src": "images/personnages/merlot/mignon-cutout.png",
+    "p": {
+     "x": 49.57,
+     "y": 59.57,
+     "h": 27.14,
+     "z": 19
     }
    }
   ]
