@@ -29,6 +29,26 @@
   "h": 360,
   "ratio": 0.47
  },
+ "dim/mignon": {
+  "w": 211,
+  "h": 360,
+  "ratio": 0.585
+ },
+ "dim/beauf": {
+  "w": 210,
+  "h": 360,
+  "ratio": 0.585
+ },
+ "dim/troubadour": {
+  "w": 211,
+  "h": 360,
+  "ratio": 0.586
+ },
+ "dim/capdag": {
+  "w": 249,
+  "h": 360,
+  "ratio": 0.691
+ },
  "guigui/botefragile": {
   "w": 284,
   "h": 360,
@@ -59,6 +79,21 @@
   "h": 360,
   "ratio": 0.611
  },
+ "guigui/mignon": {
+  "w": 193,
+  "h": 360,
+  "ratio": 0.537
+ },
+ "guigui/beauf": {
+  "w": 446,
+  "h": 360,
+  "ratio": 1.238
+ },
+ "guigui/troubadour": {
+  "w": 196,
+  "h": 360,
+  "ratio": 0.544
+ },
  "dauby/botefragile": {
   "w": 107,
   "h": 360,
@@ -84,6 +119,21 @@
   "h": 360,
   "ratio": 0.536
  },
+ "dauby/capdag": {
+  "w": 214,
+  "h": 360,
+  "ratio": 0.594
+ },
+ "dauby/troubadour": {
+  "w": 223,
+  "h": 360,
+  "ratio": 0.619
+ },
+ "dauby/mignon": {
+  "w": 155,
+  "h": 360,
+  "ratio": 0.43
+ },
  "donne/botefragile": {
   "w": 758,
   "h": 360,
@@ -104,6 +154,11 @@
   "h": 360,
   "ratio": 0.692
  },
+ "donne/capdag": {
+  "w": 321,
+  "h": 360,
+  "ratio": 0.891
+ },
  "lenoir/botefragile": {
   "w": 415,
   "h": 360,
@@ -118,6 +173,11 @@
   "w": 311,
   "h": 360,
   "ratio": 0.865
+ },
+ "lenoir/beauf": {
+  "w": 288,
+  "h": 360,
+  "ratio": 0.8
  },
  "aubin/botefragile": {
   "w": 553,
@@ -138,6 +198,11 @@
   "w": 245,
   "h": 360,
   "ratio": 0.681
+ },
+ "aubin/capdag": {
+  "w": 275,
+  "h": 360,
+  "ratio": 0.763
  },
  "coco/botefragile": {
   "w": 150,
@@ -164,6 +229,21 @@
   "h": 360,
   "ratio": 0.696
  },
+ "coco/troubadour": {
+  "w": 300,
+  "h": 360,
+  "ratio": 0.834
+ },
+ "coco/mignon": {
+  "w": 118,
+  "h": 360,
+  "ratio": 0.328
+ },
+ "coco/beauf": {
+  "w": 315,
+  "h": 360,
+  "ratio": 0.875
+ },
  "laurent/botefragile": {
   "w": 429,
   "h": 360,
@@ -189,6 +269,11 @@
   "h": 360,
   "ratio": 0.602
  },
+ "laurent/capdag": {
+  "w": 238,
+  "h": 360,
+  "ratio": 0.662
+ },
  "merlot/gaulois": {
   "w": 161,
   "h": 360,
@@ -203,6 +288,16 @@
   "w": 288,
   "h": 360,
   "ratio": 0.8
+ },
+ "merlot/beauf": {
+  "w": 326,
+  "h": 360,
+  "ratio": 0.906
+ },
+ "merlot/mignon": {
+  "w": 134,
+  "h": 360,
+  "ratio": 0.373
  },
  "nael/botefragile": {
   "w": 149,
@@ -229,6 +324,16 @@
   "h": 360,
   "ratio": 0.559
  },
+ "nael/beauf": {
+  "w": 285,
+  "h": 360,
+  "ratio": 0.792
+ },
+ "nael/capdag": {
+  "w": 401,
+  "h": 360,
+  "ratio": 1.115
+ },
  "petit/gaulois": {
   "w": 226,
   "h": 360,
@@ -243,6 +348,11 @@
   "w": 237,
   "h": 360,
   "ratio": 0.659
+ },
+ "petit/capdag": {
+  "w": 228,
+  "h": 360,
+  "ratio": 0.633
  },
  "szabo/branquignol": {
   "w": 271,
@@ -263,6 +373,11 @@
   "w": 359,
   "h": 360,
   "ratio": 0.996
+ },
+ "turquet/botefragile": {
+  "w": 121,
+  "h": 360,
+  "ratio": 0.335
  },
  "turquet/izikarate": {
   "w": 214,
@@ -289,6 +404,16 @@
   "h": 360,
   "ratio": 0.872
  },
+ "turquet/beauf": {
+  "w": 210,
+  "h": 360,
+  "ratio": 0.583
+ },
+ "turquet/capdag": {
+  "w": 292,
+  "h": 360,
+  "ratio": 0.812
+ },
  "fred/izikarate": {
   "w": 284,
   "h": 360,
@@ -313,6 +438,21 @@
   "w": 621,
   "h": 360,
   "ratio": 1.724
+ },
+ "fred/capdag": {
+  "w": 258,
+  "h": 360,
+  "ratio": 0.717
+ },
+ "fred/troubadour": {
+  "w": 236,
+  "h": 360,
+  "ratio": 0.656
+ },
+ "fred/beauf": {
+  "w": 167,
+  "h": 360,
+  "ratio": 0.464
  },
  "hugo/joystick": {
   "w": 363,
@@ -339,120 +479,20 @@
   "h": 360,
   "ratio": 0.814
  },
- "rene/branquignol": {
-  "w": 422,
-  "h": 360,
-  "ratio": 1.171
- },
- "dim/mignon": {
-  "w": 211,
-  "h": 360,
-  "ratio": 0.585
- },
- "guigui/mignon": {
-  "w": 193,
-  "h": 360,
-  "ratio": 0.537
- },
- "dim/beauf": {
-  "w": 210,
-  "h": 360,
-  "ratio": 0.585
- },
- "guigui/beauf": {
-  "w": 446,
-  "h": 360,
-  "ratio": 1.238
- },
- "lenoir/beauf": {
-  "w": 288,
-  "h": 360,
-  "ratio": 0.8
- },
- "merlot/beauf": {
-  "w": 326,
-  "h": 360,
-  "ratio": 0.906
- },
- "nael/beauf": {
-  "w": 285,
-  "h": 360,
-  "ratio": 0.792
- },
- "turquet/beauf": {
-  "w": 210,
-  "h": 360,
-  "ratio": 0.583
- },
- "dauby/capdag": {
-  "w": 214,
-  "h": 360,
-  "ratio": 0.594
- },
- "donne/capdag": {
-  "w": 321,
-  "h": 360,
-  "ratio": 0.891
- },
- "fred/capdag": {
-  "w": 258,
-  "h": 360,
-  "ratio": 0.717
- },
- "laurent/capdag": {
-  "w": 238,
-  "h": 360,
-  "ratio": 0.662
- },
- "nael/capdag": {
-  "w": 401,
-  "h": 360,
-  "ratio": 1.115
- },
- "petit/capdag": {
-  "w": 228,
-  "h": 360,
-  "ratio": 0.633
- },
  "theo/capdag": {
   "w": 232,
   "h": 360,
   "ratio": 0.644
  },
- "turquet/capdag": {
-  "w": 292,
-  "h": 360,
-  "ratio": 0.812
- },
- "coco/troubadour": {
-  "w": 300,
-  "h": 360,
-  "ratio": 0.834
- },
- "dauby/troubadour": {
-  "w": 223,
-  "h": 360,
-  "ratio": 0.619
- },
- "dim/troubadour": {
-  "w": 211,
-  "h": 360,
-  "ratio": 0.586
- },
- "fred/troubadour": {
-  "w": 236,
-  "h": 360,
-  "ratio": 0.656
- },
- "guigui/troubadour": {
-  "w": 196,
-  "h": 360,
-  "ratio": 0.544
- },
  "theo/troubadour": {
   "w": 244,
   "h": 360,
   "ratio": 0.677
+ },
+ "rene/branquignol": {
+  "w": 422,
+  "h": 360,
+  "ratio": 1.171
  },
  "momo/botefragile": {
   "w": 273,
@@ -478,20 +518,5 @@
   "w": 314,
   "h": 360,
   "ratio": 0.871
- },
- "turquet/botefragile": {
-  "w": 121,
-  "h": 360,
-  "ratio": 0.335
- },
- "dim/capdag": {
-  "w": 249,
-  "h": 360,
-  "ratio": 0.691
- },
- "aubin/capdag": {
-  "w": 275,
-  "h": 360,
-  "ratio": 0.763
  }
 }

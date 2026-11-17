@@ -285,6 +285,12 @@ export const characters: Character[] = [
         cutout: 'images/personnages/dauby/troubadour-cutout.png',
         video: 'images/personnages/dauby/troubadour-anim.mp4',
       },
+      {
+        family: 'mignon',
+        image: 'images/personnages/dauby/mignon-blanc.png',
+        bust: { cx: 47, cy: 40, zoom: 2.1 },
+        cutout: 'images/personnages/dauby/mignon-cutout.png',
+      },
     ],
   },
   {
@@ -473,6 +479,18 @@ export const characters: Character[] = [
         cutout: 'images/personnages/coco/troubadour-cutout.png',
         video: 'images/personnages/coco/troubadour-anim.mp4',
       },
+      {
+        family: 'mignon',
+        image: 'images/personnages/coco/mignon-blanc.png',
+        bust: { cx: 39, cy: 41, zoom: 2.4 },
+        cutout: 'images/personnages/coco/mignon-cutout.png',
+      },
+      {
+        family: 'beauf',
+        image: 'images/personnages/coco/beauf-blanc.png',
+        bust: { cx: 49, cy: 42, zoom: 2.1 },
+        cutout: 'images/personnages/coco/beauf-cutout.png',
+      },
     ],
   },
   {
@@ -565,6 +583,12 @@ export const characters: Character[] = [
         image: 'images/personnages/merlot/beauf-blanc.png',
         bust: { cx: 51, cy: 62, zoom: 2.4 },
         cutout: 'images/personnages/merlot/beauf-cutout.png',
+      },
+      {
+        family: 'mignon',
+        image: 'images/personnages/merlot/mignon-blanc.png',
+        bust: { cx: 54, cy: 36, zoom: 1.5 },
+        cutout: 'images/personnages/merlot/mignon-cutout.png',
       },
     ],
   },
@@ -837,6 +861,12 @@ export const characters: Character[] = [
         bust: { cx: 43, cy: 39, zoom: 2.4 },
         cutout: 'images/personnages/fred/troubadour-cutout.png',
         video: 'images/personnages/fred/troubadour-anim.mp4',
+      },
+      {
+        family: 'beauf',
+        image: 'images/personnages/fred/beauf-blanc.png',
+        bust: { cx: 54, cy: 36, zoom: 1.9 },
+        cutout: 'images/personnages/fred/beauf-cutout.png',
       },
     ],
   },

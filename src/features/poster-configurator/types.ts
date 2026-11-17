@@ -112,6 +112,8 @@ export const ACCESSORIES: Accessory[] = [
   { id: 'renault-r5', label: 'Renault 5', src: 'images/accessoires/renault-r5.png', h: 14 },
   { id: 'tracteur', label: 'Tracteur', src: 'images/accessoires/tracteur.png', h: 18 },
   { id: 'ceinture-judo', label: 'Ceinture de judo', src: 'images/accessoires/ceinture-judo.png', h: 7 },
+  { id: 'bouteilles', label: 'Bouteilles', src: 'images/accessoires/bouteilles.png', h: 9 },
+  { id: 'francois-damiens', label: 'François Damiens', src: 'images/accessoires/francois-damiens.png', h: 34 },
 ];
 
 
