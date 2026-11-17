@@ -123,6 +123,33 @@ def fond_prolonge(m):
     return Image.fromarray((255 - (255 - c) * garde).clip(0, 255).astype(np.uint8))
 
 
+def fond_bords(decor):
+    """Fond étendu pour une carte dont le fond n'est pas un halo rond (mur, lumière…) : les couleurs du bord
+    de la carte prolongées vers l'extérieur (très floues), estompées vers le blanc."""
+    w, h = W // ECHELLE, H // ECHELLE
+    mx, my = round(w * MARGE_X), round(h * MARGE_Y)
+    petit = np.asarray(decor.convert("RGB").resize((w, h), Image.BOX), dtype=np.float32)
+    # bande de bord (6 %), moyennée, pour ne pas reprendre un trait du dessin qui touche le bord
+    k = max(2, round(w * 0.06))
+    bord = np.asarray(Image.fromarray(petit.astype(np.uint8)).filter(ImageFilter.BoxBlur(k)), dtype=np.float32)
+    X = np.clip(np.arange(w + 2 * mx) - mx, k, w - 1 - k)
+    Y = np.clip(np.arange(h + 2 * my) - my, k, h - 1 - k)
+    net = bord[Y[:, None], X[None, :]]
+    flou = np.asarray(Image.fromarray(net.clip(0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(w * 0.15)), dtype=np.float32)
+    xs = (np.arange(w + 2 * mx)[None, :] - mx + 0.5) / w
+    ys = (np.arange(h + 2 * my)[:, None] - my + 0.5) / h
+    dx = np.maximum(np.maximum(-xs, xs - 1), 0)
+    dy = np.maximum(np.maximum(-ys, ys - 1), 0) * H / W
+    # raccord net contre la carte, de plus en plus flou en s'éloignant
+    t = np.clip(np.sqrt(dx * dx + dy * dy) / 0.3, 0, 1)[..., None]
+    c = net * (1 - t) + flou * t
+    garde = np.exp(-((dx * dx + dy * dy) / ESTOMPE ** 2))[..., None]
+    out = 255 - (255 - c) * garde
+    # la carte elle-même au centre (raccord exact)
+    out[my:my + h, mx:mx + w] = petit
+    return Image.fromarray(out.clip(0, 255).astype(np.uint8))
+
+
 def lisser(slug, fam, m=None):
     chemin = PUB / slug / f"{fam}-decor.webp"
     decor = Image.open(chemin).convert("RGB")
@@ -146,8 +173,11 @@ def lisser(slug, fam, m=None):
     poids[ombre] = 0
     poids = np.asarray(Image.fromarray((poids * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2)), dtype=np.float32)[..., None] / 255
     r = a * (1 - poids) + lisse * poids
-    Image.fromarray(r.clip(0, 255).astype(np.uint8)).save(chemin, quality=90, method=6)
-    fond_prolonge(m).save(PUB / slug / f"{fam}-fond.webp", quality=85)
+    lisse_carte = Image.fromarray(r.clip(0, 255).astype(np.uint8))
+    lisse_carte.save(chemin, quality=90, method=6)
+    # fond qui n'est pas un halo rond (mur, lumière…) : on prolonge les bords de la carte elle-même
+    fond = fond_bords(lisse_carte) if m.get("score", 0) >= SCORE_DECOR else fond_prolonge(m)
+    fond.save(PUB / slug / f"{fam}-fond.webp", quality=85)
     return m
 
 
