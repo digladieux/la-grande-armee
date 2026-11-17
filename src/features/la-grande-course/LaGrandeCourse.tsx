@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
+import panneaux from '../../data/panneaux.json';
 import { Engine, loadSprite, type ActionMode, type PropName, type Sprite } from './engine';
 import type { CourseCharacter, CourseLook } from './types';
 import { melanger } from '../../lib/melanger';
@@ -112,6 +113,11 @@ export default function LaGrandeCourse({ roster }: Props) {
     for (const [prop, file] of props) {
       loadSprite(`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}images/accessoires/${file}.png`)
         .then((sprite) => engine.setPropSprite(prop, sprite))
+        .catch(() => {});
+    }
+    for (const file of panneaux) {
+      loadSprite(`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}${file}`)
+        .then((sprite) => engine.addPanneau(sprite))
         .catch(() => {});
     }
     engineRef.current = engine;

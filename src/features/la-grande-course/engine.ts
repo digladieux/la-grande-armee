@@ -155,6 +155,11 @@ export class Engine {
 
   private propSprites: Partial<Record<PropName, Sprite>> = {};
   /** Dessin définitif d'un accessoire (remplace le dessin vectoriel provisoire). */
+  /** Pancartes de manif découpées dans les cartes Gaucho Facho (scripts/panneaux.py) : une au hasard. */
+  private panneaux: Sprite[] = [];
+  addPanneau(sprite: Sprite) {
+    this.panneaux.push(sprite);
+  }
   setPropSprite(prop: PropName, sprite: Sprite) {
     this.propSprites[prop] = sprite;
   }
@@ -302,7 +307,7 @@ export class Engine {
         this.score > 300 ? ['biere', 'panneau', 'tracteur', 'r5', 'ceinture'] : ['biere', 'biere', 'panneau', 'ceinture']
       ).filter((p) => (p !== 'r5' && p !== 'ceinture') || this.propSprites[p as PropName]) as PropName[];
       const prop = pick(choices);
-      const sprite = this.propSprites[prop];
+      const sprite = prop === 'panneau' && this.panneaux.length ? pick(this.panneaux) : this.propSprites[prop];
       const h = { biere: 0.3, panneau: 0.66, tracteur: 0.56, r5: 0.42, ceinture: 0.17 }[prop];
       const w = sprite ? (h * sprite.img.naturalWidth) / sprite.img.naturalHeight : prop === 'biere' ? 0.22 : prop === 'panneau' ? 0.55 : 1.1;
       this.obstacles.push({ kind: 'prop', prop, sprite, x, y: G - h * P, w: w * P, h: h * P, spin: 0 });
