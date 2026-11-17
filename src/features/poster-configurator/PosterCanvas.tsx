@@ -11,7 +11,7 @@ import type { Placement, PosterState, RosterEntry } from './types';
 interface Props {
   state: PosterState;
   /** key = clé du calque (voir keyOf). */
-  characters: { key: string; entry: RosterEntry; look: number }[];
+  characters: { key: string; entry: RosterEntry; look: number; src?: string }[];
   /** Accessoires posés (key = clé dans placements, src = URL finale). */
   accessories: { key: string; label: string; src: string }[];
   placements: Record<string, Placement>;
@@ -94,7 +94,7 @@ export default function PosterCanvas({ state, characters, accessories, placement
 
           {characters.length === 0 && <p class="poster-sheet__empty">Choisis tes copains →</p>}
 
-          {characters.map(({ key, entry, look }, i) => {
+          {characters.map(({ key, entry, look, src }, i) => {
             const l = entry.looks[look];
             const p = placements[key];
             if (!p) return null;
@@ -120,9 +120,9 @@ export default function PosterCanvas({ state, characters, accessories, placement
                 aria-pressed={selected === key}
               >
                 <img
-                  class={`poster-member__img ${l.cutout ? 'is-cutout' : 'is-flat'}`}
+                  class={`poster-member__img ${src || l.cutout ? 'is-cutout' : 'is-flat'}`}
                   style={{ transform: p.flip ? 'scaleX(-1)' : undefined }}
-                  src={l.cutout ?? l.image}
+                  src={src ?? l.cutout ?? l.image}
                   alt=""
                   draggable={false}
                 />

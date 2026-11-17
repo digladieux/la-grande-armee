@@ -10,6 +10,7 @@ import { families } from '@/data/families';
 import { cropTransform } from '@/lib/crop';
 import { url } from '@/lib/url';
 import { pngSize } from '@/lib/png-size';
+import scenes from '../data/scenes.json';
 
 /** Hauteur des illustrations d'origine (cartes du jeu). */
 const CARD_HEIGHT = 1068;
@@ -33,6 +34,17 @@ const roster: RosterEntry[] = [...characters]
       cutoutScale: l.cutout ? (pngSize(l.cutout)?.height ?? CARD_HEIGHT) / (pngSize(l.image)?.height ?? CARD_HEIGHT) : undefined,
       // Largeur / hauteur du détourage (pour la disposition automatique de l'affiche)
       cutoutRatio: l.cutout ? ((s) => (s ? s.width / s.height : 0.6))(pngSize(l.cutout)) : undefined,
+      scene: ((sc) =>
+        sc
+          ? {
+              src: url(`/${sc.src}`),
+              scale: (pngSize(sc.src)?.height ?? CARD_HEIGHT) / (pngSize(l.image)?.height ?? CARD_HEIGHT),
+              ratio: ((z) => (z ? z.width / z.height : 1))(pngSize(sc.src)),
+              k: sc.k,
+              dx: sc.dx,
+              dy: sc.dy,
+            }
+          : undefined)((scenes as Record<string, { src: string; k: number; dx: number; dy: number }>)[`${c.slug}/${l.image.split('/').pop()!.replace('-blanc.png', '')}`]),
       whiteBg: l.whiteBg,
     })),
   }));

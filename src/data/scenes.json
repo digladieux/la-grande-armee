@@ -1,0 +1,74 @@
+{
+ "dauby/branquignol": {
+  "src": "images/personnages/dauby/branquignol-scene.png",
+  "k": 1.0401,
+  "dx": -0.1881,
+  "dy": 0.0379
+ },
+ "dim/bouffetout": {
+  "src": "images/personnages/dim/bouffetout-scene.png",
+  "k": 1.1145,
+  "dx": 0.1672,
+  "dy": 0.025
+ },
+ "donne/botefragile": {
+  "src": "images/personnages/donne/botefragile-scene.png",
+  "k": 1.6782,
+  "dx": -0.1645,
+  "dy": 0.1145
+ },
+ "donne/branquignol": {
+  "src": "images/personnages/donne/branquignol-scene.png",
+  "k": 1.2562,
+  "dx": -0.1561,
+  "dy": 0.0395
+ },
+ "fred/branquignol": {
+  "src": "images/personnages/fred/branquignol-scene.png",
+  "k": 1.467,
+  "dx": -0.1106,
+  "dy": 0.0288
+ },
+ "guigui/botefragile": {
+  "src": "images/personnages/guigui/botefragile-scene.png",
+  "k": 1.0614,
+  "dx": 0.0142,
+  "dy": 0.0015
+ },
+ "guigui/joystick": {
+  "src": "images/personnages/guigui/joystick-scene.png",
+  "k": 1.04,
+  "dx": 0.0,
+  "dy": 0.0016
+ },
+ "lenoir/botefragile": {
+  "src": "images/personnages/lenoir/botefragile-scene.png",
+  "k": 1.1653,
+  "dx": 0.0132,
+  "dy": 0.0343
+ },
+ "szabo/branquignol": {
+  "src": "images/personnages/szabo/branquignol-scene.png",
+  "k": 1.09,
+  "dx": -0.1371,
+  "dy": 0.0016
+ },
+ "theo/branquignol": {
+  "src": "images/personnages/theo/branquignol-scene.png",
+  "k": 1.0127,
+  "dx": 0.0107,
+  "dy": 0.0107
+ },
+ "turquet/botefragile": {
+  "src": "images/personnages/turquet/botefragile-scene.png",
+  "k": 1.0792,
+  "dx": 0.0884,
+  "dy": 0.0472
+ },
+ "turquet/gaulois": {
+  "src": "images/personnages/turquet/gaulois-scene.png",
+  "k": 1.4457,
+  "dx": -0.0782,
+  "dy": 0.4437
+ }
+}

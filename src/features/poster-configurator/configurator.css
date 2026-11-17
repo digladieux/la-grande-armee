@@ -1178,3 +1178,25 @@
   text-transform: uppercase;
   cursor: pointer;
 }
+
+/* « Avec le décor de la carte » (tenues dont la carte a des objets : voiture, porte…) */
+.pc__decor {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pc__decor input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.pc__hero-img--scene {
+  mix-blend-mode: normal;
+  mask-image: none;
+  -webkit-mask-image: none;
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.15));
+}

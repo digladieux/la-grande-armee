@@ -223,7 +223,7 @@ if __name__ == "__main__":
             recettes[slug] = dict(
                 v=1, orientation="paysage", frame="sans", background="bandes",
                 subtitle="", title="La Grande Armée", showSubtitle=False, showBrand=False,
-                members=[dict(name=prenom, family=FAMILLE_DE.get(looks_fam[m["src"]], looks_fam[m["src"]]), src=m["src"], p=m["p"])
+                members=[dict(name=prenom, family=FAMILLE_DE.get(looks_fam[m["src"].replace("-scene.png", "-cutout.png")], looks_fam[m["src"].replace("-scene.png", "-cutout.png")]), src=m["src"], p=m["p"])
                          for m in PLACEMENTS[f"copain-{slug}"]],
                 **accessoires(f"copain-{slug}"),
             )
@@ -241,7 +241,7 @@ if __name__ == "__main__":
                 v=1, orientation="paysage", frame="sans", background="creme", couleur=COULEURS[fam],
                 subtitle=f"Famille {NOMS[fam]}", title="La Grande Armée", showSubtitle=True, showBrand=False,
                 members=[dict(name=PRENOMS.get(m["src"].split("/")[2], m["src"].split("/")[2]),
-                              family=FAMILLE_DE.get(looks[m["src"]], looks[m["src"]]), src=m["src"], p=m["p"])
+                              family=FAMILLE_DE.get(looks[m["src"].replace("-scene.png", "-cutout.png")], looks[m["src"].replace("-scene.png", "-cutout.png")]), src=m["src"], p=m["p"])
                          for m in PLACEMENTS[fam]],
                 **accessoires(fam),
             )

@@ -12,12 +12,11 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 interface Props {
   src: string;
   alt: string;
-  walk?: boolean;
 }
 
 const THICKNESS = 6; // épaisseur du carton, en px
 
-export default function Standee({ src, alt, walk }: Props) {
+export default function Standee({ src, alt }: Props) {
   const [angle, setAngle] = useState(0);
   const [animating, setAnimating] = useState(false);
   const drag = useRef<{ x: number; start: number; moved: boolean; lastX: number; lastT: number; v: number } | null>(null);
@@ -88,7 +87,8 @@ export default function Standee({ src, alt, walk }: Props) {
 
   return (
     <div class="standee">
-      <div class={walk ? 'standee__walk anim-walk' : 'standee__walk'}>
+      {/* Petit rebond sur place : le copain choisi est « vivant » (le même pour tous) */}
+      <div class="standee__walk anim-rebond">
         <div
           class={`standee__body ${animating ? 'is-animating' : ''}`}
           style={{ transform: `perspective(1000px) rotateY(${angle}deg)` }}

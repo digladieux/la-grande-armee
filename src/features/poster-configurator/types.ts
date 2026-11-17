@@ -16,7 +16,20 @@ export interface RosterLook {
   cutoutScale?: number;
   /** Largeur / hauteur du détourage. */
   cutoutRatio?: number;
+  /** « Avec le décor de la carte » : personnage + objets de sa carte (voiture, porte…), voir scripts/scenes.py. */
+  scene?: SceneLook;
   whiteBg?: boolean;
+}
+
+export interface SceneLook {
+  src: string;
+  /** Comme cutoutScale / cutoutRatio, pour la scène. */
+  scale: number;
+  ratio: number;
+  /** Calage sur le détourage seul : hauteur ×k, centre décalé de dx, bas décalé de dy (en hauteurs de détourage). */
+  k: number;
+  dx: number;
+  dy: number;
 }
 
 export interface RosterEntry {
@@ -34,6 +47,8 @@ export interface Selection {
    * « slug~n » pour une tenue de plus du même copain (affiche « toutes ses tenues »).
    */
   key?: string;
+  /** Avec le décor de sa carte (si la tenue en a un). */
+  decor?: boolean;
 }
 
 /** Clé d'un copain posé sur l'affiche. */

@@ -14,7 +14,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Placement, PosterState, RosterEntry, Selection } from './types';
 import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHARACTERS, ORIENTATIONS, keyOf } from './types';
 import PosterCanvas from './PosterCanvas';
-import { ALIGNED_MAX, autoLayout } from './layout';
+import { autoLayout } from './layout';
 import Standee from './Standee';
 import { ajouterAuPanier } from '../commande/panier';
 import { decodeRecette, type Recette } from '../commande/recette';
@@ -37,18 +37,8 @@ type StepId = (typeof STEPS)[number]['id'];
 const ACC = 'acc:';
 const accessoryById = new Map(ACCESSORIES.map((a) => [a.id, a]));
 
-/** Copains debout d'abord (tenue par défaut peu large) : affiche de départ bien alignée. */
-function defaultSelection(roster: RosterEntry[], count: number): Selection[] {
-  const playable = roster.filter((r) => r.looks.length);
-  const standing = playable.filter((r) => (r.looks[0].cutoutRatio ?? 0.6) < 0.9);
-  const others = playable.filter((r) => !standing.includes(r));
-  return [...standing, ...others].slice(0, count).map((r) => ({ slug: r.slug, look: 0 }));
-}
-
 export default function PosterConfigurator({ roster }: Props) {
   const playable = roster.filter((r) => r.looks.length);
-  /** Tant que l'utilisateur n'a pas choisi ses copains, l'affiche de départ suit l'orientation. */
-  const [pickedByUser, setPickedByUser] = useState(false);
   const [step, setStep] = useState<StepId>('bande');
   // Parcours guidé : on avance étape par étape ; une étape n'est accessible qu'une fois les précédentes vues
   const [reached, setReached] = useState(0);
@@ -68,8 +58,8 @@ export default function PosterConfigurator({ roster }: Props) {
   /** Tenue affichée pour chaque copain (même s'il n'est pas encore sur l'affiche). */
   const [looks, setLooks] = useState<Record<string, number>>({});
   const [state, setState] = useState<PosterState>({
-    // Affiche de départ : 3 copains debout, alignés (5 en paysage)
-    selection: defaultSelection(roster, ALIGNED_MAX.portrait),
+    // Affiche de départ vide : « Choisis tes copains → » invite à cliquer sur un copain
+    selection: [],
     background: 'bandes',
     // Seule l'affiche est fournie : le cadre n'est qu'un aperçu, désactivé par défaut
     frame: 'sans',
@@ -99,10 +89,11 @@ export default function PosterConfigurator({ roster }: Props) {
     for (const m of r.members) {
       const slug = m.src.split('/')[2];
       const entry = bySlug.get(slug);
-      const look = entry?.looks.findIndex((l) => (l.cutout ?? l.image).endsWith(m.src)) ?? -1;
+      const decor = m.src.endsWith('-scene.png');
+      const look = entry?.looks.findIndex((l) => (decor ? l.scene?.src : l.cutout ?? l.image)?.endsWith(m.src)) ?? -1;
       if (!entry || look < 0) continue;
       const n = selection.filter((x) => x.slug === slug).length;
-      const sel: Selection = n ? { slug, look, key: `${slug}~${n + 1}` } : { slug, look };
+      const sel: Selection = { slug, look, ...(n ? { key: `${slug}~${n + 1}` } : {}), ...(decor ? { decor } : {}) };
       selection.push(sel);
       layout[keyOf(sel)] = m.p;
     }
@@ -124,7 +115,6 @@ export default function PosterConfigurator({ roster }: Props) {
       showSubtitle: r.showSubtitle,
       showBrand: r.showBrand,
     }));
-    setPickedByUser(true);
     setReached(STEPS.length - 1);
     setRetouche(id);
   }, []);
@@ -134,7 +124,7 @@ export default function PosterConfigurator({ roster }: Props) {
       const look = bySlug.get(s.slug)?.looks[s.look];
       const p = placements[keyOf(s)];
       if (!look || !p) return [];
-      const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
+      const src = visuel(s).src.replace(base, '').replace(/^\//, '');
       return [{ src, p: { x: r2(p.x), y: r2(p.y), h: r2(p.h), z: p.z, ...(p.flip ? { flip: true } : {}) } }];
     });
     const accessoires = Object.entries(state.accessories).map(([id, p]) => ({
@@ -156,6 +146,12 @@ export default function PosterConfigurator({ roster }: Props) {
   /** Tenues de ce copain déjà sur l'affiche. */
   const instances = (slug: string) => state.selection.filter((s) => s.slug === slug);
   const lookOnPoster = (slug: string, look: number) => state.selection.find((s) => s.slug === slug && s.look === look);
+  /** Image posée sur l'affiche : le détourage, ou la scène « avec le décor de la carte ». */
+  const visuel = (s: Selection) => {
+    const l = bySlug.get(s.slug)!.looks[s.look];
+    if (s.decor && l.scene) return { src: l.scene.src, scale: l.scene.scale, ratio: l.scene.ratio };
+    return { src: l.cutout ?? l.image, scale: l.cutoutScale ?? 0.65, ratio: l.cutoutRatio ?? 0.6 };
+  };
   /** Copain d'un calque (clé « slug » ou « slug~n »). */
   const slugOf = (key: string) => key.split('~')[0];
   const max = MAX_CHARACTERS[state.orientation];
@@ -187,8 +183,8 @@ export default function PosterConfigurator({ roster }: Props) {
     () =>
       autoLayout(
         state.selection.map((s) => {
-          const l = bySlug.get(s.slug)!.looks[s.look];
-          return { slug: keyOf(s), scale: l.cutoutScale ?? 0.65, ratio: l.cutoutRatio ?? 0.6 };
+          const v = visuel(s);
+          return { slug: keyOf(s), scale: v.scale, ratio: v.ratio };
         }),
         state.orientation,
       ),
@@ -251,24 +247,22 @@ export default function PosterConfigurator({ roster }: Props) {
     update({
       orientation,
       layout: null,
-      ...(pickedByUser ? {} : { selection: defaultSelection(roster, ALIGNED_MAX[orientation]) }),
     });
 
   /** Retire un calque copain (clé) de l'affiche. */
   const removeKey = (key: string) => {
-    setPickedByUser(true);
     update({ selection: state.selection.filter((s) => keyOf(s) !== key) });
     if (selected === key) setSelected(undefined);
   };
   /** Ajoute une tenue d'un copain (une tenue de plus si le copain est déjà sur l'affiche). */
   const addLook = (slug: string, look: number) => {
     if (full || lookOnPoster(slug, look)) return;
-    setPickedByUser(true);
     const keys = new Set(state.selection.map(keyOf));
     let n = 1;
     while (keys.has(`${slug}~${n}`)) n++;
     const key = keys.has(slug) || instances(slug).length ? `${slug}~${n}` : undefined;
-    update({ selection: [...state.selection, { slug, look, ...(key ? { key } : {}) }] });
+    const decor = !!decors[`${slug}:${look}`] && !!bySlug.get(slug)?.looks[look].scene;
+    update({ selection: [...state.selection, { slug, look, ...(key ? { key } : {}), ...(decor ? { decor } : {}) }] });
   };
   /** Ajoute / retire la tenue affichée de ce copain. */
   const togglePoster = (slug: string) => {
@@ -278,8 +272,29 @@ export default function PosterConfigurator({ roster }: Props) {
     else addLook(slug, look);
   };
   /** Le copain est sur l'affiche avec une autre tenue : il prend celle affichée (même place). */
+  /** « Avec le décor de la carte », choisi tenue par tenue (avant ou après l'avoir posée sur l'affiche). */
+  const [decors, setDecors] = useState<Record<string, boolean>>({});
+  const decorOf = (slug: string, look: number) => lookOnPoster(slug, look)?.decor ?? decors[`${slug}:${look}`] ?? false;
+  const toggleDecor = (slug: string, look: number) => {
+    const on = !decorOf(slug, look);
+    setDecors((d) => ({ ...d, [`${slug}:${look}`]: on }));
+    const there = lookOnPoster(slug, look);
+    const sc = bySlug.get(slug)?.looks[look].scene;
+    if (!there || !sc) return;
+    const key = keyOf(there);
+    // Le personnage reste à sa place : la scène est calée sur lui (même taille, mêmes pieds)
+    let layout = state.layout;
+    const p = layout?.[key];
+    if (layout && p) {
+      const r = state.orientation === 'portrait' ? 1.414 : 1 / 1.414; // hauteur / largeur de la feuille
+      const q = on
+        ? { ...p, h: p.h * sc.k, y: p.y + sc.dy * p.h, x: p.x + sc.dx * p.h * r * (p.flip ? -1 : 1) }
+        : ((h) => ({ ...p, h, y: p.y - sc.dy * h, x: p.x - sc.dx * h * r * (p.flip ? -1 : 1) }))(p.h / sc.k);
+      layout = { ...layout, [key]: q };
+    }
+    update({ selection: state.selection.map((s) => (keyOf(s) === key ? { ...s, decor: on } : s)), layout });
+  };
   const replaceLook = (slug: string) => {
-    setPickedByUser(true);
     const look = looks[slug] ?? 0;
     update({ selection: state.selection.map((s) => (s.slug === slug ? { ...s, look } : s)) });
   };
@@ -300,7 +315,7 @@ export default function PosterConfigurator({ roster }: Props) {
         const look = entry?.looks[s.look];
         const p = placements[keyOf(s)];
         if (!entry || !look || !p) return [];
-        const src = (look.cutout ?? look.image).replace(base, '').replace(/^\//, '');
+        const src = visuel(s).src.replace(base, '').replace(/^\//, '');
         return [{ name: entry.name, family: look.familyName, src, p }];
       }),
       accessories: Object.entries(state.accessories).flatMap(([id, p]) => {
@@ -316,7 +331,7 @@ export default function PosterConfigurator({ roster }: Props) {
   const renderCanvas = () => (
     <PosterCanvas
       state={state}
-      characters={state.selection.map((s: Selection) => ({ key: keyOf(s), entry: bySlug.get(s.slug)!, look: s.look }))}
+      characters={state.selection.map((s: Selection) => ({ key: keyOf(s), entry: bySlug.get(s.slug)!, look: s.look, src: visuel(s).src }))}
       accessories={Object.keys(state.accessories).flatMap((id) => {
         const a = accessoryById.get(id);
         return a ? [{ key: ACC + id, label: a.label, src: base + a.src }] : [];
@@ -414,12 +429,15 @@ export default function PosterConfigurator({ roster }: Props) {
             <section>
               {current && (
                 <div class="pc__showcase" style={{ '--c': current.looks[currentLook].familyBg }}>
-                  {current.looks[currentLook].cutout ? (
+                  {current.looks[currentLook].scene && decorOf(current.slug, currentLook) ? (
+                    <div key={`${current.slug}-${currentLook}-decor`} class="pc__hero">
+                      <img class="pc__hero-img pc__hero-img--scene anim-rebond" src={current.looks[currentLook].scene!.src} alt={`${current.name}, famille ${current.looks[currentLook].familyName}, avec le décor de sa carte`} />
+                    </div>
+                  ) : current.looks[currentLook].cutout ? (
                     <div key={`${current.slug}-${currentLook}`} class="pc__hero">
                       <Standee
                         src={current.looks[currentLook].cutout!}
                         alt={`${current.name}, famille ${current.looks[currentLook].familyName}`}
-                        walk={current.looks[currentLook].animation === 'walk'}
                       />
                     </div>
                   ) : (
@@ -446,6 +464,12 @@ export default function PosterConfigurator({ roster }: Props) {
                         ›
                       </button>
                     </div>
+                    {current.looks[currentLook].scene && (
+                      <label class="pc__decor">
+                        <input type="checkbox" checked={decorOf(current.slug, currentLook)} onChange={() => toggleDecor(current.slug, currentLook)} />
+                        Avec le décor de la carte
+                      </label>
+                    )}
                     {lookOnPoster(current.slug, currentLook) ? (
                       <button type="button" class="pc__toggle is-on" onClick={() => togglePoster(current.slug)}>
                         ✓ Sur l’affiche — retirer
