@@ -591,7 +591,7 @@ export default function PosterConfigurator({ roster }: Props) {
                           <path d="M40 40 C 30 36, 14 28, 10 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
                           <path d="M3 14 L 10 4 L 18 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Ciel… avoue, tu l'as chantée 🎶
+                        Avoue, tu l'as chantée 🎶
                       </span>
                     </span>
                   );
