@@ -33,6 +33,8 @@ SRC = ROOT / "sources/personnages"
 CHEVEUX = {"dauby/gaulois"}
 # Rectangles (fractions de la carte) où le dessin transparent est rendu opaque d'après la carte
 FORCER = {"lenoir/ludick": [(0.32, 0.355, 0.43, 0.43)]}
+# Rectangles où le blanc opaque est un trou (carte d'origine trop pâle pour le voir : Izi Karaté)
+VIDER = {"turquet/izikarate": [(0.44, 0.6, 0.58, 0.87)]}
 
 
 def corriger(slug, fam):
@@ -93,6 +95,18 @@ def corriger(slug, fam):
         z = np.zeros_like(remplir)
         z[int(y0 * h):int(y1 * h), int(x0 * w):int(x1 * w)] = True
         remplir |= z & (al < 230) & (np.abs(d - lisse).max(2) > 35)
+
+    if f"{slug}/{fam}" in VIDER:
+        # zones blanches (séparées du dessin par un trait) presque entièrement dans le rectangle
+        blanc_v = ((al > 0) & (p[..., :3].min(2) >= 232)).astype(np.uint8)
+        nv, labv, stv, _ = cv2.connectedComponentsWithStats(blanc_v, 4)
+        for x0, y0, x1, y1 in VIDER[f"{slug}/{fam}"]:
+            z = np.zeros(al.shape, bool)
+            z[int(y0 * h):int(y1 * h), int(x0 * w):int(x1 * w)] = True
+            dedans = np.bincount(labv[z], minlength=nv) / np.maximum(stv[:, cv2.CC_STAT_AREA], 1)
+            ok = dedans > 0.8
+            ok[0] = False
+            vider |= ok[labv]
 
     if not vider.any() and not remplir.any():
         return 0, 0

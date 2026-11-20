@@ -172,7 +172,7 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
             ))}
           </ul>
           <p class="modeles__swipe-hint hand">
-            ← Fais glisser · {idx + 1}/{liste.length} →
+            ← Glisse pour voir les autres modèles →
           </p>
         </div>
         <figure class="modeles__preview">
