@@ -568,18 +568,34 @@ export default function PosterConfigurator({ roster }: Props) {
             <section>
               <h4 class="pc__label">Fond de l'affiche</h4>
               <div class="pc__swatches">
-                {BACKGROUNDS.map((b) => (
-                  <button
-                    key={b.id}
-                    type="button"
-                    class={`pc__swatch pc__swatch--${b.id}`}
-                    aria-pressed={state.background === b.id}
-                    onClick={() => update({ background: b.id })}
-                  >
-                    <span class="pc__swatch-color" />
-                    {b.label}
-                  </button>
-                ))}
+                {BACKGROUNDS.map((b) => {
+                  const bouton = (
+                    <button
+                      key={b.id}
+                      type="button"
+                      class={`pc__swatch pc__swatch--${b.id}`}
+                      aria-pressed={state.background === b.id}
+                      onClick={() => update({ background: b.id })}
+                    >
+                      <span class="pc__swatch-color" />
+                      {b.label}
+                    </button>
+                  );
+                  if (b.id !== 'ciel') return bouton;
+                  // Clin d'œil de la bande : « Ciel » de Gims, qu'ils chantent à chaque soirée
+                  return (
+                    <span key={b.id} class="pc__ciel">
+                      {bouton}
+                      <span class="pc__ciel-note hand" aria-hidden="true">
+                        <svg viewBox="0 0 50 44" width="34" height="30">
+                          <path d="M40 40 C 30 36, 14 28, 10 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                          <path d="M3 14 L 10 4 L 18 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Ciel… avoue, tu l'as chantée 🎶
+                      </span>
+                    </span>
+                  );
+                })}
               </div>
             </section>
           )}

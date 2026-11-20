@@ -1237,3 +1237,29 @@
   -webkit-user-drag: none;
   pointer-events: none;
 }
+
+/* Étape Style : clin d'œil sous le fond « Ciel » (la chanson de Gims que la bande chante) */
+.pc__swatches:has(.pc__ciel) {
+  padding-bottom: 54px;
+}
+.pc__ciel {
+  position: relative;
+  display: inline-flex;
+}
+.pc__ciel-note {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 1.05rem;
+  white-space: nowrap;
+  transform: rotate(-3deg);
+  transform-origin: left;
+  pointer-events: none;
+}
+.pc__ciel-note svg {
+  flex: none;
+  margin-bottom: 6px;
+}
