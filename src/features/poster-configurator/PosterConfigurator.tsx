@@ -51,7 +51,10 @@ export default function PosterConfigurator({ roster }: Props) {
     const i = Math.min(STEPS.length - 1, stepIndex + 1);
     setReached((r) => Math.max(r, i));
     setStep(STEPS[i].id);
-    document.querySelector('.pc__panel')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    // Après l'affichage de la nouvelle étape (sinon on vise l'ancienne hauteur du panneau)
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => document.querySelector('.pc__panel')?.scrollIntoView({ block: 'start', behavior: 'smooth' })),
+    );
   };
   const allSeen = reached >= STEPS.length - 1;
   const [active, setActive] = useState<string | undefined>(playable[0]?.slug);
@@ -764,10 +767,6 @@ export default function PosterConfigurator({ roster }: Props) {
           </div>
         )}
         <div class="pc__footer">
-          <div>
-            <small>Prix</small>
-            <strong>À venir</strong>
-          </div>
           <div class="pc__footer-actions">
             <button type="button" class="pc__check" onClick={openBig}>
               Vérifier en grand

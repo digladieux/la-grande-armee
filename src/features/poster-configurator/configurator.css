@@ -1280,3 +1280,38 @@
   font-weight: 700;
   text-align: center;
 }
+
+/* Pied du panneau : plus de « Prix à venir », les boutons d'étape remontent juste sous les choix */
+.pc__footer {
+  justify-content: flex-end;
+}
+@media (max-width: 980px) {
+  /* Téléphone / tablette : pas de hauteur minimale, « Étape suivante » visible sans faire défiler */
+  .pc__body {
+    min-height: 0;
+  }
+  .pc__footer {
+    padding-block: 10px;
+    /* toujours visible en bas de l'écran tant qu'on est dans le panneau des étapes */
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 14px -10px rgb(22 20 18 / 0.35);
+  }
+  .pc__panel {
+    overflow: clip;
+  }
+  .pc__footer-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .pc__footer-actions .pc__check {
+    flex: 0 0 auto;
+    padding: 0 14px;
+  }
+  .pc__footer-actions .pc__cart {
+    flex: 1 1 auto;
+    padding: 0 12px;
+  }
+}
