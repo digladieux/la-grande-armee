@@ -119,14 +119,18 @@
     transform: translateY(8px);
   }
 }
-.qz__answer:hover,
+/* Survol seulement avec une souris : sur téléphone, le doigt qui vient de répondre « survolait » la réponse
+   placée au même endroit à la question suivante, qui restait surlignée */
+@media (hover: hover) {
+  .qz__answer:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-sm);
+    background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
+  }
+}
 .qz__answer:focus-visible {
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-sm);
-  background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
-}
-.qz__answer[aria-pressed='true'] {
-  background: var(--yellow);
 }
 .qz__letter {
   flex: 0 0 auto;

@@ -115,7 +115,7 @@ export default function Quiz({ questions, characters }: Props) {
       <ul class="qz__answers">
         {q.answers.map((a, i) => (
           <li key={`${step}-${i}`}>
-            <button type="button" class="qz__answer" aria-pressed={picks[step] === i} onClick={() => choose(i)}>
+            <button type="button" class="qz__answer" onClick={(e) => { (e.currentTarget as HTMLButtonElement).blur(); choose(i); }}>
               <span class="qz__letter">{LETTERS[i]}</span>
               <span>{fr(a.text)}</span>
             </button>
