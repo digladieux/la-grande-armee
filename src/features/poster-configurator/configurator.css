@@ -1335,3 +1335,21 @@
     padding: 0 12px;
   }
 }
+
+/* Petite flèche discrète : revenir à l'étape d'avant */
+.pc__prev {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 48px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .pc__prev:hover {
+    color: var(--ink);
+  }
+}

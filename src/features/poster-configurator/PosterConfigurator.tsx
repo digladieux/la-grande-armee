@@ -768,6 +768,17 @@ export default function PosterConfigurator({ roster }: Props) {
         )}
         <div class="pc__footer">
           <div class="pc__footer-actions">
+            {stepIndex > 0 && (
+              <button
+                type="button"
+                class="pc__prev"
+                onClick={() => goToStep(stepIndex - 1)}
+                aria-label={`Revenir à l'étape ${STEPS[stepIndex - 1].label}`}
+                title={`Revenir : ${STEPS[stepIndex - 1].label}`}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            )}
             <button type="button" class="pc__check" onClick={openBig}>
               Vérifier en grand
             </button>
