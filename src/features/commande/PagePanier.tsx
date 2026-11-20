@@ -59,7 +59,6 @@ function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; ferm
 /** Affiches sauvegardées (bouton « ♡ Sauvegarder » du configurateur) : à reprendre ou à mettre au panier. */
 function Sauvegardes() {
   const [projets, setProjets] = useState<Projet[]>([]);
-  const [mis, setMis] = useState<string | null>(null);
   useEffect(() => {
     setProjets(lireProjets());
     const sync = () => setProjets(lireProjets());
@@ -96,12 +95,12 @@ function Sauvegardes() {
                 type="button"
                 class="cmd__mettre"
                 onClick={() => {
+                  // Mise au panier : l'affiche quitte les sauvegardes (elle est dans le panier juste au-dessus)
                   ajouterAuPanier(p.recette, p.format);
-                  setMis(p.id);
-                  setTimeout(() => setMis(null), 1800);
+                  supprimer(p.id);
                 }}
               >
-                {mis === p.id ? '✓ Ajoutée' : '+ Panier'}
+                + Panier
               </button>
               <button type="button" class="cmd__retirer" onClick={() => supprimer(p.id)}>
                 Supprimer

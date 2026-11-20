@@ -16,7 +16,7 @@ import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHA
 import PosterCanvas from './PosterCanvas';
 import { autoLayout } from './layout';
 import Standee from './Standee';
-import { ajouterAuPanier, ecrirePanier, lirePanier, lireProjets, sauverProjet } from '../commande/panier';
+import { ajouterAuPanier, ecrirePanier, ecrireProjets, lirePanier, lireProjets, sauverProjet } from '../commande/panier';
 import { decodeRecette, type PrintFormat, type Recette } from '../commande/recette';
 import './configurator.css';
 
@@ -367,6 +367,12 @@ export default function PosterConfigurator({ roster }: Props) {
       return;
     }
     ajouterAuPanier(recette, state.format);
+    // Affiche sauvegardée reprise puis mise au panier : elle n'a plus besoin d'être gardée à part
+    if (projet) {
+      ecrireProjets(lireProjets().filter((p) => p.id !== projet));
+      setProjet(null);
+      setSauve(false);
+    }
     setAjoute(true);
   };
 
