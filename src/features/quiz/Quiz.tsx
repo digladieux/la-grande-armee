@@ -55,7 +55,7 @@ export default function Quiz({ questions, characters }: Props) {
   if (step < 0) {
     return (
       <div class="qz qz--intro">
-        <p class="qz__kicker hand">{questions.length} questions · 2 minutes · aucune bonne réponse</p>
+        <p class="qz__kicker hand">{questions.length} questions · 2 minutes 30 · aucune bonne réponse</p>
         <ul class="qz__faces" aria-hidden="true">
           {characters.slice(0, 7).map((c) => (
             <li style={`--c: ${c.bg}`}>
