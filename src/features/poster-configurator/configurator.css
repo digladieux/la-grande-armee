@@ -213,8 +213,10 @@
   mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
 }
-.poster-member:hover .poster-member__img.is-cutout {
-  filter: drop-shadow(0 0 1.5px var(--ink)) drop-shadow(0 3px 2px rgb(22 20 18 / 0.18));
+@media (hover: hover) {
+  .poster-member:hover .poster-member__img.is-cutout {
+    filter: drop-shadow(0 0 1.5px var(--ink)) drop-shadow(0 3px 2px rgb(22 20 18 / 0.18));
+  }
 }
 .poster-member.is-selected .poster-member__img.is-cutout {
   filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px var(--ink)) drop-shadow(0 0 0.5px var(--ink));
@@ -294,8 +296,10 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.pc__step:hover:not(:disabled) {
-  background: var(--paper);
+@media (hover: hover) {
+  .pc__step:hover:not(:disabled) {
+    background: var(--paper);
+  }
 }
 .pc__step:disabled {
   opacity: 0.4;
@@ -439,8 +443,10 @@
   line-height: 1;
   cursor: pointer;
 }
-.pc__switch button:hover:not(:disabled) {
-  background: var(--yellow);
+@media (hover: hover) {
+  .pc__switch button:hover:not(:disabled) {
+    background: var(--yellow);
+  }
 }
 .pc__switch button:disabled {
   opacity: 0.35;
@@ -540,8 +546,10 @@
   max-width: none;
   transform-origin: 0 0;
 }
-.pc__tile:hover {
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .pc__tile:hover {
+    transform: translateY(-2px);
+  }
 }
 .pc__tile.is-active {
   box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--ink);
@@ -556,8 +564,10 @@
   font-size: 1.6rem;
   color: rgb(22 20 18 / 0.35);
 }
-.pc__tile.is-locked:hover {
-  transform: none;
+@media (hover: hover) {
+  .pc__tile.is-locked:hover {
+    transform: none;
+  }
 }
 .pc__badge {
   position: absolute;
@@ -674,8 +684,10 @@
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.pc__accessory:hover {
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .pc__accessory:hover {
+    transform: translateY(-2px);
+  }
 }
 .pc__accessory img {
   width: 100%;
@@ -1006,8 +1018,10 @@
   font-weight: 700;
   cursor: pointer;
 }
-.pc__editbar button:hover {
-  background: var(--yellow);
+@media (hover: hover) {
+  .pc__editbar button:hover {
+    background: var(--yellow);
+  }
 }
 .pc__editbar-hint {
   flex: 1;
@@ -1019,9 +1033,11 @@
   background: var(--ink);
   color: var(--paper);
 }
-.pc__editbar .pc__editbar-reset:hover {
-  background: var(--ink);
-  box-shadow: 3px 3px 0 var(--yellow);
+@media (hover: hover) {
+  .pc__editbar .pc__editbar-reset:hover {
+    background: var(--ink);
+    box-shadow: 3px 3px 0 var(--yellow);
+  }
 }
 .pc__summary {
   margin-top: 8px;
@@ -1046,8 +1062,10 @@
   cursor: pointer;
   box-shadow: var(--shadow-sm);
 }
-.pc__zoom:hover {
-  background: var(--yellow);
+@media (hover: hover) {
+  .pc__zoom:hover {
+    background: var(--yellow);
+  }
 }
 .pc__footer-actions {
   display: flex;
@@ -1068,8 +1086,10 @@
   text-transform: uppercase;
   cursor: pointer;
 }
-.pc__check:hover {
-  background: var(--yellow);
+@media (hover: hover) {
+  .pc__check:hover {
+    background: var(--yellow);
+  }
 }
 
 .pc-big {
@@ -1301,6 +1321,12 @@
   }
   .pc__panel {
     overflow: clip;
+    /* Le panneau remplit l'écran sous l'en-tête : « Étape suivante » tombe toujours au même endroit,
+       en bas de l'écran, avec de l'air au-dessus quand l'étape est courte */
+    min-height: calc(100dvh - var(--header-h, 72px) - 28px);
+  }
+  .pc__body {
+    flex: 1;
   }
   .pc__footer-actions {
     width: 100%;

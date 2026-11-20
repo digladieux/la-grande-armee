@@ -323,3 +323,10 @@
     order: -2;
   }
 }
+
+/* Téléphone / tablette : « T'as la flemme ? » plus près, visible juste sous le panneau des étapes */
+@media (max-width: 980px) {
+  .flemme {
+    margin-top: 28px;
+  }
+}
