@@ -220,6 +220,12 @@ export default function PosterConfigurator({ roster }: Props) {
   const zValues = Object.values(allPlacements).map((p) => p.z);
   const resize = (factor: number) => sel && edit(selected!, { h: Math.min(95, Math.max(8, sel.h * factor)) });
 
+  /** Place de départ du n-ième accessoire : en bas de l'affiche, à gauche puis à droite, de plus en plus vers le centre. */
+  const placeAccessoire = (n: number, id: string) => ({
+    x: n % 2 ? 82 - (n >> 1) * 8 : 18 + (n >> 1) * 8,
+    y: 94,
+    h: accessoryById.get(id)!.h,
+  });
   /** Ajoute l'accessoire en bas de l'affiche (à gauche, puis à droite…), ou le retire. */
   const toggleAccessory = (id: string) => {
     const { [id]: present, ...rest } = state.accessories;
@@ -228,10 +234,8 @@ export default function PosterConfigurator({ roster }: Props) {
       if (selected === ACC + id) setSelected(undefined);
       return;
     }
-    const n = Object.keys(state.accessories).length;
-    const x = n % 2 ? 82 - (n >> 1) * 8 : 18 + (n >> 1) * 8;
     const z = Math.max(0, ...zValues) + 1;
-    update({ accessories: { ...state.accessories, [id]: { x, y: 94, h: accessoryById.get(id)!.h, z } } });
+    update({ accessories: { ...state.accessories, [id]: { ...placeAccessoire(Object.keys(state.accessories).length, id), z } } });
     setSelected(ACC + id);
   };
 
@@ -371,8 +375,20 @@ export default function PosterConfigurator({ roster }: Props) {
             : ''}
         </p>
       )}
-      {state.layout && (
-        <button type="button" class="pc__editbar-reset" onClick={() => { update({ layout: null }); setSelected(undefined); }}>
+      {(state.layout || Object.keys(state.accessories).length > 0) && (
+        <button
+          type="button"
+          class="pc__editbar-reset"
+          onClick={() => {
+            // Copains ET accessoires reviennent à leur place de départ (taille, sens, ordre)
+            const ids = Object.keys(state.accessories);
+            update({
+              layout: null,
+              accessories: Object.fromEntries(ids.map((id, n) => [id, { ...placeAccessoire(n, id), z: 100 + n }])),
+            });
+            setSelected(undefined);
+          }}
+        >
           ↺ Réorganiser
         </button>
       )}
