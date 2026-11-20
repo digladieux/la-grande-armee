@@ -79,6 +79,8 @@ export interface PosterState {
   showBrand: boolean;
   /** Accessoires posés sur l'affiche (clé = id de l'accessoire) et leur position. */
   accessories: Record<string, Placement>;
+  /** Fond à la couleur d'une famille (affiche tirée d'un modèle tout fait), à la place de `background`. */
+  couleur?: string;
 }
 
 /** Nombre maximum de copains selon l'orientation. */

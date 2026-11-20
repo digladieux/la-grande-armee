@@ -16,8 +16,8 @@ import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHA
 import PosterCanvas from './PosterCanvas';
 import { autoLayout } from './layout';
 import Standee from './Standee';
-import { ajouterAuPanier } from '../commande/panier';
-import { decodeRecette, type Recette } from '../commande/recette';
+import { ajouterAuPanier, ecrirePanier, lirePanier, lireProjets, sauverProjet } from '../commande/panier';
+import { decodeRecette, type PrintFormat, type Recette } from '../commande/recette';
 import './configurator.css';
 
 interface Props {
@@ -79,11 +79,23 @@ export default function PosterConfigurator({ roster }: Props) {
   // ouvre le modèle tel quel ; « Copier pour Claude » renvoie les nouvelles positions.
   const [retouche, setRetouche] = useState<string | null>(null);
   const [copie, setCopie] = useState(false);
+  // Modifier une affiche déjà dans le panier : ?modifier=<id de l'article> ; « Mettre à jour » la remplace
+  const [modifier, setModifier] = useState<string | null>(null);
+  /** Affiche sauvegardée en cours (rouverte depuis « Mes affiches sauvegardées ») : la sauvegarder la remplace. */
+  const [projet, setProjet] = useState<string | null>(null);
+  const [sauve, setSauve] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(location.search);
     const id = q.get('retouche');
-    const r = id && q.get('r') ? decodeRecette(q.get('r')!) : null;
-    if (!id || !r) return;
+    const idPanier = q.get('modifier');
+    const idProjet = q.get('projet');
+    const article = idPanier
+      ? lirePanier().find((a) => a.id === idPanier)
+      : idProjet
+        ? lireProjets().find((a) => a.id === idProjet)
+        : undefined;
+    const r = article ? article.recette : id && q.get('r') ? decodeRecette(q.get('r')!) : null;
+    if ((!id && !article) || !r) return;
     const selection: Selection[] = [];
     const layout: Record<string, Placement> = {};
     for (const m of r.members) {
@@ -114,9 +126,13 @@ export default function PosterConfigurator({ roster }: Props) {
       subtitle: r.subtitle,
       showSubtitle: r.showSubtitle,
       showBrand: r.showBrand,
+      couleur: r.couleur,
+      ...(article ? { format: article.format as PosterState['format'] } : {}),
     }));
     setReached(STEPS.length - 1);
-    setRetouche(id);
+    if (article && idPanier) setModifier(article.id);
+    else if (article) setProjet(article.id);
+    else setRetouche(id);
   }, []);
   const copierPourClaude = async () => {
     const r2 = (v: number) => Math.round(v * 100) / 100;
@@ -304,8 +320,7 @@ export default function PosterConfigurator({ roster }: Props) {
   };
   // Panier : on enregistre la « recette » de l'affiche (redessinée en HD pour l'impression)
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-  const addToCart = () => {
-    const recette: Recette = {
+  const recetteActuelle = (): Recette => ({
       v: 1,
       orientation: state.orientation,
       background: state.background,
@@ -314,6 +329,7 @@ export default function PosterConfigurator({ roster }: Props) {
       subtitle: state.subtitle,
       showSubtitle: state.showSubtitle,
       showBrand: state.showBrand,
+      ...(state.couleur ? { couleur: state.couleur } : {}),
       members: state.selection.flatMap((s) => {
         const entry = bySlug.get(s.slug);
         const look = entry?.looks[s.look];
@@ -326,7 +342,19 @@ export default function PosterConfigurator({ roster }: Props) {
         const a = accessoryById.get(id);
         return a ? [{ name: a.label, family: '', src: a.src, p }] : [];
       }),
-    };
+  });
+  const sauvegarder = () => {
+    setProjet(sauverProjet(recetteActuelle(), state.format as PrintFormat, projet ?? undefined));
+    setSauve(true);
+  };
+  const addToCart = () => {
+    const recette = recetteActuelle();
+    if (modifier && lirePanier().some((a) => a.id === modifier)) {
+      // Affiche reprise depuis le panier : on la remplace (même quantité) et on retourne au panier
+      ecrirePanier(lirePanier().map((a) => (a.id === modifier ? { ...a, recette, format: state.format as PrintFormat } : a)));
+      location.href = `${base}panier`;
+      return;
+    }
     ajouterAuPanier(recette, state.format);
     setAjoute(true);
   };
@@ -406,6 +434,11 @@ export default function PosterConfigurator({ roster }: Props) {
             {copie ? '✓ Copié ! Colle-le à Claude' : 'Copier pour Claude'}
           </button>
         </div>
+      )}
+      {modifier && (
+        <p class="pc__modif">
+          ✎ Tu modifies une affiche de ton panier : retouche-la, puis « Mettre à jour mon panier ».
+        </p>
       )}
       {/* ── Aperçu ── */}
       <div class="pc__preview">
@@ -575,7 +608,7 @@ export default function PosterConfigurator({ roster }: Props) {
                       type="button"
                       class={`pc__swatch pc__swatch--${b.id}`}
                       aria-pressed={state.background === b.id}
-                      onClick={() => update({ background: b.id })}
+                      onClick={() => update({ background: b.id, couleur: undefined })}
                     >
                       <span class="pc__swatch-color" />
                       {b.label}
@@ -716,6 +749,13 @@ export default function PosterConfigurator({ roster }: Props) {
           )}
         </div>
 
+        {sauve && (
+          <div class="pc__added" role="status">
+            <span>♡ Affiche sauvegardée</span>
+            <a href={`${base}panier#sauvegardes`}>Mes affiches →</a>
+            <button type="button" onClick={() => setSauve(false)} aria-label="Fermer">×</button>
+          </div>
+        )}
         {ajoute && (
           <div class="pc__added" role="status">
             <span>✓ Affiche ajoutée au panier</span>
@@ -732,13 +772,18 @@ export default function PosterConfigurator({ roster }: Props) {
             <button type="button" class="pc__check" onClick={openBig}>
               Vérifier en grand
             </button>
-            {stepIndex < STEPS.length - 1 ? (
+            {(stepIndex === STEPS.length - 1 || modifier) && (
+              <button type="button" class="pc__check pc__sauver" onClick={sauvegarder} disabled={!state.selection.length}>
+                ♡ Sauvegarder
+              </button>
+            )}
+            {stepIndex < STEPS.length - 1 && !modifier ? (
               <button type="button" class="pc__cart" onClick={nextStep} disabled={!state.selection.length}>
                 Étape suivante : {STEPS[stepIndex + 1].label} →
               </button>
             ) : (
               <button type="button" class="pc__cart" onClick={addToCart} disabled={!state.selection.length || !allSeen}>
-                Ajouter au panier
+                {modifier ? 'Mettre à jour mon panier' : 'Ajouter au panier'}
               </button>
             )}
           </div>

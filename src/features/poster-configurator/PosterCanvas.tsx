@@ -85,6 +85,7 @@ export default function PosterCanvas({ state, characters, accessories, placement
         <div
           ref={sheetRef}
           class={`poster-sheet poster-sheet--${state.background} poster-sheet--${state.orientation}`}
+          style={state.couleur ? { background: `radial-gradient(circle at 50% 55%, #fff 0%, #fff 10%, ${state.couleur} 100%)` } : undefined}
           onPointerDown={() => onSelect(undefined)}
         >
           <div class="poster-sheet__title">

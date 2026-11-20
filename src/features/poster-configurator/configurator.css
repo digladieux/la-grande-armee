@@ -1263,3 +1263,15 @@
   flex: none;
   margin-bottom: 6px;
 }
+
+/* Modification d'une affiche du panier */
+.pc__modif {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 16px;
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--yellow) 45%, var(--paper));
+  font-weight: 700;
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { commande } from '@/data/commande';
-import { ecrirePanier, EVENT, lirePanier, type ArticlePanier } from './panier';
+import { ajouterAuPanier, ecrirePanier, ecrireProjets, EVENT, EVENT_PROJETS, lirePanier, lireProjets, type ArticlePanier, type Projet } from './panier';
 import { encodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat } from './recette';
 import { dessinerAffiche } from './rendu';
 import './commande.css';
@@ -43,6 +43,9 @@ function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; ferm
                 +
               </button>
             </div>
+            <a class="cmd__modifier" href={`${base}creer-mon-affiche?modifier=${item.id}`}>
+              ✎ Modifier
+            </a>
             <button type="button" class="cmd__retirer" onClick={retirer}>
               Retirer du panier
             </button>
@@ -50,6 +53,64 @@ function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; ferm
         </div>
       </div>
     </dialog>
+  );
+}
+
+/** Affiches sauvegardées (bouton « ♡ Sauvegarder » du configurateur) : à reprendre ou à mettre au panier. */
+function Sauvegardes() {
+  const [projets, setProjets] = useState<Projet[]>([]);
+  const [mis, setMis] = useState<string | null>(null);
+  useEffect(() => {
+    setProjets(lireProjets());
+    const sync = () => setProjets(lireProjets());
+    window.addEventListener(EVENT_PROJETS, sync);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.removeEventListener(EVENT_PROJETS, sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
+  if (!projets.length) return null;
+  const supprimer = (id: string) => {
+    const next = projets.filter((p) => p.id !== id);
+    setProjets(next);
+    ecrireProjets(next);
+  };
+  return (
+    <section class="cmd__sauvegardes" id="sauvegardes">
+      <p class="cmd__titre">♡ Mes affiches sauvegardées</p>
+      <p class="cmd__note">Gardées sur ce téléphone ou cet ordinateur : reprends-les quand tu veux, ou ajoute-les au panier.</p>
+      <ul class="cmd__projets">
+        {projets.map((p) => (
+          <li key={p.id} class="cmd__projet">
+            <a href={`${base}creer-mon-affiche?projet=${p.id}`} aria-label="Reprendre cette affiche">
+              <Apercu item={{ id: p.id, ajouteLe: p.sauveLe, recette: p.recette, format: p.format, quantite: 1 }} largeur={300} />
+            </a>
+            <p class="cmd__nom">{titreAffiche(p.recette)}</p>
+            <p class="cmd__detail">{p.recette.members.map((m) => m.name).join(', ')}</p>
+            <div class="cmd__projet-actions">
+              <a class="cmd__modifier" href={`${base}creer-mon-affiche?projet=${p.id}`}>
+                ✎ Reprendre
+              </a>
+              <button
+                type="button"
+                class="cmd__mettre"
+                onClick={() => {
+                  ajouterAuPanier(p.recette, p.format);
+                  setMis(p.id);
+                  setTimeout(() => setMis(null), 1800);
+                }}
+              >
+                {mis === p.id ? '✓ Ajoutée' : '+ Panier'}
+              </button>
+              <button type="button" class="cmd__retirer" onClick={() => supprimer(p.id)}>
+                Supprimer
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -157,6 +218,7 @@ export default function PagePanier() {
         <a class="cmd__btn" href={`${base}creer-mon-affiche`}>
           Créer mon affiche
         </a>
+        <Sauvegardes />
       </div>
     );
   }
@@ -174,8 +236,7 @@ export default function PagePanier() {
               <p class="cmd__nom">{titreAffiche(it.recette)}</p>
               <p class="cmd__detail">
                 {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
-                {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} · {it.recette.orientation} ·{' '}
-                affiche seule, sans cadre
+                {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} · {it.recette.orientation}
               </p>
               <div class="cmd__reglages">
                 <label>
@@ -220,6 +281,8 @@ export default function PagePanier() {
           />
         ) : null;
       })()}
+
+      <Sauvegardes />
 
       <form class="cmd__form" onSubmit={envoyer}>
         <p class="cmd__titre">Valider ma commande</p>

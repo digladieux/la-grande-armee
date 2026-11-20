@@ -313,3 +313,74 @@
 .cmd__revoir-pied .cmd__reglages {
   justify-content: center;
 }
+.cmd__modifier {
+  align-self: end;
+  padding: 8px 16px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* Affiches sauvegardées */
+.cmd__sauvegardes {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--coral) 14%, var(--paper));
+  text-align: left;
+}
+.cmd__projets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cmd__projet {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.cmd__projet canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1.5px solid var(--ink);
+}
+.cmd__projet .cmd__nom {
+  font-size: 1rem;
+}
+.cmd__projet .cmd__detail {
+  font-size: 0.8rem;
+}
+.cmd__projet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+.cmd__projet-actions .cmd__modifier,
+.cmd__mettre {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+}
+.cmd__mettre {
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--paper);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cmd__projet-actions .cmd__retirer {
+  padding: 0;
+  font-size: 0.8rem;
+}
