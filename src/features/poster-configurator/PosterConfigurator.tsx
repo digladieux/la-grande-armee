@@ -684,7 +684,7 @@ export default function PosterConfigurator({ roster }: Props) {
                   <input
                     type="text"
                     maxLength={48}
-                    placeholder="Ex. : Promo 2026, Les copains d'abord…"
+                    placeholder="Ex. : Promo 2020, Les copains d'abord…"
                     value={state.subtitle}
                     onInput={(e) => update({ subtitle: (e.target as HTMLInputElement).value })}
                   />
