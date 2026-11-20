@@ -213,6 +213,10 @@
 .modeles__ok {
   margin: 0;
   padding: 10px 14px;
+  /* toujours sur une ligne (texte un peu plus petit si l'écran est étroit) */
+  white-space: nowrap;
+  font-size: clamp(0.82rem, 3.6vw, 1rem);
+  text-align: center;
   border: var(--border);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--green) 45%, var(--paper));

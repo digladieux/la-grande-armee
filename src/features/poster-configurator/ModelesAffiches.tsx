@@ -141,7 +141,7 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
 
           {ajoute ? (
             <p class="modeles__ok">
-              ✓ Affiche ajoutée au panier · <a href={`${base}panier`}>Voir le panier →</a>
+              ✓ Ajoutée au panier · <a href={`${base}panier`}>Voir le panier →</a>
             </p>
           ) : (
             <button
