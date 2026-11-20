@@ -82,6 +82,13 @@ export default function PosterConfigurator({ roster }: Props) {
   // ouvre le modèle tel quel ; « Copier pour Claude » renvoie les nouvelles positions.
   const [retouche, setRetouche] = useState<string | null>(null);
   const [copie, setCopie] = useState(false);
+  // Retour arrière de Safari : la page revient telle qu'on l'avait laissée (cases cochées…) ;
+  // on la recharge pour repartir d'une affiche neuve
+  useEffect(() => {
+    const neuf = (e: PageTransitionEvent) => e.persisted && location.reload();
+    window.addEventListener('pageshow', neuf);
+    return () => window.removeEventListener('pageshow', neuf);
+  }, []);
   // Modifier une affiche déjà dans le panier : ?modifier=<id de l'article> ; « Mettre à jour » la remplace
   const [modifier, setModifier] = useState<string | null>(null);
   /** Affiche sauvegardée en cours (rouverte depuis « Mes affiches sauvegardées ») : la sauvegarder la remplace. */
@@ -127,7 +134,8 @@ export default function PosterConfigurator({ roster }: Props) {
       background: r.background,
       title: r.title,
       subtitle: r.subtitle,
-      showSubtitle: r.showSubtitle,
+      // sous-titre coché seulement s'il y a vraiment un sous-titre à afficher
+      showSubtitle: r.showSubtitle && !!r.subtitle?.trim(),
       showBrand: r.showBrand,
       couleur: r.couleur,
       ...(article ? { format: article.format as PosterState['format'] } : {}),
