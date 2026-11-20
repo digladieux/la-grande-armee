@@ -1312,12 +1312,6 @@
   }
   .pc__footer {
     padding-block: 10px;
-    /* toujours visible en bas de l'écran tant qu'on est dans le panneau des étapes */
-    position: sticky;
-    bottom: 0;
-    z-index: 5;
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
-    box-shadow: 0 -6px 14px -10px rgb(22 20 18 / 0.35);
   }
   .pc__panel {
     overflow: clip;
