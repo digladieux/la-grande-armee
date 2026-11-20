@@ -32,7 +32,7 @@ const current = Astro.url.pathname;
           <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
         </svg>
         <span class="cart-btn__count" data-cart-count hidden></span>
-        <span class="cart-btn__coeur" data-cart-coeur hidden title="Affiches sauvegardées">♥</span>
+        <svg class="cart-btn__coeur" data-cart-coeur hidden viewBox="0 0 24 22" width="13" height="12" aria-hidden="true"><path d="M12 21s-9-5.6-9-12.1A5 5 0 0 1 12 6a5 5 0 0 1 9 2.9C21 15.4 12 21 12 21Z" /></svg>
       </a>
       <button class="icon-btn burger" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Ouvrir le menu" data-burger>
         <span class="burger__bar"></span>
@@ -82,14 +82,14 @@ const current = Astro.url.pathname;
     badge.textContent = String(n);
     badge.hidden = n === 0;
     // Petit cœur : il y a des affiches sauvegardées (elles se retrouvent dans le panier)
-    const coeur = document.querySelector<HTMLElement>('[data-cart-coeur]');
+    const coeur = document.querySelector('[data-cart-coeur]');
     let projets = 0;
     try {
       projets = (JSON.parse(localStorage.getItem('lga-projets') || '[]') as unknown[]).length;
     } catch {
       projets = 0;
     }
-    if (coeur) coeur.hidden = projets === 0;
+    if (coeur) coeur.toggleAttribute('hidden', projets === 0);
     const lien = badge.closest('a');
     if (lien) lien.setAttribute('aria-label', projets ? `Mon panier et mes ${projets} affiche(s) sauvegardée(s)` : 'Mon panier');
   };
@@ -281,17 +281,10 @@ const current = Astro.url.pathname;
   }
   .cart-btn__coeur {
     position: absolute;
-    bottom: 2px;
-    left: 4px;
-    display: grid;
-    place-items: center;
-    width: 19px;
-    height: 19px;
-    border: 2px solid var(--ink);
-    border-radius: 50%;
-    background: var(--coral);
-    color: var(--ink);
-    font-size: 0.66rem;
-    line-height: 1;
+    bottom: 4px;
+    left: 5px;
+    fill: #f08fa6;
+    stroke: var(--ink);
+    stroke-width: 1.4;
   }
 </style>
