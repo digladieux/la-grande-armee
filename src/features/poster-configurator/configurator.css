@@ -1077,6 +1077,11 @@
   --chrome: 170px;
   position: fixed;
   inset: 0;
+  /* iPhone : le fond descend aussi sous la barre de Safari (plus de page visible en dessous), le contenu
+     reste dans la partie visible */
+  bottom: auto;
+  height: 100lvh;
+  padding-bottom: max(env(safe-area-inset-bottom), calc(100lvh - 100dvh));
   z-index: 1000;
   display: grid;
   grid-template-rows: auto 1fr auto;

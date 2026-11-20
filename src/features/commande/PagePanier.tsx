@@ -84,7 +84,7 @@ function Sauvegardes() {
         {projets.map((p) => (
           <li key={p.id} class="cmd__projet">
             <a href={`${base}creer-mon-affiche?projet=${p.id}`} aria-label="Reprendre cette affiche">
-              <Apercu item={{ id: p.id, ajouteLe: p.sauveLe, recette: p.recette, format: p.format, quantite: 1 }} largeur={300} />
+              <Apercu item={{ id: p.id, ajouteLe: p.sauveLe, recette: p.recette, format: p.format, quantite: 1 }} largeur={900} />
             </a>
             <p class="cmd__nom">{titreAffiche(p.recette)}</p>
             <p class="cmd__detail">{p.recette.members.map((m) => m.name).join(', ')}</p>

@@ -337,7 +337,7 @@
 }
 .cmd__projets {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 40%), 1fr));
   gap: 16px;
   margin: 0;
   padding: 0;

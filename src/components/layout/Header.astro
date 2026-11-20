@@ -32,6 +32,7 @@ const current = Astro.url.pathname;
           <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
         </svg>
         <span class="cart-btn__count" data-cart-count hidden></span>
+        <span class="cart-btn__coeur" data-cart-coeur hidden title="Affiches sauvegardées">♥</span>
       </a>
       <button class="icon-btn burger" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Ouvrir le menu" data-burger>
         <span class="burger__bar"></span>
@@ -80,9 +81,21 @@ const current = Astro.url.pathname;
     }
     badge.textContent = String(n);
     badge.hidden = n === 0;
+    // Petit cœur : il y a des affiches sauvegardées (elles se retrouvent dans le panier)
+    const coeur = document.querySelector<HTMLElement>('[data-cart-coeur]');
+    let projets = 0;
+    try {
+      projets = (JSON.parse(localStorage.getItem('lga-projets') || '[]') as unknown[]).length;
+    } catch {
+      projets = 0;
+    }
+    if (coeur) coeur.hidden = projets === 0;
+    const lien = badge.closest('a');
+    if (lien) lien.setAttribute('aria-label', projets ? `Mon panier et mes ${projets} affiche(s) sauvegardée(s)` : 'Mon panier');
   };
   majPanier();
   window.addEventListener('lga-panier-change', majPanier);
+  window.addEventListener('lga-projets-change', majPanier);
   window.addEventListener('storage', majPanier);
 </script>
 
@@ -262,7 +275,23 @@ const current = Astro.url.pathname;
     line-height: 16px;
     text-align: center;
   }
-  .cart-btn__count[hidden] {
+  .cart-btn__count[hidden],
+  .cart-btn__coeur[hidden] {
     display: none;
+  }
+  .cart-btn__coeur {
+    position: absolute;
+    bottom: 2px;
+    left: 4px;
+    display: grid;
+    place-items: center;
+    width: 19px;
+    height: 19px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--coral);
+    color: var(--ink);
+    font-size: 0.66rem;
+    line-height: 1;
   }
 </style>
