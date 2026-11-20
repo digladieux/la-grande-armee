@@ -8,12 +8,49 @@ import './commande.css';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const FORMATS: PrintFormat[] = ['A5', 'A4', 'A3'];
 
-function Apercu({ item }: { item: ArticlePanier }) {
+function Apercu({ item, largeur = 360, classe = 'cmd__apercu' }: { item: ArticlePanier; largeur?: number; classe?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    if (ref.current) dessinerAffiche(ref.current, item.recette, 360, base).catch(() => {});
-  }, [item.recette]);
-  return <canvas ref={ref} class="cmd__apercu" aria-label={`Aperçu : ${titreAffiche(item.recette)}`} />;
+    if (ref.current) dessinerAffiche(ref.current, item.recette, largeur, base).catch(() => {});
+  }, [item.recette, largeur]);
+  return <canvas ref={ref} class={classe} aria-label={`Aperçu : ${titreAffiche(item.recette)}`} />;
+}
+
+/** Dernier coup d'œil avant de commander : l'affiche en grand, avec quantité et « Retirer ». */
+function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; fermer: () => void; quantite: (q: number) => void; retirer: () => void }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    ref.current?.showModal();
+  }, []);
+  return (
+    <dialog ref={ref} class="cmd__revoir" onClose={fermer} onClick={(e) => e.target === ref.current && fermer()} aria-label={`Affiche « ${titreAffiche(item.recette)} »`}>
+      <div class="cmd__revoir-boite">
+        <button type="button" class="cmd__revoir-fermer" onClick={fermer} aria-label="Fermer">
+          ✕
+        </button>
+        <Apercu item={item} largeur={1400} classe={`cmd__revoir-affiche cmd__revoir-affiche--${item.recette.orientation}`} />
+        <div class="cmd__revoir-pied">
+          <p>
+            <strong>{titreAffiche(item.recette)}</strong> · {item.format} · {item.recette.orientation}
+          </p>
+          <div class="cmd__reglages">
+            <div class="cmd__qte" aria-label="Quantité">
+              <button type="button" onClick={() => quantite(Math.max(1, item.quantite - 1))} aria-label="Moins">
+                −
+              </button>
+              <span>{item.quantite}</span>
+              <button type="button" onClick={() => quantite(Math.min(20, item.quantite + 1))} aria-label="Plus">
+                +
+              </button>
+            </div>
+            <button type="button" class="cmd__retirer" onClick={retirer}>
+              Retirer du panier
+            </button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+  );
 }
 
 /** Lien vers la page qui redessine l'affiche en grand et produit le PDF d'impression. */
@@ -26,6 +63,7 @@ export default function PagePanier() {
   const [contact, setContact] = useState('');
   const [message, setMessage] = useState('');
   const [envoi, setEnvoi] = useState<'idle' | 'envoi' | 'ok' | 'erreur'>('idle');
+  const [revu, setRevu] = useState<string | null>(null);
 
   useEffect(() => {
     setItems(lirePanier());
@@ -128,7 +166,10 @@ export default function PagePanier() {
       <ul class="cmd__liste">
         {items.map((it) => (
           <li key={it.id} class="cmd__article">
-            <Apercu item={it} />
+            <button type="button" class="cmd__voir" onClick={() => setRevu(it.id)} aria-label="Revoir l'affiche en grand">
+              <Apercu item={it} />
+              <span class="cmd__voir-badge">⤢ Revoir</span>
+            </button>
             <div class="cmd__infos">
               <p class="cmd__nom">{titreAffiche(it.recette)}</p>
               <p class="cmd__detail">
@@ -164,6 +205,21 @@ export default function PagePanier() {
           </li>
         ))}
       </ul>
+
+      {(() => {
+        const it = items.find((i) => i.id === revu);
+        return it ? (
+          <Revoir
+            item={it}
+            fermer={() => setRevu(null)}
+            quantite={(q) => maj(it.id, { quantite: q })}
+            retirer={() => {
+              setRevu(null);
+              retirer(it.id);
+            }}
+          />
+        ) : null;
+      })()}
 
       <form class="cmd__form" onSubmit={envoyer}>
         <p class="cmd__titre">Valider ma commande</p>

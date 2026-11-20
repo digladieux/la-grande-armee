@@ -241,3 +241,75 @@
     grid-template-columns: 96px 1fr;
   }
 }
+
+/* Panier : l'aperçu se clique pour revoir l'affiche en grand une dernière fois */
+.cmd__voir {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.cmd__voir-badge {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 1px 7px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+.cmd__revoir {
+  width: min(100vw - 24px, 900px);
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.cmd__revoir::backdrop {
+  background: rgb(22 20 18 / 0.6);
+}
+.cmd__revoir-boite {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  padding: 18px;
+  background: linear-gradient(#f6efdf, #efe5cf);
+}
+.cmd__revoir-fermer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border: var(--border);
+  border-radius: 50%;
+  background: var(--paper);
+  font-size: 1rem;
+  cursor: pointer;
+}
+/* L'affiche tient entière dans l'écran (pied de la fenêtre compris) */
+.cmd__revoir-affiche {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 200px);
+  box-shadow: 0 10px 24px -10px rgb(22 20 18 / 0.45);
+}
+.cmd__revoir-pied {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+}
+.cmd__revoir-pied .cmd__reglages {
+  justify-content: center;
+}
