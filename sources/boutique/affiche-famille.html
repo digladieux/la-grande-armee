@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Visuels boutique « Affiche personnalisée » (public/images/boutique/affiches/<famille>.webp, 1000×1000) :
+     l'affiche toute faite d'une famille (sources/affiches/familles/<famille>.jpg) scotchée au mur.
+     Ouvrir avec ?f=<famille> ; rendu : capture 1000×1000 (sources/boutique/visuels.mjs). -->
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;width:1000px;height:1000px;overflow:hidden}
+body{background:radial-gradient(ellipse at 50% 40%,#fbf3e0 0%,#f3e6c8 75%,#ecdcba 100%);display:grid;place-items:center}
+.poster{position:relative;width:870px;transform:rotate(-1.4deg);box-shadow:0 2px 3px rgb(0 0 0/.12),0 26px 40px -18px rgb(70 45 10/.45)}
+.poster.large{width:910px;transform:rotate(-1.6deg)}
+.poster img{display:block;width:100%}
+.tape{position:absolute;top:-22px;width:120px;height:40px;background:rgb(250 243 214/.78);box-shadow:0 1px 2px rgb(0 0 0/.08)}
+.tape.l{left:-34px;transform:rotate(-28deg)}
+.tape.r{right:-34px;transform:rotate(28deg)}
+</style></head><body>
+<div class="poster"><img id="a"><span class="tape l"></span><span class="tape r"></span></div>
+<script>
+const q = new URLSearchParams(location.search);
+const img = document.getElementById('a');
+if (q.get('src')) { img.src = q.get('src'); document.querySelector('.poster').classList.add('large'); }
+else img.src = '../affiches/familles/' + q.get('f') + '.jpg';
+</script>
+</body></html>

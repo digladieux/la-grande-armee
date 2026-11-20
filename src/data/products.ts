@@ -4,6 +4,8 @@ export interface Product {
   name: string;
   price?: string;
   image?: string;
+  /** Plusieurs visuels : un tiré au hasard à chaque visite (le premier sert sans JavaScript). */
+  images?: string[];
   tag?: string;
   /** Page du produit (par défaut : la boutique). */
   href?: string;
@@ -20,7 +22,9 @@ export const teaserProducts: Product[] = [
     name: 'Affiche personnalisée',
     tag: 'Sur mesure',
     color: 'yellow',
-    image: 'images/boutique/affiche-izi-karate.webp',
+    image: 'images/boutique/affiches/izi-karate.webp',
+    // Une affiche de famille différente à chaque visite (sources/boutique/visuels.mjs)
+    images: ['images/boutique/affiches/gaulois.webp', 'images/boutique/affiches/botefragile.webp', 'images/boutique/affiches/branquignol.webp', 'images/boutique/affiches/izi-karate.webp', 'images/boutique/affiches/ludick.webp', 'images/boutique/affiches/bouffetout.webp', 'images/boutique/affiches/gochofacho.webp', 'images/boutique/affiches/mignon.webp', 'images/boutique/affiches/beauf.webp', 'images/boutique/affiches/capdag.webp', 'images/boutique/affiches/troubadour.webp'],
     href: '/creer-mon-affiche',
     description:
       "Tu choisis tes copains, leur tenue, le fond et le format : l'affiche se compose sous tes yeux, puis part à l'impression en haute définition.",
@@ -30,7 +34,6 @@ export const teaserProducts: Product[] = [
   {
     slug: 'affiche-bande',
     name: 'Affiche « La bande »',
-    tag: 'Bientôt',
     color: 'green',
     image: 'images/boutique/affiche-la-bande-vignette.webp',
     href: '/boutique/affiche-la-bande',

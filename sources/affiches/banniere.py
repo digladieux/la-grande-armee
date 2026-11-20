@@ -5,7 +5,7 @@ import json, random, sys, math
 from PIL import Image, ImageDraw
 S=sys.argv[1]; out=sys.argv[2]; seed=int(sys.argv[3]); iters=int(sys.argv[4])
 W=6000; TITLE=550; H=2400+TITLE; K=8
-rows_def=[(430,470,23),(720,560,20),(1030,660,17),(1380,780,14),(1780,920,12),(2200,1080,10)]
+rows_def=[(430,470,24),(720,560,21),(1030,660,18),(1380,780,14),(1780,920,12),(2200,1080,10)]  # 99 places (104 tenues sans les 5 de Momo)
 looks=json.load(open(f"{S}/looks.json")); faces=json.load(open(f"{S}/faces.json"))
 POSTERS={"aubin/joystick":(48.8,42.4,9.1),"hugo/joystick":(49.7,38.8,14)}
 for i,l in enumerate(looks):
@@ -19,6 +19,14 @@ for i,l in enumerate(looks):
     l["im"]=Image.open(l["plein"]).convert("RGBA")
     l["lo"]=l["im"].resize((708,1068)).getchannel("A").point(lambda v:255 if v>100 else 0)   # tenues HD : cadre ×2
     fx,fy,fw=faces[str(i)]; l["face"]=(fx/100*708, fy/100*1068, max(fw,7)/100*708*0.55)
+# Momo ne fait pas partie de la Grande Armée « de base » : pas sur la grande affiche
+looks=[l for l in looks if l["slug"]!="momo"]
+# Pancartes Gaucho Facho (fractions de la carte x0, y0, x1, y1) : elles doivent rester lisibles dans la foule
+PANNEAUX={"aubin/gochofacho":(0.6,0.24,0.84,0.44),"coco/gochofacho":(0.18,0.2,0.5,0.38),"donne/gochofacho":(0.52,0.3,0.78,0.42),
+          "guigui/gochofacho":(0.16,0.18,0.43,0.4),"laurent/gochofacho":(0.2,0.2,0.37,0.33),"petit/gochofacho":(0.19,0.18,0.39,0.33),
+          "saby/gochofacho":(0.35,0.2,0.52,0.34),"turquet/gochofacho":(0.39,0.18,0.64,0.29),"szabo/gochofacho":(0.66,0.58,0.97,0.78),
+          "nael/gochofacho":(0.44,0.44,0.65,0.53)}
+for l in looks: l["bb"]=l["lo"].getbbox()
 # Tête en bas : seuls ses pieds dépassent de la foule, le reste du corps (visage compris) caché derrière
 PIEDS={"dim/branquignol"}
 for l in looks:
@@ -30,7 +38,7 @@ rnd=random.Random(seed)
 # Emplacements : (rangée, x du visage, y du visage, taille du buste) ; ordre de dessin du fond vers l'avant
 slots=[]
 for ri,(y,b,n) in enumerate(rows_def):
-    m=0.035*W; step=(W-2*m)/(n-0.5); off=m+(0.5*step if ri%2 else 0)
+    m=0.07*W; step=(W-2*m)/(n-0.5); off=m+(0.5*step if ri%2 else 0)
     row=[]
     for i in range(n):
         row.append(dict(r=ri,col=i,x=min(W-m,off+i*step+rnd.uniform(-0.1,0.1)*step),y=TITLE+y+rnd.uniform(-0.06,0.06)*b,b=b*rnd.uniform(0.92,1.08)))
@@ -83,6 +91,19 @@ def evaluate(assign):
                     tot+=1
                     if 0<=xx<W//K and 0<=yy<H//K and lp[xx,yy]==k: v+=1
         f=v/max(tot,1); vis.append(f); pen+=max(0,0.9-f)**1.5*10
+    # personne ne déborde sur les côtés de l'affiche (pieds, bras coupés)
+    for (s_,x,y),l in zip(G,assign):
+        x0,_,x1,_=l["bb"]; pen+=(max(0,-(x+x0*s_))+max(0,x+x1*s_-W))/30
+    # pancartes Gaucho Facho visibles
+    for k,(sl,l) in enumerate(zip(slots,assign),1):
+        if l["key"] not in PANNEAUX: continue
+        s_,x,y=G[k-1]; a0,b0,a1,b1=PANNEAUX[l["key"]]; lo=l["lo"]; tot=v=0
+        for w in range(int(b0*1068),int(b1*1068),8):
+            for u in range(int(a0*708),int(a1*708),8):
+                if not lo.getpixel((u,w)): continue
+                xx,yy=int((x+u*s_)/K),int((y+w*s_)/K); tot+=1
+                if 0<=xx<W//K and 0<=yy<H//K and lp[xx,yy]==k: v+=1
+        pen+=max(0,0.85-v/max(tot,1))*12
     # voisins : même copain ou même famille côte à côte
     for a in range(len(slots)):
         for b in range(a+1,len(slots)):
@@ -117,6 +138,12 @@ canvas=bg.convert("RGBA")
 for k in dessin(assign):
     (s,x,y),l=G[k-1],assign[k-1]
     im=l["im"].resize((int(708*s),int(1068*s)),Image.LANCZOS); canvas.paste(im,(x,y),im)
+# Titre « La Grande Armée » (logo du site) en haut, dans les bandes
+import os
+titre=os.path.join(S,"titre-la-grande-armee.png")
+if os.path.exists(titre):
+    t=Image.open(titre).convert("RGBA"); tw=int(W*0.3); t=t.resize((tw,int(t.height*tw/t.width)),Image.LANCZOS)
+    canvas.alpha_composite(t,((W-tw)//2,int(TITLE*0.18)))
 canvas.convert("RGB").save(out,quality=92)
 dbg=canvas.copy(); dd=ImageDraw.Draw(dbg)
 for (s,x,y),l,v in zip(G,assign,vis):

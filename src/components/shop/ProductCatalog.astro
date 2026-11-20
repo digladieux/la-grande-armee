@@ -18,7 +18,7 @@ const { products } = Astro.props;
     <li class:list={['catalog__item', { 'is-flipped': i % 2 === 1 }]} style={`--c: var(--${p.color})`} id={p.slug}>
       <div class="catalog__media">
         {p.image ? (
-          <img src={url(`/${p.image}`)} alt="" width="1000" height="1000" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+          <img data-tourne={p.images ? JSON.stringify(p.images.map((i) => url(`/${i}`))) : undefined} src={url(`/${p.image}`)} alt="" width="1000" height="1000" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
         ) : (
           <div class="catalog__placeholder" aria-hidden="true">
             <span class="hand">Bientôt…</span>
@@ -169,3 +169,11 @@ const { products } = Astro.props;
     }
   }
 </style>
+
+<script>
+  // Visuel tiré au hasard parmi plusieurs (affiche personnalisée : une famille différente à chaque visite)
+  document.querySelectorAll<HTMLImageElement>('img[data-tourne]').forEach((img) => {
+    const liste: string[] = JSON.parse(img.dataset.tourne!);
+    img.src = liste[Math.floor(Math.random() * liste.length)];
+  });
+</script>
