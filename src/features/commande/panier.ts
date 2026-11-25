@@ -12,10 +12,23 @@ export interface ArticlePanier {
   quantite: number;
 }
 
+// ── Grande affiche « La bande » (image toute faite, pas de recette) ──
+export interface ArticleBande {
+  id: string;
+  ajouteLe: string;
+  /** Taille unique (fixée par Elora) : seul le titre se choisit. */
+  bande: { titre: boolean };
+  quantite: number;
+}
+export type Article = ArticlePanier | ArticleBande;
+export const estBande = (a: Article): a is ArticleBande => 'bande' in a;
+/** Image de la grande affiche, avec ou sans titre (chemin relatif à /public). */
+export const imageBande = (titre: boolean) => `images/boutique/affiche-la-bande${titre ? '' : '-sans-titre'}.jpg`;
+
 const KEY = 'lga-panier';
 export const EVENT = 'lga-panier-change';
 
-export function lirePanier(): ArticlePanier[] {
+export function lirePanier(): Article[] {
   try {
     const v = JSON.parse(localStorage.getItem(KEY) || '[]');
     return Array.isArray(v) ? v : [];
@@ -24,7 +37,7 @@ export function lirePanier(): ArticlePanier[] {
   }
 }
 
-export function ecrirePanier(items: ArticlePanier[]) {
+export function ecrirePanier(items: Article[]) {
   try {
     localStorage.setItem(KEY, JSON.stringify(items));
   } catch {
@@ -45,7 +58,21 @@ export function ajouterAuPanier(recette: Recette, format: PrintFormat): ArticleP
   return item;
 }
 
-export const nbArticles = (items: ArticlePanier[]) => items.reduce((n, i) => n + i.quantite, 0);
+export function ajouterBande(titre: boolean): ArticleBande {
+  const liste = lirePanier();
+  // même affiche (même choix de titre) : on augmente la quantité
+  const deja = liste.find((a): a is ArticleBande => estBande(a) && a.bande.titre === titre);
+  if (deja) {
+    deja.quantite = Math.min(20, deja.quantite + 1);
+    ecrirePanier(liste);
+    return deja;
+  }
+  const item: ArticleBande = { id: Math.random().toString(36).slice(2, 10), ajouteLe: new Date().toISOString(), bande: { titre }, quantite: 1 };
+  ecrirePanier([...liste, item]);
+  return item;
+}
+
+export const nbArticles = (items: Article[]) => items.reduce((n, i) => n + i.quantite, 0);
 
 // ── Affiches sauvegardées (projets) : gardées à part du panier, à reprendre plus tard ──
 export interface Projet {

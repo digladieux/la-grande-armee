@@ -160,5 +160,185 @@
   "nom": "theo-troubadour",
   "video": "public/images/personnages/theo/troubadour-epee.mp4",
   "sortie": "public/images/personnages/theo/troubadour-buste-epee.webp"
+ },
+ {
+  "nom": "aubin-izikarate-anim",
+  "video": "public/images/personnages/aubin/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/aubin/izikarate-buste-anim.webp"
+ },
+ {
+  "nom": "coco-bouffetout-anim",
+  "video": "public/images/personnages/coco/bouffetout-anim.mp4",
+  "sortie": "public/images/personnages/coco/bouffetout-buste-anim.webp"
+ },
+ {
+  "nom": "coco-joystick-orc",
+  "video": "public/images/personnages/coco/joystick-orc.mp4",
+  "sortie": "public/images/personnages/coco/joystick-buste-orc.webp"
+ },
+ {
+  "nom": "coco-troubadour-anim",
+  "video": "public/images/personnages/coco/troubadour-anim.mp4",
+  "sortie": "public/images/personnages/coco/troubadour-buste-anim.webp"
+ },
+ {
+  "nom": "dauby-branquignol-anim",
+  "video": "public/images/personnages/dauby/branquignol-anim.mp4",
+  "sortie": "public/images/personnages/dauby/branquignol-buste-anim.webp"
+ },
+ {
+  "nom": "dauby-gaulois-potion",
+  "video": "public/images/personnages/dauby/gaulois-potion.mp4",
+  "sortie": "public/images/personnages/dauby/gaulois-buste-potion.webp",
+  "visage": [
+   37,
+   35,
+   9
+  ]
+ },
+ {
+  "nom": "dauby-troubadour-anim",
+  "video": "public/images/personnages/dauby/troubadour-anim.mp4",
+  "sortie": "public/images/personnages/dauby/troubadour-buste-anim.webp"
+ },
+ {
+  "nom": "dim-botefragile-marche",
+  "video": "public/images/personnages/dim/botefragile-marche.mp4",
+  "sortie": "public/images/personnages/dim/botefragile-buste-marche.webp"
+ },
+ {
+  "nom": "dim-gaulois-anim",
+  "video": "public/images/personnages/dim/gaulois-anim.mp4",
+  "sortie": "public/images/personnages/dim/gaulois-buste-anim.webp",
+  "visage": [
+   47,
+   41,
+   10
+  ]
+ },
+ {
+  "nom": "dim-izikarate-danse",
+  "video": "public/images/personnages/dim/izikarate-danse.mp4",
+  "sortie": "public/images/personnages/dim/izikarate-buste-danse.webp"
+ },
+ {
+  "nom": "dim-troubadour-anim",
+  "video": "public/images/personnages/dim/troubadour-anim.mp4",
+  "sortie": "public/images/personnages/dim/troubadour-buste-anim.webp"
+ },
+ {
+  "nom": "donne-botefragile-allonge",
+  "video": "public/images/personnages/donne/botefragile-allonge.mp4",
+  "sortie": "public/images/personnages/donne/botefragile-buste-allonge.webp"
+ },
+ {
+  "nom": "donne-branquignol-anim",
+  "video": "public/images/personnages/donne/branquignol-anim.mp4",
+  "sortie": "public/images/personnages/donne/branquignol-buste-anim.webp",
+  "visage": [
+   53,
+   37,
+   8
+  ]
+ },
+ {
+  "nom": "fred-bouffetout-cuisine",
+  "video": "public/images/personnages/fred/bouffetout-cuisine.mp4",
+  "sortie": "public/images/personnages/fred/bouffetout-buste-cuisine.webp"
+ },
+ {
+  "nom": "fred-gaulois-anim",
+  "video": "public/images/personnages/fred/gaulois-anim.mp4",
+  "sortie": "public/images/personnages/fred/gaulois-buste-anim.webp"
+ },
+ {
+  "nom": "fred-izikarate-anim",
+  "video": "public/images/personnages/fred/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/fred/izikarate-buste-anim.webp"
+ },
+ {
+  "nom": "guigui-gochofacho-anim",
+  "video": "public/images/personnages/guigui/gochofacho-anim.mp4",
+  "sortie": "public/images/personnages/guigui/gochofacho-buste-anim.webp"
+ },
+ {
+  "nom": "guigui-izikarate-anim",
+  "video": "public/images/personnages/guigui/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/guigui/izikarate-buste-anim.webp"
+ },
+ {
+  "nom": "hugo-joystick-kart",
+  "video": "public/images/personnages/hugo/joystick-kart.mp4",
+  "sortie": "public/images/personnages/hugo/joystick-buste-kart.webp",
+  "visage": [
+   49,
+   41,
+   12
+  ]
+ },
+ {
+  "nom": "laurent-branquignol-voiture",
+  "video": "public/images/personnages/laurent/branquignol-voiture.mp4",
+  "sortie": "public/images/personnages/laurent/branquignol-buste-voiture.webp"
+ },
+ {
+  "nom": "laurent-izikarate-anim",
+  "video": "public/images/personnages/laurent/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/laurent/izikarate-buste-anim.webp"
+ },
+ {
+  "nom": "lenoir-botefragile-anim",
+  "video": "public/images/personnages/lenoir/botefragile-anim.mp4",
+  "sortie": "public/images/personnages/lenoir/botefragile-buste-anim.webp",
+  "visage": [
+   32,
+   46,
+   10
+  ]
+ },
+ {
+  "nom": "momo-ludick-anim",
+  "video": "public/images/personnages/momo/ludick-anim.mp4",
+  "sortie": "public/images/personnages/momo/ludick-buste-anim.webp"
+ },
+ {
+  "nom": "nael-beauf-danse",
+  "video": "public/images/personnages/nael/beauf-danse.mp4",
+  "sortie": "public/images/personnages/nael/beauf-buste-danse.webp"
+ },
+ {
+  "nom": "nael-gochofacho-anim",
+  "video": "public/images/personnages/nael/gochofacho-anim.mp4",
+  "sortie": "public/images/personnages/nael/gochofacho-buste-anim.webp"
+ },
+ {
+  "nom": "turquet-beauf-anim",
+  "video": "public/images/personnages/turquet/beauf-anim.mp4",
+  "sortie": "public/images/personnages/turquet/beauf-buste-anim.webp"
+ },
+ {
+  "nom": "turquet-gaulois-chute",
+  "video": "public/images/personnages/turquet/gaulois-chute.mp4",
+  "sortie": "public/images/personnages/turquet/gaulois-buste-chute.webp",
+  "visage": [
+   45,
+   34,
+   10
+  ]
+ },
+ {
+  "nom": "turquet-izikarate-anim",
+  "video": "public/images/personnages/turquet/izikarate-anim.mp4",
+  "sortie": "public/images/personnages/turquet/izikarate-buste-anim.webp",
+  "visage": [
+   48,
+   37,
+   8
+  ]
+ },
+ {
+  "nom": "turquet-joystick-anim",
+  "video": "public/images/personnages/turquet/joystick-anim.mp4",
+  "sortie": "public/images/personnages/turquet/joystick-buste-anim.webp"
  }
 ]

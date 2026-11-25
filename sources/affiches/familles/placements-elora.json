@@ -873,8 +873,8 @@
   {
    "src": "images/personnages/aubin/gochofacho-cutout.png",
    "p": {
-    "x": 20.66,
-    "y": 85.82,
+    "x": 16.5,
+    "y": 85.64,
     "h": 54.29,
     "z": 8
    }
@@ -882,8 +882,8 @@
   {
    "src": "images/personnages/aubin/joystick-cutout.png",
    "p": {
-    "x": 40.08,
-    "y": 82.72,
+    "x": 37.33,
+    "y": 82.14,
     "h": 44.09,
     "z": 6
    }
@@ -900,8 +900,8 @@
   {
    "src": "images/personnages/aubin/izikarate-cutout.png",
    "p": {
-    "x": 47.29,
-    "y": 98.24,
+    "x": 45.08,
+    "y": 95.97,
     "h": 27.5,
     "z": 9
    }

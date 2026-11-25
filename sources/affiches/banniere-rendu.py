@@ -1,14 +1,16 @@
 # Redessine la grande affiche « foule » sans refaire l'optimisation de banniere.py :
 #   - à partir du placement (.json écrit par banniere.py : [clé, échelle, x, y] par tenue) ;
 #   - ou à partir d'une affiche déjà faite (.jpg) : seule la bande du titre (sans personnage) est refaite.
-#   python3 sources/affiches/banniere-rendu.py sources/affiches/donnees placement.json|affiche.jpg sortie.jpg [écart]
+#   python3 sources/affiches/banniere-rendu.py sources/affiches/donnees placement.json|affiche.jpg sortie.jpg [écart|sans]
+#   « sans » : affiche sans titre (bande du haut laissée en rayures pastel).
 # Titre : le logo du site, lettres espacées (écart en fraction de la largeur moyenne d'une lettre).
 import json, math, sys
 import numpy as np
 from PIL import Image, ImageDraw
 
 S, placement, out = sys.argv[1:4]
-ECART = float(sys.argv[4]) if len(sys.argv) > 4 else 0.35
+SANS_TITRE = len(sys.argv) > 4 and sys.argv[4] == "sans"
+ECART = 0.35 if len(sys.argv) <= 4 or SANS_TITRE else float(sys.argv[4])
 W = 6000; TITLE = 550; H = 2400 + TITLE
 POSTERS = {"aubin/joystick", "hugo/joystick"}
 PIEDS = {"dim/branquignol"}
@@ -79,9 +81,10 @@ def titre_espace(t, ecart):
     return res
 
 
-t = titre_espace(Image.open(f"{S}/titre-la-grande-armee.png").convert("RGBA"), ECART)
-tw = int(W * 0.44)
-t = t.resize((tw, int(t.height * tw / t.width)), Image.LANCZOS)
-canvas.alpha_composite(t, ((W - tw) // 2, int(TITLE * 0.16)))
+if not SANS_TITRE:
+    t = titre_espace(Image.open(f"{S}/titre-la-grande-armee.png").convert("RGBA"), ECART)
+    tw = int(W * 0.44)
+    t = t.resize((tw, int(t.height * tw / t.width)), Image.LANCZOS)
+    canvas.alpha_composite(t, ((W - tw) // 2, int(TITLE * 0.16)))
 canvas.convert("RGB").save(out, quality=92)
 print(out, canvas.size)

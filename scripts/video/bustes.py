@@ -13,7 +13,7 @@ Pour chaque entrée de bustes.json :
      par remplissage depuis les bords de l'image (les zones blanches du dessin, entourées d'un trait,
      ne sont pas atteintes). Un panneau blanc
      ou un bras clair qui sort du cadre du buste reste donc bien opaque ;
-  4. recadrage sur le buste, qui suit la tête (8,4 rayons de visage de large, ratio 5:7).
+  4. recadrage sur le buste, qui suit la tête (8,4 rayons de visage de large / DEZOOM, ratio 5:7).
 
 Réglages facultatifs par buste : "zoom" (< 1 = plus large), "decalage" [dx, dy] en rayons de
 visage, "effacer" [[x0, y0, x1, y1], …] en fraction du buste, "visage" [x %, y %, largeur %]
@@ -32,7 +32,9 @@ HERE = Path(__file__).resolve().parent
 CONFIG = HERE / "bustes.json"
 CACHE = ROOT / "sources/videos/suivis"
 TMP = Path(tempfile.gettempdir()) / "lga-bustes"
-LARGEUR = 240
+LARGEUR = 280
+# Cadrage plus large pour tous (on voit le corps jusque sous les hanches) : < 1 = plus large
+DEZOOM = 0.72
 PAS = 3  # une image sur 3 → 10 i/s
 SAT_MAX = 9  # fond : saturation max (écart entre canaux)
 LUM_MIN = 228  # fond : luminosité min
@@ -150,7 +152,7 @@ def buste(entry):
     files = images(ROOT / entry["video"], name)
     t = suivi(name, files, entry)
     r = t["r"]
-    w = r * 8.4 / entry.get("zoom", 1)
+    w = r * 8.4 / (entry.get("zoom", 1) * DEZOOM)
     h = w * 1.4
     dx, dy = (v * r for v in entry.get("decalage", (0, 0)))
     size = (LARGEUR, round(LARGEUR * 1.4))

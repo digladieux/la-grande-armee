@@ -39,12 +39,13 @@ let seed = 7;
 const group = draw(heroBusts, () => ((seed = (seed * 9301 + 49297) % 233280) / 233280));
 const pool = heroBusts.map((b) => ({ ...b, src: url(`/${b.src}`) }));
 
-// Échelle + décalage vertical + profondeur : plus grand au centre, en léger zigzag vers les bords.
+// Tous à la même taille (têtes égalisées par buste : k, o) ; léger zigzag vertical, profondeur vers le centre.
 const mid = (N - 1) / 2;
 const layout = group.map((_, i) => {
   const d = Math.abs(i - mid) / mid;
-  return { s: +(1 - 0.2 * d - (i % 2 ? 0.05 : 0)).toFixed(2), y: i % 2 ? 3 : 0, z: Math.round(10 - d * 8) };
+  return { y: i % 2 ? 4 : 0, z: Math.round(10 - d * 8) };
 });
+const vars = (b: HeroBust) => `--k:${b.k}; --ox:${b.o[0]}%; --oy:${b.o[1]}%`;
 ---
 
 <section class="hero">
@@ -66,29 +67,32 @@ const layout = group.map((_, i) => {
   </div>
 
   <div class="hero__stage container">
-    <div class="hero__band stripes" aria-hidden="true"></div>
 
     <Annotation class="hero__note hero__note--1" arrow="down-right" rotate={-6}>des soirées, des souvenirs</Annotation>
     <Annotation class="hero__note hero__note--2" arrow="down-left" rotate={5}>une quinzaine de copains</Annotation>
     <Annotation class="hero__note hero__note--3" arrow="down-left" rotate={-3}>aucun n'a été choisi !</Annotation>
 
-    <ul class="hero__group" aria-label="La bande" style={`--n:${N}`} data-hero-group data-pool={JSON.stringify(pool)}>
-      {group.map((b, i) => {
-        const l = layout[i];
-        return (
-          <li class="hero__member" style={`--s:${l.s}; --y:${l.y}%; --z:${l.z}; --d:${i * 70}ms`}>
-            <img class="figure" src={url(`/${b.src}`)} alt={b.name} loading="eager" decoding="async" data-hero-slot={i} style={`--k:${b.scale ?? 1}`} />
-          </li>
-        );
-      })}
-    </ul>
-    <div class="hero__ground" aria-hidden="true"></div>
+    {/* Les copains sont DANS l'encart : coupés par son bord bas, la tête peut dépasser en haut */}
+    <div class="hero__scene">
+      <div class="hero__band stripes" aria-hidden="true"></div>
+      <ul class="hero__group" aria-label="La bande" style={`--n:${N}`} data-hero-group data-pool={JSON.stringify(pool)}>
+        {group.map((b, i) => {
+          const l = layout[i];
+          return (
+            <li class="hero__member" style={`--y:${l.y}%; --z:${l.z}; --d:${i * 70}ms`}>
+              <img class="figure" src={url(`/${b.src}`)} alt={b.name} loading="eager" decoding="async" data-hero-slot={i} style={vars(b)} />
+            </li>
+          );
+        })}
+      </ul>
+      <div class="hero__cadre" aria-hidden="true"></div>
+    </div>
   </div>
 </section>
 
 <script>
   // Nouveau tirage à chaque chargement de page (mêmes règles que côté serveur)
-  type Bust = { slug: string; name: string; family: string; src: string };
+  type Bust = { slug: string; name: string; family: string; src: string; k: number; o: [number, number] };
   const groupEl = document.querySelector<HTMLElement>('[data-hero-group]');
   if (groupEl) {
     const pool: Bust[] = JSON.parse(groupEl.dataset.pool!);
@@ -107,7 +111,9 @@ const layout = group.map((_, i) => {
       if (img) {
         img.src = b.src;
         img.alt = b.name;
-        img.style.setProperty('--k', String((b as Bust & { scale?: number }).scale ?? 1));
+        img.style.setProperty('--k', String(b.k));
+        img.style.setProperty('--ox', `${b.o[0]}%`);
+        img.style.setProperty('--oy', `${b.o[1]}%`);
       }
     });
   }
@@ -191,11 +197,22 @@ const layout = group.map((_, i) => {
     margin-top: clamp(24px, 5vw, 56px);
     padding-top: clamp(40px, 6vw, 70px);
   }
-  .hero__band {
+  /* Encart à bandes, légèrement penché ; les copains sont posés dedans */
+  .hero__scene {
+    --r: clamp(20px, 3vw, 36px);
+    position: relative;
+    margin: 0 2% 18px;
+    transform: rotate(-1.5deg);
+  }
+  .hero__band,
+  .hero__cadre {
     position: absolute;
-    inset: 30% calc(var(--gutter) + 2%) 5%;
+    inset: 30% 0 0;
     border: var(--border);
-    border-radius: clamp(20px, 3vw, 36px);
+    border-radius: var(--r);
+    pointer-events: none;
+  }
+  .hero__band {
     background-size: 100% 100%;
     background-image: repeating-linear-gradient(
       -50deg,
@@ -207,7 +224,11 @@ const layout = group.map((_, i) => {
       var(--orange) 35% 42%,
       var(--blue) 42% 49%
     );
-    transform: rotate(-1.5deg);
+  }
+  /* Bords bas et côtés redessinés par-dessus les copains (le haut reste derrière les têtes) */
+  .hero__cadre {
+    z-index: 20;
+    border-top-color: transparent;
   }
   .hero__group {
     position: relative;
@@ -215,16 +236,19 @@ const layout = group.map((_, i) => {
     justify-content: center;
     align-items: flex-end;
     margin: 0;
-    padding: 0 2%;
+    padding: 0 1%;
     list-style: none;
+    /* coupé au bord intérieur de l'encart (bas et côtés) ; rien au-dessus */
+    clip-path: inset(-60% 2px 2px 2px round 0 0 var(--r) var(--r));
   }
   .hero__member {
     flex: 0 0 auto;
-    width: calc(100% / var(--n) * 1.32);
-    margin-inline: calc(100% / var(--n) * -0.16);
+    width: calc(100% / var(--n) * 1.3);
+    margin-inline: calc(100% / var(--n) * -0.15);
     aspect-ratio: 200 / 280;
     z-index: var(--z);
-    transform: translateY(var(--y)) scale(var(--s));
+    /* le bas du buste (coupé dans la vidéo) passe sous le bord de l'encart */
+    transform: translateY(calc(var(--y) + 5%)) rotate(1.5deg);
     transform-origin: bottom center;
     animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: var(--d);
@@ -235,17 +259,21 @@ const layout = group.map((_, i) => {
     height: 100%;
     object-fit: contain;
     object-position: bottom center;
+    /* même taille de tête pour tous : mise à l'échelle autour du visage */
     transform: scale(var(--k, 1));
-    transform-origin: bottom center;
+    transform-origin: var(--ox, 50%) var(--oy, 30%);
+    /* bords du cadrage (bras, panneau coupés net) adoucis en fondu */
+    --fondu: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent),
+      linear-gradient(to bottom, transparent, #000 5%);
+    -webkit-mask-image: var(--fondu);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--fondu);
+    mask-composite: intersect;
   }
-  .hero__member:hover {
-    animation: wiggle 0.5s ease;
-  }
-  .hero__ground {
-    position: relative;
-    height: 14px;
-    margin: -8px 4% 0;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 14' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 80 3, 160 12, 240 6 S 360 4, 398 9' fill='none' stroke='%23161412' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  @media (hover: hover) {
+    .hero__member:hover {
+      animation: wiggle 0.5s ease;
+    }
   }
 
   /* ── Annotations ── */
@@ -269,7 +297,7 @@ const layout = group.map((_, i) => {
   @keyframes pop-in {
     from {
       opacity: 0;
-      transform: translateY(calc(var(--y) + 18%)) scale(calc(var(--s) * 0.9));
+      transform: translateY(calc(var(--y) + 32%)) rotate(1.5deg);
     }
   }
   @keyframes wiggle {
@@ -296,8 +324,8 @@ const layout = group.map((_, i) => {
     :global(.hero__note--1) {
       top: 0;
     }
-    .hero__band {
-      inset: 34% var(--gutter) 5%;
+    .hero__scene {
+      margin-inline: 0;
     }
   }
   @media (max-width: 420px) {

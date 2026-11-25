@@ -16,7 +16,7 @@ import { ACCESSORIES, BACKGROUNDS, FORMATS, FRAMES, LANDSCAPE_HINT_FROM, MAX_CHA
 import PosterCanvas from './PosterCanvas';
 import { autoLayout } from './layout';
 import Standee from './Standee';
-import { ajouterAuPanier, ecrirePanier, ecrireProjets, lirePanier, lireProjets, sauverProjet } from '../commande/panier';
+import { ajouterAuPanier, ecrirePanier, ecrireProjets, estBande, lirePanier, lireProjets, sauverProjet, type ArticlePanier } from '../commande/panier';
 import { decodeRecette, type PrintFormat, type Recette } from '../commande/recette';
 import './configurator.css';
 
@@ -100,7 +100,7 @@ export default function PosterConfigurator({ roster }: Props) {
     const idPanier = q.get('modifier');
     const idProjet = q.get('projet');
     const article = idPanier
-      ? lirePanier().find((a) => a.id === idPanier)
+      ? lirePanier().find((a): a is ArticlePanier => a.id === idPanier && !estBande(a))
       : idProjet
         ? lireProjets().find((a) => a.id === idProjet)
         : undefined;

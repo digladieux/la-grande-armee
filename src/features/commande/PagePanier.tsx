@@ -1,6 +1,20 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { commande } from '@/data/commande';
-import { ajouterAuPanier, ecrirePanier, ecrireProjets, EVENT, EVENT_PROJETS, lirePanier, lireProjets, type ArticlePanier, type Projet } from './panier';
+import {
+  ajouterAuPanier,
+  ecrirePanier,
+  ecrireProjets,
+  estBande,
+  EVENT,
+  EVENT_PROJETS,
+  imageBande,
+  lirePanier,
+  lireProjets,
+  type Article,
+  type ArticleBande,
+  type ArticlePanier,
+  type Projet,
+} from './panier';
 import { encodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat } from './recette';
 import { dessinerAffiche } from './rendu';
 import './commande.css';
@@ -16,22 +30,64 @@ function Apercu({ item, largeur = 360, classe = 'cmd__apercu' }: { item: Article
   return <canvas ref={ref} class={classe} aria-label={`Aperçu : ${titreAffiche(item.recette)}`} />;
 }
 
+/** Grande affiche « La bande » : image toute faite. */
+function ApercuBande({ item, classe = 'cmd__apercu' }: { item: ArticleBande; classe?: string }) {
+  return (
+    <img
+      class={`${classe} cmd__apercu--bande`}
+      src={`${base}${imageBande(item.bande.titre)}`}
+      alt={`Aperçu : La bande, ${item.bande.titre ? 'avec' : 'sans'} titre`}
+      decoding="async"
+    />
+  );
+}
+
+const nomArticle = (it: Article) => (estBande(it) ? 'La bande' : titreAffiche(it.recette));
+
 /** Dernier coup d'œil avant de commander : l'affiche en grand, avec quantité et « Retirer ». */
-function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; fermer: () => void; quantite: (q: number) => void; retirer: () => void }) {
+function Revoir({
+  item,
+  fermer,
+  quantite,
+  retirer,
+}: {
+  item: Article;
+  fermer: () => void;
+  quantite: (q: number) => void;
+  retirer: () => void;
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     ref.current?.showModal();
   }, []);
   return (
-    <dialog ref={ref} class="cmd__revoir" onClose={fermer} onClick={(e) => e.target === ref.current && fermer()} aria-label={`Affiche « ${titreAffiche(item.recette)} »`}>
+    <dialog
+      ref={ref}
+      class="cmd__revoir"
+      onClose={fermer}
+      onClick={(e) => e.target === ref.current && fermer()}
+      aria-label={`Affiche « ${nomArticle(item)} »`}
+    >
       <div class="cmd__revoir-boite">
         <button type="button" class="cmd__revoir-fermer" onClick={fermer} aria-label="Fermer">
           ✕
         </button>
-        <Apercu item={item} largeur={1400} classe={`cmd__revoir-affiche cmd__revoir-affiche--${item.recette.orientation}`} />
+        {estBande(item) ? (
+          <ApercuBande item={item} classe="cmd__revoir-affiche cmd__revoir-affiche--bande" />
+        ) : (
+          <Apercu item={item} largeur={1400} classe={`cmd__revoir-affiche cmd__revoir-affiche--${item.recette.orientation}`} />
+        )}
         <div class="cmd__revoir-pied">
           <p>
-            <strong>{titreAffiche(item.recette)}</strong> · {item.format} · {item.recette.orientation}
+            {estBande(item) ? (
+              <>
+                <strong>La bande</strong> · {item.bande.titre ? 'avec titre' : 'sans titre'}
+              </>
+            ) : (
+              <>
+                <strong>{titreAffiche(item.recette)}</strong> · {item.format} · {item.recette.orientation}
+              </>
+            )}
           </p>
           <div class="cmd__reglages">
             <div class="cmd__qte" aria-label="Quantité">
@@ -43,9 +99,11 @@ function Revoir({ item, fermer, quantite, retirer }: { item: ArticlePanier; ferm
                 +
               </button>
             </div>
-            <a class="cmd__modifier" href={`${base}creer-mon-affiche?modifier=${item.id}`}>
-              ✎ Modifier
-            </a>
+            {!estBande(item) && (
+              <a class="cmd__modifier" href={`${base}creer-mon-affiche?modifier=${item.id}`}>
+                ✎ Modifier
+              </a>
+            )}
             <button type="button" class="cmd__retirer" onClick={retirer}>
               Retirer du panier
             </button>
@@ -83,7 +141,16 @@ function Sauvegardes() {
         {projets.map((p) => (
           <li key={p.id} class="cmd__projet">
             <a href={`${base}creer-mon-affiche?projet=${p.id}`} aria-label="Reprendre cette affiche">
-              <Apercu item={{ id: p.id, ajouteLe: p.sauveLe, recette: p.recette, format: p.format, quantite: 1 }} largeur={900} />
+              <Apercu
+                item={{
+                  id: p.id,
+                  ajouteLe: p.sauveLe,
+                  recette: p.recette,
+                  format: p.format,
+                  quantite: 1,
+                }}
+                largeur={900}
+              />
             </a>
             <p class="cmd__nom">{titreAffiche(p.recette)}</p>
             <p class="cmd__detail">{p.recette.members.map((m) => m.name).join(', ')}</p>
@@ -113,12 +180,15 @@ function Sauvegardes() {
   );
 }
 
+/** Fichier haute définition (6000 px) de la grande affiche, pour l'imprimeur. */
+const lienBandeHD = (it: ArticleBande) =>
+  `${location.origin}${base}images/boutique/impression/la-bande-hd${it.bande.titre ? '' : '-sans-titre'}.jpg`;
+
 /** Lien vers la page qui redessine l'affiche en grand et produit le PDF d'impression. */
-const lienAffiche = (item: ArticlePanier) =>
-  `${location.origin}${base}commande/affiche?f=${item.format}&r=${encodeRecette(item.recette)}`;
+const lienAffiche = (item: ArticlePanier) => `${location.origin}${base}commande/affiche?f=${item.format}&r=${encodeRecette(item.recette)}`;
 
 export default function PagePanier() {
-  const [items, setItems] = useState<ArticlePanier[]>([]);
+  const [items, setItems] = useState<Article[]>([]);
   const [prenom, setPrenom] = useState('');
   const [contact, setContact] = useState('');
   const [message, setMessage] = useState('');
@@ -136,8 +206,8 @@ export default function PagePanier() {
     };
   }, []);
 
-  const maj = (id: string, patch: Partial<ArticlePanier>) => {
-    const next = items.map((i) => (i.id === id ? { ...i, ...patch } : i));
+  const maj = (id: string, patch: Partial<ArticlePanier> | Partial<ArticleBande>) => {
+    const next = items.map((i) => (i.id === id ? ({ ...i, ...patch } as Article) : i));
     setItems(next);
     ecrirePanier(next);
   };
@@ -147,14 +217,42 @@ export default function PagePanier() {
     ecrirePanier(next);
   };
 
-  const actif = !!commande.web3formsKey;
+  const actif = !!(commande.sheetUrl || commande.web3formsKey);
   const pret = items.length > 0 && prenom.trim() && contact.trim();
 
   const envoyer = async (e: Event) => {
     e.preventDefault();
     if (!pret || !actif) return;
     setEnvoi('envoi');
+    // Une ligne par affiche pour le Google Sheet
+    const affiches = items.map((it) =>
+      estBande(it)
+        ? {
+            type: 'Grande affiche « La bande »',
+            titre: it.bande.titre ? 'Avec titre' : 'Sans titre',
+            detail: 'Toute la Grande Armée',
+            format: 'Taille fixe',
+            quantite: it.quantite,
+            lien: lienBandeHD(it),
+          }
+        : {
+            type: 'Affiche personnalisée',
+            titre: titreAffiche(it.recette) + (it.recette.showSubtitle && it.recette.subtitle ? ` — ${it.recette.subtitle}` : ''),
+            detail:
+              it.recette.members.map((m) => `${m.name} (${m.family})`).join(', ') +
+              (it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''),
+            format: `${it.format} ${it.recette.orientation}`,
+            quantite: it.quantite,
+            lien: lienAffiche(it),
+          },
+    );
     const lignes = items.map((it, n) => {
+      if (estBande(it))
+        return [
+          `Affiche ${n + 1} — Grande affiche « La bande » (${it.bande.titre ? 'avec' : 'sans'} titre)`,
+          `  Quantité : ${it.quantite}`,
+          `  Fichier haute définition à imprimer : ${lienBandeHD(it)}`,
+        ].join('\n');
       const r = it.recette;
       return [
         `Affiche ${n + 1} — « ${titreAffiche(r)} »`,
@@ -177,18 +275,40 @@ export default function PagePanier() {
     ]
       .filter((l) => l !== null)
       .join('\n');
+    const numero = new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: commande.web3formsKey,
-          subject: `Commande d'affiches — ${prenom.trim()} (${items.reduce((n, i) => n + i.quantite, 0)})`,
-          from_name: `La Grande Armée — ${prenom.trim()}`,
-          message: corps,
-        }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
+      if (commande.sheetUrl) {
+        // Apps Script : pas de lecture de la réponse possible (no-cors), on considère l'envoi réussi s'il part
+        await fetch(commande.sheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            numero,
+            prenom: prenom.trim(),
+            contact: contact.trim(),
+            message: message.trim(),
+            affiches,
+            texte: `Commande ${numero}\n${corps}`,
+          }),
+        });
+      }
+      if (commande.web3formsKey) {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: commande.web3formsKey,
+            subject: `Commande d'affiches — ${prenom.trim()} (${items.reduce((n, i) => n + i.quantite, 0)})`,
+            from_name: `La Grande Armée — ${prenom.trim()}`,
+            message: corps,
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+      }
       setEnvoi('ok');
       ecrirePanier([]);
       setItems([]);
@@ -225,45 +345,96 @@ export default function PagePanier() {
   return (
     <div class="cmd">
       <ul class="cmd__liste">
-        {items.map((it) => (
-          <li key={it.id} class="cmd__article">
-            <button type="button" class="cmd__voir" onClick={() => setRevu(it.id)} aria-label="Revoir l'affiche en grand">
-              <Apercu item={it} />
-              <span class="cmd__voir-badge">⤢ Revoir</span>
-            </button>
-            <div class="cmd__infos">
-              <p class="cmd__nom">{titreAffiche(it.recette)}</p>
-              <p class="cmd__detail">
-                {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
-                {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} · {it.recette.orientation}
-              </p>
-              <div class="cmd__reglages">
-                <label>
-                  <span>Format</span>
-                  <select value={it.format} onChange={(e) => maj(it.id, { format: (e.target as HTMLSelectElement).value as PrintFormat })}>
-                    {FORMATS.map((f) => (
-                      <option value={f}>
-                        {f} — {PRINT_SIZES[f][0] / 10} × {PRINT_SIZES[f][1] / 10} cm
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <div class="cmd__qte" aria-label="Quantité">
-                  <button type="button" onClick={() => maj(it.id, { quantite: Math.max(1, it.quantite - 1) })} aria-label="Moins">
-                    −
-                  </button>
-                  <span>{it.quantite}</span>
-                  <button type="button" onClick={() => maj(it.id, { quantite: Math.min(20, it.quantite + 1) })} aria-label="Plus">
-                    +
+        {items.map((it) =>
+          estBande(it) ? (
+            <li key={it.id} class="cmd__article cmd__article--bande">
+              <button type="button" class="cmd__voir" onClick={() => setRevu(it.id)} aria-label="Revoir l'affiche en grand">
+                <ApercuBande item={it} />
+                <span class="cmd__voir-badge">⤢ Revoir</span>
+              </button>
+              <div class="cmd__infos">
+                <p class="cmd__nom">La bande</p>
+                <p class="cmd__detail">La grande affiche avec toute la Grande Armée</p>
+                <div class="cmd__reglages">
+                  <label>
+                    <span>Titre</span>
+                    <select
+                      value={it.bande.titre ? 'avec' : 'sans'}
+                      onChange={(e) =>
+                        maj(it.id, {
+                          bande: {
+                            titre: (e.target as HTMLSelectElement).value === 'avec',
+                          },
+                        })
+                      }
+                    >
+                      <option value="avec">Avec le titre</option>
+                      <option value="sans">Sans titre</option>
+                    </select>
+                  </label>
+                  <div class="cmd__qte" aria-label="Quantité">
+                    <button type="button" onClick={() => maj(it.id, { quantite: Math.max(1, it.quantite - 1) })} aria-label="Moins">
+                      −
+                    </button>
+                    <span>{it.quantite}</span>
+                    <button type="button" onClick={() => maj(it.id, { quantite: Math.min(20, it.quantite + 1) })} aria-label="Plus">
+                      +
+                    </button>
+                  </div>
+                  <button type="button" class="cmd__retirer" onClick={() => retirer(it.id)}>
+                    Retirer
                   </button>
                 </div>
-                <button type="button" class="cmd__retirer" onClick={() => retirer(it.id)}>
-                  Retirer
-                </button>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ) : (
+            <li key={it.id} class="cmd__article">
+              <button type="button" class="cmd__voir" onClick={() => setRevu(it.id)} aria-label="Revoir l'affiche en grand">
+                <Apercu item={it} />
+                <span class="cmd__voir-badge">⤢ Revoir</span>
+              </button>
+              <div class="cmd__infos">
+                <p class="cmd__nom">{titreAffiche(it.recette)}</p>
+                <p class="cmd__detail">
+                  {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
+                  {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} ·{' '}
+                  {it.recette.orientation}
+                </p>
+                <div class="cmd__reglages">
+                  <label>
+                    <span>Format</span>
+                    <select
+                      value={it.format}
+                      onChange={(e) =>
+                        maj(it.id, {
+                          format: (e.target as HTMLSelectElement).value as PrintFormat,
+                        })
+                      }
+                    >
+                      {FORMATS.map((f) => (
+                        <option value={f}>
+                          {f} — {PRINT_SIZES[f][0] / 10} × {PRINT_SIZES[f][1] / 10} cm
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <div class="cmd__qte" aria-label="Quantité">
+                    <button type="button" onClick={() => maj(it.id, { quantite: Math.max(1, it.quantite - 1) })} aria-label="Moins">
+                      −
+                    </button>
+                    <span>{it.quantite}</span>
+                    <button type="button" onClick={() => maj(it.id, { quantite: Math.min(20, it.quantite + 1) })} aria-label="Plus">
+                      +
+                    </button>
+                  </div>
+                  <button type="button" class="cmd__retirer" onClick={() => retirer(it.id)}>
+                    Retirer
+                  </button>
+                </div>
+              </div>
+            </li>
+          ),
+        )}
       </ul>
 
       {(() => {

@@ -48,6 +48,10 @@
   border: 1.5px solid var(--ink);
   box-shadow: 0 6px 14px -6px rgb(22 20 18 / 0.35);
 }
+/* Grande affiche « La bande » : très large, colonne plus grande */
+.cmd__article--bande {
+  grid-template-columns: minmax(160px, 260px) 1fr;
+}
 .cmd__nom {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -240,6 +244,10 @@
   .cmd__article {
     grid-template-columns: 96px 1fr;
   }
+  /* Grande affiche (2 pour 1) : en entier au-dessus des réglages */
+  .cmd__article--bande {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Panier : l'aperçu se clique pour revoir l'affiche en grand une dernière fois */
@@ -303,6 +311,10 @@
   max-width: 100%;
   max-height: calc(100dvh - 200px);
   box-shadow: 0 10px 24px -10px rgb(22 20 18 / 0.45);
+}
+.cmd__revoir-affiche--bande {
+  width: min(100%, 1400px);
+  object-fit: contain;
 }
 .cmd__revoir-pied {
   display: grid;

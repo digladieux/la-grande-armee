@@ -5,6 +5,8 @@ import { url } from '@/lib/url';
 
 /** Grande affiche « foule » : tous les copains dans toutes leurs tenues (sources/affiches/banniere.py). */
 const full = url('/images/boutique/affiche-la-bande.jpg');
+const sansTitre = url('/images/boutique/affiche-la-bande-sans-titre.jpg');
+const panier = url('/panier');
 ---
 
 <PageShell
@@ -16,11 +18,20 @@ const full = url('/images/boutique/affiche-la-bande.jpg');
 >
   <figure class="bande">
     <div class="bande__viewport" data-bande tabindex="0" aria-label="Affiche « La bande » : faire défiler pour parcourir la foule">
-      <img src={full} alt="La grande affiche : tous les copains de La Grande Armée, toutes familles confondues" width="4400" height="2163" decoding="async" draggable="false" />
+      <img src={full} data-avec={full} data-sans={sansTitre} alt="La grande affiche : tous les copains de La Grande Armée, toutes familles confondues" width="4400" height="2163" decoding="async" draggable="false" />
     </div>
     <figcaption class="hand">Fais glisser l'affiche pour parcourir la foule et retrouver tout le monde !</figcaption>
-    <a class="bande__full" href={full} target="_blank" rel="noopener">Voir l'affiche entière</a>
+    <a class="bande__full" href={full} target="_blank" rel="noopener" data-bande-full>Voir l'affiche entière</a>
   </figure>
+
+  <form class="bande__achat" data-bande-achat>
+    <span class="bande__titre" role="radiogroup" aria-label="Titre de l'affiche">
+      <label><input type="radio" name="titre" value="avec" checked /><span>avec titre</span></label>
+      <label><input type="radio" name="titre" value="sans" /><span>sans titre</span></label>
+    </span>
+    <button type="submit" class="bande__ajouter">Ajouter au panier</button>
+    <span class="bande__ok" data-bande-ok hidden>✓ Ajoutée · <a href={panier}>Voir le panier →</a></span>
+  </form>
 
   <div class="bande__info">
     <p>
@@ -72,6 +83,62 @@ const full = url('/images/boutique/affiche-la-bande.jpg');
     transform: rotate(-1.5deg);
     text-align: center;
   }
+  /* Choix discret sous l'affiche : avec ou sans titre, puis panier */
+  .bande__achat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 12px;
+    margin: 14px auto 0;
+    font-size: 0.88rem;
+  }
+  .bande__titre {
+    display: inline-flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bande__titre label {
+    cursor: pointer;
+  }
+  .bande__titre input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .bande__titre span {
+    display: block;
+    padding: 4px 11px;
+    font-weight: 600;
+  }
+  .bande__titre label + label span {
+    border-left: 1.5px solid var(--ink);
+  }
+  .bande__titre input:checked + span {
+    background: var(--yellow);
+  }
+  .bande__titre input:focus-visible + span {
+    outline: 2px solid var(--ink);
+    outline-offset: -4px;
+  }
+  .bande__ajouter {
+    padding: 5px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--coral);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .bande__ok {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .bande__ok a {
+    color: var(--ink);
+  }
   .bande__info {
     display: grid;
     gap: 18px;
@@ -92,6 +159,32 @@ const full = url('/images/boutique/affiche-la-bande.jpg');
 </style>
 
 <script>
+  import { ajouterBande } from '@/features/commande/panier';
+
+  // Avec / sans titre : l'affiche montrée change ; « Ajouter au panier »
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-bande-achat]')) {
+    const img = document.querySelector<HTMLImageElement>('[data-bande] img');
+    const lien = document.querySelector<HTMLAnchorElement>('[data-bande-full]');
+    const ok = form.querySelector<HTMLElement>('[data-bande-ok]');
+    const avecTitre = () => (form.elements.namedItem('titre') as RadioNodeList).value !== 'sans';
+    form.addEventListener('change', () => {
+      if (ok) ok.hidden = true;
+      if (!img) return;
+      const src = avecTitre() ? img.dataset.avec! : img.dataset.sans!;
+      if (img.getAttribute('src') !== src) {
+        const pos = img.parentElement!.scrollLeft;
+        img.src = src;
+        img.parentElement!.scrollLeft = pos;
+      }
+      if (lien) lien.href = src;
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      ajouterBande(avecTitre());
+      if (ok) ok.hidden = false;
+    });
+  }
+
   // Départ au centre de la foule ; glisser à la souris (au doigt, le défilement natif suffit)
   for (const el of document.querySelectorAll<HTMLElement>('[data-bande]')) {
     const centre = () => (el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2);
