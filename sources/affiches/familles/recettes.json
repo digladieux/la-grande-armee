@@ -387,8 +387,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/turquet/izikarate-cutout.png",
     "p": {
-     "x": 22.04,
-     "y": 71.21,
+     "x": 10.5,
+     "y": 77.94,
      "h": 36.1,
      "z": 10
     }
@@ -398,8 +398,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/donne/izikarate-cutout.png",
     "p": {
-     "x": 78.35,
-     "y": 72,
+     "x": 91.48,
+     "y": 75.41,
      "h": 39.22,
      "z": 11
     }
@@ -409,8 +409,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/merlot/izikarate-cutout.png",
     "p": {
-     "x": 69.68,
-     "y": 72.76,
+     "x": 80.76,
+     "y": 76.09,
      "h": 39.46,
      "z": 12
     }
@@ -420,8 +420,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/nael/izikarate-cutout.png",
     "p": {
-     "x": 74.1,
-     "y": 79.33,
+     "x": 85.87,
+     "y": 78.56,
      "h": 20.16,
      "z": 13
     }
@@ -431,10 +431,10 @@
     "family": "Izi Karaté",
     "src": "images/personnages/aubin/izikarate-cutout.png",
     "p": {
-     "x": 28.63,
-     "y": 95.2,
+     "x": 41.93,
+     "y": 94.78,
      "h": 29.69,
-     "z": 14
+     "z": 20
     }
    },
    {
@@ -442,8 +442,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/laurent/izikarate-cutout.png",
     "p": {
-     "x": 31.51,
-     "y": 70.68,
+     "x": 20.37,
+     "y": 77.67,
      "h": 37.51,
      "z": 15
     }
@@ -453,10 +453,10 @@
     "family": "Izi Karaté",
     "src": "images/personnages/guigui/izikarate-cutout.png",
     "p": {
-     "x": 45.18,
-     "y": 73.95,
+     "x": 32.4,
+     "y": 80.1,
      "h": 43.58,
-     "z": 16
+     "z": 21
     }
    },
    {
@@ -464,8 +464,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/dim/izikarate-cutout.png",
     "p": {
-     "x": 58.06,
-     "y": 73.39,
+     "x": 69.47,
+     "y": 77.3,
      "h": 39.94,
      "z": 17
     }
@@ -475,8 +475,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/dauby/izikarate-cutout.png",
     "p": {
-     "x": 43.53,
-     "y": 88.67,
+     "x": 43.09,
+     "y": 75.11,
      "h": 34.4,
      "z": 18
     }
@@ -486,8 +486,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/fred/izikarate-cutout.png",
     "p": {
-     "x": 63.36,
-     "y": 89.76,
+     "x": 58.23,
+     "y": 78.08,
      "h": 35.83,
      "z": 19
     }
@@ -960,9 +960,9 @@
     "family": "Beauf",
     "src": "images/personnages/guigui/beauf-cutout.png",
     "p": {
-     "x": 22.13,
-     "y": 74.63,
-     "h": 38.3,
+     "x": 21.22,
+     "y": 61.95,
+     "h": 24.52,
      "z": 10
     }
    },
@@ -1016,8 +1016,8 @@
     "family": "Beauf",
     "src": "images/personnages/merlot/beauf-cutout.png",
     "p": {
-     "x": 12.42,
-     "y": 80.09,
+     "x": 13.15,
+     "y": 83.76,
      "h": 27.51,
      "z": 24
     }
@@ -1027,8 +1027,8 @@
     "family": "Beauf",
     "src": "images/personnages/coco/beauf-cutout.png",
     "p": {
-     "x": 51.64,
-     "y": 85.94,
+     "x": 51.41,
+     "y": 88.08,
      "h": 39.31,
      "z": 22
     }
@@ -1038,8 +1038,8 @@
     "family": "Beauf",
     "src": "images/personnages/fred/beauf-cutout.png",
     "p": {
-     "x": 75.22,
-     "y": 86.09,
+     "x": 74.91,
+     "y": 84.81,
      "h": 48.38,
      "z": 23
     }

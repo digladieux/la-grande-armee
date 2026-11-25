@@ -766,28 +766,74 @@
 }
 
 .pc__added {
+  /* petite bulle discrète en bas de l'écran, couleur des boutons du site ; disparaît seule */
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  z-index: 200;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 0 16px 12px;
-  padding: 10px 14px;
-  border: var(--border);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--green) 45%, var(--paper));
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 8px 8px 8px 12px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.92rem;
   font-weight: 700;
-  animation: hero-pop 0.35s ease;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px -10px rgb(22 20 18 / 0.55);
+  transform: translateX(-50%);
+  animation: pc-bulle 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pc__added-icone {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.8rem;
+}
+.pc__added-icone--coeur {
+  color: #f08fa6;
 }
 .pc__added a {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--yellow);
   color: var(--ink);
   font-weight: 800;
+  text-decoration: none;
 }
 .pc__added button {
-  margin-left: auto;
   border: 0;
   background: none;
-  font-size: 1.3rem;
+  color: inherit;
+  opacity: 0.7;
+  font-size: 1.15rem;
+  line-height: 1;
+  padding: 0 6px;
   cursor: pointer;
+}
+/* Variante en haut de l'écran (fenêtre des modèles : le bouton « Ajouter au panier » est en bas) */
+.pc__added--haut {
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  bottom: auto;
+  animation-name: pc-bulle-haut;
+}
+@keyframes pc-bulle-haut {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -16px);
+  }
+}
+@keyframes pc-bulle {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
 }
 
 /* ── Responsive ── */
@@ -1028,13 +1074,47 @@
   font-size: 0.88rem;
   color: var(--ink-soft);
 }
+/* Netteté : une petite ligne discrète sous les outils, seulement quand c'est utile */
+.pc__nettete {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.pc__nettete--flou {
+  color: #b4532a;
+  font-weight: 700;
+}
+/* « Tout remettre en place » : simple lien discret (on ne clique pas dessus par réflexe) */
 .pc__editbar .pc__editbar-reset {
   margin-left: auto;
+  min-height: 0;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  box-shadow: none;
+}
+@media (hover: hover) {
+  .pc__editbar .pc__editbar-reset:hover {
+    background: none;
+    color: var(--ink);
+    box-shadow: none;
+  }
+}
+/* Aperçu en grand : « ✓ OK » en bas à droite referme l'aperçu */
+.pc__editbar .pc__editbar-ok {
+  margin-left: auto;
+  padding-inline: 22px;
   background: var(--ink);
   color: var(--paper);
 }
 @media (hover: hover) {
-  .pc__editbar .pc__editbar-reset:hover {
+  .pc__editbar .pc__editbar-ok:hover {
     background: var(--ink);
     box-shadow: 3px 3px 0 var(--yellow);
   }
@@ -1248,7 +1328,9 @@
 }
 
 /* Affiche : déplacer un copain vite au doigt ne doit jamais sélectionner le texte ou les images
-   (surlignage bleu et menu « Copier » d'iOS) */
+   (surlignage bleu et menu « Copier » d'iOS) — ni les textes du panneau (nom de l'accessoire…) */
+.pc,
+.pc *:not(input):not(textarea):not(select),
 .pc-big__stage,
 .pc__wall,
 .poster-frame,
@@ -1352,4 +1434,9 @@
   .pc__prev:hover {
     color: var(--ink);
   }
+}
+
+.pc__editbar-tools button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }

@@ -28,6 +28,12 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
   const [id, setId] = useState(modeles[0]?.id);
   const [format, setFormat] = useState<PrintFormat>('A4');
   const [ajoute, setAjoute] = useState(false);
+  // Bulle « Ajoutée au panier » (comme dans le configurateur) : disparaît toute seule
+  useEffect(() => {
+    if (!ajoute) return;
+    const t = setTimeout(() => setAjoute(false), 5000);
+    return () => clearTimeout(t);
+  }, [ajoute]);
   const [ouvert, setOuvert] = useState(false);
   // Lien « Retoucher ce modèle » : seulement pour Elora (page ouverte avec ?retouche)
   const [admin, setAdmin] = useState(false);
@@ -139,21 +145,23 @@ export default function ModelesAffiches({ modeles }: { modeles: Modele[] }) {
             </div>
           </div>
 
-          {ajoute ? (
-            <p class="modeles__ok">
-              ✓ Ajoutée au panier · <a href={`${base}panier`}>Voir le panier →</a>
-            </p>
-          ) : (
-            <button
-              type="button"
-              class="modeles__cart"
-              onClick={() => {
-                ajouterAuPanier(modele.recette, format);
-                setAjoute(true);
-              }}
-            >
-              Ajouter au panier
-            </button>
+          <button
+            type="button"
+            class="modeles__cart"
+            onClick={() => {
+              ajouterAuPanier(modele.recette, format);
+              setAjoute(true);
+            }}
+          >
+            Ajouter au panier
+          </button>
+          {ajoute && (
+            <div class="pc__added pc__added--haut" role="status">
+              <span class="pc__added-icone" aria-hidden="true">✓</span>
+              <span>Ajoutée au panier</span>
+              <a href={`${base}panier`}>Voir</a>
+              <button type="button" onClick={() => setAjoute(false)} aria-label="Fermer">×</button>
+            </div>
           )}
         </div>
 

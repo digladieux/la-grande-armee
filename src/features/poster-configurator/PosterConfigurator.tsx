@@ -17,7 +17,7 @@ import PosterCanvas from './PosterCanvas';
 import { autoLayout } from './layout';
 import Standee from './Standee';
 import { ajouterAuPanier, ecrirePanier, ecrireProjets, estBande, lirePanier, lireProjets, sauverProjet, type ArticlePanier } from '../commande/panier';
-import { decodeRecette, type PrintFormat, type Recette } from '../commande/recette';
+import { decodeRecette, PRINT_SIZES, type PrintFormat, type Recette } from '../commande/recette';
 import './configurator.css';
 
 interface Props {
@@ -66,7 +66,7 @@ export default function PosterConfigurator({ roster }: Props) {
     background: 'bandes',
     // Seule l'affiche est fournie : le cadre n'est qu'un aperçu, désactivé par défaut
     frame: 'sans',
-    format: 'A3',
+    format: 'A4',
     orientation: 'portrait',
     layout: null,
     title: 'La Grande Armée',
@@ -191,6 +191,15 @@ export default function PosterConfigurator({ roster }: Props) {
   // ── Disposition de l'affiche ──
   const [selected, setSelected] = useState<string | undefined>();
   const [ajoute, setAjoute] = useState(false);
+  // Bulle de confirmation (sauvegarde / panier) : disparaît toute seule
+  useEffect(() => {
+    if (!sauve && !ajoute) return;
+    const t = setTimeout(() => {
+      setSauve(false);
+      setAjoute(false);
+    }, 5000);
+    return () => clearTimeout(t);
+  }, [sauve, ajoute]);
   const [big, setBig] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const openBig = () => setBig(true);
@@ -244,8 +253,55 @@ export default function PosterConfigurator({ roster }: Props) {
     } else setState((s) => ({ ...s, layout: { ...placements, [key]: { ...placements[key], ...patch } } }));
   };
   const sel = selected && allPlacements[selected] ? allPlacements[selected] : undefined;
+
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+  // ── Netteté à l'impression : un dessin trop agrandi devient flou (pas assez de pixels) ──
+  /** En dessous, l'impression est floue : « + » s'arrête là et un petit message prévient. */
+  const DPI_MIN = 130;
+  const [pixels, setPixels] = useState<Record<string, number>>({});
+  const sourceDe = (key: string) => {
+    if (key.startsWith(ACC)) {
+      const a = accessoryById.get(key.slice(ACC.length));
+      return a ? base + a.src : undefined;
+    }
+    const s = state.selection.find((x) => keyOf(x) === key);
+    return s ? visuel(s).src : undefined;
+  };
+  const nomDe = (key: string) =>
+    key.startsWith(ACC) ? (accessoryById.get(key.slice(ACC.length))?.label ?? '') : (bySlug.get(slugOf(key))?.name ?? '');
+  useEffect(() => {
+    for (const key of Object.keys(allPlacements)) {
+      const src = sourceDe(key);
+      if (!src || pixels[src]) continue;
+      const img = new Image();
+      img.onload = () => setPixels((p) => ({ ...p, [src]: img.naturalHeight }));
+      img.src = src;
+    }
+  }, [allPlacements]);
+  /** Hauteur imprimée de la feuille (pouces) : h des placements = % de cette hauteur. */
+  const hauteurFeuille = () => {
+    const [w, h] = PRINT_SIZES[state.format as PrintFormat];
+    return (state.orientation === 'portrait' ? h : w) / 25.4;
+  };
+  const dpiDe = (key: string, h: number) => {
+    const src = sourceDe(key);
+    const px = src ? pixels[src] : 0;
+    return px ? px / ((h / 100) * hauteurFeuille()) : Infinity;
+  };
+  /** Hauteur maximale (%) qui reste nette pour ce calque. */
+  const hMax = (key: string) => {
+    const src = sourceDe(key);
+    const px = src ? pixels[src] : 0;
+    return px ? Math.min(95, (px / DPI_MIN / hauteurFeuille()) * 100) : 95;
+  };
+  const flous = Object.entries(allPlacements).filter(([k, p]) => dpiDe(k, p.h) < DPI_MIN).map(([k]) => nomDe(k));
   const zValues = Object.values(allPlacements).map((p) => p.z);
-  const resize = (factor: number) => sel && edit(selected!, { h: Math.min(95, Math.max(8, sel.h * factor)) });
+  const resize = (factor: number) => {
+    if (!sel) return;
+    // on n'agrandit pas au-delà de la taille nette (mais on peut toujours réduire)
+    const h = factor > 1 ? Math.min(sel.h * factor, Math.max(sel.h, hMax(selected!))) : sel.h * factor;
+    edit(selected!, { h: Math.min(95, Math.max(8, h)) });
+  };
 
   /** Place de départ du n-ième accessoire : en bas de l'affiche, à gauche puis à droite, de plus en plus vers le centre. */
   const placeAccessoire = (n: number, id: string) => ({
@@ -274,10 +330,11 @@ export default function PosterConfigurator({ roster }: Props) {
     setLooks((l) => ({ ...l, [current.slug]: next }));
   };
 
+  // Portrait ↔ paysage : une affiche déjà arrangée à la main garde sa composition (mêmes positions en %)
   const setOrientation = (orientation: PosterState['orientation']) =>
     update({
       orientation,
-      layout: null,
+      layout: state.layout ? placements : null,
     });
 
   /** Retire un calque copain (clé) de l'affiche. */
@@ -330,7 +387,6 @@ export default function PosterConfigurator({ roster }: Props) {
     update({ selection: state.selection.map((s) => (s.slug === slug ? { ...s, look } : s)) });
   };
   // Panier : on enregistre la « recette » de l'affiche (redessinée en HD pour l'impression)
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   const recetteActuelle = (): Recette => ({
       v: 1,
       orientation: state.orientation,
@@ -391,7 +447,7 @@ export default function PosterConfigurator({ roster }: Props) {
       onMove={(slug, p) => edit(slug, p)}
     />
   );
-  const renderEditBar = () => (
+  const renderEditBar = (dansApercu = false) => (
     <div class="pc__editbar" aria-live="polite">
       {sel ? (
         <>
@@ -400,7 +456,7 @@ export default function PosterConfigurator({ roster }: Props) {
           </strong>
           <div class="pc__editbar-tools">
             <button type="button" onClick={() => resize(1 / 1.12)} aria-label="Réduire" title="Réduire">−</button>
-            <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir">+</button>
+            <button type="button" onClick={() => resize(1.12)} aria-label="Agrandir" title="Agrandir" disabled={sel.h >= hMax(selected!) - 0.1}>+</button>
             <button type="button" onClick={() => edit(selected!, { z: Math.max(...zValues) + 1 })}>Devant</button>
             <button type="button" onClick={() => edit(selected!, { z: Math.max(1, Math.min(...zValues) - 1) })}>Derrière</button>
             <button type="button" onClick={() => edit(selected!, { flip: !sel.flip })} title="Retourner">↔ Miroir</button>
@@ -412,6 +468,11 @@ export default function PosterConfigurator({ roster }: Props) {
               Retirer
             </button>
           </div>
+          {dpiDe(selected!, sel.h) < DPI_MIN ? (
+            <p class="pc__nettete pc__nettete--flou">Trop grand pour rester net en {state.format} : réduis-le un peu.</p>
+          ) : (
+            sel.h >= hMax(selected!) - 0.1 && <p class="pc__nettete">Taille maximale pour une impression nette.</p>
+          )}
         </>
       ) : (
         <p class="pc__editbar-hint">
@@ -420,11 +481,18 @@ export default function PosterConfigurator({ roster }: Props) {
             : ''}
         </p>
       )}
-      {(state.layout || Object.keys(state.accessories).length > 0) && (
+      {dansApercu ? (
+        // Aperçu en grand : en bas à droite, on valide et on referme
+        <button type="button" class="pc__editbar-ok" onClick={closeBig}>
+          ✓ OK
+        </button>
+      ) : (state.layout || Object.keys(state.accessories).length > 0) && (
         <button
           type="button"
           class="pc__editbar-reset"
+          title="Remettre tous les copains et accessoires à leur place de départ"
           onClick={() => {
+            if (!window.confirm('Tout remettre en place ? Tes déplacements seront perdus.')) return;
             // Copains ET accessoires reviennent à leur place de départ (taille, sens, ordre)
             const ids = Object.keys(state.accessories);
             update({
@@ -434,7 +502,7 @@ export default function PosterConfigurator({ roster }: Props) {
             setSelected(undefined);
           }}
         >
-          ↺ Réorganiser
+          ↺ Tout remettre en place
         </button>
       )}
     </div>
@@ -750,6 +818,12 @@ export default function PosterConfigurator({ roster }: Props) {
                   </button>
                 ))}
               </div>
+              {flous.length > 0 && (
+                <p class="pc__warn">
+                  En {state.format}, {flous.join(', ')} {flous.length > 1 ? 'seraient' : 'serait'} un peu flou{flous.length > 1 ? 's' : ''} à
+                  l'impression : réduis-{flous.length > 1 ? 'les' : 'le'} ou choisis un format plus petit.
+                </p>
+              )}
               <h4 class="pc__label">Aperçu encadré</h4>
               <p class="pc__hint">
                 Tu reçois l’affiche imprimée seule, sans cadre. Ces cadres servent juste à imaginer le rendu une fois encadrée chez toi.
@@ -768,15 +842,17 @@ export default function PosterConfigurator({ roster }: Props) {
 
         {sauve && (
           <div class="pc__added" role="status">
-            <span>♡ Affiche sauvegardée</span>
-            <a href={`${base}panier#sauvegardes`}>Mes affiches →</a>
+            <span class="pc__added-icone pc__added-icone--coeur" aria-hidden="true">♥</span>
+            <span>Affiche sauvegardée</span>
+            <a href={`${base}panier#sauvegardes`}>Voir</a>
             <button type="button" onClick={() => setSauve(false)} aria-label="Fermer">×</button>
           </div>
         )}
         {ajoute && (
           <div class="pc__added" role="status">
-            <span>✓ Affiche ajoutée au panier</span>
-            <a href={`${base}panier`}>Voir le panier →</a>
+            <span class="pc__added-icone" aria-hidden="true">✓</span>
+            <span>Ajoutée au panier</span>
+            <a href={`${base}panier`}>Voir</a>
             <button type="button" onClick={() => setAjoute(false)} aria-label="Fermer">×</button>
           </div>
         )}
@@ -828,7 +904,7 @@ export default function PosterConfigurator({ roster }: Props) {
           <div class="pc-big__stage" onPointerDown={(e) => e.target === e.currentTarget && setSelected(undefined)}>
             {renderCanvas()}
           </div>
-          <div class="pc-big__bar">{renderEditBar()}</div>
+          <div class="pc-big__bar">{renderEditBar(true)}</div>
         </div>
       )}
     </div>

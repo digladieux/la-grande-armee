@@ -15,7 +15,7 @@ import {
   type ArticlePanier,
   type Projet,
 } from './panier';
-import { encodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat } from './recette';
+import { encodeRecette, PRINT_SIZES, titreAffiche, type PrintFormat, type Recette } from './recette';
 import { dessinerAffiche } from './rendu';
 import './commande.css';
 
@@ -41,6 +41,12 @@ function ApercuBande({ item, classe = 'cmd__apercu' }: { item: ArticleBande; cla
     />
   );
 }
+
+/** Copains de l'affiche, sans répétition (« Turquet · 8 tenues » pour une affiche d'un seul copain). */
+const copains = (r: Recette) => {
+  const noms = [...new Set(r.members.map((m) => m.name))];
+  return noms.length === 1 && r.members.length > 1 ? `${noms[0]} · ${r.members.length} tenues` : noms.join(', ');
+};
 
 const nomArticle = (it: Article) => (estBande(it) ? 'La bande' : titreAffiche(it.recette));
 
@@ -153,7 +159,7 @@ function Sauvegardes() {
               />
             </a>
             <p class="cmd__nom">{titreAffiche(p.recette)}</p>
-            <p class="cmd__detail">{p.recette.members.map((m) => m.name).join(', ')}</p>
+            <p class="cmd__detail">{copains(p.recette)}</p>
             <div class="cmd__projet-actions">
               <a class="cmd__modifier" href={`${base}creer-mon-affiche?projet=${p.id}`}>
                 ✎ Reprendre
@@ -396,7 +402,7 @@ export default function PagePanier() {
               <div class="cmd__infos">
                 <p class="cmd__nom">{titreAffiche(it.recette)}</p>
                 <p class="cmd__detail">
-                  {it.recette.members.map((m) => m.name).join(', ') || 'Sans copain'}
+                  {copains(it.recette) || 'Sans copain'}
                   {it.recette.accessories?.length ? ` + ${it.recette.accessories.map((a) => a.name).join(', ')}` : ''} ·{' '}
                   {it.recette.orientation}
                 </p>

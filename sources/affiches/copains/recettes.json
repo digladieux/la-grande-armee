@@ -539,9 +539,9 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/guigui/gochofacho-cutout.png",
     "p": {
-     "x": 16.05,
-     "y": 81.28,
-     "h": 45.37,
+     "x": 22.42,
+     "y": 80.69,
+     "h": 36.17,
      "z": 8
     }
    },
@@ -550,10 +550,10 @@
     "family": "Izi Karaté",
     "src": "images/personnages/guigui/izikarate-cutout.png",
     "p": {
-     "x": 32.81,
-     "y": 85.03,
-     "h": 48.49,
-     "z": 8
+     "x": 64.58,
+     "y": 86.22,
+     "h": 38.66,
+     "z": 32
     }
    },
    {
@@ -561,9 +561,9 @@
     "family": "Bouffetout",
     "src": "images/personnages/guigui/bouffetout-cutout.png",
     "p": {
-     "x": 49.23,
-     "y": 83.55,
-     "h": 44.29,
+     "x": 33.44,
+     "y": 84.64,
+     "h": 35.31,
      "z": 10
     }
    },
@@ -572,9 +572,9 @@
     "family": "Minion",
     "src": "images/personnages/guigui/mignon-cutout.png",
     "p": {
-     "x": 91.82,
-     "y": 85.56,
-     "h": 47.18,
+     "x": 91.39,
+     "y": 83.5,
+     "h": 42.13,
      "z": 10
     }
    },
@@ -583,9 +583,9 @@
     "family": "Troubadour",
     "src": "images/personnages/guigui/troubadour-cutout.png",
     "p": {
-     "x": 68.48,
-     "y": 86.22,
-     "h": 52.07,
+     "x": 53.42,
+     "y": 82.29,
+     "h": 46.49,
      "z": 8
     }
    },
@@ -594,9 +594,9 @@
     "family": "Botéfragile",
     "src": "images/personnages/guigui/botefragile-cutout.png",
     "p": {
-     "x": 82.02,
-     "y": 84.59,
-     "h": 41.45,
+     "x": 81.14,
+     "y": 83.62,
+     "h": 37.01,
      "z": 31
     }
    },
@@ -605,9 +605,9 @@
     "family": "Gaulois",
     "src": "images/personnages/guigui/gaulois-cutout.png",
     "p": {
-     "x": 13.53,
-     "y": 86.15,
-     "h": 37.06,
+     "x": 10.96,
+     "y": 83.52,
+     "h": 29.54,
      "z": 29
     }
    },
@@ -616,9 +616,9 @@
     "family": "Ludick",
     "src": "images/personnages/guigui/joystick-cutout.png",
     "p": {
-     "x": 55.3,
-     "y": 89.61,
-     "h": 36.22,
+     "x": 44.79,
+     "y": 88.94,
+     "h": 28.87,
      "z": 30
     }
    },
@@ -627,9 +627,9 @@
     "family": "Beauf",
     "src": "images/personnages/guigui/beauf-cutout.png",
     "p": {
-     "x": 27.98,
-     "y": 92.98,
-     "h": 39.65,
+     "x": 19.38,
+     "y": 45.44,
+     "h": 22.5,
      "z": 29
     }
    }
@@ -918,9 +918,9 @@
     "family": "Gaulois",
     "src": "images/personnages/nael/gaulois-cutout.png",
     "p": {
-     "x": 17.2,
-     "y": 89.5,
-     "h": 38.14,
+     "x": 12.04,
+     "y": 85.51,
+     "h": 34.05,
      "z": 8
     }
    },
@@ -929,8 +929,8 @@
     "family": "Botéfragile",
     "src": "images/personnages/nael/botefragile-cutout.png",
     "p": {
-     "x": 36.21,
-     "y": 87.87,
+     "x": 28.82,
+     "y": 87.54,
      "h": 50.56,
      "z": 9
     }
@@ -940,8 +940,8 @@
     "family": "Ludick",
     "src": "images/personnages/nael/ludick-cutout.png",
     "p": {
-     "x": 51.85,
-     "y": 82,
+     "x": 44.26,
+     "y": 86.04,
      "h": 36.75,
      "z": 10
     }
@@ -951,8 +951,8 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/nael/gochofacho-cutout.png",
     "p": {
-     "x": 75.31,
-     "y": 86.05,
+     "x": 71.95,
+     "y": 85.94,
      "h": 31.88,
      "z": 9
     }
@@ -962,8 +962,8 @@
     "family": "Beauf",
     "src": "images/personnages/nael/beauf-cutout.png",
     "p": {
-     "x": 84.76,
-     "y": 89.14,
+     "x": 81,
+     "y": 85.74,
      "h": 26.37,
      "z": 8
     }
@@ -973,8 +973,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/nael/izikarate-cutout.png",
     "p": {
-     "x": 40.64,
-     "y": 94.26,
+     "x": 90.72,
+     "y": 86,
      "h": 28.33,
      "z": 30
     }
@@ -984,9 +984,9 @@
     "family": "Capdag",
     "src": "images/personnages/nael/capdag-cutout.png",
     "p": {
-     "x": 59.97,
-     "y": 95.5,
-     "h": 33.04,
+     "x": 57.08,
+     "y": 86.56,
+     "h": 29.5,
      "z": 30
     }
    }
@@ -1153,8 +1153,8 @@
     "family": "Gaucho Facho",
     "src": "images/personnages/turquet/gochofacho-cutout.png",
     "p": {
-     "x": 68.24,
-     "y": 87.24,
+     "x": 69.33,
+     "y": 86.2,
      "h": 53.19,
      "z": 8
     }
@@ -1164,8 +1164,8 @@
     "family": "Izi Karaté",
     "src": "images/personnages/turquet/izikarate-cutout.png",
     "p": {
-     "x": 28.99,
-     "y": 84.9,
+     "x": 28.13,
+     "y": 85.7,
      "h": 44.9,
      "z": 8
     }
@@ -1175,8 +1175,8 @@
     "family": "Bouffetout",
     "src": "images/personnages/turquet/bouffetout-cutout.png",
     "p": {
-     "x": 39.29,
-     "y": 84.89,
+     "x": 38.52,
+     "y": 85.98,
      "h": 44.26,
      "z": 10
     }
@@ -1197,8 +1197,8 @@
     "family": "Branquignol",
     "src": "images/personnages/turquet/branquignol-cutout.png",
     "p": {
-     "x": 11.29,
-     "y": 86.87,
+     "x": 10.46,
+     "y": 85.94,
      "h": 45.83,
      "z": 8,
      "flip": true
@@ -1209,8 +1209,8 @@
     "family": "Botéfragile",
     "src": "images/personnages/turquet/botefragile-cutout.png",
     "p": {
-     "x": 56.47,
-     "y": 84.09,
+     "x": 56.61,
+     "y": 86.47,
      "h": 44.48,
      "z": 8
     }
@@ -1220,8 +1220,8 @@
     "family": "Capdag",
     "src": "images/personnages/turquet/capdag-cutout.png",
     "p": {
-     "x": 47.55,
-     "y": 90.46,
+     "x": 47.47,
+     "y": 90.6,
      "h": 33.59,
      "z": 29
     }
